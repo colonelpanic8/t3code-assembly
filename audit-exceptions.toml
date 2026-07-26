@@ -16,8 +16,8 @@ reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through 
 
 [[exception]]
 entry = "t3code/group/thread-picker"
-missing_count = 3
-missing_sha256 = "256c8f2cdbc4c02a05bb17f8459e259c2dbe5d319f094957db50752b3ba59b32"
+missing_count = 1
+missing_sha256 = "5573afafa73be8200fb7831d6123a76d74762af2853fa1709a55c1e707629fba"
 reason = "Command Palette imports were consolidated by later new-thread action work; usePrimaryEnvironmentId, useThreadShells, and startNewThreadFromContext remain present in the assembled CommandPalette flow."
 
 [[exception]]
@@ -59,13 +59,13 @@ reason = "Diagnostics now reads storage from the environment-aware connection st
 [[exception]]
 entry = "4474"
 missing_count = 3
-missing_sha256 = "95ae41e01006a8a254329f022bdd4580035667e25182f3700f5d91972d2ca0bb"
-reason = "The client-only desktop and local-backend gating was refactored with environment-aware ownership state; the current ConnectionsSettings still applies both conditions."
+missing_sha256 = "6f05a78cd9e466056ef59dad2bf32e0f19bef96ad95d284c6ef8b8e0202d6a8e"
+reason = "The client-only desktop and local-backend gating was refactored with environment-aware ownership state; ConnectionsSettings still applies both conditions, and SidebarV2 derives indicator visibility directly from the shared environment predicate."
 
 [[exception]]
 entry = "4263"
-missing_count = 30
-missing_sha256 = "3625f31eedff7e2cbc86c6f811c5b5b9f0922fb2e922d5a5aa02c9cb3fa458c2"
+missing_count = 29
+missing_sha256 = "da64d2a533a76f0c1ea455cbea6a713c0b78e508aeaf7145f3a11eebb4390177"
 reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow."
 
 [[exception]]
@@ -76,6 +76,24 @@ reason = "The thread-picker group later replaced the early Command Palette keybo
 
 [[exception]]
 entry = "4426"
-missing_count = 19
-missing_sha256 = "931d31e724cd6d7aed7028169177d19e8d5977fb059369779ded59280293fca6"
+missing_count = 18
+missing_sha256 = "06a35348bb0ebcbda1165b70092433e1358e385147aa8c2bc30d9da4fe466f7a"
 reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow."
+
+[[exception]]
+entry = "4486"
+missing_count = 40
+missing_sha256 = "8b5df7ceb5caac20fbc842274671a362f2e64a1669bfe8a11f9a76b9b98de1ad"
+reason = "The diagnostics environment selector was consolidated into useSettingsEnvironment and SettingsEnvironmentSelector. The selected environment still scopes process, resource, trace, editor, logs, and storage diagnostics."
+
+[[exception]]
+entry = "4559"
+missing_count = 5
+missing_sha256 = "a85aea4f574e6793b47635f8c72c54dbbec06fa89b214a04731707ac8032ab67"
+reason = "The assembled stack keeps #4474's stronger coherent backend-mode transition state, preserves equivalent client-only backend gating, derives SidebarV2 indicator visibility directly from presence scope, and uses the richer project-group dependency set while carrying #4559's environment-targeted settings behavior."
+
+[[exception]]
+entry = "t3code/show-remote-host-name"
+missing_count = 1
+missing_sha256 = "96d8bd7448c8cc7b957af4c80a2258d288f6992bad49c39105c137b710387876"
+reason = "SidebarV2 now supplies presenceScope.primaryEnvironmentId directly to shouldShowRemoteEnvironmentIndicator instead of reading a removed row prop; remote labels and accent colors remain rendered by RemoteEnvironmentIndicator."

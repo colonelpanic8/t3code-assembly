@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-26T05:48:12.183629+00:00",
+  "generated": "2026-07-26T07:31:47.579638+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "cc1305bff55d960ab438335269ebdb4a7901eac5",
-  "tree": "ebfa65588e2a7bfd9bd1efb476f7251f9db58ffa",
-  "previous_tree": "c9511002fda5881d0b8fc14ab573a096b72c27c0",
+  "commit": "2be620eb04b2ea0470520bcf1e3e7e3fd18d3e06",
+  "tree": "a9582f701747c4657dd7d236aaf9856f0bd7fc57",
+  "previous_tree": "59c93ff4046f9bfaacd4efac84e8971ff7a1e153",
   "tree_changed": true,
-  "conflicts": 13,
+  "conflicts": 14,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -262,9 +262,17 @@
       "pin": "d48240e09",
       "summary": "Nix flake: dev shell and desktop package",
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
+    },
+    {
+      "pr": 4559,
+      "kind": "fork",
+      "branch": "t3code/client-only-environment-settings",
+      "pin": "bf1d0eeaef8f",
+      "summary": "Target server settings by environment",
+      "note": "Cumulative branch. Contains #4548's provider-per-environment settings work and\nthe follow-up diagnostics fixes from #4486, so neither needs another entry.\nIt also contains #4444's client-only desktop base; keep #4474 earlier because\nthat branch adds local-server discovery beyond #4444.\n"
     }
   ],
-  "pre_epilogue_commit": "c2ea45aac1b5a21bbfd4ae972f8b6c5f3b792949",
+  "pre_epilogue_commit": "ebd5e2ea7c8cd2ab536b76c282218742a72a321c",
   "entries": [
     {
       "entry": "#3984",
@@ -455,16 +463,10 @@
       "status": "merged"
     },
     {
-      "entry": "t3code-sidebar-v2-large-icons-fixture.patch",
-      "status": "epilogue"
-    },
-    {
-      "entry": "t3code-projection-threads-snoozed-migration-compat.patch",
-      "status": "epilogue"
-    },
-    {
-      "entry": "t3code-sidebar-environment-indicator-compat.patch",
-      "status": "epilogue"
+      "entry": "#4559",
+      "oid": "bf1d0eeaef8f4e173d3ff43345e3582fad1cd230",
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "t3code-sidebar-v2-large-icons-fixture.patch",
@@ -476,6 +478,10 @@
     },
     {
       "entry": "t3code-sidebar-environment-indicator-compat.patch",
+      "status": "epilogue"
+    },
+    {
+      "entry": "t3code-assembled-runtime-imports.patch",
       "status": "epilogue"
     }
   ]

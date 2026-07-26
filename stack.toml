@@ -354,6 +354,19 @@ CONTRIBUTING says they are not accepting contributions and want an issue first,
 so this is carried locally rather than opened as a cold PR.
 """
 
+[[entry]]
+pr = 4559
+kind = "fork"
+branch = "t3code/client-only-environment-settings"
+pin = "bf1d0eeaef8f"
+summary = "Target server settings by environment"
+note = """
+Cumulative branch. Contains #4548's provider-per-environment settings work and
+the follow-up diagnostics fixes from #4486, so neither needs another entry.
+It also contains #4444's client-only desktop base; keep #4474 earlier because
+that branch adds local-server discovery beyond #4444.
+"""
+
 # ---------------------------------------------------------------------------
 # Epilogue: fixes that are emergent from the assembled stack, not independent
 # topics. Applied after all merges.
@@ -384,4 +397,14 @@ summary = "Reconcile remote labels with environment accent colors"
 note = """
 #4505 and the remote-environment label topics edit the same sidebar indicators.
 Preserve both the text label and the per-environment accent after assembly.
+"""
+
+[[epilogue]]
+patch = "patches/t3code-assembled-runtime-imports.patch"
+summary = "Restore assembled runtime imports and environment indicator types"
+note = """
+Stack-emergent glue: project icons and primary settings reference hooks supplied
+by other carried topics, while the combined sidebar environment indicators need
+the presence-scope primary id. Also widens the project-icon renderer's structural
+type to the exact optional-property shape used by the assembled project model.
 """
