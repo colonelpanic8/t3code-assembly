@@ -55,15 +55,15 @@ summary = "Searchable new-thread project picker"
 [[entry]]
 kind = "fork"
 branch = "t3code/group/thread-picker"
-pin = "89dfc86a669dc0736c14b395d0dc819a10442e57"
-summary = "Thread-picker group: #4263 + #4257 + #4258 + #4426 + glue"
+pin = "b15922fad031c605b31c6501097d649bc23cd83c"
+summary = "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue"
 note = """
-GROUP entry, built from nix-shared/t3code-thread-picker.toml. These four PRs all
+GROUP entry, built from stack/thread-picker.toml. These PRs all
 edit the same CommandPalette trio, so combining them here -- against upstream
 main -- resolves the combination once against a STABLE base instead of
 re-deriving it against a shifting assembled stack on every refresh.
 
-It also gives the add-project flow helpers a home: they are what the four need
+It also gives the add-project flow helpers a home: they are what the group needs
 to coexist, so they live on the group branch rather than as a stack epilogue.
 
 Rebuild the group first, then pin its new head here.

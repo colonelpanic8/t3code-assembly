@@ -1,33 +1,79 @@
 {
-  "generated": "2026-07-25T12:00:00+00:00",
+  "generated": "2026-07-26T21:18:19.223415+00:00",
   "mode": "reproduce",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/group/thread-picker",
-  "commit": "89dfc86a669dc0736c14b395d0dc819a10442e57",
-  "tree": "d8013f890cd1c54c9b120fea56a581d792dd8ea5",
-  "tag": "t3code-thread-picker/20260725-050000",
-  "conflicts": 3,
+  "commit": "b15922fad031c605b31c6501097d649bc23cd83c",
+  "tree": "bad6ae30e9bd81981adcc944315887d5cf051613",
+  "previous_tree": "d8013f890cd1c54c9b120fea56a581d792dd8ea5",
+  "tree_changed": true,
+  "conflicts": 4,
+  "manifest_entries": [
+    {
+      "pr": 4263,
+      "kind": "fork",
+      "branch": "t3code/replace-ctrl-n-thread-modal",
+      "pin": "ef15fa2ea50b",
+      "summary": "Unify the new thread project picker"
+    },
+    {
+      "pr": 4257,
+      "kind": "fork",
+      "branch": "t3code/directory-path-tab-completion",
+      "pin": "ee5da25a75f9",
+      "summary": "Directory path tab completion"
+    },
+    {
+      "pr": 4258,
+      "kind": "fork",
+      "branch": "t3code/add-project-shortcut",
+      "pin": "88cfcca843ba",
+      "summary": "Add configurable add-project shortcut"
+    },
+    {
+      "pr": 4426,
+      "kind": "fork",
+      "branch": "t3code/remote-environment-thread-creation",
+      "pin": "a93d1ea2a700",
+      "summary": "Add environment-aware new thread picker"
+    },
+    {
+      "pr": 4590,
+      "kind": "fork",
+      "branch": "t3code/error-on-unreachable-environment-browse",
+      "pin": "93f2a235fdfe",
+      "summary": "Error instead of silently failing when browsing an unreachable environment",
+      "note": "Belongs in this group rather than the main stack: it edits the same\nCommandPalette trio, and specifically the browse/submit region that #4257\n(tab completion) and #4426 (environment-aware picker) also touch. Placed last\nso its availability gating composes on top of the combined browse flow.\n"
+    }
+  ],
+  "pre_epilogue_commit": "bbbcd11c17405ad66edbac41e72a3f1985f9bb07",
   "entries": [
     {
       "entry": "#4263",
-      "oid": "ef15fa2ea50b",
+      "oid": "ef15fa2ea50b4b6f1c6c0929e0a214301211dac6",
       "status": "merged"
     },
     {
       "entry": "#4257",
-      "oid": "ee5da25a75f9",
+      "oid": "ee5da25a75f9d414a1e3c38d00d2129d01481ad2",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4258",
-      "oid": "88cfcca843ba",
+      "oid": "88cfcca843ba296d09471821d573f5ba6deda8e1",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4426",
-      "oid": "a93d1ea2a700",
+      "oid": "a93d1ea2a70085115e30eb3fec3502954ea5745e",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
+      "entry": "#4590",
+      "oid": "93f2a235fdfe9bfda7f19d96ced77a8075392eb1",
       "status": "merged",
       "conflicted": true
     },

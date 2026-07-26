@@ -1,11 +1,11 @@
 {
-  "generated": "2026-07-26T11:54:31.135409+00:00",
+  "generated": "2026-07-26T21:20:54.551053+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "48e3cd83c757974cd7ae77791a773cd0a22c2c90",
-  "tree": "3fabc3c521f8f8bf7113d49b02022c77a6d548e7",
-  "previous_tree": "622f7a5f5e098cb62a86167f2d10006408bcaa27",
+  "commit": "752f66c190e240a3fd051f89768227b97ccb3d04",
+  "tree": "9cb6f4db5595b5070bf77e6fb0d837254a16f027",
+  "previous_tree": "3fabc3c521f8f8bf7113d49b02022c77a6d548e7",
   "tree_changed": true,
   "conflicts": 10,
   "manifest_entries": [
@@ -34,9 +34,9 @@
     {
       "kind": "fork",
       "branch": "t3code/group/thread-picker",
-      "pin": "89dfc86a669dc0736c14b395d0dc819a10442e57",
-      "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + glue",
-      "note": "GROUP entry, built from nix-shared/t3code-thread-picker.toml. These four PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the four need\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
+      "pin": "b15922fad031c605b31c6501097d649bc23cd83c",
+      "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
+      "note": "GROUP entry, built from stack/thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
     },
     {
       "pr": 4271,
@@ -241,7 +241,7 @@
       "note": "Moves the shared environment selector into the persistent settings header,\nincluding Environment General, and removes duplicate page-local selectors.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page; provider configuration, source control, and diagnostics remain\nenvironment-owned.\n"
     }
   ],
-  "pre_epilogue_commit": "3afe2857b691264bfff8af8d649fa50e2a216619",
+  "pre_epilogue_commit": "c68ac37b68eeffef49dd5d84b5c0c7b5ade41649",
   "entries": [
     {
       "entry": "#3984",
@@ -260,7 +260,7 @@
     },
     {
       "entry": "t3code/group/thread-picker",
-      "oid": "89dfc86a669dc0736c14b395d0dc819a10442e57",
+      "oid": "b15922fad031c605b31c6501097d649bc23cd83c",
       "status": "merged"
     },
     {
@@ -409,7 +409,7 @@
     },
     {
       "entry": "t3code/unify-environment-selection",
-      "oid": "ab01dc914924c105a17da67eb42bc360d52c0b61",
+      "oid": "acd45ae7ceee109c1ae077bbe898a5c0ce02c5ae",
       "status": "merged",
       "conflicted": true
     },
