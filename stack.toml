@@ -312,14 +312,15 @@ a local owner or remote client.
 [[entry]]
 kind = "fork"
 branch = "t3code/unify-environment-selection"
-pin = "ab01dc914"
+pin = "bad56da25"
 summary = "Align settings ownership and environment selection across settings pages"
 note = """
-Moves the shared environment selector into the persistent settings header,
-including Environment General, and removes duplicate page-local selectors.
+Places the shared environment selector inside the Environment navigation group
+and repeats it in a clearly labeled scope strip on environment-owned pages.
 Keybindings are client-owned and client-persisted; Connections remains a
-client page; provider configuration, source control, and diagnostics remain
-environment-owned.
+client page. Assistant output and new-thread/worktree defaults are client-owned
+across web, desktop, and mobile. Provider configuration, host paths, source
+control, and diagnostics remain environment-owned.
 """
 
 [[entry]]

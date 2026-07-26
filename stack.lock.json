@@ -1,11 +1,11 @@
 {
-  "generated": "2026-07-26T22:27:04.863797+00:00",
+  "generated": "2026-07-26T22:53:24.717097+00:00",
   "mode": "reproduce",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "d596d17d63421081833b0fe852993a6b1fe617a0",
-  "tree": "236553823ac6bb829c943b77b4fda2b35b01dfba",
-  "previous_tree": "dceb7798640246742326e7ad4800b1059dc28d3e",
+  "commit": "16d053bc7623688e673b6a6bcd7c1b07af00e1a6",
+  "tree": "f8d494e15810ba1fd672545fa49b4d9b352f3a24",
+  "previous_tree": "236553823ac6bb829c943b77b4fda2b35b01dfba",
   "tree_changed": true,
   "conflicts": 10,
   "manifest_entries": [
@@ -236,9 +236,9 @@
     {
       "kind": "fork",
       "branch": "t3code/unify-environment-selection",
-      "pin": "ab01dc914",
+      "pin": "bad56da25",
       "summary": "Align settings ownership and environment selection across settings pages",
-      "note": "Moves the shared environment selector into the persistent settings header,\nincluding Environment General, and removes duplicate page-local selectors.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page; provider configuration, source control, and diagnostics remain\nenvironment-owned.\n"
+      "note": "Places the shared environment selector inside the Environment navigation group\nand repeats it in a clearly labeled scope strip on environment-owned pages.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page. Assistant output and new-thread/worktree defaults are client-owned\nacross web, desktop, and mobile. Provider configuration, host paths, source\ncontrol, and diagnostics remain environment-owned.\n"
     },
     {
       "pr": 4593,
@@ -249,7 +249,7 @@
       "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
     }
   ],
-  "pre_epilogue_commit": "df00fc3b5cc07471e4f284b8eb85d0840d85c259",
+  "pre_epilogue_commit": "8c2061c788024b5679f4559df534a921ae39b91d",
   "entries": [
     {
       "entry": "#3984",
@@ -417,7 +417,7 @@
     },
     {
       "entry": "t3code/unify-environment-selection",
-      "oid": "ab01dc914924c105a17da67eb42bc360d52c0b61",
+      "oid": "bad56da25af511e30a59ccbd847f9cab14e70e1a",
       "status": "merged",
       "conflicted": true
     },
