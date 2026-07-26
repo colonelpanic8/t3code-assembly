@@ -212,6 +212,13 @@ def write_state(worktree: Path, state: dict) -> None:
     (common / STATE_NAME).write_text(json.dumps(state, indent=2))
 
 
+def clear_state(worktree: Path) -> None:
+    common = Path(git(worktree, "rev-parse", "--git-dir"))
+    if not common.is_absolute():
+        common = worktree / common
+    (common / STATE_NAME).unlink(missing_ok=True)
+
+
 def merge_entry(worktree: Path, entry: dict, oid: str) -> bool:
     """Merge one entry. Returns True on clean merge, False if conflicted."""
     label = entry_label(entry)
@@ -230,6 +237,15 @@ def merge_entry(worktree: Path, entry: dict, oid: str) -> bool:
 def conflicted_files(worktree: Path) -> list[str]:
     out = git(worktree, "diff", "--name-only", "--diff-filter=U")
     return [line for line in out.splitlines() if line]
+
+
+def record_epilogue(results: list[dict], patch: Path) -> None:
+    """Record an epilogue once, even if a completed state is resumed."""
+    if not any(
+        result.get("entry") == patch.name and result.get("status") == "epilogue"
+        for result in results
+    ):
+        results.append({"entry": patch.name, "status": "epilogue"})
 
 
 def run(args: argparse.Namespace) -> int:
@@ -389,7 +405,7 @@ def run(args: argparse.Namespace) -> int:
         )
         if reverse.returncode == 0:
             print(f"  epilogue {patch.name} already applied, skipping")
-            results.append({"entry": patch.name, "status": "epilogue"})
+            record_epilogue(results, patch)
             write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
             continue
         proc = subprocess.run(
@@ -405,7 +421,7 @@ def run(args: argparse.Namespace) -> int:
         git(worktree, "add", "-A")
         if not git(worktree, "diff", "--cached", "--name-only"):
             print(f"  epilogue {patch.name} already applied, skipping")
-            results.append({"entry": patch.name, "status": "epilogue"})
+            record_epilogue(results, patch)
             write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
             continue
         git(
@@ -414,7 +430,7 @@ def run(args: argparse.Namespace) -> int:
             "commit", "-q", "-m", f"stack: {label}",
         )
         print(f"  epilogue {patch.name} applied")
-        results.append({"entry": patch.name, "status": "epilogue"})
+        record_epilogue(results, patch)
         write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
 
     tree = git(worktree, "rev-parse", "HEAD^{tree}")
@@ -462,6 +478,7 @@ def run(args: argparse.Namespace) -> int:
         print(f"pushed fork/{branch} and tag {tag}")
         print("Pin the flake input by REV, never by branch -- the branch is force-pushed.")
 
+    clear_state(worktree)
     return 0
 
 
