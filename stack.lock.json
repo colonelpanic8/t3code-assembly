@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-26T10:12:05.262504+00:00",
+  "generated": "2026-07-26T11:54:31.135409+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "d8c370b12f4723d9835dda8b96dff5d2bbb15754",
-  "tree": "15b5967f942509c25daaab58e5008eac3a996fdb",
-  "previous_tree": "337c7747ad1fcad587e339736f059d3ee6d512e8",
+  "commit": "48e3cd83c757974cd7ae77791a773cd0a22c2c90",
+  "tree": "3fabc3c521f8f8bf7113d49b02022c77a6d548e7",
+  "previous_tree": "622f7a5f5e098cb62a86167f2d10006408bcaa27",
   "tree_changed": true,
-  "conflicts": 9,
+  "conflicts": 10,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -232,9 +232,16 @@
       "pin": "3bf7d489546f",
       "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
       "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nThread host badges are client-local presentation, default on for every\nenvironment (including localhost), and do not depend on classifying the app as\na local owner or remote client.\n"
+    },
+    {
+      "kind": "fork",
+      "branch": "t3code/unify-environment-selection",
+      "pin": "ab01dc914",
+      "summary": "Align settings ownership and environment selection across settings pages",
+      "note": "Moves the shared environment selector into the persistent settings header,\nincluding Environment General, and removes duplicate page-local selectors.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page; provider configuration, source control, and diagnostics remain\nenvironment-owned.\n"
     }
   ],
-  "pre_epilogue_commit": "6ac67bbecb7dbef6b5e187f3e4d27a73067e0626",
+  "pre_epilogue_commit": "3afe2857b691264bfff8af8d649fa50e2a216619",
   "entries": [
     {
       "entry": "#3984",
@@ -397,6 +404,12 @@
     {
       "entry": "t3code/client-suite",
       "oid": "3bf7d489546f53439727d4d864797ae9df1098be",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
+      "entry": "t3code/unify-environment-selection",
+      "oid": "ab01dc914924c105a17da67eb42bc360d52c0b61",
       "status": "merged",
       "conflicted": true
     },

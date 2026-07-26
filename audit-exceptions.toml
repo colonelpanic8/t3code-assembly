@@ -15,10 +15,22 @@ missing_sha256 = "6fa0407428295ba1200a4c9b5acca51d00d1f9969a6fb19f3fe0ea78ade03e
 reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through its consolidated artifact lookup flow, rather than the original import site."
 
 [[exception]]
+entry = "t3code/group/thread-picker"
+missing_count = 2
+missing_sha256 = "b1d83dfcf99f1ceaed163b4784c7ebed9093396f099c133e3061e62f0979c473"
+reason = "The later client-owned keybindings topic moves the assembled chat.newEnvironment and project.add default rules from packages/shared into packages/contracts. Both rules remain in DEFAULT_KEYBINDINGS and continue to compile through the shared runtime."
+
+[[exception]]
 entry = "4271"
+missing_count = 7
+missing_sha256 = "40ff7e0ef7ef3a70726521168e16eab0c800384709b1b6965c8069deaacf7ab2"
+reason = "The compact-composer plan-sidebar action moved into the current MenuItem layout; onTogglePlanSidebar remains wired in CompactComposerControlsMenu. The six composer shortcut defaults moved from packages/shared into packages/contracts with the later client-owned keybindings topic and remain in DEFAULT_KEYBINDINGS."
+
+[[exception]]
+entry = "4277"
 missing_count = 1
-missing_sha256 = "907df80c03f4a33ce9a860ad954d7b5045e436a6df693f74066049215f57bbef"
-reason = "The compact-composer plan-sidebar action moved into the current MenuItem layout; onTogglePlanSidebar remains wired in CompactComposerControlsMenu."
+missing_sha256 = "c2d364beb2bfa70724d8163d6bcd31589cbae9b66f0702c4f82be252fec54c37"
+reason = "The later client-owned keybindings topic moves the thread.settle default rule from packages/shared into packages/contracts; it remains in DEFAULT_KEYBINDINGS and continues to compile through the shared runtime."
 
 [[exception]]
 entry = "4394"
@@ -51,6 +63,12 @@ missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a3636
 reason = "Diagnostics now reads storage from the selected environment's server config instead of the primary-server atom, while preserving the storage rows and unavailable-storage fallback."
 
 [[exception]]
+entry = "t3code/client-suite"
+missing_count = 95
+missing_sha256 = "a9733094610605fe3582244d8f591e186b5c66bf15daf83d58ae4e9914ce72e2"
+reason = "The later ownership topic moves environment selectors from page-local sections into the persistent settings header and deliberately removes the selector from Keybindings after migrating shortcuts from server config to client settings. All shortcut consumers now use useClientKeybindings. It also narrows Client and Environment General restore-defaults to fields actually shown on those pages and moves provider update checks into the environment-owned Providers page."
+
+[[exception]]
 entry = "4263"
 missing_count = 29
 missing_sha256 = "da64d2a533a76f0c1ea455cbea6a713c0b78e508aeaf7145f3a11eebb4390177"
@@ -58,12 +76,12 @@ reason = "The thread-picker group later replaced the early Command Palette keybo
 
 [[exception]]
 entry = "4258"
-missing_count = 27
-missing_sha256 = "668fcb9ebc14f5c239067c9b1ef02e9ca02db9fe5707b967ef60591448461007"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow."
+missing_count = 28
+missing_sha256 = "4e5e6f721e953b1aee637ba0398ce48ace7334d24aad68ec878da24b5d8fa4a2"
+reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The project.add default rule was subsequently moved from packages/shared into packages/contracts by the client-owned keybindings topic and remains in DEFAULT_KEYBINDINGS."
 
 [[exception]]
 entry = "4426"
-missing_count = 18
-missing_sha256 = "06a35348bb0ebcbda1165b70092433e1358e385147aa8c2bc30d9da4fe466f7a"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow."
+missing_count = 19
+missing_sha256 = "6a787d334207970a14c6e1e4362301bcae18709e701f581737dc806555ae51d5"
+reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The chat.newEnvironment default rule was subsequently moved from packages/shared into packages/contracts by the client-owned keybindings topic and remains in DEFAULT_KEYBINDINGS."

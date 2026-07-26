@@ -1,8 +1,8 @@
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index 3b9608b99..134b34043 100644
+index 4a0821fb6..1593a9990 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
-@@ -187,7 +187,7 @@ function getEnvironmentBrowsePlatform(os: string | null | undefined): string {
+@@ -188,7 +188,7 @@ function getEnvironmentBrowsePlatform(os: string | null | undefined): string {
  function renderProjectActionIcon(project: {
    environmentId: EnvironmentId;
    workspaceRoot: string;
@@ -24,13 +24,14 @@ index f88a41096..e36bcd6e3 100644
  const loadedProjectFaviconSrcs = new Set<string>();
  
 diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
-index 761e325f0..57e82f59d 100644
+index 6be83144f..bc0590746 100644
 --- a/apps/web/src/hooks/useSettings.ts
 +++ b/apps/web/src/hooks/useSettings.ts
-@@ -24,6 +24,7 @@ import {
+@@ -25,6 +25,7 @@ import {
    type UnifiedSettings,
  } from "@t3tools/contracts/settings";
  import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
+ import { compileResolvedKeybindingsConfig } from "@t3tools/shared/keybindings";
 +import { usePrimaryEnvironment } from "../state/environments";
  import {
    applyPendingServerPatches,
