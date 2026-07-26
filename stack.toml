@@ -298,14 +298,15 @@ so this is carried locally rather than opened as a cold PR.
 [[entry]]
 kind = "fork"
 branch = "t3code/client-suite"
-pin = "c0ddfa35303d"
+pin = "3bf7d489546f"
 summary = "Complete client-only desktop, pairing, environment presentation, and settings suite"
 note = """
 Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,
 #4538, #4548, #4559, #4567, the branch-linked
 t3code/show-remote-host-name topic, and the diagnostics work from #4486.
-Client-only presence is modeled without a primary environment, so all paired
-environments remain visibly remote.
+Thread host badges are client-local presentation, default on for every
+environment (including localhost), and do not depend on classifying the app as
+a local owner or remote client.
 """
 
 # ---------------------------------------------------------------------------
@@ -330,16 +331,6 @@ The snooze feature arrived upstream with migration ID 34 after that ID had
 already been recorded locally for ProjectionThreadGoals. This is a function of
 the assembled stack, not an independent topic, so it cannot be a normal entry.
 Was nix-shared/patches/t3code-projection-threads-snoozed-migration-compat.patch.
-"""
-
-[[epilogue]]
-patch = "patches/t3code-environment-badge-compat.patch"
-summary = "Use the client suite environment badge after sidebar conflict resolution"
-note = """
-The assembled sidebar resolutions predate the client suite's replacement of
-RemoteEnvironmentIndicator and environmentPresence with the client-owned
-EnvironmentBadge setting. Keep the older sidebar features while using the new
-badge implementation.
 """
 
 [[epilogue]]

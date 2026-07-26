@@ -1,11 +1,11 @@
 {
-  "generated": "2026-07-26T10:12:56.406444+00:00",
+  "generated": "2026-07-26T10:12:05.262504+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "d8e998273e46e638a05e5317908235044078fe1b",
-  "tree": "d5d6a6769e053b1229d8cbfaf456c75d694e2c29",
-  "previous_tree": "917e348ad6ab4b9fc58f961f8e69ec3922fefc5f",
+  "commit": "d8c370b12f4723d9835dda8b96dff5d2bbb15754",
+  "tree": "15b5967f942509c25daaab58e5008eac3a996fdb",
+  "previous_tree": "337c7747ad1fcad587e339736f059d3ee6d512e8",
   "tree_changed": true,
   "conflicts": 9,
   "manifest_entries": [
@@ -229,12 +229,12 @@
     {
       "kind": "fork",
       "branch": "t3code/client-suite",
-      "pin": "c0ddfa35303d",
+      "pin": "3bf7d489546f",
       "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
-      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nClient-only presence is modeled without a primary environment, so all paired\nenvironments remain visibly remote.\n"
+      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nThread host badges are client-local presentation, default on for every\nenvironment (including localhost), and do not depend on classifying the app as\na local owner or remote client.\n"
     }
   ],
-  "pre_epilogue_commit": "f25b15ee9258d286e362da81e160d1368992c95c",
+  "pre_epilogue_commit": "6ac67bbecb7dbef6b5e187f3e4d27a73067e0626",
   "entries": [
     {
       "entry": "#3984",
@@ -406,10 +406,6 @@
     },
     {
       "entry": "t3code-projection-threads-snoozed-migration-compat.patch",
-      "status": "epilogue"
-    },
-    {
-      "entry": "t3code-environment-badge-compat.patch",
       "status": "epilogue"
     },
     {

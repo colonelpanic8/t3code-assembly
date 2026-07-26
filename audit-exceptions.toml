@@ -15,12 +15,6 @@ missing_sha256 = "6fa0407428295ba1200a4c9b5acca51d00d1f9969a6fb19f3fe0ea78ade03e
 reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through its consolidated artifact lookup flow, rather than the original import site."
 
 [[exception]]
-entry = "t3code/group/thread-picker"
-missing_count = 1
-missing_sha256 = "5573afafa73be8200fb7831d6123a76d74762af2853fa1709a55c1e707629fba"
-reason = "Command Palette imports were consolidated by later new-thread action work; usePrimaryEnvironmentId, useThreadShells, and startNewThreadFromContext remain present in the assembled CommandPalette flow."
-
-[[exception]]
 entry = "4271"
 missing_count = 1
 missing_sha256 = "907df80c03f4a33ce9a860ad954d7b5045e436a6df693f74066049215f57bbef"
@@ -36,7 +30,7 @@ reason = "Later menu and selection-navigation work rewrote the dropdown componen
 entry = "4324"
 missing_count = 4
 missing_sha256 = "88cb0b5f1c74b550ec8fa32495aaa71e32aeaf9d9fa0a926704f5aaf96740982"
-reason = "The generic remote icon span was replaced by RemoteEnvironmentIndicator, which adds the current environment label and accent color while preserving the large-icons layout."
+reason = "The generic remote icon span was replaced by EnvironmentBadge, which adds the current environment label and accent color while preserving the large-icons layout."
 
 [[exception]]
 entry = "4337"
@@ -55,12 +49,6 @@ entry = "4437"
 missing_count = 2
 missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
 reason = "Diagnostics now reads storage from the selected environment's server config instead of the primary-server atom, while preserving the storage rows and unavailable-storage fallback."
-
-[[exception]]
-entry = "t3code/client-suite"
-missing_count = 1
-missing_sha256 = "0655590eadffe788848a2deace18172feb1be4548d2f88939b5f6f17531ecd2e"
-reason = "The assembled chat route expands the project-group dependency array over multiple lines and adds ordering, sort-mode, and environment-label dependencies; ownsLocalEnvironment, primaryEnvironmentId, projectGroupingSettings, and projects all remain present."
 
 [[exception]]
 entry = "4263"
