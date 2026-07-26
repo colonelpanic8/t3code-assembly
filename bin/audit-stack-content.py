@@ -33,21 +33,24 @@ EXCEPTIONS=tomllib.load(open(STACK_DIR / "audit-exceptions.toml", "rb"))
 EXCEPTIONS={exception["entry"]: exception for exception in EXCEPTIONS.get("exception", [])}
 def sh(*a):
     return subprocess.run(["git","-C",REPO,*a],capture_output=True,text=True).stdout
-main = sh("rev-parse","origin/main").strip()
 
 entries=[]
-locks={}
-for lock_path in [STACK_DIR / "stack.lock.json", STACK_DIR / "thread-picker.lock.json"]:
-    for result in json.loads(lock_path.read_text()).get("entries", []):
-        if result.get("oid"):
-            locks[result["entry"]]=result["oid"]
-
-for m in [str(STACK_DIR/"stack.toml"), str(STACK_DIR/"thread-picker.toml")]:
-    d=tomllib.load(open(m,"rb"))
+for manifest_path, lock_path in [
+    (STACK_DIR / "stack.toml", STACK_DIR / "stack.lock.json"),
+    (STACK_DIR / "thread-picker.toml", STACK_DIR / "thread-picker.lock.json"),
+]:
+    lock=json.loads(lock_path.read_text())
+    main=lock["upstream_main"]
+    locks={
+        result["entry"]: result["oid"]
+        for result in lock.get("entries", [])
+        if result.get("oid")
+    }
+    d=tomllib.load(open(manifest_path,"rb"))
     for e in d["entry"]:
         label=str(e.get("pr") or e.get("branch"))
         if e.get("pin"):
-            entries.append((label, locks.get(label, e["pin"])))
+            entries.append((label, locks.get(label, e["pin"]), main))
 
 def significant(line):
     s=line[1:].strip()
@@ -57,7 +60,7 @@ print(f"{'entry':<34} {'files':>5} {'addlines':>8} {'MISSING':>8}")
 bad=[]
 explained=[]
 used_exceptions=set()
-for label,pin in entries:
+for label,pin,main in entries:
     oid=sh("rev-parse",f"{pin}^{{commit}}").strip()
     if not oid: print(f"{label:<34}  UNRESOLVED"); continue
     files=[f for f in sh("diff","--name-only",f"{main}...{oid}").split() if f.endswith((".ts",".tsx"))]
@@ -92,11 +95,11 @@ for label,pin in entries:
         explained.append((label, exception["reason"]))
         used_exceptions.add(str(label))
     elif miss:
-        bad.append((label,miss,worst))
+        bad.append((label,miss,digest,worst))
 
 print("\n=== detail for entries with missing lines ===")
-for label,miss,worst in sorted(bad,key=lambda x:-x[1]):
-    print(f"\n{label}: {miss} added lines absent from the built tree")
+for label,miss,digest,worst in sorted(bad,key=lambda x:-x[1]):
+    print(f"\n{label}: {miss} added lines absent from the built tree ({digest})")
     for f,n in sorted(worst.items(),key=lambda x:-x[1])[:4]:
         print(f"    {n:>4}  {f}")
 

@@ -315,7 +315,17 @@ def run(args: argparse.Namespace) -> int:
         if mode == "extend":
             main, results, start = prepare_extend(repo, worktree, manifest, entries)
         else:
-            main = git(repo, "rev-parse", "origin/main")
+            if mode == "reproduce" and LOCK.exists():
+                locked_main = json.loads(LOCK.read_text()).get("upstream_main")
+                if not locked_main:
+                    raise Fail("reproduce mode needs an upstream_main recorded in the lock")
+                if not git_ok(repo, "cat-file", "-e", f"{locked_main}^{{commit}}"):
+                    raise Fail(
+                        f"locked upstream commit {locked_main} is not available locally"
+                    )
+                main = locked_main
+            else:
+                main = git(repo, "rev-parse", "origin/main")
             results = []
             start = 0
             print(f"upstream main: {main}")

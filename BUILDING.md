@@ -55,7 +55,8 @@ stack/bin/rebuild-t3code-stack.py \
 stack/bin/rebuild-t3code-stack.py --mode refresh --write-lock --push
 ```
 
-- `--mode reproduce` merges at the pins recorded in the manifest (deterministic).
+- `--mode reproduce` starts from the upstream commit recorded in the lock and
+  merges at the pins recorded in the manifest (deterministic).
 - `--mode refresh` starts at current upstream `main` and follows every current
   topic-branch head. Use it to rebase the entire assembled stack onto upstream
   and pick up movement anywhere in the manifest.
