@@ -322,6 +322,21 @@ client page; provider configuration, source control, and diagnostics remain
 environment-owned.
 """
 
+[[entry]]
+pr = 4593
+kind = "fork"
+branch = "t3code/settle-state-reconcile"
+pin = "419cdbbe0412"
+summary = "Reconcile client state when a settle does not land"
+note = """
+Placed last among the client-runtime subscription topics: it adds a
+`resync-requested` wakeup and merges a request stream into the web wakeups
+layer, so it touches apps/web/src/connection/platform.ts after both
+t3code/client-suite and t3code/unify-environment-selection have restructured
+it. Its one-line filter change in client-runtime state/threads.ts sits in a
+different region than #4405's subscription backoff. Reported as #4589.
+"""
+
 # ---------------------------------------------------------------------------
 # Epilogue: fixes that are emergent from the assembled stack, not independent
 # topics. Applied after all merges.
