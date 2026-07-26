@@ -1,11 +1,11 @@
 {
-  "generated": "2026-07-26T09:05:14.188909+00:00",
+  "generated": "2026-07-26T10:12:56.406444+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "778ef15750f88ce7bf02dbe23f2ea893ecae8d39",
-  "tree": "275c2374481d8e1c8fd4376e3cc8e6c55052513c",
-  "previous_tree": "a9582f701747c4657dd7d236aaf9856f0bd7fc57",
+  "commit": "d8e998273e46e638a05e5317908235044078fe1b",
+  "tree": "d5d6a6769e053b1229d8cbfaf456c75d694e2c29",
+  "previous_tree": "917e348ad6ab4b9fc58f961f8e69ec3922fefc5f",
   "tree_changed": true,
   "conflicts": 9,
   "manifest_entries": [
@@ -231,10 +231,10 @@
       "branch": "t3code/client-suite",
       "pin": "c0ddfa35303d",
       "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
-      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, the branch-linked t3code/show-remote-host-name topic, and\nthe diagnostics work from #4486. Client-only presence is modeled without a\nprimary environment, so all paired environments remain visibly remote.\n"
+      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nClient-only presence is modeled without a primary environment, so all paired\nenvironments remain visibly remote.\n"
     }
   ],
-  "pre_epilogue_commit": "35b54252b4386c7d4f59a87828ef48bd849ed71d",
+  "pre_epilogue_commit": "f25b15ee9258d286e362da81e160d1368992c95c",
   "entries": [
     {
       "entry": "#3984",
@@ -396,7 +396,7 @@
     },
     {
       "entry": "t3code/client-suite",
-      "oid": "c0ddfa35303d145034b74e5fe4b217117a517c17",
+      "oid": "3bf7d489546f53439727d4d864797ae9df1098be",
       "status": "merged",
       "conflicted": true
     },
@@ -406,6 +406,10 @@
     },
     {
       "entry": "t3code-projection-threads-snoozed-migration-compat.patch",
+      "status": "epilogue"
+    },
+    {
+      "entry": "t3code-environment-badge-compat.patch",
       "status": "epilogue"
     },
     {
