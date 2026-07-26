@@ -43,6 +43,10 @@ stack/
     audit-stack-content.py
 ```
 
+One generated file lives outside `stack/`, because it has to travel with the
+artifact rather than with the tooling: `stack-build-info.json` at the repo root
+of the integration branch. See "Build provenance" below.
+
 ## Refreshing, reproducing, and extending
 
 Groups first, then the main stack. A group is a sub-manifest whose output branch
@@ -226,6 +230,36 @@ that cluster's group branch instead.
 Some historical compatibility patches carried **original local work that exists
 in no branch**. Merging alone can never recover that. If a build fails on a
 missing export or symbol, suspect this first.
+
+## Build provenance
+
+The last commit on every integration branch writes `stack-build-info.json` to
+the repo root: the upstream base commit with its subject and date, then every
+entry with its kind, resolved OID, summary, note, and status, with group members
+inlined under their group. `apps/web/vite.config.ts` embeds it, and Settings →
+Build renders it. That is the only reason it exists — the lock already records
+all of this, but the lock stays here and the app ships from there.
+
+Three rules keep it from breaking things:
+
+- **It is a pure function of the upstream base and the resolved entry OIDs.**
+  No timestamps, no conflict counts, nothing that varies run to run. Otherwise
+  an otherwise-identical rebuild produces a changed tree, and "tree UNCHANGED
+  from previous lock -- no flake bump needed" never fires again. The lock keeps
+  the run metadata; the artifact gets only the content description.
+- **`tree` in the lock is still the pre-provenance tree** — the topics' output.
+  `built_tree` is what was actually pushed. Compare `tree` when deciding whether
+  anything moved.
+- **Only the top-level manifest emits it.** A group branch is merged into the
+  main build, so a provenance file on it would arrive through a merge as a
+  second copy of the same path — a guaranteed conflict carrying the wrong
+  content. Group members appear on the page via their own group lock, which the
+  main build reads from `stack/*.lock.json`.
+
+It cannot record its own commit, which does not exist until it is written. The
+running app gets that separately: the flake passes `T3CODE_BUILD_COMMIT`,
+`T3CODE_BUILD_REPO_REMOTE`, and `T3CODE_BUILD_DATE` into the web build, which is
+also what puts the commit link next to the version in Settings → General.
 
 ## Landing a rebuild
 

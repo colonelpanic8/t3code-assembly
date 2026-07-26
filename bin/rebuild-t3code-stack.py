@@ -52,6 +52,15 @@ def set_manifest(path: Path) -> None:
 STATE_NAME = "t3code-stack-state.json"
 WORKTREE_NAME = "t3code-stack-build"
 
+# Written into the integration branch as its final commit, so the built app can
+# show what it is made of. It is deliberately NOT the lock: the lock is intent
+# plus run metadata and lives here, while this is the subset that has to travel
+# with the artifact. Keep it a pure function of (upstream base, resolved entry
+# OIDs) -- no timestamps, no per-run counters -- or an unchanged rebuild starts
+# producing a changed tree and the "no flake bump needed" signal dies.
+PROVENANCE_FILE = "stack-build-info.json"
+PROVENANCE_SCHEMA_VERSION = 1
+
 
 class Fail(Exception):
     pass
@@ -193,6 +202,134 @@ def prepare_extend(
     print(f"locked upstream main: {main}")
     print(f"new entries: {len(entries) - len(locked_manifest)}")
     return main, locked_results, len(locked_manifest)
+
+
+def provenance_entry(entry: dict, result: dict, groups: dict) -> dict:
+    """One manifest entry as the built app should describe it.
+
+    `entry` is intent from the manifest; `result` is what the rebuild actually
+    did with it, which is not the same thing -- refresh resolves branch heads
+    that have moved past the recorded pin, and an entry can land ABSORBED or
+    EMPTY. Record the resolved OID, not the pin.
+    """
+    record = {
+        "label": entry_label(entry),
+        "kind": entry.get("kind", "fork"),
+        "status": result.get("status", "merged"),
+        "commit": result.get("oid", ""),
+    }
+    for key in ("pr", "branch", "ref", "summary"):
+        if entry.get(key):
+            record[key] = entry[key]
+    if entry.get("note"):
+        record["note"] = entry["note"].strip()
+    # A group entry is one merge here and a whole sub-manifest of its own, so
+    # inline its members -- otherwise six PRs disappear behind one row.
+    children = groups.get(entry.get("branch"))
+    if children:
+        record["entries"] = children
+    return record
+
+
+def load_group_provenance() -> dict[str, list[dict]]:
+    """Group members, keyed by the branch the main manifest pins them as.
+
+    Read from each group's own lock rather than rebuilt here: the group is
+    always built first, so its lock is the authority on what went into it.
+    Nesting stops at one level, which is as deep as the manifests go.
+    """
+    groups: dict[str, list[dict]] = {}
+    for path in sorted(STACK_DIR.glob("*.lock.json")):
+        if path == LOCK:
+            continue
+        try:
+            lock = json.loads(path.read_text())
+        except (OSError, ValueError):
+            print(f"  warning: ignoring unreadable group lock {path.name}")
+            continue
+
+        branch = lock.get("integration_branch")
+        manifest_entries = lock.get("manifest_entries")
+        results = topic_results(lock)
+        if not branch or not manifest_entries:
+            continue
+        if len(results) != len(manifest_entries):
+            print(f"  warning: {path.name} results do not match its manifest; not inlining")
+            continue
+
+        groups[branch] = [
+            provenance_entry(entry, result, {})
+            for entry, result in zip(manifest_entries, results)
+        ]
+    return groups
+
+
+def build_provenance(
+    repo: Path, manifest: dict, entries: list[dict], results: list[dict], main: str
+) -> dict:
+    topics = topic_results({"entries": results})
+    if len(topics) != len(entries):
+        raise Fail(
+            f"cannot describe the build: {len(topics)} topic results for "
+            f"{len(entries)} manifest entries"
+        )
+
+    groups = load_group_provenance()
+    records = [
+        provenance_entry(entry, result, groups)
+        for entry, result in zip(entries, topics)
+    ]
+
+    # Epilogues are patches with no branch or OID, but they are content in the
+    # build, so the page has to be able to say they are there.
+    # Results record the patch basename; the manifest lists it with its
+    # `patches/` prefix.
+    described = {
+        Path(epilogue["patch"]).name: epilogue
+        for epilogue in manifest.get("epilogue", [])
+    }
+    for result in results:
+        if result.get("status") != "epilogue":
+            continue
+        name = result["entry"]
+        record = {"label": name, "kind": "epilogue", "status": "epilogue", "commit": ""}
+        epilogue = described.get(name, {})
+        if epilogue.get("summary"):
+            record["summary"] = epilogue["summary"]
+        if epilogue.get("note"):
+            record["note"] = epilogue["note"].strip()
+        records.append(record)
+
+    return {
+        "schemaVersion": PROVENANCE_SCHEMA_VERSION,
+        "manifest": MANIFEST.name,
+        "upstream": {
+            "remote": manifest["upstream"],
+            "ref": manifest["upstream_ref"],
+            "commit": main,
+            "subject": git(repo, "log", "-1", "--format=%s", main),
+            "date": git(repo, "log", "-1", "--format=%cI", main),
+        },
+        "fork": {
+            "remote": manifest["fork"],
+            "branch": manifest["integration_branch"],
+        },
+        "entries": records,
+    }
+
+
+def commit_provenance(worktree: Path, provenance: dict) -> str:
+    """Land the provenance record as the integration branch's final commit.
+
+    It cannot name its own commit -- that OID does not exist until this commit
+    is written. The running app gets that from the build instead (T3CODE_BUILD_*
+    in apps/web/vite.config.ts); this file supplies everything else.
+    """
+    (worktree / PROVENANCE_FILE).write_text(json.dumps(provenance, indent=2) + "\n")
+    git(worktree, "add", PROVENANCE_FILE)
+    if git(worktree, "status", "--porcelain", "--", PROVENANCE_FILE):
+        git(worktree, "commit", "-q", "-m", "stack: record build provenance")
+    return git(worktree, "rev-parse", "HEAD")
 
 
 def read_state(repo: Path, worktree: Path) -> dict | None:
@@ -443,8 +580,23 @@ def run(args: argparse.Namespace) -> int:
         record_epilogue(results, patch)
         write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
 
+    # Read the content tree BEFORE the provenance commit. `tree` has to keep
+    # meaning "what the topics and upstream produced", or every rebuild would
+    # look changed and "no flake bump needed" would never fire again.
     tree = git(worktree, "rev-parse", "HEAD^{tree}")
-    head = git(worktree, "rev-parse", "HEAD")
+
+    # Only the top-level build describes itself. A group branch is merged INTO
+    # that build, so a provenance file on it would be a second copy of the same
+    # path arriving through a merge -- a guaranteed conflict, and the wrong
+    # content besides. Group members reach the page through their group's lock.
+    if MANIFEST == DEFAULT_MANIFEST:
+        head = commit_provenance(
+            worktree, build_provenance(repo, manifest, entries, results, main)
+        )
+        print(f"recorded {PROVENANCE_FILE}")
+    else:
+        head = git(worktree, "rev-parse", "HEAD")
+    built_tree = git(worktree, "rev-parse", "HEAD^{tree}")
 
     previous_tree = None
     if LOCK.exists():
@@ -457,6 +609,9 @@ def run(args: argparse.Namespace) -> int:
         "integration_branch": manifest["integration_branch"],
         "commit": head,
         "tree": tree,
+        # The pushed tree, which is `tree` plus the provenance record. Compare
+        # `tree`, not this, when deciding whether anything actually moved.
+        "built_tree": built_tree,
         "previous_tree": previous_tree,
         "tree_changed": previous_tree != tree,
         "conflicts": conflicts,
