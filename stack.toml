@@ -307,6 +307,14 @@ the diagnostics work from #4486. Client-only presence is modeled without a
 primary environment, so all paired environments remain visibly remote.
 """
 
+[[entry]]
+pr = 4567
+kind = "fork"
+branch = "t3code/separate-client-environment-settings"
+pin = "39c0a8750"
+summary = "Separate client and environment settings in the UI"
+note = "Follows #4559 so the ownership split is applied to environment-targeted settings."
+
 # ---------------------------------------------------------------------------
 # Epilogue: fixes that are emergent from the assembled stack, not independent
 # topics. Applied after all merges.
