@@ -52,15 +52,15 @@ reason = "Inline-image handling was folded into the safer ThreadArtifactResolver
 
 [[exception]]
 entry = "4437"
-missing_count = 3
-missing_sha256 = "4763869e9099ede5a7fadca3e0c2b1b75718a01344dc42f5ea488f3f390c0b79"
-reason = "Diagnostics now reads storage from the environment-aware connection state and preserves the unavailable-storage fallback message."
+missing_count = 2
+missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
+reason = "Diagnostics now reads storage from the selected environment's server config instead of the primary-server atom, while preserving the storage rows and unavailable-storage fallback."
 
 [[exception]]
-entry = "4474"
-missing_count = 3
-missing_sha256 = "6f05a78cd9e466056ef59dad2bf32e0f19bef96ad95d284c6ef8b8e0202d6a8e"
-reason = "The client-only desktop and local-backend gating was refactored with environment-aware ownership state; ConnectionsSettings still applies both conditions, and SidebarV2 derives indicator visibility directly from the shared environment predicate."
+entry = "t3code/client-suite"
+missing_count = 1
+missing_sha256 = "0655590eadffe788848a2deace18172feb1be4548d2f88939b5f6f17531ecd2e"
+reason = "The assembled chat route expands the project-group dependency array over multiple lines and adds ordering, sort-mode, and environment-label dependencies; ownsLocalEnvironment, primaryEnvironmentId, projectGroupingSettings, and projects all remain present."
 
 [[exception]]
 entry = "4263"
@@ -79,21 +79,3 @@ entry = "4426"
 missing_count = 18
 missing_sha256 = "06a35348bb0ebcbda1165b70092433e1358e385147aa8c2bc30d9da4fe466f7a"
 reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow."
-
-[[exception]]
-entry = "4486"
-missing_count = 40
-missing_sha256 = "8b5df7ceb5caac20fbc842274671a362f2e64a1669bfe8a11f9a76b9b98de1ad"
-reason = "The diagnostics environment selector was consolidated into useSettingsEnvironment and SettingsEnvironmentSelector. The selected environment still scopes process, resource, trace, editor, logs, and storage diagnostics."
-
-[[exception]]
-entry = "4559"
-missing_count = 5
-missing_sha256 = "a85aea4f574e6793b47635f8c72c54dbbec06fa89b214a04731707ac8032ab67"
-reason = "The assembled stack keeps #4474's stronger coherent backend-mode transition state, preserves equivalent client-only backend gating, derives SidebarV2 indicator visibility directly from presence scope, and uses the richer project-group dependency set while carrying #4559's environment-targeted settings behavior."
-
-[[exception]]
-entry = "t3code/show-remote-host-name"
-missing_count = 1
-missing_sha256 = "96d8bd7448c8cc7b957af4c80a2258d288f6992bad49c39105c137b710387876"
-reason = "SidebarV2 now supplies presenceScope.primaryEnvironmentId directly to shouldShowRemoteEnvironmentIndicator instead of reading a removed row prop; remote labels and accent colors remain rendered by RemoteEnvironmentIndicator."

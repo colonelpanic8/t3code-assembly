@@ -237,21 +237,6 @@ branch = "t3code/xdg-storage-layout"
 pin = "ee717d877a5b"
 summary = "Separate config, data, state, cache, and runtime storage with XDG/legacy override"
 
-# ---------------------------------------------------------------------------
-# Desktop client / backend split
-# ---------------------------------------------------------------------------
-
-[[entry]]
-pr = 4474
-kind = "fork"
-branch = "desktop-local-server-discovery"
-pin = "ec578bf9a0c8"
-summary = "Electron as a client of a separately owned local backend + loopback pairing"
-note = """
-Contains every commit of #4444, so #4444 needs no separate entry. Verified by
-reverse-applying #4444's complete diff against #4474's tree.
-"""
-
 [[entry]]
 pr = 4477
 kind = "fork"
@@ -286,20 +271,6 @@ marker, so every client-side heuristic regressed something worse than the gap.
 """
 
 [[entry]]
-pr = 4496
-kind = "fork"
-branch = "t3code/env-scoped-pairing-access"
-pin = "f14509692ccb"
-summary = "Let clients without a managed backend manage pairing"
-
-[[entry]]
-pr = 4486
-kind = "fork"
-branch = "feat/diagnostics-environment-selector"
-pin = "0db411ea1815"
-summary = "Select the diagnostics environment"
-
-[[entry]]
 pr = 4484
 kind = "fork"
 branch = "fix/recover-bootstrap-thread-id"
@@ -311,36 +282,6 @@ OrchestrationGetSnapshotError and OrchestrationDispatchCommandError have
 byte-identical bodies, so `patch` silently landed retryWithNewThreadId on the
 WRONG class at this stack's offset. A 3-way merge cannot make that mistake.
 """
-
-# ---------------------------------------------------------------------------
-# Branch-linked (no open PR)
-# ---------------------------------------------------------------------------
-
-[[entry]]
-kind = "fork"
-branch = "t3code/show-remote-host-name"
-pin = "2f14f287e29c"
-summary = "Remote environment names + per-environment accent colors in the sidebar"
-note = """
-BRANCH-LINKED, not a PR. Its pull request t3code#4425 was closed unmerged, so
-the BRANCH is the authority. Treat it exactly like an outstanding PR: rebase,
-push, keep carrying it. Do NOT drop it because #4425 shows closed -- that is
-precisely why it is linked by branch.
-
-SUBSUMES #4505 (t3code/color-host-names): this branch is now based on top of it,
-so #4505 has no separate entry. Merging them separately meant hand-combining two
-branches that were already combined correctly upstream -- which is where most of
-this cluster's conflicts came from. If the branches are ever split again, restore
-#4505 as its own entry BEFORE this one.
-"""
-
-[[entry]]
-pr = 4538
-kind = "fork"
-branch = "t3code/custom-environment-names"
-pin = "e8f62d6510f5"
-summary = "Allow per-client custom environment names"
-note = "Shares client-local environment settings and Connections UI with #4505, so it follows that topic."
 
 [[entry]]
 kind = "local"
@@ -355,16 +296,15 @@ so this is carried locally rather than opened as a cold PR.
 """
 
 [[entry]]
-pr = 4559
 kind = "fork"
-branch = "t3code/client-only-environment-settings"
-pin = "bf1d0eeaef8f"
-summary = "Target server settings by environment"
+branch = "t3code/client-suite"
+pin = "c0ddfa35303d"
+summary = "Complete client-only desktop, pairing, environment presentation, and settings suite"
 note = """
-Cumulative branch. Contains #4548's provider-per-environment settings work and
-the follow-up diagnostics fixes from #4486, so neither needs another entry.
-It also contains #4444's client-only desktop base; keep #4474 earlier because
-that branch adds local-server discovery beyond #4444.
+Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,
+#4538, #4548, #4559, the branch-linked t3code/show-remote-host-name topic, and
+the diagnostics work from #4486. Client-only presence is modeled without a
+primary environment, so all paired environments remain visibly remote.
 """
 
 # ---------------------------------------------------------------------------
@@ -392,19 +332,10 @@ Was nix-shared/patches/t3code-projection-threads-snoozed-migration-compat.patch.
 """
 
 [[epilogue]]
-patch = "patches/t3code-sidebar-environment-indicator-compat.patch"
-summary = "Reconcile remote labels with environment accent colors"
-note = """
-#4505 and the remote-environment label topics edit the same sidebar indicators.
-Preserve both the text label and the per-environment accent after assembly.
-"""
-
-[[epilogue]]
 patch = "patches/t3code-assembled-runtime-imports.patch"
-summary = "Restore assembled runtime imports and environment indicator types"
+summary = "Restore assembled runtime imports and project icon types"
 note = """
 Stack-emergent glue: project icons and primary settings reference hooks supplied
-by other carried topics, while the combined sidebar environment indicators need
-the presence-scope primary id. Also widens the project-icon renderer's structural
-type to the exact optional-property shape used by the assembled project model.
+by other carried topics. Also widens the project-icon renderer's structural type
+to the exact optional-property shape used by the assembled project model.
 """

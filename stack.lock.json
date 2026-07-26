@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-26T07:31:47.579638+00:00",
+  "generated": "2026-07-26T09:05:14.188909+00:00",
   "mode": "refresh",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "2be620eb04b2ea0470520bcf1e3e7e3fd18d3e06",
-  "tree": "a9582f701747c4657dd7d236aaf9856f0bd7fc57",
-  "previous_tree": "59c93ff4046f9bfaacd4efac84e8971ff7a1e153",
+  "commit": "778ef15750f88ce7bf02dbe23f2ea893ecae8d39",
+  "tree": "275c2374481d8e1c8fd4376e3cc8e6c55052513c",
+  "previous_tree": "a9582f701747c4657dd7d236aaf9856f0bd7fc57",
   "tree_changed": true,
-  "conflicts": 14,
+  "conflicts": 9,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -183,14 +183,6 @@
       "summary": "Separate config, data, state, cache, and runtime storage with XDG/legacy override"
     },
     {
-      "pr": 4474,
-      "kind": "fork",
-      "branch": "desktop-local-server-discovery",
-      "pin": "ec578bf9a0c8",
-      "summary": "Electron as a client of a separately owned local backend + loopback pairing",
-      "note": "Contains every commit of #4444, so #4444 needs no separate entry. Verified by\nreverse-applying #4444's complete diff against #4474's tree.\n"
-    },
-    {
       "pr": 4477,
       "kind": "fork",
       "branch": "fix/discover-claude-models",
@@ -220,41 +212,12 @@
       "note": "Two attempts to also close the sub-millisecond response/broadcast gap were\nimplemented and reverted: `settingsUpdated` carries no revision or correlation\nmarker, so every client-side heuristic regressed something worse than the gap.\n"
     },
     {
-      "pr": 4496,
-      "kind": "fork",
-      "branch": "t3code/env-scoped-pairing-access",
-      "pin": "f14509692ccb",
-      "summary": "Let clients without a managed backend manage pairing"
-    },
-    {
-      "pr": 4486,
-      "kind": "fork",
-      "branch": "feat/diagnostics-environment-selector",
-      "pin": "0db411ea1815",
-      "summary": "Select the diagnostics environment"
-    },
-    {
       "pr": 4484,
       "kind": "fork",
       "branch": "fix/recover-bootstrap-thread-id",
       "pin": "eaf7e88dd2b4",
       "summary": "Recover draft thread IDs after failed bootstrap cleanup",
       "note": "Under applyPatches this needed a compat patch because\nOrchestrationGetSnapshotError and OrchestrationDispatchCommandError have\nbyte-identical bodies, so `patch` silently landed retryWithNewThreadId on the\nWRONG class at this stack's offset. A 3-way merge cannot make that mistake.\n"
-    },
-    {
-      "kind": "fork",
-      "branch": "t3code/show-remote-host-name",
-      "pin": "2f14f287e29c",
-      "summary": "Remote environment names + per-environment accent colors in the sidebar",
-      "note": "BRANCH-LINKED, not a PR. Its pull request t3code#4425 was closed unmerged, so\nthe BRANCH is the authority. Treat it exactly like an outstanding PR: rebase,\npush, keep carrying it. Do NOT drop it because #4425 shows closed -- that is\nprecisely why it is linked by branch.\n\nSUBSUMES #4505 (t3code/color-host-names): this branch is now based on top of it,\nso #4505 has no separate entry. Merging them separately meant hand-combining two\nbranches that were already combined correctly upstream -- which is where most of\nthis cluster's conflicts came from. If the branches are ever split again, restore\n#4505 as its own entry BEFORE this one.\n"
-    },
-    {
-      "pr": 4538,
-      "kind": "fork",
-      "branch": "t3code/custom-environment-names",
-      "pin": "e8f62d6510f5",
-      "summary": "Allow per-client custom environment names",
-      "note": "Shares client-local environment settings and Connections UI with #4505, so it follows that topic."
     },
     {
       "kind": "local",
@@ -264,15 +227,14 @@
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
     },
     {
-      "pr": 4559,
       "kind": "fork",
-      "branch": "t3code/client-only-environment-settings",
-      "pin": "bf1d0eeaef8f",
-      "summary": "Target server settings by environment",
-      "note": "Cumulative branch. Contains #4548's provider-per-environment settings work and\nthe follow-up diagnostics fixes from #4486, so neither needs another entry.\nIt also contains #4444's client-only desktop base; keep #4474 earlier because\nthat branch adds local-server discovery beyond #4444.\n"
+      "branch": "t3code/client-suite",
+      "pin": "c0ddfa35303d",
+      "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
+      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, the branch-linked t3code/show-remote-host-name topic, and\nthe diagnostics work from #4486. Client-only presence is modeled without a\nprimary environment, so all paired environments remain visibly remote.\n"
     }
   ],
-  "pre_epilogue_commit": "ebd5e2ea7c8cd2ab536b76c282218742a72a321c",
+  "pre_epilogue_commit": "35b54252b4386c7d4f59a87828ef48bd849ed71d",
   "entries": [
     {
       "entry": "#3984",
@@ -402,12 +364,6 @@
       "status": "merged"
     },
     {
-      "entry": "#4474",
-      "oid": "ec578bf9a0c8753031e51f3afe02cd0acf1f3f9d",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
       "entry": "#4477",
       "oid": "fc3bf5d6c120d1bb86f160fa3e18ec6452565cb3",
       "status": "merged"
@@ -428,32 +384,8 @@
       "status": "merged"
     },
     {
-      "entry": "#4496",
-      "oid": "b824828392d888c8e3bdb26001452ea24145ad71",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
-      "entry": "#4486",
-      "oid": "0db411ea1815f483b090ea583953f66a786e89ec",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
       "entry": "#4484",
       "oid": "eaf7e88dd2b4eac1c810fdce18f02b4a5c0f08b6",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
-      "entry": "t3code/show-remote-host-name",
-      "oid": "2f14f287e29ca2f2fdf8469420cd4c89051237a2",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
-      "entry": "#4538",
-      "oid": "e8f62d6510f51a0ac5a3e2609b2d2728e6265f35",
       "status": "merged",
       "conflicted": true
     },
@@ -463,8 +395,8 @@
       "status": "merged"
     },
     {
-      "entry": "#4559",
-      "oid": "bf1d0eeaef8f4e173d3ff43345e3582fad1cd230",
+      "entry": "t3code/client-suite",
+      "oid": "c0ddfa35303d145034b74e5fe4b217117a517c17",
       "status": "merged",
       "conflicted": true
     },
@@ -474,10 +406,6 @@
     },
     {
       "entry": "t3code-projection-threads-snoozed-migration-compat.patch",
-      "status": "epilogue"
-    },
-    {
-      "entry": "t3code-sidebar-environment-indicator-compat.patch",
       "status": "epilogue"
     },
     {
