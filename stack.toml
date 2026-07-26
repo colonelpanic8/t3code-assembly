@@ -326,7 +326,7 @@ environment-owned.
 pr = 4593
 kind = "fork"
 branch = "t3code/settle-state-reconcile"
-pin = "419cdbbe0412"
+pin = "95aa50540a0b"
 summary = "Reconcile client state when a settle does not land"
 note = """
 Placed last among the client-runtime subscription topics: it adds a

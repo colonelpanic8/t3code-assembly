@@ -1,13 +1,13 @@
 {
-  "generated": "2026-07-26T21:53:32.885041+00:00",
-  "mode": "extend",
+  "generated": "2026-07-26T22:27:04.863797+00:00",
+  "mode": "reproduce",
   "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
   "integration_branch": "t3code/stack",
-  "commit": "da4f8d8528a97ce14b11604f7870b8fac9f8403f",
-  "tree": "dceb7798640246742326e7ad4800b1059dc28d3e",
-  "previous_tree": "9cb6f4db5595b5070bf77e6fb0d837254a16f027",
+  "commit": "d596d17d63421081833b0fe852993a6b1fe617a0",
+  "tree": "236553823ac6bb829c943b77b4fda2b35b01dfba",
+  "previous_tree": "dceb7798640246742326e7ad4800b1059dc28d3e",
   "tree_changed": true,
-  "conflicts": 0,
+  "conflicts": 10,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -244,12 +244,12 @@
       "pr": 4593,
       "kind": "fork",
       "branch": "t3code/settle-state-reconcile",
-      "pin": "419cdbbe0412",
+      "pin": "95aa50540a0b",
       "summary": "Reconcile client state when a settle does not land",
       "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
     }
   ],
-  "pre_epilogue_commit": "8242a980765e3323f87e4f1315c50d321ef618c2",
+  "pre_epilogue_commit": "df00fc3b5cc07471e4f284b8eb85d0840d85c259",
   "entries": [
     {
       "entry": "#3984",
@@ -417,13 +417,13 @@
     },
     {
       "entry": "t3code/unify-environment-selection",
-      "oid": "acd45ae7ceee109c1ae077bbe898a5c0ce02c5ae",
+      "oid": "ab01dc914924c105a17da67eb42bc360d52c0b61",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4593",
-      "oid": "419cdbbe0412189b1f8d191b216076f0eb4ab39f",
+      "oid": "95aa50540a0bea279dcbf26b81e3f7669155aede",
       "status": "merged"
     },
     {
