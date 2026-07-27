@@ -1,14 +1,14 @@
 {
-  "generated": "2026-07-27T01:44:54.436608+00:00",
-  "mode": "reproduce",
-  "upstream_main": "a17cbc3b4022b824cda9b199e4c53a8c9a608923",
+  "generated": "2026-07-27T10:02:28.702877+00:00",
+  "mode": "refresh",
+  "upstream_main": "d60f6e971f8f982836f26507275d651e2e7af4a5",
   "integration_branch": "t3code/stack",
-  "commit": "65346995432a688e10f5dea3a3a36f6c82802d98",
-  "tree": "93fbfff7fc8b46f1a4408643817c55f869b262a8",
-  "built_tree": "49f560684e6f13d057134cce350998ebf312af2d",
-  "previous_tree": "8af229d2603204366c64a92689064aafe4250c70",
+  "commit": "6c7bd6a72908cb6e34b30abdbec19f57fb38b2db",
+  "tree": "f7a09bd5ce3cb647c27b878b9ece53367aae2e35",
+  "built_tree": "0fe0f469351022fe995a641fea754cbb93569e1f",
+  "previous_tree": "93fbfff7fc8b46f1a4408643817c55f869b262a8",
   "tree_changed": true,
-  "conflicts": 12,
+  "conflicts": 15,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -35,7 +35,7 @@
     {
       "kind": "fork",
       "branch": "t3code/group/thread-picker",
-      "pin": "b15922fad031c605b31c6501097d649bc23cd83c",
+      "pin": "c5a4a7330401",
       "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
       "note": "GROUP entry, built from stack/thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
     },
@@ -231,7 +231,7 @@
     {
       "kind": "local",
       "branch": "t3code/local/nix-flake",
-      "pin": "abeb0bc56",
+      "pin": "8477b3d36bc9",
       "summary": "Nix flake: dev shell and desktop package",
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
     },
@@ -271,9 +271,33 @@
       "pin": "3f826e54032b",
       "summary": "Clear pending approval and user-input requests when no provider session is bound",
       "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
+    },
+    {
+      "pr": 4605,
+      "kind": "fork",
+      "branch": "t3code/investigate-large-thread-rendering",
+      "pin": "543cd7dd7bd1",
+      "summary": "Fix quadratic thread-reopen replay: batch client apply + cap server resume gap",
+      "note": "Fixes #4596. Reopening a thread with a large event backlog re-replayed the whole\nbacklog: the server streamed every event past the client's cursor individually,\nand the client re-derived the full timeline per event.\n\nPlaced before #4599 because it restructures ChatView.tsx -- extracting the\ntimeline derivation into threadTimelineModel.ts -- and #4599's find bar is\nadditive UI on top of that file. Restructure first, then build on the final\nshape.\n\nTouches ws.ts and client-runtime state/threads.ts, which #4405, #4593 and #4602\nalso edit, so it merges after all three have landed.\n"
+    },
+    {
+      "pr": 4599,
+      "kind": "fork",
+      "branch": "t3code/find-in-thread",
+      "pin": "7d951aaf7120",
+      "summary": "Cmd+F find in thread",
+      "note": "In-thread find on the new chat.find keybinding (mod+f, gated on !terminalFocus\nso it stays out of the terminal's own find).\n\nAlmost entirely new modules (threadFind.ts, threadFindHighlights.ts,\nFindInThreadBar.tsx), and its edits to MessagesTimeline.tsx and ChatView.tsx\nwant the final assembled shape of both -- after #4605's timeline extraction.\nIts keybindings.ts entries are additive one-line registry rows, the same shape\nas #4271 and #4277.\n"
+    },
+    {
+      "pr": 4624,
+      "kind": "fork",
+      "branch": "t3code/mobile-thread-replay-render-fixes",
+      "pin": "45907c3c4d5f",
+      "summary": "Cut mobile thread-reopen replay churn in the feed pipeline",
+      "note": "The mobile-only layers left over after #4605: incremental, identity-cached\nthread-feed derivation in threadActivity.ts, no layout animations or animated\nend-scrolls or streaming haptics during a backlog catch-up, and code\nhighlighting withheld while a message is still streaming.\n\nLast in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text\nmodule -- so it has no overlap with the web/client-runtime topics above it.\nDepends on #4605 conceptually, not textually: #4605 fixes the shared\nsubscription path, this one fixes what mobile still re-derives on top of it.\n\nClosed upstream without merging; carried because the replay cost is real on\nthis phone. Its head carries a follow-up commit past the PR: the PR's 200ms\nhighlight debounces could never fire, because a growing code block's React key\nencodes its source offsets and the block remounts on every delta.\n"
     }
   ],
-  "pre_epilogue_commit": "314222cc73d58b2dd27b0564808b68d0de92805f",
+  "pre_epilogue_commit": "2fb4cdf431988a54a2f16fd6cb6aa1fa35510f0d",
   "entries": [
     {
       "entry": "#3984",
@@ -292,7 +316,7 @@
     },
     {
       "entry": "t3code/group/thread-picker",
-      "oid": "b15922fad031c605b31c6501097d649bc23cd83c",
+      "oid": "c5a4a7330401b00c08c162425f0d225d3e0b0ec0",
       "status": "merged"
     },
     {
@@ -436,7 +460,7 @@
     },
     {
       "entry": "t3code/local/nix-flake",
-      "oid": "abeb0bc56a70f95b2341ad2d3ee94b32006eac74",
+      "oid": "8477b3d36bc9ba82ab35b4b830b9525c3a6b8c1b",
       "status": "merged"
     },
     {
@@ -466,6 +490,24 @@
       "entry": "#4598",
       "oid": "3f826e54032bf07b2b453eb2b88dac722b4a1a64",
       "status": "merged"
+    },
+    {
+      "entry": "#4605",
+      "oid": "543cd7dd7bd14375bfe88c848e5efed1c7f37870",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
+      "entry": "#4599",
+      "oid": "7d951aaf7120f16d8ad135d857d4aeae1f7c3f0f",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
+      "entry": "#4624",
+      "oid": "45907c3c43f016d4049533686dca6a144b695ad3",
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "t3code-sidebar-v2-large-icons-fixture.patch",

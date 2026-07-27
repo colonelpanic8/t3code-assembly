@@ -55,7 +55,7 @@ summary = "Searchable new-thread project picker"
 [[entry]]
 kind = "fork"
 branch = "t3code/group/thread-picker"
-pin = "b15922fad031c605b31c6501097d649bc23cd83c"
+pin = "c5a4a7330401"
 summary = "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue"
 note = """
 GROUP entry, built from stack/thread-picker.toml. These PRs all
@@ -302,7 +302,7 @@ WRONG class at this stack's offset. A 3-way merge cannot make that mistake.
 [[entry]]
 kind = "local"
 branch = "t3code/local/nix-flake"
-pin = "abeb0bc56"
+pin = "8477b3d36bc9"
 summary = "Nix flake: dev shell and desktop package"
 note = """
 Purely additive (flake.nix + nix/README.md), so it carries at essentially zero
@@ -386,6 +386,70 @@ inside the derivePendingUserInputs describe on the web.
 
 Branched from upstream a17cbc3b4, which is newer than the lock's recorded
 upstream, so this entry wants a refresh rather than a reproduce.
+"""
+
+# ---------------------------------------------------------------------------
+# Thread-rendering performance
+# ---------------------------------------------------------------------------
+
+[[entry]]
+pr = 4605
+kind = "fork"
+branch = "t3code/investigate-large-thread-rendering"
+pin = "543cd7dd7bd1"
+summary = "Fix quadratic thread-reopen replay: batch client apply + cap server resume gap"
+note = """
+Fixes #4596. Reopening a thread with a large event backlog re-replayed the whole
+backlog: the server streamed every event past the client's cursor individually,
+and the client re-derived the full timeline per event.
+
+Placed before #4599 because it restructures ChatView.tsx -- extracting the
+timeline derivation into threadTimelineModel.ts -- and #4599's find bar is
+additive UI on top of that file. Restructure first, then build on the final
+shape.
+
+Touches ws.ts and client-runtime state/threads.ts, which #4405, #4593 and #4602
+also edit, so it merges after all three have landed.
+"""
+
+[[entry]]
+pr = 4599
+kind = "fork"
+branch = "t3code/find-in-thread"
+pin = "7d951aaf7120"
+summary = "Cmd+F find in thread"
+note = """
+In-thread find on the new chat.find keybinding (mod+f, gated on !terminalFocus
+so it stays out of the terminal's own find).
+
+Almost entirely new modules (threadFind.ts, threadFindHighlights.ts,
+FindInThreadBar.tsx), and its edits to MessagesTimeline.tsx and ChatView.tsx
+want the final assembled shape of both -- after #4605's timeline extraction.
+Its keybindings.ts entries are additive one-line registry rows, the same shape
+as #4271 and #4277.
+"""
+
+[[entry]]
+pr = 4624
+kind = "fork"
+branch = "t3code/mobile-thread-replay-render-fixes"
+pin = "45907c3c43f0"
+summary = "Cut mobile thread-reopen replay churn in the feed pipeline"
+note = """
+The mobile-only layers left over after #4605: incremental, identity-cached
+thread-feed derivation in threadActivity.ts, no layout animations or animated
+end-scrolls or streaming haptics during a backlog catch-up, and code
+highlighting withheld while a message is still streaming.
+
+Last in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text
+module -- so it has no overlap with the web/client-runtime topics above it.
+Depends on #4605 conceptually, not textually: #4605 fixes the shared
+subscription path, this one fixes what mobile still re-derives on top of it.
+
+Closed upstream without merging; carried because the replay cost is real on
+this phone. Its head carries a follow-up commit past the PR: the PR's 200ms
+highlight debounces could never fire, because a growing code block's React key
+encodes its source offsets and the block remounts on every delta.
 """
 
 # ---------------------------------------------------------------------------
