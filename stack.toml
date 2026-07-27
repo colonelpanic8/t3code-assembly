@@ -286,7 +286,7 @@ WRONG class at this stack's offset. A 3-way merge cannot make that mistake.
 [[entry]]
 kind = "local"
 branch = "t3code/local/nix-flake"
-pin = "d48240e09"
+pin = "93c5482cf"
 summary = "Nix flake: dev shell and desktop package"
 note = """
 Purely additive (flake.nix + nix/README.md), so it carries at essentially zero
@@ -336,6 +336,22 @@ layer, so it touches apps/web/src/connection/platform.ts after both
 t3code/client-suite and t3code/unify-environment-selection have restructured
 it. Its one-line filter change in client-runtime state/threads.ts sits in a
 different region than #4405's subscription backoff. Reported as #4589.
+"""
+
+[[entry]]
+kind = "local"
+branch = "t3code/local/build-provenance"
+pin = "24300541a"
+summary = "Show the build's commit, and a Settings page describing the assembled stack"
+note = """
+Reads stack-build-info.json, which the rebuild writes as this branch's final
+commit, so it has to be able to see the assembled result -- but it is ordinary
+app code and belongs on a topic, not in the tooling. Placed last so its edits
+to SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite
+and t3code/unify-environment-selection have finished restructuring them.
+
+Local rather than a PR: the value is entirely in describing a personally
+assembled stack, which upstream does not have.
 """
 
 # ---------------------------------------------------------------------------
