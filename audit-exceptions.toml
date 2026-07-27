@@ -16,9 +16,9 @@ reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through 
 
 [[exception]]
 entry = "t3code/group/thread-picker"
-missing_count = 17
-missing_sha256 = "c1a81b524d37fc31c76b87a3e6aad57cea05a984f8ea661e21779dc7e6a168fb"
-reason = "Independently re-verified against build aa3e5d11b by diffing the group tip against BOTH the lock's upstream_main (23ea08daf) and the live merge-base: exactly 2 of 1545 added lines are absent, and both are the chat.newEnvironment (mod+shift+n) and project.add (alt+a) default rules in packages/shared/src/keybindings.ts. The client-owned keybindings topic moves default rules into packages/contracts and deliberately does not carry these two -- it reassigns mod+shift+n to chat.newLocal. Both COMMANDS survive in the contracts command list and stay invocable from the command palette; only their default shortcuts are absent. The audit's own count of 17 is its normalization of the same set, not additional loss."
+missing_count = 2
+missing_sha256 = "b1d83dfcf99f1ceaed163b4784c7ebed9093396f099c133e3061e62f0979c473"
+reason = "Same reviewed loss as before, now reported exactly: the audit's count fell from 17 to 2 because this refresh rebuilt the group at its current member heads, so its normalization no longer inflates the set. Both remaining lines are in packages/shared/src/keybindings.ts and are the chat.newEnvironment (mod+shift+n) and project.add (alt+a) default rules. Re-verified directly against build f6c97d801: both COMMANDS survive in the contracts command list (packages/contracts/src/keybindings.ts:78 and :80) and stay invocable from the command palette; only their default shortcuts are absent, because the client-owned keybindings topic moves default rules into packages/contracts and deliberately reassigns mod+shift+n to chat.newLocal (:150). The same two lines are also waived per-member under 4258 and 4426; this entry is the group-level view of that one set, not additional loss."
 
 [[exception]]
 entry = "4271"

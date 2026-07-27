@@ -302,7 +302,7 @@ WRONG class at this stack's offset. A 3-way merge cannot make that mistake.
 [[entry]]
 kind = "local"
 branch = "t3code/local/nix-flake"
-pin = "070da7f738c5"
+pin = "3a5c344ba1ff"
 summary = "Nix flake: dev shell and desktop package"
 note = """
 Purely additive (flake.nix + nix/README.md), so it carries at essentially zero
@@ -450,6 +450,30 @@ the BRANCH is authoritative and this entry must not be dropped just because the
 PR is closed. Carried because the replay cost is real on this phone. Its head carries a follow-up commit past the PR: the PR's 200ms
 highlight debounces could never fire, because a growing code block's React key
 encodes its source offsets and the block remounts on every delta.
+"""
+
+[[entry]]
+pr = 4631
+kind = "fork"
+branch = "t3code/fix-broken-image-previews"
+pin = "f455c9c34e9d"
+summary = "Render markdown images from workspace files"
+note = """
+ChatMarkdown had no img renderer, so a markdown image with a local path
+rendered broken: the web origin only serves the client bundle, so the request
+hit the SPA fallback and decoded as HTML. Local sources now resolve through the
+signed workspace-asset URL the file preview panel already uses.
+
+Overlaps t3code/local/artifact-safety and #3984, which own the other half of
+ChatMarkdown's image story -- but on the `code` renderer (inline code naming a
+generated thread artifact), not `img`. The two are complementary, not competing:
+this one handles markdown image syntax pointing at workspace files, that one
+handles artifact references. Both import from ../assets/assetUrls, so expect a
+small import-region conflict and nothing semantic.
+
+Appended rather than placed next to those entries because they sit at the head
+of the manifest and this arrived via extend. If ChatMarkdown accumulates a third
+image-adjacent topic, cluster the three into a group instead.
 """
 
 # ---------------------------------------------------------------------------

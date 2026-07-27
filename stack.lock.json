@@ -1,14 +1,14 @@
 {
-  "generated": "2026-07-27T11:18:17.217563+00:00",
+  "generated": "2026-07-27T19:17:30.204754+00:00",
   "mode": "refresh",
-  "upstream_main": "23ea08daf27a2f56b85e605dd3d36f66bd1a132d",
+  "upstream_main": "5ba6ef7f84a5586e3795264cae348404dd408cb5",
   "integration_branch": "t3code/stack",
-  "commit": "dcf62fadf6356514e5ad4b540c9d7596d93800ea",
-  "tree": "f5037d2c3bbc0515e82cf107010d78b58247b0d0",
-  "built_tree": "5ea41cde8b84fc31946e992b9765712888a97867",
-  "previous_tree": "f7a09bd5ce3cb647c27b878b9ece53367aae2e35",
+  "commit": "ac1ac782fab96a15f8b9c5b12aac69c8b1fc5f33",
+  "tree": "388d7c5d1a18edde9286e01fb6ac058d53c13098",
+  "built_tree": "388d7c5d1a18edde9286e01fb6ac058d53c13098",
+  "previous_tree": "efc555f5762e863e9140a09d5a48790267a56734",
   "tree_changed": true,
-  "conflicts": 14,
+  "conflicts": 18,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -21,7 +21,7 @@
     {
       "kind": "local",
       "branch": "t3code/local/artifact-safety",
-      "pin": "2593d03a2",
+      "pin": "d0c4dcda9549",
       "summary": "Constrain #3984's generic artifact paths to the real thread workspace",
       "note": "Only typed image-generation paths may use provider-managed storage. Also adds\ntransactional thread snapshots, correct streaming boundaries, and a bounded\nretry for projection/file visibility races. Was nix-shared/patches/t3code-pr-3984-artifact-safety.patch.\n"
     },
@@ -29,13 +29,13 @@
       "pr": 4259,
       "kind": "fork",
       "branch": "t3code/searchable-new-thread-projects",
-      "pin": "ece984160567",
+      "pin": "a3d19353b795",
       "summary": "Searchable new-thread project picker"
     },
     {
       "kind": "fork",
       "branch": "t3code/group/thread-picker",
-      "pin": "6309e2488144",
+      "pin": "b13f2894eab7",
       "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
       "note": "GROUP entry, built from stack/thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
     },
@@ -43,42 +43,42 @@
       "pr": 4271,
       "kind": "fork",
       "branch": "t3code/composer-keyboard-shortcuts",
-      "pin": "ae7005f0610c",
+      "pin": "08e2bb90565b",
       "summary": "Keyboard-select composer controls + hold-modifier hints"
     },
     {
       "pr": 4394,
       "kind": "fork",
       "branch": "t3code/fix-dropdown-keyboard-navigation",
-      "pin": "dcd01dd1aade",
+      "pin": "098fa1036e1e",
       "summary": "Navigate open selections with Ctrl-N/Ctrl-P"
     },
     {
       "pr": 4277,
       "kind": "fork",
       "branch": "feat/settle-thread-keybinding",
-      "pin": "a9108bfd2edd",
+      "pin": "6cab6d44786f",
       "summary": "Settle the open thread with Mod+Shift+X"
     },
     {
       "pr": 4318,
       "kind": "fork",
       "branch": "fix/draft-thread-promotion-recovery",
-      "pin": "0018ca24c00f",
+      "pin": "03c949353331",
       "summary": "Recover stalled draft-thread promotion"
     },
     {
       "pr": 4323,
       "kind": "fork",
       "branch": "fix/coalesce-assistant-streaming",
-      "pin": "f67b0914e57c",
+      "pin": "c45471d0fa67",
       "summary": "Coalesce high-frequency assistant streaming deltas"
     },
     {
       "pr": 4324,
       "kind": "fork",
       "branch": "feat/sidebar-v2-large-icons",
-      "pin": "05d3203dcaa0",
+      "pin": "72fb395deb9a",
       "summary": "Optional larger sidebar v2 project icons"
     },
     {
@@ -93,7 +93,7 @@
       "pr": 4332,
       "kind": "fork",
       "branch": "fix/android-adaptive-icon",
-      "pin": "e4395b63c430",
+      "pin": "5b79b46862a9",
       "summary": "Properly sized flat foreground for Android adaptive icons",
       "note": "Under applyPatches this needed a separate fetchurl for the PNG plus a postPatch\ninstall, because GitHub cumulative diffs record binary files without payload.\nThe merge carries the real blob, so that machinery is gone.\n"
     },
@@ -101,49 +101,49 @@
       "pr": 4337,
       "kind": "fork",
       "branch": "feat/favicon-reload-on-click",
-      "pin": "bf76e6c79005",
+      "pin": "0152dc71d548",
       "summary": "Refresh a project favicon when its icon is clicked"
     },
     {
       "pr": 4386,
       "kind": "fork",
       "branch": "fix/stuck-turn-recovery",
-      "pin": "725102246270",
+      "pin": "abc65d797e0a",
       "summary": "Recover stranded provider turns after lost completion events"
     },
     {
       "pr": 4388,
       "kind": "fork",
       "branch": "fix/android-composer-keyboard-positioning",
-      "pin": "e6eff76ae220",
+      "pin": "967ab356536a",
       "summary": "Keep the Android new-task composer above the keyboard while it expands"
     },
     {
       "pr": 4390,
       "kind": "fork",
       "branch": "t3code/add-thread-forking",
-      "pin": "b779c54181e9",
+      "pin": "71a2ae9b27d3",
       "summary": "Clone a thread through its latest completed response from the sidebar"
     },
     {
       "pr": 4401,
       "kind": "fork",
       "branch": "feat/project-icons",
-      "pin": "975961667d38",
+      "pin": "3c065ddecb29",
       "summary": "User-local project icons"
     },
     {
       "pr": 4405,
       "kind": "fork",
       "branch": "fix/thread-detail-load-hardening",
-      "pin": "10b95f1c2566",
+      "pin": "e3aeb3a8d3e2",
       "summary": "Self-heal empty thread details and back off failed thread subscriptions"
     },
     {
       "pr": 4602,
       "kind": "fork",
       "branch": "t3code/subscription-transport-recovery",
-      "pin": "b80214c903b1",
+      "pin": "c3cb473602b1",
       "summary": "Recover subscriptions that lose their transport",
       "note": "Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its\ntest, and this is the only other topic that touches subscription lifecycle.\n\nA durable subscription that dies with a transport error drains and waits for a\nsession the supervisor never produces unless the socket reports closed, so the\nenvironment silently stops updating until the client restarts. Root cause behind\n#4589; #4593 only recovers the settle path.\n"
     },
@@ -151,14 +151,14 @@
       "pr": 4447,
       "kind": "fork",
       "branch": "feat/mobile-environment-first-new-thread",
-      "pin": "70138785a18a",
+      "pin": "e3415f080d8a",
       "summary": "Environment-first new task on mobile"
     },
     {
       "pr": 4427,
       "kind": "fork",
       "branch": "t3code/inline-image-support",
-      "pin": "d2e6495f9e3d",
+      "pin": "2738a597ce51",
       "summary": "Show completed image-generation activity as compact evidence links",
       "note": "Previously carried ONLY through t3code-pr-4427-stack-compat.patch, never as a raw diff."
     },
@@ -166,7 +166,7 @@
       "pr": 4506,
       "kind": "fork",
       "branch": "t3code/user-input-qna-timeline",
-      "pin": "f7eaa00b99e6",
+      "pin": "fd30c91b3697",
       "summary": "Show answered questions in the thread timeline",
       "note": "Overlaps #4427's generated-image handling, so it must follow #4427."
     },
@@ -174,49 +174,49 @@
       "pr": 4433,
       "kind": "fork",
       "branch": "fix/model-picker-shortcuts",
-      "pin": "2b107b9f8a50",
+      "pin": "e28ca5e4e6e4",
       "summary": "Refresh positional model-picker shortcuts when virtualized rows are reordered"
     },
     {
       "pr": 4439,
       "kind": "fork",
       "branch": "t3code/configurable-workspace-placement",
-      "pin": "72afbca6e614",
+      "pin": "fbee7010b0fe",
       "summary": "Configure centralized or repository-local worktree placement"
     },
     {
       "pr": 4437,
       "kind": "fork",
       "branch": "t3code/xdg-storage-layout",
-      "pin": "ee717d877a5b",
+      "pin": "264d430386c9",
       "summary": "Separate config, data, state, cache, and runtime storage with XDG/legacy override"
     },
     {
       "pr": 4477,
       "kind": "fork",
       "branch": "fix/discover-claude-models",
-      "pin": "fc3bf5d6c120",
+      "pin": "9d34e7d251c4",
       "summary": "Discover Claude models from SDK initialization rather than the fallback catalog"
     },
     {
       "pr": 4482,
       "kind": "fork",
       "branch": "fix/sidebar-resize-after-window-growth",
-      "pin": "ea0cea17c7ca",
+      "pin": "007f6c9db7b4",
       "summary": "Refresh the sidebar resize cap when the window grows"
     },
     {
       "pr": 4487,
       "kind": "fork",
       "branch": "t3code/filter-hidden-codex-models",
-      "pin": "6b75ff3f0c09",
+      "pin": "58175a61c51b",
       "summary": "Drop non-interactive Codex models from the model picker"
     },
     {
       "pr": 4494,
       "kind": "fork",
       "branch": "t3code/fix-provider-settings-toggle",
-      "pin": "b27a3135638b",
+      "pin": "493411165f33",
       "summary": "Keep rapid settings edits from reverting each other",
       "note": "Two attempts to also close the sub-millisecond response/broadcast gap were\nimplemented and reverted: `settingsUpdated` carries no revision or correlation\nmarker, so every client-side heuristic regressed something worse than the gap.\n"
     },
@@ -224,28 +224,28 @@
       "pr": 4484,
       "kind": "fork",
       "branch": "fix/recover-bootstrap-thread-id",
-      "pin": "eaf7e88dd2b4",
+      "pin": "4605e902c5b9",
       "summary": "Recover draft thread IDs after failed bootstrap cleanup",
       "note": "Under applyPatches this needed a compat patch because\nOrchestrationGetSnapshotError and OrchestrationDispatchCommandError have\nbyte-identical bodies, so `patch` silently landed retryWithNewThreadId on the\nWRONG class at this stack's offset. A 3-way merge cannot make that mistake.\n"
     },
     {
       "kind": "local",
       "branch": "t3code/local/nix-flake",
-      "pin": "8477b3d36bc9",
+      "pin": "3a5c344ba1ff",
       "summary": "Nix flake: dev shell and desktop package",
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
     },
     {
       "kind": "fork",
       "branch": "t3code/client-suite",
-      "pin": "3bf7d489546f",
+      "pin": "6daf997586e8",
       "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
       "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nThread host badges are client-local presentation, default on for every\nenvironment (including localhost), and do not depend on classifying the app as\na local owner or remote client.\n"
     },
     {
       "kind": "fork",
       "branch": "t3code/unify-environment-selection",
-      "pin": "bad56da25",
+      "pin": "0c8dedeffb02",
       "summary": "Align settings ownership and environment selection across settings pages",
       "note": "Places the shared environment selector inside the Environment navigation group\nand repeats it in a clearly labeled scope strip on environment-owned pages.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page. Assistant output and new-thread/worktree defaults are client-owned\nacross web, desktop, and mobile. Provider configuration, host paths, source\ncontrol, and diagnostics remain environment-owned.\n"
     },
@@ -253,14 +253,14 @@
       "pr": 4593,
       "kind": "fork",
       "branch": "t3code/settle-state-reconcile",
-      "pin": "6980a8c13e16",
+      "pin": "86bcba04848a",
       "summary": "Reconcile client state when a settle does not land",
       "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
     },
     {
       "kind": "local",
       "branch": "t3code/local/build-provenance",
-      "pin": "24300541a",
+      "pin": "103329cf5654",
       "summary": "Show the build's commit, and a Settings page describing the assembled stack",
       "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit, so it has to be able to see the assembled result -- but it is ordinary\napp code and belongs on a topic, not in the tooling. Placed last so its edits\nto SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite\nand t3code/unify-environment-selection have finished restructuring them.\n\nLocal rather than a PR: the value is entirely in describing a personally\nassembled stack, which upstream does not have.\n"
     },
@@ -268,7 +268,7 @@
       "pr": 4598,
       "kind": "fork",
       "branch": "t3code/clear-unanswerable-provider-requests",
-      "pin": "3f826e54032b",
+      "pin": "58cce88a5e63",
       "summary": "Clear pending approval and user-input requests when no provider session is bound",
       "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
     },
@@ -276,7 +276,7 @@
       "pr": 4605,
       "kind": "fork",
       "branch": "t3code/investigate-large-thread-rendering",
-      "pin": "543cd7dd7bd1",
+      "pin": "b82f11e16412",
       "summary": "Fix quadratic thread-reopen replay: batch client apply + cap server resume gap",
       "note": "Fixes #4596. Reopening a thread with a large event backlog re-replayed the whole\nbacklog: the server streamed every event past the client's cursor individually,\nand the client re-derived the full timeline per event.\n\nPlaced before #4599 because it restructures ChatView.tsx -- extracting the\ntimeline derivation into threadTimelineModel.ts -- and #4599's find bar is\nadditive UI on top of that file. Restructure first, then build on the final\nshape.\n\nTouches ws.ts and client-runtime state/threads.ts, which #4405, #4593 and #4602\nalso edit, so it merges after all three have landed.\n"
     },
@@ -284,19 +284,27 @@
       "pr": 4599,
       "kind": "fork",
       "branch": "t3code/find-in-thread",
-      "pin": "7d951aaf7120",
+      "pin": "6a69b326a617",
       "summary": "Cmd+F find in thread",
       "note": "In-thread find on the new chat.find keybinding (mod+f, gated on !terminalFocus\nso it stays out of the terminal's own find).\n\nAlmost entirely new modules (threadFind.ts, threadFindHighlights.ts,\nFindInThreadBar.tsx), and its edits to MessagesTimeline.tsx and ChatView.tsx\nwant the final assembled shape of both -- after #4605's timeline extraction.\nIts keybindings.ts entries are additive one-line registry rows, the same shape\nas #4271 and #4277.\n"
     },
     {
       "kind": "fork",
       "branch": "t3code/mobile-thread-replay-render-fixes",
-      "pin": "45907c3c43f0",
+      "pin": "4ab37402c1dd",
       "summary": "Cut mobile thread-reopen replay churn in the feed pipeline",
       "note": "The mobile-only layers left over after #4605: incremental, identity-cached\nthread-feed derivation in threadActivity.ts, no layout animations or animated\nend-scrolls or streaming haptics during a backlog catch-up, and code\nhighlighting withheld while a message is still streaming.\n\nLast in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text\nmodule -- so it has no overlap with the web/client-runtime topics above it.\nDepends on #4605 conceptually, not textually: #4605 fixes the shared\nsubscription path, this one fixes what mobile still re-derives on top of it.\n\nBranch-linked, not PR-linked: #4624 was closed upstream without merging, so\nthe BRANCH is authoritative and this entry must not be dropped just because the\nPR is closed. Carried because the replay cost is real on this phone. Its head carries a follow-up commit past the PR: the PR's 200ms\nhighlight debounces could never fire, because a growing code block's React key\nencodes its source offsets and the block remounts on every delta.\n"
+    },
+    {
+      "pr": 4631,
+      "kind": "fork",
+      "branch": "t3code/fix-broken-image-previews",
+      "pin": "f455c9c34e9d",
+      "summary": "Render markdown images from workspace files",
+      "note": "ChatMarkdown had no img renderer, so a markdown image with a local path\nrendered broken: the web origin only serves the client bundle, so the request\nhit the SPA fallback and decoded as HTML. Local sources now resolve through the\nsigned workspace-asset URL the file preview panel already uses.\n\nOverlaps t3code/local/artifact-safety and #3984, which own the other half of\nChatMarkdown's image story -- but on the `code` renderer (inline code naming a\ngenerated thread artifact), not `img`. The two are complementary, not competing:\nthis one handles markdown image syntax pointing at workspace files, that one\nhandles artifact references. Both import from ../assets/assetUrls, so expect a\nsmall import-region conflict and nothing semantic.\n\nAppended rather than placed next to those entries because they sit at the head\nof the manifest and this arrived via extend. If ChatMarkdown accumulates a third\nimage-adjacent topic, cluster the three into a group instead.\n"
     }
   ],
-  "pre_epilogue_commit": "c2949089924c69bccda3b465ff26f10d1a746d43",
+  "pre_epilogue_commit": "ea21b7e373fbf84a01cfd108a52dfa5bbe314c9c",
   "entries": [
     {
       "entry": "#3984",
@@ -316,13 +324,14 @@
     },
     {
       "entry": "t3code/group/thread-picker",
-      "oid": "6309e2488144682c8439e0ab50bb170c1d7f5665",
+      "oid": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
       "status": "merged"
     },
     {
       "entry": "#4271",
       "oid": "08e2bb90565b2a29e96f4e8f629bcb6527473d2b",
-      "status": "merged"
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "#4394",
@@ -339,7 +348,8 @@
     {
       "entry": "#4318",
       "oid": "03c94935333170dabba68cd2534081c477e3b395",
-      "status": "merged"
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "#4323",
@@ -439,7 +449,8 @@
     {
       "entry": "#4482",
       "oid": "007f6c9db7b47d525b3bdbba04e41bbbd7bae26b",
-      "status": "merged"
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "#4487",
@@ -459,7 +470,7 @@
     },
     {
       "entry": "t3code/local/nix-flake",
-      "oid": "070da7f738c5949ad3a4713a3dd0d29d922c0655",
+      "oid": "3a5c344ba1ff5573d82990b92f71cc272fc2bc5f",
       "status": "merged"
     },
     {
@@ -508,6 +519,12 @@
       "conflicted": true
     },
     {
+      "entry": "#4631",
+      "oid": "f455c9c34e9d8e4042e2cf99f3a8317ba1f75218",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
       "entry": "t3code-sidebar-v2-large-icons-fixture.patch",
       "status": "epilogue"
     },
@@ -517,6 +534,10 @@
     },
     {
       "entry": "t3code-assembled-runtime-imports.patch",
+      "status": "epilogue"
+    },
+    {
+      "entry": "t3code-dedupe-environment-icon.patch",
       "status": "epilogue"
     }
   ]

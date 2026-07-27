@@ -550,7 +550,18 @@ def run(args: argparse.Namespace) -> int:
             capture_output=True,
             text=True,
         )
-        if reverse.returncode == 0:
+        # Reverse-applicability alone does not mean "already applied". A patch
+        # that DELETES a duplicated block reverse-applies against the surviving
+        # copy, because the copies are byte-identical and context matching
+        # cannot tell them apart. That silently skipped the EnvironmentIcon
+        # dedupe and shipped a tree with two declarations of it. Only trust the
+        # reverse check when the patch also cannot be applied forwards.
+        forward = subprocess.run(
+            ["git", "-C", str(worktree), "apply", "--check", str(patch)],
+            capture_output=True,
+            text=True,
+        )
+        if reverse.returncode == 0 and forward.returncode != 0:
             print(f"  epilogue {patch.name} already applied, skipping")
             record_epilogue(results, patch)
             write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
