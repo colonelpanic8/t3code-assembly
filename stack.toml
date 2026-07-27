@@ -340,6 +340,18 @@ control, and diagnostics remain environment-owned.
 """
 
 [[entry]]
+pr = 4677
+kind = "fork"
+branch = "t3code/add-custom-snooze-time"
+pin = "04c9f94a7f99"
+summary = "Snooze threads until a custom local date and time"
+note = """
+Placed after t3code/client-suite and t3code/unify-environment-selection because
+both reshape SidebarV2.tsx. The custom picker then merges once against their
+final assembled sidebar while reusing upstream's existing snooze command flow.
+"""
+
+[[entry]]
 pr = 4593
 kind = "fork"
 branch = "t3code/settle-state-reconcile"
@@ -510,6 +522,16 @@ to the exact optional-property shape used by the assembled project model.
 """
 
 [[epilogue]]
+patch = "patches/t3code-chat-composer-stash-merge.patch"
+summary = "Restore prompt-stash dedupe and snapshot keys after composer merges"
+note = """
+#4271 and #4394 both reshape ChatComposer around the prompt-stash implementation.
+Their assembled replay mangles the NUL-delimited template strings used for image
+deduplication and in-flight snapshot identity. Neither topic is broken alone;
+this patch restores those three stack-emergent expressions.
+"""
+
+[[epilogue]]
 patch = "patches/t3code-dedupe-environment-icon.patch"
 summary = "De-duplicate the EnvironmentIcon helper in BranchToolbarEnvironmentSelector"
 note = """
@@ -524,4 +546,3 @@ duplicate only exists once both are merged, so it cannot live on either topic.
 Caught by the esbuild syntax gate, which is the only cheap check that sees it --
 the content audit looks for MISSING lines, not duplicated ones.
 """
-

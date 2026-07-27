@@ -15,24 +15,21 @@ diff --git a/apps/web/src/components/ProjectFavicon.tsx b/apps/web/src/component
 index f88a41096..e36bcd6e3 100644
 --- a/apps/web/src/components/ProjectFavicon.tsx
 +++ b/apps/web/src/components/ProjectFavicon.tsx
-@@ -4,6 +4,7 @@ import { FolderIcon } from "lucide-react";
+@@ -4,5 +4,6 @@ import { FolderIcon } from "lucide-react";
  import type { ComponentType } from "react";
  import { useState } from "react";
  import { useAssetUrl, useRefreshAssetUrl } from "../assets/assetUrls";
 +import { useEnvironmentSettings } from "../hooks/useSettings";
  
  const loadedProjectFaviconSrcs = new Set<string>();
- 
-diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
-index 6be83144f..bc0590746 100644
---- a/apps/web/src/hooks/useSettings.ts
-+++ b/apps/web/src/hooks/useSettings.ts
-@@ -25,6 +25,7 @@ import {
-   type UnifiedSettings,
- } from "@t3tools/contracts/settings";
- import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
- import { compileResolvedKeybindingsConfig } from "@t3tools/shared/keybindings";
-+import { usePrimaryEnvironment } from "../state/environments";
- import {
-   applyPendingServerPatches,
-   getPendingServerPatches,
+diff --git a/apps/web/src/components/SidebarV2.tsx b/apps/web/src/components/SidebarV2.tsx
+--- a/apps/web/src/components/SidebarV2.tsx
++++ b/apps/web/src/components/SidebarV2.tsx
+@@ -134,7 +134,6 @@ import {
+   isSidebarThreadEffectivelySettled,
+   isTrailingDoubleClick,
+   orderItemsByPreferredIds,
+-  resolveAdjacentThreadId,
+   resolveProjectRepositoryKey,
+   resolveSettledTimestamp,
+   pruneSidebarChangeRequestStates,
