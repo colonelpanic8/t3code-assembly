@@ -1,14 +1,14 @@
 {
-  "generated": "2026-07-27T10:02:28.702877+00:00",
+  "generated": "2026-07-27T11:18:17.217563+00:00",
   "mode": "refresh",
-  "upstream_main": "d60f6e971f8f982836f26507275d651e2e7af4a5",
+  "upstream_main": "23ea08daf27a2f56b85e605dd3d36f66bd1a132d",
   "integration_branch": "t3code/stack",
-  "commit": "6c7bd6a72908cb6e34b30abdbec19f57fb38b2db",
-  "tree": "f7a09bd5ce3cb647c27b878b9ece53367aae2e35",
-  "built_tree": "0fe0f469351022fe995a641fea754cbb93569e1f",
-  "previous_tree": "93fbfff7fc8b46f1a4408643817c55f869b262a8",
+  "commit": "dcf62fadf6356514e5ad4b540c9d7596d93800ea",
+  "tree": "f5037d2c3bbc0515e82cf107010d78b58247b0d0",
+  "built_tree": "5ea41cde8b84fc31946e992b9765712888a97867",
+  "previous_tree": "f7a09bd5ce3cb647c27b878b9ece53367aae2e35",
   "tree_changed": true,
-  "conflicts": 15,
+  "conflicts": 14,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -35,7 +35,7 @@
     {
       "kind": "fork",
       "branch": "t3code/group/thread-picker",
-      "pin": "c5a4a7330401",
+      "pin": "6309e2488144",
       "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
       "note": "GROUP entry, built from stack/thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
     },
@@ -289,15 +289,14 @@
       "note": "In-thread find on the new chat.find keybinding (mod+f, gated on !terminalFocus\nso it stays out of the terminal's own find).\n\nAlmost entirely new modules (threadFind.ts, threadFindHighlights.ts,\nFindInThreadBar.tsx), and its edits to MessagesTimeline.tsx and ChatView.tsx\nwant the final assembled shape of both -- after #4605's timeline extraction.\nIts keybindings.ts entries are additive one-line registry rows, the same shape\nas #4271 and #4277.\n"
     },
     {
-      "pr": 4624,
       "kind": "fork",
       "branch": "t3code/mobile-thread-replay-render-fixes",
-      "pin": "45907c3c4d5f",
+      "pin": "45907c3c43f0",
       "summary": "Cut mobile thread-reopen replay churn in the feed pipeline",
-      "note": "The mobile-only layers left over after #4605: incremental, identity-cached\nthread-feed derivation in threadActivity.ts, no layout animations or animated\nend-scrolls or streaming haptics during a backlog catch-up, and code\nhighlighting withheld while a message is still streaming.\n\nLast in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text\nmodule -- so it has no overlap with the web/client-runtime topics above it.\nDepends on #4605 conceptually, not textually: #4605 fixes the shared\nsubscription path, this one fixes what mobile still re-derives on top of it.\n\nClosed upstream without merging; carried because the replay cost is real on\nthis phone. Its head carries a follow-up commit past the PR: the PR's 200ms\nhighlight debounces could never fire, because a growing code block's React key\nencodes its source offsets and the block remounts on every delta.\n"
+      "note": "The mobile-only layers left over after #4605: incremental, identity-cached\nthread-feed derivation in threadActivity.ts, no layout animations or animated\nend-scrolls or streaming haptics during a backlog catch-up, and code\nhighlighting withheld while a message is still streaming.\n\nLast in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text\nmodule -- so it has no overlap with the web/client-runtime topics above it.\nDepends on #4605 conceptually, not textually: #4605 fixes the shared\nsubscription path, this one fixes what mobile still re-derives on top of it.\n\nBranch-linked, not PR-linked: #4624 was closed upstream without merging, so\nthe BRANCH is authoritative and this entry must not be dropped just because the\nPR is closed. Carried because the replay cost is real on this phone. Its head carries a follow-up commit past the PR: the PR's 200ms\nhighlight debounces could never fire, because a growing code block's React key\nencodes its source offsets and the block remounts on every delta.\n"
     }
   ],
-  "pre_epilogue_commit": "2fb4cdf431988a54a2f16fd6cb6aa1fa35510f0d",
+  "pre_epilogue_commit": "c2949089924c69bccda3b465ff26f10d1a746d43",
   "entries": [
     {
       "entry": "#3984",
@@ -306,49 +305,50 @@
     },
     {
       "entry": "t3code/local/artifact-safety",
-      "oid": "2593d03a2ada4267830d1233420430ca6cb29c8d",
-      "status": "merged"
+      "oid": "d0c4dcda954954ab35c83e08b77570a7e17c4578",
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "#4259",
-      "oid": "ece984160567e9eec4df58601f7bbe6b2e026e59",
+      "oid": "a3d19353b795f04832eef2c214d2a39367642159",
       "status": "merged"
     },
     {
       "entry": "t3code/group/thread-picker",
-      "oid": "c5a4a7330401b00c08c162425f0d225d3e0b0ec0",
+      "oid": "6309e2488144682c8439e0ab50bb170c1d7f5665",
       "status": "merged"
     },
     {
       "entry": "#4271",
-      "oid": "ae7005f0610c807bf0b99202a8647308deb71342",
+      "oid": "08e2bb90565b2a29e96f4e8f629bcb6527473d2b",
       "status": "merged"
     },
     {
       "entry": "#4394",
-      "oid": "dcd01dd1aade563102fb9f918f86b1d4e37cac0b",
+      "oid": "098fa1036e1e3d1bdfd4121b917e13c7dbcd204b",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4277",
-      "oid": "a9108bfd2eddb7988132d69f3a1b9779d8299e96",
+      "oid": "6cab6d44786f77199038499dce172b9f013ae43f",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4318",
-      "oid": "0018ca24c00f6fa108fcf14a4367424abbb58b6d",
+      "oid": "03c94935333170dabba68cd2534081c477e3b395",
       "status": "merged"
     },
     {
       "entry": "#4323",
-      "oid": "f67b0914e57cd73e0a6cd26635ba6cc8ce060ad9",
+      "oid": "c45471d0fa67e7d41a42e3afa561950f33985d63",
       "status": "merged"
     },
     {
       "entry": "#4324",
-      "oid": "05d3203dcaa055ff87357436dad8d36057c28c03",
+      "oid": "72fb395deb9af3718461bc6c38575a0e2548d37d",
       "status": "merged"
     },
     {
@@ -358,154 +358,152 @@
     },
     {
       "entry": "#4332",
-      "oid": "e4395b63c430806bba1b23c31c518e2f00819275",
+      "oid": "5b79b46862a9b0ba45bc1e2b950de23a2ee1bfce",
       "status": "merged"
     },
     {
       "entry": "#4337",
-      "oid": "bf76e6c79005c2f68e9fd7980ff65e54d9608571",
+      "oid": "0152dc71d548d1bbf004493eeda11ff5fcf30a26",
       "status": "merged"
     },
     {
       "entry": "#4386",
-      "oid": "7251022462701c515619852afda1ba66f9aa690c",
+      "oid": "abc65d797e0ac6ebe07519b39f7da79f680d3989",
       "status": "merged"
     },
     {
       "entry": "#4388",
-      "oid": "e6eff76ae220d77adfd14330dbb42ccb6c910cbe",
+      "oid": "967ab356536ae0ac83028b45f444370427179921",
       "status": "merged"
     },
     {
       "entry": "#4390",
-      "oid": "b779c54181e93998e572e82ae0ae25f148451105",
+      "oid": "71a2ae9b27d3f2dd48dd8e4fb6c1636d4642c260",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4401",
-      "oid": "975961667d38d6fd062c7c57e57b0141809b2a1d",
+      "oid": "3c065ddecb2978f23abb5fd635abc2423d418a5b",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4405",
-      "oid": "10b95f1c2566f8f6e55504a75185b9fd2362c147",
+      "oid": "e3aeb3a8d3e23e951f8b065a97d4826e87b18af8",
       "status": "merged"
     },
     {
       "entry": "#4602",
-      "oid": "b80214c903b1d555f334a4591bac505b9e7e6c8f",
+      "oid": "c3cb473602b18efbfc7ffd707ca29003cd6738b4",
       "status": "merged"
     },
     {
       "entry": "#4447",
-      "oid": "70138785a18abc15f9ba5aec7fd39f7277f41e4b",
+      "oid": "e3415f080d8aca6d79427c013a9307c069106497",
       "status": "merged"
     },
     {
       "entry": "#4427",
-      "oid": "d2e6495f9e3dc52a8c791a5325ffc1bf316494bd",
+      "oid": "2738a597ce516bac7aacb0c64bf44b888460405e",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4506",
-      "oid": "f7eaa00b99e67a9c1caf09e2fe6ff1f536f66b91",
+      "oid": "fd30c91b3697642fb9629aae7eea0ee39749c926",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4433",
-      "oid": "2b107b9f8a50dd7999e94a55f61509bdc7a1ed57",
+      "oid": "e28ca5e4e6e460b7d4a3425509ac4c9d57b46795",
       "status": "merged"
     },
     {
       "entry": "#4439",
-      "oid": "72afbca6e61453b040e6c01a3b6613e571aa0aad",
+      "oid": "fbee7010b0fe37fe29766874027216d8f507debc",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4437",
-      "oid": "ee717d877a5b9e10506a0817ed9b019306efaac2",
-      "status": "merged",
-      "conflicted": true
+      "oid": "264d430386c970c09c191e8d7682e3173c875800",
+      "status": "merged"
     },
     {
       "entry": "#4477",
-      "oid": "fc3bf5d6c120d1bb86f160fa3e18ec6452565cb3",
+      "oid": "9d34e7d251c464da3d8027c945eb3a33773a1fb6",
       "status": "merged"
     },
     {
       "entry": "#4482",
-      "oid": "ea0cea17c7cad9af1c75353c707c2882d83be0d8",
+      "oid": "007f6c9db7b47d525b3bdbba04e41bbbd7bae26b",
       "status": "merged"
     },
     {
       "entry": "#4487",
-      "oid": "6b75ff3f0c09abac0de1f648e91adb2828efe2a9",
+      "oid": "58175a61c51b4c6aa217a65a2798e167ccd65133",
       "status": "merged"
     },
     {
       "entry": "#4494",
-      "oid": "b27a3135638bb32b59026a2aeabc5f6332a92271",
+      "oid": "493411165f330269241e910876bfd68a775a59f6",
       "status": "merged"
     },
     {
       "entry": "#4484",
-      "oid": "eaf7e88dd2b4eac1c810fdce18f02b4a5c0f08b6",
+      "oid": "4605e902c5b9770fd1539f0eec3f319b9790612f",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "t3code/local/nix-flake",
-      "oid": "8477b3d36bc9ba82ab35b4b830b9525c3a6b8c1b",
+      "oid": "070da7f738c5949ad3a4713a3dd0d29d922c0655",
       "status": "merged"
     },
     {
       "entry": "t3code/client-suite",
-      "oid": "3bf7d489546f53439727d4d864797ae9df1098be",
+      "oid": "6daf997586e8249d579ef61acdd7cfc3f1c36301",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "t3code/unify-environment-selection",
-      "oid": "bad56da25af511e30a59ccbd847f9cab14e70e1a",
+      "oid": "0c8dedeffb02cf3764446bb624e126258439983d",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4593",
-      "oid": "6980a8c13e16ce6241c238d9b1e636d980bb4dea",
+      "oid": "86bcba04848a6af0c3420bd7932694f728b0f911",
       "status": "merged"
     },
     {
       "entry": "t3code/local/build-provenance",
-      "oid": "24300541acecec9149656c0f7fbcb3a747660f6c",
+      "oid": "103329cf56545c10ec08c395be256e25d406da28",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4598",
-      "oid": "3f826e54032bf07b2b453eb2b88dac722b4a1a64",
+      "oid": "58cce88a5e6311794316b6d6ace84927a4a12496",
       "status": "merged"
     },
     {
       "entry": "#4605",
-      "oid": "543cd7dd7bd14375bfe88c848e5efed1c7f37870",
-      "status": "merged",
-      "conflicted": true
+      "oid": "b82f11e164122d6c46712a9bf81cd679ae046552",
+      "status": "merged"
     },
     {
       "entry": "#4599",
-      "oid": "7d951aaf7120f16d8ad135d857d4aeae1f7c3f0f",
+      "oid": "6a69b326a61771f397a8a79054cd5d10d11a5808",
       "status": "merged",
       "conflicted": true
     },
     {
-      "entry": "#4624",
-      "oid": "45907c3c43f016d4049533686dca6a144b695ad3",
+      "entry": "t3code/mobile-thread-replay-render-fixes",
+      "oid": "4ab37402c1dd21c2d1b5607c70edb02d79946d66",
       "status": "merged",
       "conflicted": true
     },

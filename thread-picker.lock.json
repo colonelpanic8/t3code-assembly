@@ -1,11 +1,12 @@
 {
-  "generated": "2026-07-26T21:18:19.223415+00:00",
-  "mode": "reproduce",
-  "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
+  "generated": "2026-07-27T11:25:03.642491+00:00",
+  "mode": "refresh",
+  "upstream_main": "23ea08daf27a2f56b85e605dd3d36f66bd1a132d",
   "integration_branch": "t3code/group/thread-picker",
-  "commit": "b15922fad031c605b31c6501097d649bc23cd83c",
-  "tree": "bad6ae30e9bd81981adcc944315887d5cf051613",
-  "previous_tree": "d8013f890cd1c54c9b120fea56a581d792dd8ea5",
+  "commit": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
+  "tree": "d2a6230d653e527fa89bb53e6d9411994bd71328",
+  "built_tree": "d2a6230d653e527fa89bb53e6d9411994bd71328",
+  "previous_tree": "89683477f5fccd8c14801abba1a1dfbb0b631fbc",
   "tree_changed": true,
   "conflicts": 4,
   "manifest_entries": [
@@ -13,73 +14,69 @@
       "pr": 4263,
       "kind": "fork",
       "branch": "t3code/replace-ctrl-n-thread-modal",
-      "pin": "ef15fa2ea50b",
+      "pin": "200eed637302",
       "summary": "Unify the new thread project picker"
     },
     {
       "pr": 4257,
       "kind": "fork",
       "branch": "t3code/directory-path-tab-completion",
-      "pin": "ee5da25a75f9",
+      "pin": "5d01957d2a42",
       "summary": "Directory path tab completion"
     },
     {
       "pr": 4258,
       "kind": "fork",
       "branch": "t3code/add-project-shortcut",
-      "pin": "88cfcca843ba",
+      "pin": "7c2a7f96c227",
       "summary": "Add configurable add-project shortcut"
     },
     {
       "pr": 4426,
       "kind": "fork",
       "branch": "t3code/remote-environment-thread-creation",
-      "pin": "a93d1ea2a700",
+      "pin": "a1a152038c67",
       "summary": "Add environment-aware new thread picker"
     },
     {
       "pr": 4590,
       "kind": "fork",
       "branch": "t3code/error-on-unreachable-environment-browse",
-      "pin": "93f2a235fdfe",
+      "pin": "fc2294e7d4ca",
       "summary": "Error instead of silently failing when browsing an unreachable environment",
       "note": "Belongs in this group rather than the main stack: it edits the same\nCommandPalette trio, and specifically the browse/submit region that #4257\n(tab completion) and #4426 (environment-aware picker) also touch. Placed last\nso its availability gating composes on top of the combined browse flow.\n"
     }
   ],
-  "pre_epilogue_commit": "bbbcd11c17405ad66edbac41e72a3f1985f9bb07",
+  "pre_epilogue_commit": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
   "entries": [
     {
       "entry": "#4263",
-      "oid": "ef15fa2ea50b4b6f1c6c0929e0a214301211dac6",
+      "oid": "200eed6373026104bdd583e883d3802417b5d431",
       "status": "merged"
     },
     {
       "entry": "#4257",
-      "oid": "ee5da25a75f9d414a1e3c38d00d2129d01481ad2",
+      "oid": "5d01957d2a42a9a92f2259bc154c9b2a266964c6",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4258",
-      "oid": "88cfcca843ba296d09471821d573f5ba6deda8e1",
+      "oid": "7c2a7f96c2276652f9c8d4f6b161e2f396629f77",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4426",
-      "oid": "a93d1ea2a70085115e30eb3fec3502954ea5745e",
+      "oid": "a1a152038c67815f6711330c204a9124c7a5d2b9",
       "status": "merged",
       "conflicted": true
     },
     {
       "entry": "#4590",
-      "oid": "93f2a235fdfe9bfda7f19d96ced77a8075392eb1",
+      "oid": "fc2294e7d4cae644350ede93fb656a29b31a511a",
       "status": "merged",
       "conflicted": true
-    },
-    {
-      "entry": "t3code-command-palette-logic-helpers.patch",
-      "status": "epilogue"
     }
   ]
 }

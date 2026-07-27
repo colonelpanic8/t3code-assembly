@@ -30,35 +30,35 @@ tag_prefix = "t3code-thread-picker"
 pr = 4263
 kind = "fork"
 branch = "t3code/replace-ctrl-n-thread-modal"
-pin = "ef15fa2ea50b"
+pin = "200eed637302"
 summary = "Unify the new thread project picker"
 
 [[entry]]
 pr = 4257
 kind = "fork"
 branch = "t3code/directory-path-tab-completion"
-pin = "ee5da25a75f9"
+pin = "5d01957d2a42"
 summary = "Directory path tab completion"
 
 [[entry]]
 pr = 4258
 kind = "fork"
 branch = "t3code/add-project-shortcut"
-pin = "88cfcca843ba"
+pin = "7c2a7f96c227"
 summary = "Add configurable add-project shortcut"
 
 [[entry]]
 pr = 4426
 kind = "fork"
 branch = "t3code/remote-environment-thread-creation"
-pin = "a93d1ea2a700"
+pin = "a1a152038c67"
 summary = "Add environment-aware new thread picker"
 
 [[entry]]
 pr = 4590
 kind = "fork"
 branch = "t3code/error-on-unreachable-environment-browse"
-pin = "93f2a235fdfe"
+pin = "fc2294e7d4ca"
 summary = "Error instead of silently failing when browsing an unreachable environment"
 note = """
 Belongs in this group rather than the main stack: it edits the same
@@ -73,16 +73,12 @@ so its availability gating composes on top of the combined browse flow.
 # it was stranded before (nixos/patches/t3code-pr-4426-stack-compat.patch).
 # ---------------------------------------------------------------------------
 
-[[epilogue]]
-patch = "patches/t3code-command-palette-logic-helpers.patch"
-summary = "Command-palette add-project flow helpers"
-note = """
-Adds shouldResetPaletteFlowOnPop, shouldIgnoreAddProjectShortcut and
-resetAddProjectFlowState, and aligns resolveNewThreadOnIntent with the combined
-CommandPalette.tsx. Together these keep the add-project flow from leaking state
-across palette navigation once all four PRs are stacked.
-
-Original local work: no topic branch defines it, so merging alone can never
-recover it. The main-stack build caught its absence because CommandPalette.tsx
-imports all three symbols.
-"""
+# The command-palette-logic-helpers epilogue was removed here. It predated the
+# member branches carrying these helpers themselves: it DELETED
+# shouldHandleCommandPaletteShortcut and shouldClearAddProjectEnvironmentOnPop
+# and stripped isLoaded from resolveNewThreadOnIntent, while adding three
+# helpers (shouldResetPaletteFlowOnPop, shouldIgnoreAddProjectShortcut,
+# resetAddProjectFlowState) that nothing in the assembled tree calls. After the
+# members were rebased, the assembled CommandPalette.tsx imports both deleted
+# symbols and calls resolveNewThreadOnIntent with isLoaded, so the patch broke
+# the web build with two MISSING_EXPORT errors.

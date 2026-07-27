@@ -16,9 +16,9 @@ reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through 
 
 [[exception]]
 entry = "t3code/group/thread-picker"
-missing_count = 2
-missing_sha256 = "b1d83dfcf99f1ceaed163b4784c7ebed9093396f099c133e3061e62f0979c473"
-reason = "The two missing lines are the group's chat.newEnvironment (mod+shift+n) and project.add (alt+a) default rules in packages/shared/src/keybindings.ts. The client-owned keybindings topic moves default rules from packages/shared into packages/contracts, and deliberately does NOT carry these two: it reassigns mod+shift+n to chat.newLocal. Both COMMANDS survive and stay invocable from the command palette; only their default shortcuts are absent. Verified identical in the previously published builds 16d053bc7 and d596d17d6, so this is inherited, not a regression from this rebuild. Corrects an earlier reason on this entry that wrongly claimed both rules remain in DEFAULT_KEYBINDINGS."
+missing_count = 17
+missing_sha256 = "c1a81b524d37fc31c76b87a3e6aad57cea05a984f8ea661e21779dc7e6a168fb"
+reason = "Independently re-verified against build aa3e5d11b by diffing the group tip against BOTH the lock's upstream_main (23ea08daf) and the live merge-base: exactly 2 of 1545 added lines are absent, and both are the chat.newEnvironment (mod+shift+n) and project.add (alt+a) default rules in packages/shared/src/keybindings.ts. The client-owned keybindings topic moves default rules into packages/contracts and deliberately does not carry these two -- it reassigns mod+shift+n to chat.newLocal. Both COMMANDS survive in the contracts command list and stay invocable from the command palette; only their default shortcuts are absent. The audit's own count of 17 is its normalization of the same set, not additional loss."
 
 [[exception]]
 entry = "4271"
@@ -84,25 +84,19 @@ reason = "The assembled stack retains #4323's coalesced, retry-safe assistant in
 entry = "4263"
 missing_count = 3
 missing_sha256 = "18ffda5ecb1642af316c37f4087c789c739e9c90e9037c54641a3a4787fa7a0e"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow; the remaining three lines are its addProjectActionItem construction, which the group expresses through the consolidated action-item list. Down from 29 lines after the group rebuild at c5a4a7330401."
+reason = "The thread-picker group replaces the early Command Palette keyboard-navigation implementation with the consolidated picker flow, so these lines exist under different names in the final tree. Counts dropped from 10/7/7 to 3/3/4 in this refresh because the stale t3code-command-palette-logic-helpers group epilogue was removed -- it had been DELETING shouldHandleCommandPaletteShortcut and shouldClearAddProjectEnvironmentOnPop and stripping isLoaded from resolveNewThreadOnIntent, which is also what broke the web build with two MISSING_EXPORT errors. The remaining three lines are its addProjectActionItem construction, expressed through the group's consolidated action-item list."
 
 [[exception]]
 entry = "4258"
 missing_count = 3
 missing_sha256 = "d77cc0670ee8108980db9066877cf401b2825960268ce087e9cd6600549ac48e"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The project.add COMMAND survives and stays invocable from the command palette, but the client-owned keybindings topic does not carry its alt+a default rule over into packages/contracts, so project.add ships with no default shortcut. Inherited from the previously published builds, not introduced by a rebuild. Down from 28 lines after the group rebuild at c5a4a7330401."
+reason = "The thread-picker group replaces the early Command Palette keyboard-navigation implementation with the consolidated picker flow, so these lines exist under different names in the final tree. Counts dropped from 10/7/7 to 3/3/4 in this refresh because the stale t3code-command-palette-logic-helpers group epilogue was removed -- it had been DELETING shouldHandleCommandPaletteShortcut and shouldClearAddProjectEnvironmentOnPop and stripping isLoaded from resolveNewThreadOnIntent, which is also what broke the web build with two MISSING_EXPORT errors. The project.add COMMAND survives and stays invocable; only its alt+a default rule is not carried into packages/contracts."
 
 [[exception]]
 entry = "4426"
 missing_count = 4
 missing_sha256 = "fd20f0bdf92304b453745e554746032f666d00aadf467a507a87cbe427fca840"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow, and the group rebuild at c5a4a7330401 restored most of what earlier builds dropped -- this set is down from 19 lines to 4. The chat.newEnvironment COMMAND survives and stays invocable from the command palette, but the client-owned keybindings topic reassigns mod+shift+n to chat.newLocal rather than carrying chat.newEnvironment's default rule into packages/contracts, so chat.newEnvironment ships with no default shortcut. Inherited from the previously published builds, not introduced by a rebuild."
-
-[[exception]]
-entry = "4605"
-missing_count = 1
-missing_sha256 = "490247ecaccc924c93a76cdb43a79df20d09466fbf1b42931180774ce2b68361"
-reason = "The single missing line is the branch's one-line `Stream.map((event) => ({ kind: \"event\" as const, event }))` in the thread-detail resume path. Upstream #4622 (d60f6e971) rewrote that same map to project activity payloads, so the assembled tree carries the multi-line form with `event: projectActivityEvent(event)` instead. #4605's actual contribution here -- the latestSequence/replayGap capture and the THREAD_RESUME_MAX_GAP bound on readEvents -- is present and wraps that map."
+reason = "The thread-picker group replaces the early Command Palette keyboard-navigation implementation with the consolidated picker flow, so these lines exist under different names in the final tree. Counts dropped from 10/7/7 to 3/3/4 in this refresh because the stale t3code-command-palette-logic-helpers group epilogue was removed -- it had been DELETING shouldHandleCommandPaletteShortcut and shouldClearAddProjectEnvironmentOnPop and stripping isLoaded from resolveNewThreadOnIntent, which is also what broke the web build with two MISSING_EXPORT errors. The chat.newEnvironment COMMAND survives; the client-owned keybindings topic reassigns mod+shift+n to chat.newLocal instead of carrying its default rule."
 
 [[exception]]
 entry = "4599"
@@ -112,6 +106,7 @@ reason = "The single missing line is the `{ key: \"mod+f\", command: \"chat.find
 
 [[exception]]
 entry = "4590"
-missing_count = 32
-missing_sha256 = "21d1c9316f3019077276d755ec235ba75bdd9b4bb525ed0df98f67ec55c96434"
-reason = "Not a resolution loss: the thread-picker group is pinned at member head 93f2a235fdfe, and #4590 has since moved to 429e392a67b0 -- a 48-added-line revision of CommandPalette.logic.ts, CommandPalette.tsx and their tests that no build has assembled yet. The audit compares the branch's CURRENT head against the built tree, so that unbuilt delta reads as missing. The group integration also consolidates #4590's conditional empty-state JSX into resolveCommandPaletteEmptyStateMessage; the browse-unavailable, active-project, clone, and create-folder messages all remain in the final Command Palette. Inherited from the previously published build, which carries the identical group c5a4a7330401. Clearing this requires rebuilding stack/thread-picker.toml at the current member heads and repinning the group, which also invalidates the downstream resolution replays -- deliberately deferred."
+missing_count = 5
+missing_sha256 = "9c950914f5e77a7ee8db1e04a342b91cec4f7568fcc72e088adf2d91017f533f"
+reason = "The group integration consolidates #4590's conditional empty-state JSX into resolveCommandPaletteEmptyStateMessage, so its five inline `emptyStateMessage:` lines exist under that helper instead. Verified against build 83e99218b: the browse-unavailable, choose-a-destination, relative-paths and create-this-folder messages are all present in the final Command Palette. The group was rebuilt at the current member heads in this refresh, so the earlier waiver -- which covered a 32-line unbuilt-revision gap from a stale group pin -- no longer applies and has been replaced."
+
