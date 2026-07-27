@@ -286,7 +286,7 @@ WRONG class at this stack's offset. A 3-way merge cannot make that mistake.
 [[entry]]
 kind = "local"
 branch = "t3code/local/nix-flake"
-pin = "93c5482cf"
+pin = "abeb0bc56"
 summary = "Nix flake: dev shell and desktop package"
 note = """
 Purely additive (flake.nix + nix/README.md), so it carries at essentially zero

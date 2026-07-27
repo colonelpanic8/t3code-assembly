@@ -1,12 +1,12 @@
 {
-  "generated": "2026-07-27T01:10:29.214954+00:00",
+  "generated": "2026-07-27T01:24:18.518115+00:00",
   "mode": "refresh",
   "upstream_main": "a17cbc3b4022b824cda9b199e4c53a8c9a608923",
   "integration_branch": "t3code/stack",
-  "commit": "558825a17d6175b3158de65415277e17ed24a258",
-  "tree": "c93dcb3989e902f1bdc8cdc6530f69cb44e22972",
-  "built_tree": "3ee75fe2208237882fdc064302dc05dbb8f3839d",
-  "previous_tree": "f8d494e15810ba1fd672545fa49b4d9b352f3a24",
+  "commit": "557e0b92f9e0473b3109282899ebd6319dfbe404",
+  "tree": "8af229d2603204366c64a92689064aafe4250c70",
+  "built_tree": "415ef7f384130c21a1c8b221dc1e14b90425bf12",
+  "previous_tree": "c93dcb3989e902f1bdc8cdc6530f69cb44e22972",
   "tree_changed": true,
   "conflicts": 12,
   "manifest_entries": [
@@ -223,7 +223,7 @@
     {
       "kind": "local",
       "branch": "t3code/local/nix-flake",
-      "pin": "93c5482cf",
+      "pin": "abeb0bc56",
       "summary": "Nix flake: dev shell and desktop package",
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
     },
@@ -265,7 +265,7 @@
       "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
     }
   ],
-  "pre_epilogue_commit": "f424ca4d5916173309c3d25cdd208cf77feddfeb",
+  "pre_epilogue_commit": "529c4997f5102c8dc98883325a9badb1efe7a7ee",
   "entries": [
     {
       "entry": "#3984",
@@ -423,7 +423,7 @@
     },
     {
       "entry": "t3code/local/nix-flake",
-      "oid": "93c5482cf8fffe4269e673a05351737bcf4444c3",
+      "oid": "abeb0bc56a70f95b2341ad2d3ee94b32006eac74",
       "status": "merged"
     },
     {
