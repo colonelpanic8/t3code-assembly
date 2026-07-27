@@ -354,6 +354,24 @@ Local rather than a PR: the value is entirely in describing a personally
 assembled stack, which upstream does not have.
 """
 
+[[entry]]
+pr = 4598
+kind = "fork"
+branch = "t3code/clear-unanswerable-provider-requests"
+pin = "3f826e54032b"
+summary = "Clear pending approval and user-input requests when no provider session is bound"
+note = """
+Four carried topics touch its two files: #4386 and #4390 edit
+ProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended
+so it merges once against their final assembled state rather than being
+re-resolved as each lands. Its own hunks are small: a helper beside
+stalePendingRequestDetail plus two `detail:` lines on the server, one test
+inside the derivePendingUserInputs describe on the web.
+
+Branched from upstream a17cbc3b4, which is newer than the lock's recorded
+upstream, so this entry wants a refresh rather than a reproduce.
+"""
+
 # ---------------------------------------------------------------------------
 # Epilogue: fixes that are emergent from the assembled stack, not independent
 # topics. Applied after all merges.
