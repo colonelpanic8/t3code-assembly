@@ -185,6 +185,22 @@ branch = "fix/thread-detail-load-hardening"
 pin = "10b95f1c2566"
 summary = "Self-heal empty thread details and back off failed thread subscriptions"
 
+[[entry]]
+pr = 4602
+kind = "fork"
+branch = "t3code/subscription-transport-recovery"
+pin = "b80214c903b1"
+summary = "Recover subscriptions that lose their transport"
+note = """
+Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its
+test, and this is the only other topic that touches subscription lifecycle.
+
+A durable subscription that dies with a transport error drains and waits for a
+session the supervisor never produces unless the socket reports closed, so the
+environment silently stops updating until the client restarts. Root cause behind
+#4589; #4593 only recovers the settle path.
+"""
+
 # ---------------------------------------------------------------------------
 # Environment-scoped thread creation
 # ---------------------------------------------------------------------------
@@ -327,7 +343,7 @@ control, and diagnostics remain environment-owned.
 pr = 4593
 kind = "fork"
 branch = "t3code/settle-state-reconcile"
-pin = "95aa50540a0b"
+pin = "6980a8c13e16"
 summary = "Reconcile client state when a settle does not land"
 note = """
 Placed last among the client-runtime subscription topics: it adds a

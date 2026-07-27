@@ -1,12 +1,12 @@
 {
-  "generated": "2026-07-27T01:24:18.518115+00:00",
-  "mode": "refresh",
+  "generated": "2026-07-27T01:44:54.436608+00:00",
+  "mode": "reproduce",
   "upstream_main": "a17cbc3b4022b824cda9b199e4c53a8c9a608923",
   "integration_branch": "t3code/stack",
-  "commit": "557e0b92f9e0473b3109282899ebd6319dfbe404",
-  "tree": "8af229d2603204366c64a92689064aafe4250c70",
-  "built_tree": "415ef7f384130c21a1c8b221dc1e14b90425bf12",
-  "previous_tree": "c93dcb3989e902f1bdc8cdc6530f69cb44e22972",
+  "commit": "65346995432a688e10f5dea3a3a36f6c82802d98",
+  "tree": "93fbfff7fc8b46f1a4408643817c55f869b262a8",
+  "built_tree": "49f560684e6f13d057134cce350998ebf312af2d",
+  "previous_tree": "8af229d2603204366c64a92689064aafe4250c70",
   "tree_changed": true,
   "conflicts": 12,
   "manifest_entries": [
@@ -140,6 +140,14 @@
       "summary": "Self-heal empty thread details and back off failed thread subscriptions"
     },
     {
+      "pr": 4602,
+      "kind": "fork",
+      "branch": "t3code/subscription-transport-recovery",
+      "pin": "b80214c903b1",
+      "summary": "Recover subscriptions that lose their transport",
+      "note": "Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its\ntest, and this is the only other topic that touches subscription lifecycle.\n\nA durable subscription that dies with a transport error drains and waits for a\nsession the supervisor never produces unless the socket reports closed, so the\nenvironment silently stops updating until the client restarts. Root cause behind\n#4589; #4593 only recovers the settle path.\n"
+    },
+    {
       "pr": 4447,
       "kind": "fork",
       "branch": "feat/mobile-environment-first-new-thread",
@@ -245,7 +253,7 @@
       "pr": 4593,
       "kind": "fork",
       "branch": "t3code/settle-state-reconcile",
-      "pin": "95aa50540a0b",
+      "pin": "6980a8c13e16",
       "summary": "Reconcile client state when a settle does not land",
       "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
     },
@@ -265,7 +273,7 @@
       "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
     }
   ],
-  "pre_epilogue_commit": "529c4997f5102c8dc98883325a9badb1efe7a7ee",
+  "pre_epilogue_commit": "314222cc73d58b2dd27b0564808b68d0de92805f",
   "entries": [
     {
       "entry": "#3984",
@@ -359,6 +367,11 @@
     {
       "entry": "#4405",
       "oid": "10b95f1c2566f8f6e55504a75185b9fd2362c147",
+      "status": "merged"
+    },
+    {
+      "entry": "#4602",
+      "oid": "b80214c903b1d555f334a4591bac505b9e7e6c8f",
       "status": "merged"
     },
     {
