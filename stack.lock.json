@@ -1,13 +1,14 @@
 {
-  "generated": "2026-07-26T22:53:24.717097+00:00",
-  "mode": "reproduce",
-  "upstream_main": "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
+  "generated": "2026-07-27T01:10:29.214954+00:00",
+  "mode": "refresh",
+  "upstream_main": "a17cbc3b4022b824cda9b199e4c53a8c9a608923",
   "integration_branch": "t3code/stack",
-  "commit": "16d053bc7623688e673b6a6bcd7c1b07af00e1a6",
-  "tree": "f8d494e15810ba1fd672545fa49b4d9b352f3a24",
-  "previous_tree": "236553823ac6bb829c943b77b4fda2b35b01dfba",
+  "commit": "558825a17d6175b3158de65415277e17ed24a258",
+  "tree": "c93dcb3989e902f1bdc8cdc6530f69cb44e22972",
+  "built_tree": "3ee75fe2208237882fdc064302dc05dbb8f3839d",
+  "previous_tree": "f8d494e15810ba1fd672545fa49b4d9b352f3a24",
   "tree_changed": true,
-  "conflicts": 10,
+  "conflicts": 12,
   "manifest_entries": [
     {
       "pr": 3984,
@@ -222,7 +223,7 @@
     {
       "kind": "local",
       "branch": "t3code/local/nix-flake",
-      "pin": "d48240e09",
+      "pin": "93c5482cf",
       "summary": "Nix flake: dev shell and desktop package",
       "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
     },
@@ -247,9 +248,24 @@
       "pin": "95aa50540a0b",
       "summary": "Reconcile client state when a settle does not land",
       "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
+    },
+    {
+      "kind": "local",
+      "branch": "t3code/local/build-provenance",
+      "pin": "24300541a",
+      "summary": "Show the build's commit, and a Settings page describing the assembled stack",
+      "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit, so it has to be able to see the assembled result -- but it is ordinary\napp code and belongs on a topic, not in the tooling. Placed last so its edits\nto SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite\nand t3code/unify-environment-selection have finished restructuring them.\n\nLocal rather than a PR: the value is entirely in describing a personally\nassembled stack, which upstream does not have.\n"
+    },
+    {
+      "pr": 4598,
+      "kind": "fork",
+      "branch": "t3code/clear-unanswerable-provider-requests",
+      "pin": "3f826e54032b",
+      "summary": "Clear pending approval and user-input requests when no provider session is bound",
+      "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
     }
   ],
-  "pre_epilogue_commit": "8c2061c788024b5679f4559df534a921ae39b91d",
+  "pre_epilogue_commit": "f424ca4d5916173309c3d25cdd208cf77feddfeb",
   "entries": [
     {
       "entry": "#3984",
@@ -376,7 +392,8 @@
     {
       "entry": "#4437",
       "oid": "ee717d877a5b9e10506a0817ed9b019306efaac2",
-      "status": "merged"
+      "status": "merged",
+      "conflicted": true
     },
     {
       "entry": "#4477",
@@ -406,7 +423,7 @@
     },
     {
       "entry": "t3code/local/nix-flake",
-      "oid": "d48240e093f7cc4a6f4e7d546040c7de58789b49",
+      "oid": "93c5482cf8fffe4269e673a05351737bcf4444c3",
       "status": "merged"
     },
     {
@@ -423,7 +440,18 @@
     },
     {
       "entry": "#4593",
-      "oid": "95aa50540a0bea279dcbf26b81e3f7669155aede",
+      "oid": "6980a8c13e16ce6241c238d9b1e636d980bb4dea",
+      "status": "merged"
+    },
+    {
+      "entry": "t3code/local/build-provenance",
+      "oid": "24300541acecec9149656c0f7fbcb3a747660f6c",
+      "status": "merged",
+      "conflicted": true
+    },
+    {
+      "entry": "#4598",
+      "oid": "3f826e54032bf07b2b453eb2b88dac722b4a1a64",
       "status": "merged"
     },
     {

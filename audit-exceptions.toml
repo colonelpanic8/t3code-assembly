@@ -16,9 +16,9 @@ reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through 
 
 [[exception]]
 entry = "t3code/group/thread-picker"
-missing_count = 4
-missing_sha256 = "159e68cdaba6218bafa02907f24fcb4dd1340dbbdbc2873be00e5923667bf386"
-reason = "Later Command Palette work consolidates startNewThreadFromContext and usePrimaryEnvironmentId into grouped imports. The later client-owned keybindings topic moves the assembled chat.newEnvironment and project.add default rules from packages/shared into packages/contracts. Both rules remain in DEFAULT_KEYBINDINGS and continue to compile through the shared runtime."
+missing_count = 2
+missing_sha256 = "b1d83dfcf99f1ceaed163b4784c7ebed9093396f099c133e3061e62f0979c473"
+reason = "The two missing lines are the group's chat.newEnvironment (mod+shift+n) and project.add (alt+a) default rules in packages/shared/src/keybindings.ts. The client-owned keybindings topic moves default rules from packages/shared into packages/contracts, and deliberately does NOT carry these two: it reassigns mod+shift+n to chat.newLocal. Both COMMANDS survive and stay invocable from the command palette; only their default shortcuts are absent. Verified identical in the previously published builds 16d053bc7 and d596d17d6, so this is inherited, not a regression from this rebuild. Corrects an earlier reason on this entry that wrongly claimed both rules remain in DEFAULT_KEYBINDINGS."
 
 [[exception]]
 entry = "4271"
@@ -90,13 +90,13 @@ reason = "The thread-picker group later replaced the early Command Palette keybo
 entry = "4258"
 missing_count = 28
 missing_sha256 = "4e5e6f721e953b1aee637ba0398ce48ace7334d24aad68ec878da24b5d8fa4a2"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The project.add default rule was subsequently moved from packages/shared into packages/contracts by the client-owned keybindings topic and remains in DEFAULT_KEYBINDINGS."
+reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The project.add COMMAND survives and stays invocable from the command palette, but the client-owned keybindings topic does not carry its alt+a default rule over into packages/contracts, so project.add ships with no default shortcut. Inherited from the previously published builds, not introduced by a rebuild."
 
 [[exception]]
 entry = "4426"
 missing_count = 19
 missing_sha256 = "6a787d334207970a14c6e1e4362301bcae18709e701f581737dc806555ae51d5"
-reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The chat.newEnvironment default rule was subsequently moved from packages/shared into packages/contracts by the client-owned keybindings topic and remains in DEFAULT_KEYBINDINGS."
+reason = "The thread-picker group later replaced the early Command Palette keyboard-navigation implementation with the consolidated picker and selection-navigation flow. The chat.newEnvironment COMMAND survives and stays invocable from the command palette, but the client-owned keybindings topic reassigns mod+shift+n to chat.newLocal rather than carrying chat.newEnvironment's default rule into packages/contracts, so chat.newEnvironment ships with no default shortcut. Inherited from the previously published builds, not introduced by a rebuild."
 
 [[exception]]
 entry = "4590"
