@@ -40,5 +40,7 @@
       );
 
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+
+      lib.forkFoldAgentGuide = fork-fold.lib.agentGuide;
     };
 }

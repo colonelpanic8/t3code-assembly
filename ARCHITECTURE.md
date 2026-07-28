@@ -56,4 +56,16 @@ The assembled tree contains the legacy-named `stack-build-info.json` because
 the carried application code consumes that filename. It is build provenance,
 not the name of this repository or workflow.
 
+## Agent skill
+
+The Fork Fold skill is discovered through `.agents/skills/fork-fold/`;
+`.claude/skills/` and `.codex/skills/` point to the same entry. The
+checked-in skill is deliberately only a stable discovery stub. It evaluates
+`lib.forkFoldAgentGuide`, which this repository's flake re-exports directly
+from its pinned `fork-fold` input.
+
+The full operating instructions therefore change with `flake.lock`. Do not
+copy their output into this repository. Repository-specific architecture and
+publishing rules remain authoritative here and in `BUILDING.md`.
+
 Read [BUILDING.md](BUILDING.md) before changing or publishing the assembly.
