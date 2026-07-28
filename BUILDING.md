@@ -102,7 +102,9 @@ verify behavior before actually removing one.
 
 1. Append a manifest entry (copy an existing one for the shape: `pr`,
    `kind` = fork/external/local, `branch`, 12-char `pin`, `summary`, optional
-   `note`). **Placement matters:** put it next to the topics it overlaps so
+   `note`). A `note` carries operational constraints only — ordering,
+   overlaps, subsumption, authority; what a topic does and why it is carried
+   lives on its branch and PR. **Placement matters:** put it next to the topics it overlaps so
    conflict resolution stays local. If it edits the CommandPalette trio it
    goes in the thread-picker group instead (then repin the group). If it opens
    a new overlap cluster with two or more topics, consider a new group.
