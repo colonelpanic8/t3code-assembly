@@ -30,9 +30,27 @@ or unknown hunk stops for manual resolution; `fork-fold continue` harvests
 the new pair into the repository.
 
 Rerere intentionally captures only conflicted hunks. Edits outside them and
-conflict types Git cannot record belong in named patch entries. A locked
-rebuild must reproduce the lock’s tree hash exactly, which exposes any missing
+conflict types Git cannot record belong in tracked patches. A locked rebuild
+must reproduce the lock’s tree hash exactly, which exposes any missing
 out-of-hunk change.
+
+Fork-fold now offers two homes for such a patch. A **coherence fixup**
+(`fixup = "..."` on a branch or pr entry) applies inside that entry’s own
+step, right after its merge, so the entry boundary is never an invalid tree;
+attach one with `fork-fold fixup ENTRY FILE --capture`. A standalone **patch
+entry** applies at its own position. Prefer a fixup for anything that repairs
+what admitting a specific entry broke — which is what every assembly-emergent
+patch here does.
+
+The five existing patch entries predate fixups and still run as trailing
+entries. Migrating them would move each into its owning entry’s step — well
+defined for the sidebar fixture (#4324), the composer stash merge (#4394, the
+later of #4271/#4394), the refreshed-client overlap
+(`t3code/unify-environment-selection`), and the runtime imports; genuinely
+ambiguous for the migration-ID compat patch, whose collision is between the
+base and a local topic rather than between two entries. Because the ~35 later
+entries would then merge against already-patched content, treat that as a
+deliberate rebuild with possible re-resolution, not a mechanical edit.
 
 ## Repository layout
 
