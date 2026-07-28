@@ -1,12 +1,12 @@
 {
-  "generated": "2026-07-27T20:39:38.160193+00:00",
+  "generated": "2026-07-28T01:47:57.350058+00:00",
   "mode": "refresh",
-  "upstream_main": "6afbed3c36bbb731b9551ec60d7d12ed1fd1d2ee",
+  "upstream_main": "a148e08197fc38b24e59c10c7cd5ba06dd182dab",
   "integration_branch": "t3code/stack",
-  "commit": "04e54c1ac95334b162384a99c762e0c9cc38c0cd",
-  "tree": "f079cbb2e4970d2b3227ab40ef6c5fe384508bda",
-  "built_tree": "fd2854e85b6c60ab3300e39503c57fb7d8e13f63",
-  "previous_tree": "9e67e191f7567157e98087a5a0d1f499867e5ffe",
+  "commit": "d7c98d5eaf68f41588b82ec2b4b1d0ba815f8b6d",
+  "tree": "f97c1d90269424396b369bcacb58728c51630aba",
+  "built_tree": "f9ff0d199ab0cd2f08628360f4f59d862eb24a04",
+  "previous_tree": "f079cbb2e4970d2b3227ab40ef6c5fe384508bda",
   "tree_changed": true,
   "conflicts": 19,
   "manifest_entries": [
@@ -253,7 +253,7 @@
       "pr": 4677,
       "kind": "fork",
       "branch": "t3code/add-custom-snooze-time",
-      "pin": "04c9f94a7f99",
+      "pin": "20cf0681a614",
       "summary": "Snooze threads until a custom local date and time",
       "note": "Placed after t3code/client-suite and t3code/unify-environment-selection because\nboth reshape SidebarV2.tsx. The custom picker then merges once against their\nfinal assembled sidebar while reusing upstream's existing snooze command flow.\n"
     },
@@ -312,7 +312,7 @@
       "note": "ChatMarkdown had no img renderer, so a markdown image with a local path\nrendered broken: the web origin only serves the client bundle, so the request\nhit the SPA fallback and decoded as HTML. Local sources now resolve through the\nsigned workspace-asset URL the file preview panel already uses.\n\nOverlaps t3code/local/artifact-safety and #3984, which own the other half of\nChatMarkdown's image story -- but on the `code` renderer (inline code naming a\ngenerated thread artifact), not `img`. The two are complementary, not competing:\nthis one handles markdown image syntax pointing at workspace files, that one\nhandles artifact references. Both import from ../assets/assetUrls, so expect a\nsmall import-region conflict and nothing semantic.\n\nAppended rather than placed next to those entries because they sit at the head\nof the manifest and this arrived via extend. If ChatMarkdown accumulates a third\nimage-adjacent topic, cluster the three into a group instead.\n"
     }
   ],
-  "pre_epilogue_commit": "09f25d7ea76eb940fca83e40fc3d1d068cb33453",
+  "pre_epilogue_commit": "ccb3a53ec59524dbf12a1a126f79d10c1cc63994",
   "entries": [
     {
       "entry": "#3984",
@@ -495,7 +495,7 @@
     },
     {
       "entry": "#4677",
-      "oid": "04c9f94a7f995daab7979c352836a0effc4481bd",
+      "oid": "20cf0681a614b33ff7b0d1c1e09c70da360ba7cf",
       "status": "merged",
       "conflicted": true
     },
@@ -506,7 +506,7 @@
     },
     {
       "entry": "t3code/local/build-provenance",
-      "oid": "103329cf56545c10ec08c395be256e25d406da28",
+      "oid": "13eb86b95d9cf2049725767bd43e5ed07a7812be",
       "status": "merged",
       "conflicted": true
     },

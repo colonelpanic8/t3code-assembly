@@ -343,7 +343,7 @@ control, and diagnostics remain environment-owned.
 pr = 4677
 kind = "fork"
 branch = "t3code/add-custom-snooze-time"
-pin = "04c9f94a7f99"
+pin = "20cf0681a614"
 summary = "Snooze threads until a custom local date and time"
 note = """
 Placed after t3code/client-suite and t3code/unify-environment-selection because
