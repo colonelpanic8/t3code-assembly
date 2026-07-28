@@ -15,4 +15,4 @@ cd t3code-assembly
 bin/rebuild-t3code-assembly.py --mode reproduce
 ```
 
-Read [BUILDING.md](BUILDING.md) before changing or publishing an assembly.
+Read [ARCHITECTURE.md](ARCHITECTURE.md) for how the repository works.

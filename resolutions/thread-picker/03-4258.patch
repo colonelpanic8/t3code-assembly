@@ -1,0 +1,252 @@
+diff --git a/apps/server/src/keybindings.test.ts b/apps/server/src/keybindings.test.ts
+index 2eef6ac8416717e4d87efea58c1e10304cc7add7..76285d26ccafdee909d185c9f42b9991277db140 100644
+--- a/apps/server/src/keybindings.test.ts
++++ b/apps/server/src/keybindings.test.ts
+@@ -200,6 +200,7 @@ it.layer(NodeServices.layer)("keybindings", (it) => {
+       assert.equal(defaultsByCommand.get("modelPicker.toggle"), "mod+shift+m");
+       assert.equal(defaultsByCommand.get("sidebar.toggle"), "mod+b");
+       assert.equal(defaultsByCommand.get("rightPanel.toggle"), "mod+alt+b");
++      assert.equal(defaultsByCommand.get("project.add"), "alt+a");
+       assert.equal(defaultsByCommand.get("terminal.splitVertical"), "mod+shift+d");
+       assert.equal(defaultsByCommand.get("modelPicker.jump.1"), "mod+1");
+       assert.equal(defaultsByCommand.get("modelPicker.jump.9"), "mod+9");
+diff --git a/apps/web/src/components/CommandPalette.logic.test.ts b/apps/web/src/components/CommandPalette.logic.test.ts
+index 6db5532ff9e9f7af0c6d06f19f947fabed3c26cd..bac4bfcb58e94653a6cebac57d587bdfdef0ef36 100644
+--- a/apps/web/src/components/CommandPalette.logic.test.ts
++++ b/apps/web/src/components/CommandPalette.logic.test.ts
+@@ -9,9 +9,36 @@ import {
+   resolveBrowseTabCompletion,
+   resolveCommandPaletteEmptyStateMessage,
+   shouldClearAddProjectEnvironmentOnPop,
++  shouldHandleCommandPaletteShortcut,
+   type CommandPaletteGroup,
+ } from "./CommandPalette.logic";
+ 
++describe("shouldHandleCommandPaletteShortcut", () => {
++  it("does not capture the add-project shortcut from an editable target", () => {
++    expect(
++      shouldHandleCommandPaletteShortcut({
++        command: "project.add",
++        editableTarget: true,
++      }),
++    ).toBe(false);
++  });
++
++  it("still handles add-project outside editors and the palette toggle everywhere", () => {
++    expect(
++      shouldHandleCommandPaletteShortcut({
++        command: "project.add",
++        editableTarget: false,
++      }),
++    ).toBe(true);
++    expect(
++      shouldHandleCommandPaletteShortcut({
++        command: "commandPalette.toggle",
++        editableTarget: true,
++      }),
++    ).toBe(true);
++  });
++});
++
+ describe("enumerateCommandPaletteItems", () => {
+   it("assigns positional jump shortcuts to the first nine displayed items", () => {
+     const items = Array.from({ length: 10 }, (_, index) => ({
+diff --git a/apps/web/src/components/CommandPalette.logic.ts b/apps/web/src/components/CommandPalette.logic.ts
+index def4cbbe3a2034a92865259b9c1d8b378b935cd2..411cf3514d501668dc970ab8770424c33f7c49fa 100644
+--- a/apps/web/src/components/CommandPalette.logic.ts
++++ b/apps/web/src/components/CommandPalette.logic.ts
+@@ -16,6 +16,16 @@ export const ITEM_ICON_CLASS = "size-4 text-muted-foreground/80";
+ export const ADDON_ICON_CLASS = "size-4";
+ export const NEW_THREAD_PROJECT_VIEW_GROUP = "new-thread-projects";
+ 
++export function shouldHandleCommandPaletteShortcut(input: {
++  command: KeybindingCommand | null;
++  editableTarget: boolean;
++}): boolean {
++  if (input.command === "commandPalette.toggle") {
++    return true;
++  }
++  return input.command === "project.add" && !input.editableTarget;
++}
++
+ export interface CommandPaletteItem {
+   readonly kind: "action" | "submenu";
+   readonly value: string;
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index a18b60a9b54e2e3da3c20c417bbc49676da1b101..86409dfb4466600bf7305485960713f7315bb307 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -112,6 +112,7 @@ import {
+   resolveBrowseTabCompletion,
+   resolveCommandPaletteEmptyStateMessage,
+   shouldClearAddProjectEnvironmentOnPop,
++  shouldHandleCommandPaletteShortcut,
+ } from "./CommandPalette.logic";
+ import { orderItemsByPreferredIds, sortLogicalProjectsForSidebar } from "./Sidebar.logic";
+ import { resolveEnvironmentOptionLabel } from "./BranchToolbar.logic";
+@@ -439,16 +440,31 @@ export function CommandPalette({ children }: { children: ReactNode }) {
+           terminalOpen,
+         },
+       });
+-      if (command !== "commandPalette.toggle") {
++      const target =
++        event.target instanceof Element
++          ? event.target.closest(
++              'input, textarea, select, [contenteditable]:not([contenteditable="false"])',
++            )
++          : null;
++      if (
++        !shouldHandleCommandPaletteShortcut({
++          command,
++          editableTarget: target !== null,
++        })
++      ) {
+         return;
+       }
+       event.preventDefault();
+       event.stopPropagation();
+-      toggleOpen();
++      if (command === "project.add") {
++        openAddProject();
++      } else {
++        toggleOpen();
++      }
+     };
+     window.addEventListener("keydown", onKeyDown);
+     return () => window.removeEventListener("keydown", onKeyDown);
+-  }, [keybindings, terminalOpen, toggleOpen]);
++  }, [keybindings, openAddProject, terminalOpen, toggleOpen]);
+ 
+   useEffect(
+     () =>
+@@ -1200,7 +1216,7 @@ function OpenCommandPaletteDialog(props: {
+     startAddProjectSourceSelection,
+   ]);
+ 
+-  const addProjectActionItem: CommandPaletteActionItem = {
++  const addProjectAction: CommandPaletteActionItem = {
+     kind: "action",
+     value: "action:add-project",
+     searchTerms: [
+@@ -1223,6 +1239,7 @@ function OpenCommandPaletteDialog(props: {
+     ],
+     title: "Add project",
+     icon: <FolderPlusIcon className={ITEM_ICON_CLASS} />,
++    shortcutCommand: "project.add",
+     keepOpen: true,
+     run: async () => {
+       openAddProjectFlow();
+@@ -1230,7 +1247,7 @@ function OpenCommandPaletteDialog(props: {
+   };
+   const newThreadPickerGroups = buildNewThreadPickerGroups({
+     projectItems: projectThreadItems,
+-    addProjectItem: addProjectActionItem,
++    addProjectItem: addProjectAction,
+     areProjectsLoading: !allEnvironmentShellsBootstrapped,
+   });
+   const newThreadPickerView = useMemo<CommandPaletteView>(
+@@ -1311,7 +1328,7 @@ function OpenCommandPaletteDialog(props: {
+     });
+   }
+ 
+-  actionItems.push(addProjectActionItem);
++  actionItems.push(addProjectAction);
+ 
+   if (wslAddProjectEnvironmentOption) {
+     actionItems.push({
+diff --git a/apps/web/src/keybindings.test.ts b/apps/web/src/keybindings.test.ts
+index c0d326edd55467aacd1e1acd49e1dea4c5686589..90a797506c6d31b210f06e7a09fee676e1f6397e 100644
+--- a/apps/web/src/keybindings.test.ts
++++ b/apps/web/src/keybindings.test.ts
+@@ -125,6 +125,18 @@ const DEFAULT_BINDINGS = compile([
+   },
+   { shortcut: modShortcut("o", { shiftKey: true }), command: "chat.new" },
+   { shortcut: modShortcut("n", { shiftKey: true }), command: "chat.newLocal" },
++  {
++    shortcut: {
++      key: "a",
++      metaKey: false,
++      ctrlKey: false,
++      shiftKey: false,
++      altKey: true,
++      modKey: false,
++    },
++    command: "project.add",
++    whenAst: whenNot(whenIdentifier("terminalFocus")),
++  },
+   { shortcut: modShortcut("o"), command: "editor.openFavorite" },
+   { shortcut: modShortcut("[", { shiftKey: true }), command: "thread.previous" },
+   { shortcut: modShortcut("]", { shiftKey: true }), command: "thread.next" },
+@@ -327,6 +339,7 @@ describe("shortcutLabelForCommand", () => {
+       shortcutLabelForCommand(DEFAULT_BINDINGS, "commandPalette.toggle", "MacIntel"),
+       "⌘K",
+     );
++    assert.strictEqual(shortcutLabelForCommand(DEFAULT_BINDINGS, "project.add", "MacIntel"), "⌥A");
+     assert.strictEqual(
+       shortcutLabelForCommand(DEFAULT_BINDINGS, "modelPicker.toggle", "Linux"),
+       "Ctrl+Shift+M",
+@@ -514,6 +527,23 @@ describe("chat/editor shortcuts", () => {
+     );
+   });
+ 
++  it("matches project.add shortcut outside terminal focus", () => {
++    assert.strictEqual(
++      resolveShortcutCommand(event({ key: "å", code: "KeyA", altKey: true }), DEFAULT_BINDINGS, {
++        platform: "MacIntel",
++        context: { terminalFocus: false },
++      }),
++      "project.add",
++    );
++    assert.notStrictEqual(
++      resolveShortcutCommand(event({ key: "å", code: "KeyA", altKey: true }), DEFAULT_BINDINGS, {
++        platform: "MacIntel",
++        context: { terminalFocus: true },
++      }),
++      "project.add",
++    );
++  });
++
+   it("matches diff.toggle shortcut outside terminal focus", () => {
+     assert.isTrue(
+       isDiffToggleShortcut(event({ key: "d", metaKey: true }), DEFAULT_BINDINGS, {
+diff --git a/packages/contracts/src/keybindings.test.ts b/packages/contracts/src/keybindings.test.ts
+index 33ecd38039fbd354bac9a76e0954b06b69262e1d..15ddc6d4a650d97061188d6cbb52f74b65b4c3fd 100644
+--- a/packages/contracts/src/keybindings.test.ts
++++ b/packages/contracts/src/keybindings.test.ts
+@@ -65,6 +65,12 @@ it.effect("parses keybinding rules", () =>
+     });
+     assert.strictEqual(parsedLocal.command, "chat.newLocal");
+ 
++    const parsedAddProject = yield* decode(KeybindingRule, {
++      key: "alt+a",
++      command: "project.add",
++    });
++    assert.strictEqual(parsedAddProject.command, "project.add");
++
+     const parsedModelPickerToggle = yield* decode(KeybindingRule, {
+       key: "mod+shift+m",
+       command: "modelPicker.toggle",
+diff --git a/packages/contracts/src/keybindings.ts b/packages/contracts/src/keybindings.ts
+index c7cff9943cddf81df5f5c3295eb875a7c0df9440..008317f670cfe5fb361a3d199d5c7b4554a25b0b 100644
+--- a/packages/contracts/src/keybindings.ts
++++ b/packages/contracts/src/keybindings.ts
+@@ -65,6 +65,7 @@ const STATIC_KEYBINDING_COMMANDS = [
+   "commandPalette.toggle",
+   "chat.new",
+   "chat.newLocal",
++  "project.add",
+   "editor.openFavorite",
+   ...MODEL_PICKER_KEYBINDING_COMMANDS,
+   ...THREAD_KEYBINDING_COMMANDS,
+diff --git a/packages/shared/src/keybindings.ts b/packages/shared/src/keybindings.ts
+index b6bdd7b4783e3d23c059d73acbee9fac2fc9fbb1..7d8c2470800a50d864d24ab7f12fbd494b3819bd 100644
+--- a/packages/shared/src/keybindings.ts
++++ b/packages/shared/src/keybindings.ts
+@@ -38,6 +38,7 @@ export const DEFAULT_KEYBINDINGS: ReadonlyArray<KeybindingRule> = [
+   { key: "mod+n", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+o", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+n", command: "chat.newLocal", when: "!terminalFocus" },
++  { key: "alt+a", command: "project.add", when: "!terminalFocus" },
+   { key: "mod+shift+m", command: "modelPicker.toggle", when: "!terminalFocus" },
+   { key: "mod+o", command: "editor.openFavorite" },
+   { key: "mod+shift+[", command: "thread.previous" },

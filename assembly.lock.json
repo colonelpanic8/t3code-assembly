@@ -1,35 +1,35 @@
 {
-  "generated": "2026-07-28T01:47:57.350058+00:00",
-  "mode": "refresh",
-  "upstream_main": "a148e08197fc38b24e59c10c7cd5ba06dd182dab",
+  "generated": "2026-07-28T04:03:39.768686+00:00",
+  "mode": "reproduce",
+  "upstream_main": "476d69cd1d5d89b4aad77df8fc01c71e34af930c",
   "integration_branch": "t3code/assembled",
-  "commit": "d7c98d5eaf68f41588b82ec2b4b1d0ba815f8b6d",
-  "tree": "f97c1d90269424396b369bcacb58728c51630aba",
-  "built_tree": "f9ff0d199ab0cd2f08628360f4f59d862eb24a04",
-  "previous_tree": "f079cbb2e4970d2b3227ab40ef6c5fe384508bda",
-  "tree_changed": true,
-  "conflicts": 19,
+  "commit": "2a9593ed01cfa0415ad242e51124bd4c113c2262",
+  "tree": "b0309bd7e24ee83a566b50b6f00cc971d66256e4",
+  "built_tree": "06055dc48a0a53293dca541d3cac596194bd6d97",
+  "previous_tree": "b0309bd7e24ee83a566b50b6f00cc971d66256e4",
+  "tree_changed": false,
+  "conflicts": 16,
   "manifest_entries": [
     {
       "pr": 3984,
       "kind": "external",
       "ref": "refs/pull/3984/head",
-      "pin": "690d45fdd7a903911b5ea47c5dbce6469def10c6",
+      "pin": "690d45fdd7a9",
       "summary": "Render generated images inline in chat",
-      "note": "External (jakeleventhal). Cannot rebase; merged from the PR head."
+      "note": "External (jakeleventhal)."
     },
     {
       "kind": "local",
       "branch": "t3code/local/artifact-safety",
-      "pin": "d0c4dcda9549",
+      "pin": "7893bfa9f9f9",
       "summary": "Constrain #3984's generic artifact paths to the real thread workspace",
-      "note": "Only typed image-generation paths may use provider-managed storage. Also adds\ntransactional thread snapshots, correct streaming boundaries, and a bounded\nretry for projection/file visibility races. Was nix-shared/patches/t3code-pr-3984-artifact-safety.patch.\n"
+      "note": "Must follow #3984, whose artifact paths it constrains."
     },
     {
       "pr": 4259,
       "kind": "fork",
       "branch": "t3code/searchable-new-thread-projects",
-      "pin": "a3d19353b795",
+      "pin": "b3408bb2266f",
       "summary": "Searchable new-thread project picker"
     },
     {
@@ -37,136 +37,134 @@
       "branch": "t3code/group/thread-picker",
       "pin": "b13f2894eab7",
       "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
-      "note": "GROUP entry, built from thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembly on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as an assembly epilogue.\n\nRebuild the group first, then pin its new head here.\n"
+      "note": "GROUP entry, built from thread-picker.toml; the add-project glue helpers\nlive on the group branch. Rebuild the group first, then pin its new head here.\n"
     },
     {
       "pr": 4271,
       "kind": "fork",
       "branch": "t3code/composer-keyboard-shortcuts",
-      "pin": "08e2bb90565b",
+      "pin": "441c87d80253",
       "summary": "Keyboard-select composer controls + hold-modifier hints"
     },
     {
       "pr": 4394,
       "kind": "fork",
       "branch": "t3code/fix-dropdown-keyboard-navigation",
-      "pin": "098fa1036e1e",
+      "pin": "8f8310181b0a",
       "summary": "Navigate open selections with Ctrl-N/Ctrl-P"
     },
     {
       "pr": 4277,
       "kind": "fork",
       "branch": "feat/settle-thread-keybinding",
-      "pin": "6cab6d44786f",
+      "pin": "0b2132142edf",
       "summary": "Settle the open thread with Mod+Shift+X"
     },
     {
       "pr": 4318,
       "kind": "fork",
       "branch": "fix/draft-thread-promotion-recovery",
-      "pin": "03c949353331",
+      "pin": "e42331268c5f",
       "summary": "Recover stalled draft-thread promotion"
     },
     {
       "pr": 4323,
       "kind": "fork",
       "branch": "fix/coalesce-assistant-streaming",
-      "pin": "c45471d0fa67",
+      "pin": "8638e03b83b6",
       "summary": "Coalesce high-frequency assistant streaming deltas"
     },
     {
       "pr": 4324,
       "kind": "fork",
       "branch": "feat/sidebar-v2-large-icons",
-      "pin": "72fb395deb9a",
+      "pin": "923db8ca6a3a",
       "summary": "Optional larger sidebar v2 project icons"
     },
     {
       "pr": 4181,
       "kind": "external",
       "ref": "refs/pull/4181/head",
-      "pin": "d95abc106cdd4283bfc8ccc64525e795312b8c76",
+      "pin": "d95abc106cdd",
       "summary": "Trigger the slash-command menu mid-prompt, not just at line start",
-      "note": "External (dmstoykov). Cannot rebase; merged from the PR head."
+      "note": "External (dmstoykov)."
     },
     {
       "pr": 4332,
       "kind": "fork",
       "branch": "fix/android-adaptive-icon",
-      "pin": "5b79b46862a9",
-      "summary": "Properly sized flat foreground for Android adaptive icons",
-      "note": "Under applyPatches this needed a separate fetchurl for the PNG plus a postPatch\ninstall, because GitHub cumulative diffs record binary files without payload.\nThe merge carries the real blob, so that machinery is gone.\n"
+      "pin": "97ac5cef13c6",
+      "summary": "Properly sized flat foreground for Android adaptive icons"
     },
     {
       "pr": 4337,
       "kind": "fork",
       "branch": "feat/favicon-reload-on-click",
-      "pin": "0152dc71d548",
+      "pin": "37604c99b46f",
       "summary": "Refresh a project favicon when its icon is clicked"
     },
     {
       "pr": 4386,
       "kind": "fork",
       "branch": "fix/stuck-turn-recovery",
-      "pin": "abc65d797e0a",
+      "pin": "c14c025db475",
       "summary": "Recover stranded provider turns after lost completion events"
     },
     {
       "pr": 4388,
       "kind": "fork",
       "branch": "fix/android-composer-keyboard-positioning",
-      "pin": "967ab356536a",
+      "pin": "f5846bf0146b",
       "summary": "Keep the Android new-task composer above the keyboard while it expands"
     },
     {
       "pr": 4390,
       "kind": "fork",
       "branch": "t3code/add-thread-forking",
-      "pin": "71a2ae9b27d3",
+      "pin": "3fa50cc62fdd",
       "summary": "Clone a thread through its latest completed response from the sidebar"
     },
     {
       "pr": 4401,
       "kind": "fork",
       "branch": "feat/project-icons",
-      "pin": "3c065ddecb29",
+      "pin": "6f052c818ab1",
       "summary": "User-local project icons"
     },
     {
       "pr": 4405,
       "kind": "fork",
       "branch": "fix/thread-detail-load-hardening",
-      "pin": "e3aeb3a8d3e2",
+      "pin": "e17b96ec7ef3",
       "summary": "Self-heal empty thread details and back off failed thread subscriptions"
     },
     {
       "pr": 4602,
       "kind": "fork",
       "branch": "t3code/subscription-transport-recovery",
-      "pin": "c3cb473602b1",
+      "pin": "b5836f14b781",
       "summary": "Recover subscriptions that lose their transport",
-      "note": "Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its\ntest, and this is the only other topic that touches subscription lifecycle.\n\nA durable subscription that dies with a transport error drains and waits for a\nsession the supervisor never produces unless the socket reports closed, so the\nenvironment silently stops updating until the client restarts. Root cause behind\n#4589; #4593 only recovers the settle path.\n"
+      "note": "Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its\ntest, the only two topics touching subscription lifecycle. Complementary to\n#4593, which recovers only the settle path of the same issue (#4589).\n"
     },
     {
       "pr": 4447,
       "kind": "fork",
       "branch": "feat/mobile-environment-first-new-thread",
-      "pin": "e3415f080d8a",
+      "pin": "49d2d8399222",
       "summary": "Environment-first new task on mobile"
     },
     {
       "pr": 4427,
       "kind": "fork",
       "branch": "t3code/inline-image-support",
-      "pin": "2738a597ce51",
-      "summary": "Show completed image-generation activity as compact evidence links",
-      "note": "Previously carried ONLY through t3code-pr-4427-stack-compat.patch, never as a raw diff."
+      "pin": "2944f46c0852",
+      "summary": "Show completed image-generation activity as compact evidence links"
     },
     {
       "pr": 4506,
       "kind": "fork",
       "branch": "t3code/user-input-qna-timeline",
-      "pin": "fd30c91b3697",
+      "pin": "cf61aeb38823",
       "summary": "Show answered questions in the thread timeline",
       "note": "Overlaps #4427's generated-image handling, so it must follow #4427."
     },
@@ -174,145 +172,142 @@
       "pr": 4433,
       "kind": "fork",
       "branch": "fix/model-picker-shortcuts",
-      "pin": "e28ca5e4e6e4",
+      "pin": "c7ac18dd530b",
       "summary": "Refresh positional model-picker shortcuts when virtualized rows are reordered"
     },
     {
       "pr": 4439,
       "kind": "fork",
       "branch": "t3code/configurable-workspace-placement",
-      "pin": "fbee7010b0fe",
+      "pin": "b8aa507bc229",
       "summary": "Configure centralized or repository-local worktree placement"
     },
     {
       "pr": 4437,
       "kind": "fork",
       "branch": "t3code/xdg-storage-layout",
-      "pin": "264d430386c9",
+      "pin": "8d7270e82ccb",
       "summary": "Separate config, data, state, cache, and runtime storage with XDG/legacy override"
     },
     {
       "pr": 4477,
       "kind": "fork",
       "branch": "fix/discover-claude-models",
-      "pin": "9d34e7d251c4",
+      "pin": "50cdd15219ab",
       "summary": "Discover Claude models from SDK initialization rather than the fallback catalog"
     },
     {
       "pr": 4482,
       "kind": "fork",
       "branch": "fix/sidebar-resize-after-window-growth",
-      "pin": "007f6c9db7b4",
+      "pin": "81bd69e9f8ab",
       "summary": "Refresh the sidebar resize cap when the window grows"
     },
     {
       "pr": 4487,
       "kind": "fork",
       "branch": "t3code/filter-hidden-codex-models",
-      "pin": "58175a61c51b",
+      "pin": "c75d35701081",
       "summary": "Drop non-interactive Codex models from the model picker"
     },
     {
       "pr": 4494,
       "kind": "fork",
       "branch": "t3code/fix-provider-settings-toggle",
-      "pin": "493411165f33",
-      "summary": "Keep rapid settings edits from reverting each other",
-      "note": "Two attempts to also close the sub-millisecond response/broadcast gap were\nimplemented and reverted: `settingsUpdated` carries no revision or correlation\nmarker, so every client-side heuristic regressed something worse than the gap.\n"
+      "pin": "05e12e767e12",
+      "summary": "Keep rapid settings edits from reverting each other"
     },
     {
       "pr": 4484,
       "kind": "fork",
       "branch": "fix/recover-bootstrap-thread-id",
-      "pin": "4605e902c5b9",
-      "summary": "Recover draft thread IDs after failed bootstrap cleanup",
-      "note": "Under applyPatches this needed a compat patch because\nOrchestrationGetSnapshotError and OrchestrationDispatchCommandError have\nbyte-identical bodies, so `patch` silently landed retryWithNewThreadId on the\nWRONG class at this assembly's offset. A 3-way merge cannot make that mistake.\n"
+      "pin": "2385d73e0bfa",
+      "summary": "Recover draft thread IDs after failed bootstrap cleanup"
     },
     {
       "kind": "local",
       "branch": "t3code/local/nix-flake",
-      "pin": "3a5c344ba1ff",
-      "summary": "Nix flake: dev shell and desktop package",
-      "note": "Purely additive (flake.nix + nix/README.md), so it carries at essentially zero\nconflict cost -- the ideal shape for a permanent-carry topic. Upstream\nCONTRIBUTING says they are not accepting contributions and want an issue first,\nso this is carried locally rather than opened as a cold PR.\n"
-    },
-    {
-      "kind": "fork",
-      "branch": "t3code/client-suite",
-      "pin": "6daf997586e8",
-      "summary": "Complete client-only desktop, pairing, environment presentation, and settings suite",
-      "note": "Canonical cumulative client branch. Subsumes #4444, #4474, #4496, #4505,\n#4538, #4548, #4559, #4567, the branch-linked\nt3code/show-remote-host-name topic, and the diagnostics work from #4486.\nThread host badges are client-local presentation, default on for every\nenvironment (including localhost), and do not depend on classifying the app as\na local owner or remote client.\n"
+      "pin": "f58759e6f6be",
+      "summary": "Nix flake: dev shell and desktop package"
     },
     {
       "kind": "fork",
       "branch": "t3code/unify-environment-selection",
-      "pin": "0c8dedeffb02",
-      "summary": "Align settings ownership and environment selection across settings pages",
-      "note": "Places the shared environment selector inside the Environment navigation group\nand repeats it in a clearly labeled scope strip on environment-owned pages.\nKeybindings are client-owned and client-persisted; Connections remains a\nclient page. Assistant output and new-thread/worktree defaults are client-owned\nacross web, desktop, and mobile. Provider configuration, host paths, source\ncontrol, and diagnostics remain environment-owned.\n"
+      "pin": "74fd875c4d13",
+      "summary": "Complete client-only, pairing, environment presentation, and unified settings suite",
+      "note": "Canonical cumulative client topic. Carries #4444, #4474, #4496, #4505,\n#4538, and t3code/show-remote-host-name. #4444 consolidates the closed #4479,\n#4486, #4548, #4559, and #4567 topics.\n"
     },
     {
       "pr": 4677,
       "kind": "fork",
       "branch": "t3code/add-custom-snooze-time",
-      "pin": "20cf0681a614",
+      "pin": "9b728aed7d53",
       "summary": "Snooze threads until a custom local date and time",
-      "note": "Placed after t3code/client-suite and t3code/unify-environment-selection because\nboth reshape SidebarV2.tsx. The custom picker then merges once against their\nfinal assembled sidebar while reusing upstream's existing snooze command flow.\n"
+      "note": "Follows t3code/unify-environment-selection, which reshapes SidebarV2.tsx.\n"
     },
     {
       "pr": 4593,
       "kind": "fork",
       "branch": "t3code/settle-state-reconcile",
-      "pin": "86bcba04848a",
+      "pin": "5fc3aefd627c",
       "summary": "Reconcile client state when a settle does not land",
-      "note": "Placed last among the client-runtime subscription topics: it adds a\n`resync-requested` wakeup and merges a request stream into the web wakeups\nlayer, so it touches apps/web/src/connection/platform.ts after both\nt3code/client-suite and t3code/unify-environment-selection have restructured\nit. Its one-line filter change in client-runtime state/threads.ts sits in a\ndifferent region than #4405's subscription backoff. Reported as #4589.\n"
+      "note": "Last of the client-runtime subscription topics: it touches\napps/web/src/connection/platform.ts after t3code/unify-environment-selection\nhas restructured it. Its state/threads.ts change sits in a different region\nthan #4405's backoff.\n"
     },
     {
       "kind": "local",
       "branch": "t3code/local/build-provenance",
-      "pin": "103329cf5654",
+      "pin": "482ab626122d",
       "summary": "Show the build's commit, and a Settings page describing the assembled tree",
-      "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit, so it has to be able to see the assembled result -- but it is ordinary\napp code and belongs on a topic, not in the tooling. Placed last so its edits\nto SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite\nand t3code/unify-environment-selection have finished restructuring them.\n\nLocal rather than a PR: the value is entirely in describing a personal\nassembly, which upstream does not have.\n"
+      "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit. Placed near last so its SettingsPanels.tsx and SettingsSidebarNav.tsx\nedits land after t3code/unify-environment-selection.\n"
     },
     {
       "pr": 4598,
       "kind": "fork",
       "branch": "t3code/clear-unanswerable-provider-requests",
-      "pin": "58cce88a5e63",
+      "pin": "495be4153ec9",
       "summary": "Clear pending approval and user-input requests when no provider session is bound",
-      "note": "Four carried topics touch its two files: #4386 and #4390 edit\nProviderCommandReactor.ts, #4427 and #4506 edit session-logic.test.ts. Appended\nso it merges once against their final assembled state rather than being\nre-resolved as each lands. Its own hunks are small: a helper beside\nstalePendingRequestDetail plus two `detail:` lines on the server, one test\ninside the derivePendingUserInputs describe on the web.\n\nBranched from upstream a17cbc3b4, which is newer than the lock's recorded\nupstream, so this entry wants a refresh rather than a reproduce.\n"
+      "note": "Appended so it merges once against the assembled state of the four topics that\ntouch its files: #4386 and #4390 (ProviderCommandReactor.ts), #4427 and #4506\n(session-logic.test.ts).\n"
     },
     {
       "pr": 4605,
       "kind": "fork",
       "branch": "t3code/investigate-large-thread-rendering",
-      "pin": "b82f11e16412",
+      "pin": "5eaec3ebefd1",
       "summary": "Fix quadratic thread-reopen replay: batch client apply + cap server resume gap",
-      "note": "Fixes #4596. Reopening a thread with a large event backlog re-replayed the whole\nbacklog: the server streamed every event past the client's cursor individually,\nand the client re-derived the full timeline per event.\n\nPlaced before #4599 because it restructures ChatView.tsx -- extracting the\ntimeline derivation into threadTimelineModel.ts -- and #4599's find bar is\nadditive UI on top of that file. Restructure first, then build on the final\nshape.\n\nTouches ws.ts and client-runtime state/threads.ts, which #4405, #4593 and #4602\nalso edit, so it merges after all three have landed.\n"
+      "note": "Before #4599: this restructures ChatView.tsx (extracting\nthreadTimelineModel.ts) and #4599 builds on that final shape. Touches ws.ts\nand client-runtime state/threads.ts, so it merges after #4405, #4593, and\n#4602.\n"
     },
     {
       "pr": 4599,
       "kind": "fork",
       "branch": "t3code/find-in-thread",
-      "pin": "6a69b326a617",
+      "pin": "ba5a3b3ea57c",
       "summary": "Cmd+F find in thread",
-      "note": "In-thread find on the new chat.find keybinding (mod+f, gated on !terminalFocus\nso it stays out of the terminal's own find).\n\nAlmost entirely new modules (threadFind.ts, threadFindHighlights.ts,\nFindInThreadBar.tsx), and its edits to MessagesTimeline.tsx and ChatView.tsx\nwant the final assembled shape of both -- after #4605's timeline extraction.\nIts keybindings.ts entries are additive one-line registry rows, the same shape\nas #4271 and #4277.\n"
+      "note": "Mostly new modules; its MessagesTimeline.tsx and ChatView.tsx edits want the\nfinal shape after #4605's timeline extraction. Its keybindings.ts entries are\nadditive one-line registry rows, the same shape as #4271 and #4277.\n"
     },
     {
       "kind": "fork",
       "branch": "t3code/mobile-thread-replay-render-fixes",
-      "pin": "4ab37402c1dd",
+      "pin": "8399d436a6bd",
       "summary": "Cut mobile thread-reopen replay churn in the feed pipeline",
-      "note": "The mobile-only layers left over after #4605: incremental, identity-cached\nthread-feed derivation in threadActivity.ts, no layout animations or animated\nend-scrolls or streaming haptics during a backlog catch-up, and code\nhighlighting withheld while a message is still streaming.\n\nLast in the manifest and mobile-only -- apps/mobile plus its t3-markdown-text\nmodule -- so it has no overlap with the web/client-runtime topics above it.\nDepends on #4605 conceptually, not textually: #4605 fixes the shared\nsubscription path, this one fixes what mobile still re-derives on top of it.\n\nBranch-linked, not PR-linked: #4624 was closed upstream without merging, so\nthe BRANCH is authoritative and this entry must not be dropped just because the\nPR is closed. Carried because the replay cost is real on this phone. Its head carries a follow-up commit past the PR: the PR's 200ms\nhighlight debounces could never fire, because a growing code block's React key\nencodes its source offsets and the block remounts on every delta.\n"
+      "note": "Mobile-only (apps/mobile plus its t3-markdown-text module), so no overlap with\nthe web/client-runtime topics above it. Branch-linked, not PR-linked: #4624\nwas closed upstream without merging, so the BRANCH is authoritative and this\nentry must not be dropped just because the PR is closed. Its head carries a\nfollow-up commit past the PR.\n"
     },
     {
       "pr": 4631,
       "kind": "fork",
       "branch": "t3code/fix-broken-image-previews",
-      "pin": "f455c9c34e9d",
+      "pin": "929653023ea0",
       "summary": "Render markdown images from workspace files",
-      "note": "ChatMarkdown had no img renderer, so a markdown image with a local path\nrendered broken: the web origin only serves the client bundle, so the request\nhit the SPA fallback and decoded as HTML. Local sources now resolve through the\nsigned workspace-asset URL the file preview panel already uses.\n\nOverlaps t3code/local/artifact-safety and #3984, which own the other half of\nChatMarkdown's image story -- but on the `code` renderer (inline code naming a\ngenerated thread artifact), not `img`. The two are complementary, not competing:\nthis one handles markdown image syntax pointing at workspace files, that one\nhandles artifact references. Both import from ../assets/assetUrls, so expect a\nsmall import-region conflict and nothing semantic.\n\nAppended rather than placed next to those entries because they sit at the head\nof the manifest and this arrived via extend. If ChatMarkdown accumulates a third\nimage-adjacent topic, cluster the three into a group instead.\n"
+      "note": "Overlaps t3code/local/artifact-safety and #3984 in ChatMarkdown, but on the\n`img` renderer where they own `code`; all import from ../assets/assetUrls, so\nexpect a small import-region conflict and nothing semantic. Appended via\nextend rather than placed beside them; if ChatMarkdown gains a third\nimage-adjacent topic, cluster the three into a group.\n"
+    },
+    {
+      "kind": "local",
+      "branch": "t3code/add-mobile-build-action",
+      "pin": "3b82cbbac20f",
+      "summary": "Build and publish sideloadable Android APKs from the assembled branch",
+      "note": "CI and release tooling only; kept last because it does not overlap application code."
     }
   ],
-  "pre_epilogue_commit": "ccb3a53ec59524dbf12a1a126f79d10c1cc63994",
+  "pre_epilogue_commit": "05c4ff5fac9377fcdc384d7f48f5bff199938efb",
   "entries": [
     {
       "entry": "#3984",
@@ -321,13 +316,14 @@
     },
     {
       "entry": "t3code/local/artifact-safety",
-      "oid": "d0c4dcda954954ab35c83e08b77570a7e17c4578",
+      "oid": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/02-t3code-local-artifact-safety.patch"
     },
     {
       "entry": "#4259",
-      "oid": "a3d19353b795f04832eef2c214d2a39367642159",
+      "oid": "b3408bb2266fe1021d5e97fb984a402728c024fa",
       "status": "merged"
     },
     {
@@ -337,36 +333,38 @@
     },
     {
       "entry": "#4271",
-      "oid": "08e2bb90565b2a29e96f4e8f629bcb6527473d2b",
+      "oid": "441c87d80253d5ce887d0886ba44d5d874007286",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/05-4271.patch"
     },
     {
       "entry": "#4394",
-      "oid": "098fa1036e1e3d1bdfd4121b917e13c7dbcd204b",
+      "oid": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/06-4394.patch"
     },
     {
       "entry": "#4277",
-      "oid": "6cab6d44786f77199038499dce172b9f013ae43f",
+      "oid": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/07-4277.patch"
     },
     {
       "entry": "#4318",
-      "oid": "03c94935333170dabba68cd2534081c477e3b395",
-      "status": "merged",
-      "conflicted": true
+      "oid": "e42331268c5fae90090d0a9f14a97a0eddf11bf0",
+      "status": "merged"
     },
     {
       "entry": "#4323",
-      "oid": "c45471d0fa67e7d41a42e3afa561950f33985d63",
+      "oid": "8638e03b83b6936f0cfa7a6fa324dffe66565f17",
       "status": "merged"
     },
     {
       "entry": "#4324",
-      "oid": "72fb395deb9af3718461bc6c38575a0e2548d37d",
+      "oid": "923db8ca6a3ace6365cd9539a714e93837cc88cb",
       "status": "merged"
     },
     {
@@ -376,167 +374,177 @@
     },
     {
       "entry": "#4332",
-      "oid": "5b79b46862a9b0ba45bc1e2b950de23a2ee1bfce",
+      "oid": "97ac5cef13c647637766834c1bf3b78f7e13ec5f",
       "status": "merged"
     },
     {
       "entry": "#4337",
-      "oid": "0152dc71d548d1bbf004493eeda11ff5fcf30a26",
+      "oid": "37604c99b46f990e333033ec143f391719d05093",
       "status": "merged"
     },
     {
       "entry": "#4386",
-      "oid": "abc65d797e0ac6ebe07519b39f7da79f680d3989",
+      "oid": "c14c025db47501c7c2f56294091b92e993dda048",
       "status": "merged"
     },
     {
       "entry": "#4388",
-      "oid": "967ab356536ae0ac83028b45f444370427179921",
+      "oid": "f5846bf0146be27ff54d451a1f085f9d5963aaa9",
       "status": "merged"
     },
     {
       "entry": "#4390",
-      "oid": "71a2ae9b27d3f2dd48dd8e4fb6c1636d4642c260",
+      "oid": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/16-4390.patch"
     },
     {
       "entry": "#4401",
-      "oid": "3c065ddecb2978f23abb5fd635abc2423d418a5b",
+      "oid": "6f052c818ab1e59ca5e1af48bbbd69db27af425a",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/17-4401.patch"
     },
     {
       "entry": "#4405",
-      "oid": "e3aeb3a8d3e23e951f8b065a97d4826e87b18af8",
+      "oid": "e17b96ec7ef389cdcc351113e83514612b49dc72",
       "status": "merged"
     },
     {
       "entry": "#4602",
-      "oid": "c3cb473602b18efbfc7ffd707ca29003cd6738b4",
+      "oid": "b5836f14b7815f0277d04ebfa8142162647d9195",
       "status": "merged"
     },
     {
       "entry": "#4447",
-      "oid": "e3415f080d8aca6d79427c013a9307c069106497",
+      "oid": "49d2d83992221e083528cdf9d54eb950a0d819b7",
       "status": "merged"
     },
     {
       "entry": "#4427",
-      "oid": "2738a597ce516bac7aacb0c64bf44b888460405e",
+      "oid": "2944f46c085204fb42d7f049d45b6636103298a2",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/21-4427.patch"
     },
     {
       "entry": "#4506",
-      "oid": "fd30c91b3697642fb9629aae7eea0ee39749c926",
+      "oid": "cf61aeb38823ab88ad4160ef5aefb232fee34d12",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/22-4506.patch"
     },
     {
       "entry": "#4433",
-      "oid": "e28ca5e4e6e460b7d4a3425509ac4c9d57b46795",
+      "oid": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a",
       "status": "merged"
     },
     {
       "entry": "#4439",
-      "oid": "fbee7010b0fe37fe29766874027216d8f507debc",
+      "oid": "b8aa507bc229db74761453f71d01920fd4d9f6f0",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/24-4439.patch"
     },
     {
       "entry": "#4437",
-      "oid": "264d430386c970c09c191e8d7682e3173c875800",
+      "oid": "8d7270e82ccb610903290cafbfd0ccd177af5a0b",
       "status": "merged"
     },
     {
       "entry": "#4477",
-      "oid": "9d34e7d251c464da3d8027c945eb3a33773a1fb6",
+      "oid": "50cdd15219ab2d41823846a1f5a728449d5c7a05",
       "status": "merged"
     },
     {
       "entry": "#4482",
-      "oid": "007f6c9db7b47d525b3bdbba04e41bbbd7bae26b",
-      "status": "merged",
-      "conflicted": true
+      "oid": "81bd69e9f8abeb9037136635c4e02464ac60c63a",
+      "status": "merged"
     },
     {
       "entry": "#4487",
-      "oid": "58175a61c51b4c6aa217a65a2798e167ccd65133",
+      "oid": "c75d35701081c09d2308fb0da96f2a13eca9faf8",
       "status": "merged"
     },
     {
       "entry": "#4494",
-      "oid": "493411165f330269241e910876bfd68a775a59f6",
+      "oid": "05e12e767e1206b4d115cc8ccf65306641fa251b",
       "status": "merged"
     },
     {
       "entry": "#4484",
-      "oid": "4605e902c5b9770fd1539f0eec3f319b9790612f",
-      "status": "merged",
-      "conflicted": true
-    },
-    {
-      "entry": "t3code/local/nix-flake",
-      "oid": "3a5c344ba1ff5573d82990b92f71cc272fc2bc5f",
+      "oid": "2385d73e0bfae205b090ef44cfdbde35f5ed655e",
       "status": "merged"
     },
     {
-      "entry": "t3code/client-suite",
-      "oid": "6daf997586e8249d579ef61acdd7cfc3f1c36301",
-      "status": "merged",
-      "conflicted": true
+      "entry": "t3code/local/nix-flake",
+      "oid": "f58759e6f6be5e8e351831fe967d549c1e866110",
+      "status": "merged"
     },
     {
       "entry": "t3code/unify-environment-selection",
-      "oid": "0c8dedeffb02cf3764446bb624e126258439983d",
+      "oid": "74fd875c4d13773cedd1b9c1b6dea56863733f0a",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/32-t3code-unify-environment-selection.patch"
     },
     {
       "entry": "#4677",
-      "oid": "20cf0681a614b33ff7b0d1c1e09c70da360ba7cf",
+      "oid": "9b728aed7d53f1c21fd1422977e4c160803baf72",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/33-4677.patch"
     },
     {
       "entry": "#4593",
-      "oid": "86bcba04848a6af0c3420bd7932694f728b0f911",
+      "oid": "5fc3aefd627cc5417544dc99c0ead5399ac6115a",
       "status": "merged"
     },
     {
       "entry": "t3code/local/build-provenance",
-      "oid": "13eb86b95d9cf2049725767bd43e5ed07a7812be",
+      "oid": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/35-t3code-local-build-provenance.patch"
     },
     {
       "entry": "#4598",
-      "oid": "58cce88a5e6311794316b6d6ace84927a4a12496",
+      "oid": "495be4153ec9f9402140224e4ca2f9289a9d974a",
       "status": "merged"
     },
     {
       "entry": "#4605",
-      "oid": "b82f11e164122d6c46712a9bf81cd679ae046552",
-      "status": "merged"
+      "oid": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127",
+      "status": "merged",
+      "conflicted": true,
+      "resolution": "resolutions/assembly/37-4605.patch"
     },
     {
       "entry": "#4599",
-      "oid": "6a69b326a61771f397a8a79054cd5d10d11a5808",
+      "oid": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/38-4599.patch"
     },
     {
       "entry": "t3code/mobile-thread-replay-render-fixes",
-      "oid": "4ab37402c1dd21c2d1b5607c70edb02d79946d66",
+      "oid": "8399d436a6bd53c3284bdb03ecca919a435e689c",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/39-t3code-mobile-thread-replay-render-fixes.patch"
     },
     {
       "entry": "#4631",
-      "oid": "f455c9c34e9d8e4042e2cf99f3a8317ba1f75218",
+      "oid": "929653023ea083b947da7d2817bbad7b7df3f3fd",
       "status": "merged",
-      "conflicted": true
+      "conflicted": true,
+      "resolution": "resolutions/assembly/40-4631.patch"
+    },
+    {
+      "entry": "t3code/add-mobile-build-action",
+      "oid": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4",
+      "status": "merged"
     },
     {
       "entry": "t3code-sidebar-v2-large-icons-fixture.patch",
@@ -555,7 +563,7 @@
       "status": "epilogue"
     },
     {
-      "entry": "t3code-dedupe-environment-icon.patch",
+      "entry": "t3code-refreshed-client-overlap.patch",
       "status": "epilogue"
     }
   ]

@@ -21,6 +21,9 @@
 upstream = "https://github.com/pingdotgg/t3code"
 upstream_ref = "main"
 fork = "https://github.com/colonelpanic8/t3code"
+base = "23ea08daf27a2f56b85e605dd3d36f66bd1a132d"
+topic_bundle = "sources/topics.bundle"
+resolution_manifest = "resolutions/thread-picker.toml"
 integration_branch = "t3code/group/thread-picker"
 tag_prefix = "t3code-thread-picker"
 

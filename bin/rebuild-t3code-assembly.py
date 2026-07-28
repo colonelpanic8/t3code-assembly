@@ -110,8 +110,104 @@ def configure_source_repo(repo: Path, manifest: dict) -> None:
         )
     ensure_remote(repo, "origin", manifest["upstream"])
     ensure_remote(repo, "fork", manifest["fork"])
-    git(repo, "config", "rerere.enabled", "true")
-    git(repo, "config", "rerere.autoupdate", "false")
+    # Resolution records live in this repository. Never consult a developer's
+    # ambient rerere cache: that would make the result depend on hidden state.
+    git(repo, "config", "rerere.enabled", "false")
+
+
+def import_topic_bundle(repo: Path, manifest: dict) -> None:
+    bundle = ASSEMBLY_ROOT / manifest["topic_bundle"]
+    if not bundle.is_file():
+        raise Fail(f"missing hermetic topic bundle: {bundle}")
+    git(
+        repo,
+        "fetch",
+        str(bundle),
+        "+refs/t3code-assembly/bundle/*:refs/t3code-assembly/bundle/*",
+    )
+
+
+def load_resolutions(manifest: dict) -> dict[str, dict]:
+    path = ASSEMBLY_ROOT / manifest["resolution_manifest"]
+    if not path.is_file():
+        raise Fail(f"missing resolution manifest: {path}")
+    with path.open("rb") as handle:
+        records = tomllib.load(handle).get("resolution", [])
+    by_entry: dict[str, dict] = {}
+    for record in records:
+        label = record["entry"]
+        if label in by_entry:
+            raise Fail(f"duplicate resolution record for {label} in {path}")
+        by_entry[label] = record
+    return by_entry
+
+
+def apply_recorded_resolution(
+    worktree: Path,
+    label: str,
+    topic_oid: str,
+    records: dict[str, dict],
+) -> bool:
+    """Apply an explicit, tree-guarded resolution patch for one conflicted merge."""
+    record = records.get(label)
+    if record is None:
+        return False
+
+    ours_tree = git(worktree, "rev-parse", "HEAD^{tree}")
+    merge_head = git(worktree, "rev-parse", "MERGE_HEAD")
+    if ours_tree != record["ours_tree"] or merge_head != record["theirs"] or merge_head != topic_oid:
+        print(
+            f"  recorded resolution for {label} does not match this conflict\n"
+            f"    ours tree: {ours_tree} (recorded {record['ours_tree']})\n"
+            f"    theirs:    {merge_head} (recorded {record['theirs']})"
+        )
+        return False
+
+    patch = ASSEMBLY_ROOT / record["patch"]
+    if not patch.is_file():
+        raise Fail(f"{label}: recorded resolution patch is missing: {patch}")
+
+    # Restore the first-parent tree without aborting the merge, then apply the
+    # full first-parent -> resolved-merge diff. This records the exact resolved
+    # result, including clean and conflicted paths, rather than relying on
+    # contextual conflict-marker matching.
+    git(worktree, "restore", "--source=HEAD", "--staged", "--worktree", "--", ".")
+    proc = subprocess.run(
+        [
+            "git",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "commit.gpgSign=false",
+            "-C",
+            str(worktree),
+            "apply",
+            "--binary",
+            "--index",
+            str(patch),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        raise Fail(f"{label}: recorded resolution failed to apply:\n{proc.stderr.strip()}")
+
+    resolved_tree = git(worktree, "write-tree")
+    if resolved_tree != record["resolved_tree"]:
+        raise Fail(
+            f"{label}: resolution produced tree {resolved_tree}, "
+            f"expected {record['resolved_tree']}"
+        )
+    git(
+        worktree,
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "commit.gpgSign=false",
+        "commit",
+        "--no-edit",
+    )
+    return True
 
 
 def pin_source_checkout(repo: Path, upstream_commit: str) -> None:
@@ -368,7 +464,17 @@ def commit_provenance(worktree: Path, provenance: dict) -> str:
     (worktree / PROVENANCE_FILE).write_text(json.dumps(provenance, indent=2) + "\n")
     git(worktree, "add", PROVENANCE_FILE)
     if git(worktree, "status", "--porcelain", "--", PROVENANCE_FILE):
-        git(worktree, "commit", "-q", "-m", "assembly: record build provenance")
+        git(
+            worktree,
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "commit.gpgSign=false",
+            "commit",
+            "-q",
+            "-m",
+            "assembly: record build provenance",
+        )
     return git(worktree, "rev-parse", "HEAD")
 
 
@@ -402,7 +508,18 @@ def merge_entry(worktree: Path, entry: dict, oid: str) -> bool:
     message = f"assembly: merge {label} ({entry.get('summary', '')})".strip()
     proc = subprocess.run(
         [
-            "git", "-C", str(worktree), "merge", "--no-ff", "--no-edit",
+            "git",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "commit.gpgSign=false",
+            "-c",
+            "merge.gpgSign=false",
+            "-C",
+            str(worktree),
+            "merge",
+            "--no-ff",
+            "--no-edit",
             "-m", message, oid,
         ],
         capture_output=True,
@@ -429,6 +546,7 @@ def run(args: argparse.Namespace) -> int:
     manifest = load_manifest()
     repo = Path(args.repo).resolve()
     configure_source_repo(repo, manifest)
+    resolutions = load_resolutions(manifest)
     worktree = WORKTREE_ROOT / WORKTREE_NAME
     entries = manifest["entry"]
     epilogues = manifest.get("epilogue", [])
@@ -454,7 +572,15 @@ def run(args: argparse.Namespace) -> int:
         pre_epilogue_commit = state.get("pre_epilogue_commit")
 
         if (common / "MERGE_HEAD").exists():
-            git(worktree, "commit", "--no-edit")
+            git(
+                worktree,
+                "-c",
+                "core.hooksPath=/dev/null",
+                "-c",
+                "commit.gpgSign=false",
+                "commit",
+                "--no-edit",
+            )
             # The stalled entry is now merged; record it and advance past it.
             # Re-running it would be a no-op merge that falsely reports EMPTY.
             entry = entries[stalled]
@@ -484,25 +610,26 @@ def run(args: argparse.Namespace) -> int:
             start = stalled
         print(f"resuming at entry {start + 1}/{len(entries)}")
     else:
-        print("fetching upstream main and fork...")
-        upstream_ref = manifest["upstream_ref"]
-        git(repo, "fetch", "origin", upstream_ref, capture=False)
-        git(repo, "fetch", "fork", capture=False)
         mode = args.mode
+        upstream_ref = manifest["upstream_ref"]
+        if mode == "reproduce":
+            print("importing hermetic topic bundle...")
+            import_topic_bundle(repo, manifest)
+        else:
+            print("fetching upstream main and fork...")
+            git(repo, "fetch", "origin", upstream_ref, capture=False)
+            git(repo, "fetch", "fork", capture=False)
         conflicts = 0
         pre_epilogue_commit = None
         if mode == "extend":
             main, results, start = prepare_extend(repo, worktree, manifest, entries)
         else:
-            if mode == "reproduce" and LOCK.exists():
-                locked_main = json.loads(LOCK.read_text()).get("upstream_main")
-                if not locked_main:
-                    raise Fail("reproduce mode needs an upstream_main recorded in the lock")
-                if not git_ok(repo, "cat-file", "-e", f"{locked_main}^{{commit}}"):
+            if mode == "reproduce":
+                main = manifest["base"]
+                if not git_ok(repo, "cat-file", "-e", f"{main}^{{commit}}"):
                     raise Fail(
-                        f"locked upstream commit {locked_main} is not available locally"
+                        f"manifest base {main} is not available in the pinned submodule"
                     )
-                main = locked_main
             else:
                 main = git(repo, "rev-parse", f"origin/{upstream_ref}")
             results = []
@@ -526,6 +653,31 @@ def run(args: argparse.Namespace) -> int:
         if not clean:
             files = conflicted_files(worktree)
             conflicts += 1
+            if apply_recorded_resolution(worktree, label, oid, resolutions):
+                print(
+                    f"  [{index + 1:2}/{len(entries)}] "
+                    f"{label:<10} replayed recorded resolution"
+                )
+                results.append(
+                    {
+                        "entry": label,
+                        "oid": oid,
+                        "status": "merged",
+                        "conflicted": True,
+                        "resolution": resolutions[label]["patch"],
+                    }
+                )
+                write_state(
+                    worktree,
+                    {
+                        "next_index": index + 1,
+                        "upstream_main": main,
+                        "mode": mode,
+                        "results": results,
+                        "conflicts": conflicts,
+                    },
+                )
+                continue
             write_state(
                 worktree,
                 {
@@ -625,8 +777,11 @@ def run(args: argparse.Namespace) -> int:
             write_state(worktree, {"next_index": len(entries), "upstream_main": main, "mode": mode, "results": results, "conflicts": conflicts, "pre_epilogue_commit": pre_epilogue_commit})
             continue
         git(
-            worktree, "-c", "user.name=Ivan Malison",
-            "-c", "user.email=IvanMalison@gmail.com",
+            worktree,
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "commit.gpgSign=false",
             "commit", "-q", "-m", f"assembly: {label}",
         )
         print(f"  epilogue {patch.name} applied")

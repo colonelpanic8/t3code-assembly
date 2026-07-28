@@ -1,0 +1,1711 @@
+diff --git a/apps/web/src/components/ChatView.tsx b/apps/web/src/components/ChatView.tsx
+index 3bb27546ec60655a885f78d02fbb69e43ff702c6..2f111396d2394a0a3f3874f18d20f7833eb1468a 100644
+--- a/apps/web/src/components/ChatView.tsx
++++ b/apps/web/src/components/ChatView.tsx
+@@ -132,13 +132,8 @@ import {
+ } from "../previewStateStore";
+ import { addBrowserSurface } from "./preview/addBrowserSurface";
+ import { closePreviewSession } from "./preview/closePreviewSession";
+-import { ThreadPreviewMiniPlayer } from "./preview/ThreadPreviewMiniPlayer";
+ import { subscribePreviewAction } from "./preview/previewActionBus";
+ import { getConfiguredPreviewUrls } from "./preview/previewEmptyStateLogic";
+-import {
+-  selectThreadPreviewMiniPlayer,
+-  usePreviewMiniPlayerStore,
+-} from "../previewMiniPlayerStore";
+ import { RightPanelTabs } from "./RightPanelTabs";
+ import { GeneratedImagePanel } from "./chat/GeneratedImagePanel";
+ import { DiffWorkerPoolProvider } from "./DiffWorkerPoolProvider";
+@@ -174,7 +169,6 @@ import {
+   useEnvironmentSettings,
+ } from "../hooks/useSettings";
+ import { useNowMinute } from "../hooks/useNowMinute";
+-import { useNewThreadHandler } from "../hooks/useHandleNewThread";
+ import { resolveAppModelSelectionForInstance } from "../modelSelection";
+ import { getTerminalFocusOwner } from "../lib/terminalFocus";
+ import { resolveNewDraftStartFromOrigin } from "../lib/chatThreadActions";
+@@ -201,6 +195,7 @@ import {
+   formatElementContextLabel,
+ } from "../lib/elementContext";
+ import { appendPreviewAnnotationPrompt } from "../lib/previewAnnotation";
++import { isPreviewFocused } from "../lib/previewFocus";
+ import { appendReviewCommentsToPrompt, type ReviewCommentContext } from "../reviewCommentContext";
+ import { environmentCatalog } from "../connection/catalog";
+ import { selectThreadTerminalUiState, useTerminalUiStateStore } from "../terminalUiStateStore";
+@@ -232,6 +227,12 @@ import {
+   deriveTimelineMessages,
+   deriveTurnDiffSummaryByAssistantMessageId,
+ } from "./chat/threadTimelineModel";
++import { FindInThreadBar } from "./chat/FindInThreadBar";
++import {
++  clampThreadFindIndex,
++  isThreadFindActiveForThread,
++  stepThreadFindIndex,
++} from "./chat/threadFind";
+ import { ChatHeader } from "./chat/ChatHeader";
+ import { PanelLayoutControls, RightPanelMaximizeControl } from "./chat/PanelLayoutControls";
+ import { type ExpandedImagePreview } from "./chat/ExpandedImagePreview";
+@@ -280,7 +281,6 @@ import {
+   resolveThreadMetadataUpdateForNextTurn,
+   revokeBlobPreviewUrl,
+   revokeUserMessagePreviewUrls,
+-  startNewThreadForProject,
+   shouldRenewDraftThreadIdAfterFailure,
+   waitForStartedServerThread,
+ } from "./ChatView.logic";
+@@ -318,6 +318,28 @@ const EMPTY_ACTIVITIES: OrchestrationThreadActivity[] = [];
+ const EMPTY_PROVIDERS: ServerProvider[] = [];
+ const EMPTY_PROVIDER_SKILLS: ServerProvider["skills"] = [];
+ const EMPTY_PENDING_USER_INPUT_ANSWERS: Record<string, PendingUserInputDraftAnswer> = {};
++
++interface ChatFindState {
++  open: boolean;
++  threadKey: string | null;
++  query: string;
++  activeIndex: number;
++  matchCount: number;
++  /** Bumped on every open request so a repeat Cmd+F re-selects the field. */
++  focusRequestId: number;
++  /** Bumped on every next/previous step so Enter on a lone match still re-reveals it. */
++  navigationId: number;
++}
++const CLOSED_CHAT_FIND_STATE: ChatFindState = {
++  open: false,
++  threadKey: null,
++  query: "",
++  activeIndex: 0,
++  matchCount: 0,
++  focusRequestId: 0,
++  navigationId: 0,
++};
++
+ function useDraftHeroLayoutTransition(isDraftHeroState: boolean) {
+   const transitionGroupRef = useRef<HTMLDivElement | null>(null);
+   const composerAnchorRef = useRef<HTMLDivElement | null>(null);
+@@ -1141,7 +1163,6 @@ function ChatViewContent(props: ChatViewProps) {
+     forceExpandedMobileComposer = false,
+   } = props;
+   const draftId = routeKind === "draft" ? props.draftId : null;
+-  const handleNewThread = useNewThreadHandler();
+   const routeThreadRef = useMemo(
+     () => scopeThreadRef(environmentId, threadId),
+     [environmentId, threadId],
+@@ -1254,6 +1275,7 @@ function ChatViewContent(props: ChatViewProps) {
+   const composerRef = useComposerHandleContext() ?? localComposerRef;
+   const branchToolbarRef = useRef<BranchToolbarHandle | null>(null);
+   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
++  const [findState, setFindState] = useState<ChatFindState>(CLOSED_CHAT_FIND_STATE);
+   const [expandedImage, setExpandedImage] = useState<ExpandedImagePreview | null>(null);
+   const [optimisticUserMessages, setOptimisticUserMessages] = useState<ChatMessage[]>([]);
+   const optimisticUserMessagesRef = useRef(optimisticUserMessages);
+@@ -1500,9 +1522,6 @@ function ChatViewContent(props: ChatViewProps) {
+   const activeFileSurface =
+     activeRightPanelSurface?.kind === "file" ? activeRightPanelSurface : null;
+   const activePreviewState = useThreadPreviewState(activeThreadRef);
+-  const activePreviewMiniPlayer = usePreviewMiniPlayerStore((state) =>
+-    selectThreadPreviewMiniPlayer(state.byThreadKey, activeThreadRef),
+-  );
+   const panelTerminalIds = useMemo(
+     () =>
+       new Set(
+@@ -1526,24 +1545,6 @@ function ChatViewContent(props: ChatViewProps) {
+       .reconcileBrowserSurfaces(activeThreadRef, Object.keys(activePreviewState.sessions));
+   }, [activePreviewState.sessions, activeThreadRef]);
+ 
+-  useEffect(() => {
+-    if (!activeThreadRef || !activePreviewMiniPlayer) return;
+-    const miniTabStillExists = Boolean(activePreviewState.sessions[activePreviewMiniPlayer.tabId]);
+-    const sameTabOpenInPanel =
+-      previewPanelOpen &&
+-      activeRightPanelSurface?.kind === "preview" &&
+-      activeRightPanelSurface.resourceId === activePreviewMiniPlayer.tabId;
+-    if (!miniTabStillExists || sameTabOpenInPanel) {
+-      usePreviewMiniPlayerStore.getState().close(activeThreadRef);
+-    }
+-  }, [
+-    activePreviewMiniPlayer,
+-    activePreviewState.sessions,
+-    activeRightPanelSurface,
+-    activeThreadRef,
+-    previewPanelOpen,
+-  ]);
+-
+   const planSidebarOpen = activeRightPanelKind === "plan";
+ 
+   const existingOpenTerminalThreadKeys = useMemo(() => {
+@@ -1594,9 +1595,6 @@ function ChatViewContent(props: ChatViewProps) {
+     ? scopeProjectRef(activeThread.environmentId, activeThread.projectId)
+     : null;
+   const activeProject = useProject(activeProjectRef);
+-  const handleNewThreadInActiveProject = useCallback(() => {
+-    startNewThreadForProject(activeProjectRef, handleNewThread);
+-  }, [activeProjectRef, handleNewThread]);
+   const activeEnvironmentShell = useEnvironmentQuery(
+     activeThread ? environmentShell.stateAtom(activeThread.environmentId) : null,
+   );
+@@ -2311,11 +2309,6 @@ function ChatViewContent(props: ChatViewProps) {
+     const defaultInstanceId = defaultInstanceIdForDriver(selectedProvider);
+     return providerStatuses.find((status) => status.instanceId === defaultInstanceId) ?? null;
+   }, [activeProviderInstanceId, providerStatuses, selectedProvider]);
+-  const threadProviderInstanceId =
+-    serverThread?.session?.providerInstanceId ?? serverThread?.modelSelection.instanceId ?? null;
+-  const threadProviderDriver =
+-    providerStatuses.find((status) => status.instanceId === threadProviderInstanceId)?.driver ??
+-    null;
+   const providerStatusBannerKey = getProviderStatusBannerKey(activeProviderStatus);
+   const [dismissedProviderStatusBannerKey, setDismissedProviderStatusBannerKey] = useState<
+     string | null
+@@ -3804,6 +3797,7 @@ function ChatViewContent(props: ChatViewProps) {
+   const activeThreadPr = resolveThreadPr({
+     threadBranch: activeThread?.branch ?? null,
+     gitStatus: gitStatusQuery.data ?? null,
++    hasDedicatedWorktree: (activeThread?.worktreePath ?? null) !== null,
+   });
+   const supportsSettlement = serverConfig?.environment.capabilities.threadSettlement === true;
+   const supportsSnooze = serverConfig?.environment.capabilities.threadSnooze === true;
+@@ -4191,6 +4185,38 @@ function ChatViewContent(props: ChatViewProps) {
+     terminalUiOpenByThreadRef.current[activeThreadKey] = current;
+   }, [activeThreadKey, focusComposer, terminalUiState.terminalOpen]);
+ 
++  const openThreadFind = useCallback(() => {
++    setFindState((state) => ({
++      ...state,
++      open: true,
++      threadKey: activeThreadKey,
++      focusRequestId: state.focusRequestId + 1,
++    }));
++  }, [activeThreadKey]);
++  const closeThreadFind = useCallback(() => {
++    setFindState(CLOSED_CHAT_FIND_STATE);
++  }, []);
++  const changeThreadFindQuery = useCallback((query: string) => {
++    setFindState((state) => ({ ...state, query, activeIndex: 0 }));
++  }, []);
++  const stepThreadFind = useCallback((delta: number) => {
++    setFindState((state) => ({
++      ...state,
++      activeIndex: stepThreadFindIndex(state.activeIndex, state.matchCount, delta),
++      navigationId: state.navigationId + 1,
++    }));
++  }, []);
++  const handleThreadFindMatchCountChange = useCallback((matchCount: number) => {
++    setFindState((state) => (state.matchCount === matchCount ? state : { ...state, matchCount }));
++  }, []);
++  // Find is per-thread; switching threads drops it rather than carrying a query
++  // that matched somewhere else.
++  useEffect(() => {
++    setFindState(CLOSED_CHAT_FIND_STATE);
++  }, [activeThreadKey]);
++  const isThreadFindActive = isThreadFindActiveForThread(findState, activeThreadKey);
++  const threadFindActiveIndex = clampThreadFindIndex(findState.activeIndex, findState.matchCount);
++
+   useEffect(() => {
+     const handler = (event: globalThis.KeyboardEvent) => {
+       if (!activeThreadId || isCommandPaletteOpen()) {
+@@ -4203,6 +4229,7 @@ function ChatViewContent(props: ChatViewProps) {
+       const shortcutContext = {
+         terminalFocus: terminalFocusOwner !== null,
+         terminalOpen: Boolean(terminalUiState.terminalOpen),
++        previewFocus: isPreviewFocused(),
+         modelPickerOpen: composerRef.current?.isModelPickerOpen() ?? false,
+       };
+ 
+@@ -4230,6 +4257,13 @@ function ChatViewContent(props: ChatViewProps) {
+         return;
+       }
+ 
++      if (command === "chat.find") {
++        event.preventDefault();
++        event.stopPropagation();
++        openThreadFind();
++        return;
++      }
++
+       if (command === "rightPanel.toggle") {
+         event.preventDefault();
+         event.stopPropagation();
+@@ -4383,6 +4417,7 @@ function ChatViewContent(props: ChatViewProps) {
+     onToggleDiff,
+     toggleRightPanel,
+     toggleTerminalVisibility,
++    openThreadFind,
+     composerRef,
+   ]);
+ 
+@@ -5704,7 +5739,6 @@ function ChatViewContent(props: ChatViewProps) {
+             availableEditors={availableEditors}
+             rightPanelOpen={rightPanelOpen}
+             gitCwd={gitCwd}
+-            onNewThreadInProject={handleNewThreadInActiveProject}
+             onRunProjectScript={runProjectScript}
+             onAddProjectScript={saveProjectScript}
+             onUpdateProjectScript={updateProjectScript}
+@@ -5751,7 +5785,7 @@ function ChatViewContent(props: ChatViewProps) {
+                 revertTurnCountByUserMessageId={revertTurnCountByUserMessageId}
+                 onRevertUserMessage={onRevertUserMessage}
+                 isRevertingCheckpoint={isRevertingCheckpoint}
+-                {...(isServerThread && supportsSelectedResponseFork(threadProviderDriver)
++                {...(isServerThread && supportsSelectedResponseFork(activeProviderStatus?.driver)
+                   ? { onForkFromResponse, isForkingResponse }
+                   : {})}
+                 onImageExpand={onExpandTimelineImage}
+@@ -5768,8 +5802,27 @@ function ChatViewContent(props: ChatViewProps) {
+                 onManualNavigation={cancelTimelineLiveFollowForUserNavigation}
+                 hideEmptyPlaceholder={isDraftHeroState}
+                 topFadeEnabled={!hasTimelineTopBanner}
++                findQuery={isThreadFindActive ? findState.query : ""}
++                findActiveIndex={threadFindActiveIndex}
++                findNavigationId={findState.navigationId}
++                onFindMatchCountChange={handleThreadFindMatchCountChange}
+               />
+ 
++              {isThreadFindActive && (
++                <div className="pointer-events-none absolute inset-x-0 top-2 z-30 flex justify-end px-3 sm:px-5">
++                  <FindInThreadBar
++                    query={findState.query}
++                    matchCount={findState.matchCount}
++                    activeIndex={threadFindActiveIndex}
++                    focusRequestId={findState.focusRequestId}
++                    onQueryChange={changeThreadFindQuery}
++                    onNext={() => stepThreadFind(1)}
++                    onPrevious={() => stepThreadFind(-1)}
++                    onClose={closeThreadFind}
++                  />
++                </div>
++              )}
++
+               {/* scroll to end pill — shown when user has scrolled away from the live edge */}
+               {showScrollToBottom && (
+                 <div
+@@ -5970,15 +6023,6 @@ function ChatViewContent(props: ChatViewProps) {
+               </div>
+             </div>
+ 
+-            {activeThreadRef && activePreviewMiniPlayer ? (
+-              <ThreadPreviewMiniPlayer
+-                key={`${activeThreadKey}:${activePreviewMiniPlayer.tabId}`}
+-                threadRef={activeThreadRef}
+-                tabId={activePreviewMiniPlayer.tabId}
+-                bottomInset={isDraftHeroState ? 0 : composerOverlayHeight}
+-              />
+-            ) : null}
+-
+             <AlertDialog open={branchRestoreConfirmOpen} onOpenChange={setBranchRestoreConfirmOpen}>
+               <AlertDialogPopup>
+                 <AlertDialogHeader>
+diff --git a/apps/web/src/components/chat/FindInThreadBar.tsx b/apps/web/src/components/chat/FindInThreadBar.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..35d52347874b3105e68efc3e4c6effae0580feb0
+--- /dev/null
++++ b/apps/web/src/components/chat/FindInThreadBar.tsx
+@@ -0,0 +1,125 @@
++import { useEffect, useRef, type KeyboardEvent } from "react";
++import { ChevronDownIcon, ChevronUpIcon, XIcon } from "lucide-react";
++import { Button } from "../ui/button";
++import { formatThreadFindCount } from "./threadFind";
++
++interface FindInThreadBarProps {
++  query: string;
++  matchCount: number;
++  activeIndex: number;
++  /** Bumped by the caller to pull focus back into the field on a repeat Cmd+F. */
++  focusRequestId: number;
++  onQueryChange: (query: string) => void;
++  onNext: () => void;
++  onPrevious: () => void;
++  onClose: () => void;
++}
++
++export function FindInThreadBar({
++  query,
++  matchCount,
++  activeIndex,
++  focusRequestId,
++  onQueryChange,
++  onNext,
++  onPrevious,
++  onClose,
++}: FindInThreadBarProps) {
++  const inputRef = useRef<HTMLInputElement | null>(null);
++
++  useEffect(() => {
++    const input = inputRef.current;
++    if (!input) {
++      return;
++    }
++    input.focus();
++    input.select();
++  }, [focusRequestId]);
++
++  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
++    if (event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229) {
++      return;
++    }
++    if (event.key === "Escape") {
++      event.preventDefault();
++      event.stopPropagation();
++      onClose();
++      return;
++    }
++    if (event.key === "Enter") {
++      event.preventDefault();
++      event.stopPropagation();
++      if (event.shiftKey) {
++        onPrevious();
++      } else {
++        onNext();
++      }
++    }
++  };
++
++  const hasQuery = query.trim().length > 0;
++  const noResults = hasQuery && matchCount === 0;
++
++  return (
++    <div
++      role="search"
++      aria-label="Find in thread"
++      className="pointer-events-auto flex items-center gap-1 rounded-full border border-border/60 bg-card px-2 py-1 shadow-md"
++    >
++      <input
++        ref={inputRef}
++        type="text"
++        value={query}
++        aria-label="Find in thread"
++        placeholder="Find in thread"
++        spellCheck={false}
++        autoComplete="off"
++        onChange={(event) => onQueryChange(event.target.value)}
++        onKeyDown={handleKeyDown}
++        className="h-6 w-44 bg-transparent px-1 text-sm text-foreground outline-none placeholder:text-muted-foreground/72"
++      />
++      <span
++        aria-live="polite"
++        className={
++          noResults
++            ? "min-w-10 shrink-0 text-center text-xs tabular-nums text-destructive"
++            : "min-w-10 shrink-0 text-center text-xs tabular-nums text-muted-foreground"
++        }
++      >
++        {hasQuery ? formatThreadFindCount(activeIndex, matchCount) : ""}
++      </span>
++      <Button
++        type="button"
++        size="xs"
++        variant="ghost"
++        aria-label="Previous match"
++        disabled={matchCount === 0}
++        onClick={onPrevious}
++        className="size-6 p-0"
++      >
++        <ChevronUpIcon className="size-3.5" />
++      </Button>
++      <Button
++        type="button"
++        size="xs"
++        variant="ghost"
++        aria-label="Next match"
++        disabled={matchCount === 0}
++        onClick={onNext}
++        className="size-6 p-0"
++      >
++        <ChevronDownIcon className="size-3.5" />
++      </Button>
++      <Button
++        type="button"
++        size="xs"
++        variant="ghost"
++        aria-label="Close find"
++        onClick={onClose}
++        className="size-6 p-0"
++      >
++        <XIcon className="size-3.5" />
++      </Button>
++    </div>
++  );
++}
+diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
+index b856c4d0a48199390128d6180cb3ff6df87a08a3..c447afeaebc9ec90c9875afc7edc0349cc9915b9 100644
+--- a/apps/web/src/components/chat/MessagesTimeline.tsx
++++ b/apps/web/src/components/chat/MessagesTimeline.tsx
+@@ -14,6 +14,7 @@ import {
+   use,
+   useCallback,
+   useEffect,
++  useLayoutEffect,
+   useMemo,
+   useRef,
+   useState,
+@@ -84,20 +85,18 @@ import {
+   TIMELINE_MINIMAP_MIN_ITEMS,
+   type TimelineLatestTurn,
+ } from "./MessagesTimeline.logic";
++import {
++  buildThreadFindMatches,
++  clampThreadFindIndex,
++  normalizeThreadFindQuery,
++} from "./threadFind";
++import { useThreadFindHighlights } from "./threadFindHighlights";
+ import { TerminalContextInlineChip } from "./TerminalContextInlineChip";
+ import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
+-import {
+-  deriveDisplayedUserMessageState,
+-  type ParsedTerminalContextEntry,
+-} from "~/lib/terminalContext";
+-import {
+-  extractTrailingElementContexts,
+-  type ParsedElementContextEntry,
+-} from "~/lib/elementContext";
+-import {
+-  extractTrailingPreviewAnnotation,
+-  type ParsedPreviewAnnotation,
+-} from "~/lib/previewAnnotation";
++import { type ParsedTerminalContextEntry } from "~/lib/terminalContext";
++import { type ParsedElementContextEntry } from "~/lib/elementContext";
++import { type ParsedPreviewAnnotation } from "~/lib/previewAnnotation";
++import { deriveDisplayedUserMessageContent } from "~/lib/visibleMessageText";
+ import { cn } from "~/lib/utils";
+ import { useUiStateStore } from "~/uiStateStore";
+ import { type TimestampFormat } from "@t3tools/contracts/settings";
+@@ -135,6 +134,7 @@ interface TimelineRowSharedState {
+   workspaceRoot: string | undefined;
+   skills: ReadonlyArray<Pick<ServerProviderSkill, "name" | "displayName">>;
+   activeThreadEnvironmentId: EnvironmentId;
++  findActive: boolean;
+   onRevertUserMessage: (messageId: MessageId) => void;
+   onForkFromResponse: ((turnId: TurnId) => void) | null;
+   isForkingResponse: boolean;
+@@ -157,6 +157,10 @@ const TIMELINE_LIST_HEADER = <div className="h-3 sm:h-4" />;
+ const TIMELINE_LIST_FADE_HEADER = <div className="h-10 sm:h-12" />;
+ const TIMELINE_LIST_FOOTER = <div className="h-3 sm:h-4" />;
+ const EMPTY_TIMELINE_SKILLS: ReadonlyArray<Pick<ServerProviderSkill, "name" | "displayName">> = [];
++/** Breathing room kept above a revealed find match, and below it. */
++const FIND_MATCH_VIEW_MARGIN = 96;
++/** Frames to wait for a navigated-to row to mount and lay out before giving up. */
++const FIND_NUDGE_MAX_FRAMES = 12;
+ 
+ // ---------------------------------------------------------------------------
+ // Props (public API)
+@@ -194,6 +198,16 @@ interface MessagesTimelineProps {
+   onManualNavigation: () => void;
+   hideEmptyPlaceholder?: boolean;
+   topFadeEnabled?: boolean;
++  /** In-thread find query; empty disables find entirely. */
++  findQuery?: string;
++  /** Index of the match to reveal, into the list this component reports back. */
++  findActiveIndex?: number;
++  /**
++   * Bumped on every explicit next/previous step so re-stepping onto the same
++   * match (a single-match wrap-around) still re-reveals it.
++   */
++  findNavigationId?: number;
++  onFindMatchCountChange?: (count: number) => void;
+ }
+ 
+ // ---------------------------------------------------------------------------
+@@ -232,10 +246,15 @@ export const MessagesTimeline = memo(function MessagesTimeline({
+   onManualNavigation,
+   hideEmptyPlaceholder = false,
+   topFadeEnabled = false,
++  findQuery = "",
++  findActiveIndex = 0,
++  findNavigationId = 0,
++  onFindMatchCountChange,
+ }: MessagesTimelineProps) {
+   const [expandedTurnIds, setExpandedTurnIds] = useState<ReadonlySet<TurnId>>(new Set());
+   const [expandedWorkGroupIds, setExpandedWorkGroupIds] = useState<ReadonlySet<string>>(new Set());
+   const [minimapStripMap] = useState(() => new Map<string, HTMLSpanElement>());
++  const normalizedFindQuery = normalizeThreadFindQuery(findQuery);
+ 
+   const onToggleTurnFold = useCallback((turnId: TurnId) => {
+     setExpandedTurnIds((existing) => {
+@@ -439,6 +458,7 @@ export const MessagesTimeline = memo(function MessagesTimeline({
+       workspaceRoot,
+       skills,
+       activeThreadEnvironmentId,
++      findActive: normalizedFindQuery.length > 0,
+       onRevertUserMessage,
+       onForkFromResponse: onForkFromResponse ?? null,
+       isForkingResponse,
+@@ -456,6 +476,7 @@ export const MessagesTimeline = memo(function MessagesTimeline({
+       workspaceRoot,
+       skills,
+       activeThreadEnvironmentId,
++      normalizedFindQuery,
+       onRevertUserMessage,
+       onForkFromResponse,
+       isForkingResponse,
+@@ -475,6 +496,139 @@ export const MessagesTimeline = memo(function MessagesTimeline({
+     [activeTurnInProgress, isRevertingCheckpoint, isWorking, latestTurn?.turnId],
+   );
+ 
++  // -------------------------------------------------------------------------
++  // In-thread find. Matches are counted against timeline entries so folded and
++  // virtualized-away content still participates; navigation unfolds and scrolls
++  // to the owning row, and painting happens over the mounted DOM.
++  // -------------------------------------------------------------------------
++  const findMatches = useMemo(
++    () => buildThreadFindMatches(timelineEntries, normalizedFindQuery),
++    [normalizedFindQuery, timelineEntries],
++  );
++  const activeFindMatch =
++    findMatches.length > 0
++      ? (findMatches[clampThreadFindIndex(findActiveIndex, findMatches.length)] ?? null)
++      : null;
++
++  // Layout effect so the parent's count state commits before paint — the find
++  // bar must never display a total the step handlers aren't already using.
++  useLayoutEffect(() => {
++    onFindMatchCountChange?.(findMatches.length);
++  }, [findMatches.length, onFindMatchCountChange]);
++
++  const { repaint: repaintFindHighlights, activeRangeRef } = useThreadFindHighlights({
++    container: timelineViewportElement,
++    query: normalizedFindQuery,
++    activeRowId: activeFindMatch?.entryId ?? null,
++    activeOccurrence: activeFindMatch?.occurrence ?? 0,
++  });
++
++  // Rows churn while a turn streams; only navigate when the target itself
++  // changes — or the user explicitly re-steps — otherwise every streamed token
++  // would yank the scroll position.
++  const navigatedFindMatchKeyRef = useRef<string | null>(null);
++  // The nudge loop lives in a ref rather than effect cleanup: this effect
++  // re-runs on every streamed token, and cleanup would cancel a loop that is
++  // still waiting for the target row to mount.
++  const findNudgeFrameRef = useRef<number | null>(null);
++  const cancelFindNudge = useCallback(() => {
++    if (findNudgeFrameRef.current !== null) {
++      cancelAnimationFrame(findNudgeFrameRef.current);
++      findNudgeFrameRef.current = null;
++    }
++  }, []);
++  useEffect(() => cancelFindNudge, [cancelFindNudge]);
++
++  useEffect(() => {
++    if (!activeFindMatch) {
++      navigatedFindMatchKeyRef.current = null;
++      cancelFindNudge();
++      return;
++    }
++
++    const rowIndex = rows.findIndex((row) => row.id === activeFindMatch.entryId);
++    if (rowIndex === -1) {
++      // The match sits inside a folded turn — unfold it and let the recomputed
++      // rows re-run this effect.
++      const turnId = activeFindMatch.turnId;
++      if (turnId !== null) {
++        setExpandedTurnIds((existing) => {
++          if (existing.has(turnId)) {
++            return existing;
++          }
++          const next = new Set(existing);
++          next.add(turnId);
++          return next;
++        });
++      }
++      return;
++    }
++
++    const matchKey = `${findNavigationId}:${normalizedFindQuery}:${activeFindMatch.entryId}:${activeFindMatch.occurrence}`;
++    if (navigatedFindMatchKeyRef.current === matchKey) {
++      return;
++    }
++    navigatedFindMatchKeyRef.current = matchKey;
++
++    // Find is user navigation: without this, live follow scrolls right back to
++    // the streaming edge on the next layout pass and the match is lost.
++    onManualNavigation();
++    void listRef.current?.scrollToIndex({
++      index: rowIndex,
++      animated: false,
++      viewOffset: FIND_MATCH_VIEW_MARGIN,
++    });
++
++    // Once the row is laid out, nudge the exact occurrence into view — a long
++    // message can scroll to its top with the match still below the fold. The
++    // row can take a few frames to mount and paint after scrollToIndex, so
++    // retry briefly instead of giving up on the first frame.
++    cancelFindNudge();
++    let attemptsLeft = FIND_NUDGE_MAX_FRAMES;
++    const nudge = () => {
++      findNudgeFrameRef.current = null;
++      repaintFindHighlights();
++      attemptsLeft -= 1;
++      const matchRect = activeRangeRef.current?.getBoundingClientRect();
++      const viewportRect = timelineViewportElement?.getBoundingClientRect();
++      if (!matchRect || !viewportRect || matchRect.height === 0) {
++        if (attemptsLeft > 0) {
++          findNudgeFrameRef.current = requestAnimationFrame(nudge);
++        }
++        return;
++      }
++      const topBoundary = viewportRect.top + FIND_MATCH_VIEW_MARGIN;
++      const bottomBoundary =
++        viewportRect.bottom - FIND_MATCH_VIEW_MARGIN - contentInsetEndAdjustment;
++      let delta = 0;
++      if (matchRect.top < topBoundary) {
++        delta = matchRect.top - topBoundary;
++      } else if (matchRect.bottom > bottomBoundary) {
++        delta = matchRect.bottom - bottomBoundary;
++      }
++      if (Math.abs(delta) < 1) {
++        return;
++      }
++      const currentScroll = listRef.current?.getState?.().scroll;
++      if (typeof currentScroll === "number") {
++        listRef.current?.scrollToOffset({ offset: currentScroll + delta, animated: false });
++      }
++    };
++    findNudgeFrameRef.current = requestAnimationFrame(nudge);
++  }, [
++    activeFindMatch,
++    activeRangeRef,
++    cancelFindNudge,
++    contentInsetEndAdjustment,
++    findNavigationId,
++    listRef,
++    normalizedFindQuery,
++    onManualNavigation,
++    repaintFindHighlights,
++    rows,
++    timelineViewportElement,
++  ]);
++
+   // Stable renderItem — no closure deps. Row components read shared state
+   // from TimelineRowCtx, which propagates through LegendList's memo.
+   const renderItem = useCallback(
+@@ -893,21 +1047,10 @@ const TimelineRowContent = memo(function TimelineRowContent({ row }: { row: Time
+ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" }> }) {
+   const ctx = use(TimelineRowCtx);
+   const userImages = row.message.attachments ?? [];
+-  const displayedUserMessage = deriveDisplayedUserMessageState(row.message.text);
+-  const terminalContexts = displayedUserMessage.contexts;
+-  const previewAnnotations: ParsedPreviewAnnotation[] = [];
+-  let visibleText = displayedUserMessage.visibleText;
+-  while (true) {
+-    const extracted = extractTrailingPreviewAnnotation(visibleText);
+-    if (!extracted.annotation) break;
+-    previewAnnotations.unshift(extracted.annotation);
+-    visibleText = extracted.promptText;
+-  }
+-  const elementContextState = extractTrailingElementContexts(visibleText);
+-  const elementContexts = [
+-    ...displayedUserMessage.elementContexts,
+-    ...elementContextState.contexts,
+-  ];
++  const displayedUserMessage = deriveDisplayedUserMessageContent(row.message.text);
++  const terminalContexts = displayedUserMessage.terminalContexts;
++  const previewAnnotations = displayedUserMessage.previewAnnotations;
++  const elementContexts = displayedUserMessage.elementContexts;
+   const previewImages = userImages.filter((image) => image.name.startsWith("preview-annotation-"));
+   const regularImages = userImages.filter((image) => !image.name.startsWith("preview-annotation-"));
+   const canRevertAgentWork = typeof row.revertTurnCount === "number";
+@@ -966,10 +1109,11 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message"
+           </div>
+         ) : null}
+         <CollapsibleUserMessageBody
+-          text={elementContextState.promptText}
++          text={displayedUserMessage.visibleText}
+           terminalContexts={terminalContexts}
+           skills={ctx.skills}
+           markdownCwd={ctx.markdownCwd}
++          expandForFind={ctx.findActive}
+         />
+       </div>
+       <div className="flex w-full max-w-[80%] items-center justify-end pe-1 text-xs tabular-nums opacity-0 transition-opacity duration-200 focus-within:opacity-100 group-hover:opacity-100">
+@@ -1049,16 +1193,18 @@ function AssistantTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "mess
+   return (
+     <>
+       <div className="relative min-w-0 px-1 py-0.5">
+-        <ChatMarkdown
+-          text={messageText}
+-          cwd={ctx.markdownCwd}
+-          threadRef={ctx.threadRef ?? undefined}
+-          artifactTurnId={row.message.turnId ?? undefined}
+-          artifactMessageId={row.message.id}
+-          onImageExpand={ctx.onImageExpand}
+-          isStreaming={Boolean(row.message.streaming)}
+-          skills={ctx.skills}
+-        />
++        <div data-thread-find-text="true">
++          <ChatMarkdown
++            text={messageText}
++            cwd={ctx.markdownCwd}
++            threadRef={ctx.threadRef ?? undefined}
++            artifactTurnId={row.message.turnId ?? undefined}
++            artifactMessageId={row.message.id}
++            onImageExpand={ctx.onImageExpand}
++            isStreaming={Boolean(row.message.streaming)}
++            skills={ctx.skills}
++          />
++        </div>
+         <AssistantChangedFilesSection
+           turnSummary={row.assistantTurnDiffSummary}
+           routeThreadKey={ctx.routeThreadKey}
+@@ -1153,6 +1299,7 @@ function ProposedPlanTimelineRow({
+         threadRef={ctx.threadRef ?? undefined}
+         cwd={ctx.markdownCwd}
+         workspaceRoot={ctx.workspaceRoot}
++        expandForFind={ctx.findActive}
+       />
+     </div>
+   );
+@@ -1490,7 +1637,11 @@ const UserMessageTerminalContextInlineLabel = memo(
+         ? `${props.context.header}\n${props.context.body}`
+         : props.context.header;
+ 
+-    return <TerminalContextInlineChip label={props.context.header} tooltipText={tooltipText} />;
++    return (
++      <span data-thread-find-ignore="true">
++        <TerminalContextInlineChip label={props.context.header} tooltipText={tooltipText} />
++      </span>
++    );
+   },
+ );
+ 
+@@ -1590,12 +1741,14 @@ const CollapsibleUserMessageBody = memo(function CollapsibleUserMessageBody(prop
+   terminalContexts: ParsedTerminalContextEntry[];
+   skills: ReadonlyArray<Pick<ServerProviderSkill, "name" | "displayName">>;
+   markdownCwd: string | undefined;
++  expandForFind?: boolean;
+   footer?: ReactNode;
+ }) {
+   const [expanded, setExpanded] = useState(false);
+   const hasVisibleBody = props.text.trim().length > 0 || props.terminalContexts.length > 0;
+   const canCollapse = hasVisibleBody && shouldCollapseUserMessage(props.text);
+-  const isCollapsed = canCollapse && !expanded;
++  const isCollapsed = canCollapse && !expanded && !props.expandForFind;
++  const showCollapseControl = canCollapse && !props.expandForFind;
+ 
+   return (
+     <div>
+@@ -1603,6 +1756,7 @@ const CollapsibleUserMessageBody = memo(function CollapsibleUserMessageBody(prop
+         <div
+           className={cn("relative", isCollapsed && "max-h-44 overflow-hidden")}
+           data-user-message-body="true"
++          data-thread-find-text="true"
+           data-user-message-collapsed={isCollapsed ? "true" : "false"}
+           data-user-message-collapsible={canCollapse ? "true" : "false"}
+           data-user-message-fade={isCollapsed ? "true" : "false"}
+@@ -1623,15 +1777,15 @@ const CollapsibleUserMessageBody = memo(function CollapsibleUserMessageBody(prop
+           />
+         </div>
+       ) : null}
+-      {canCollapse || props.footer ? (
++      {showCollapseControl || props.footer ? (
+         <div
+           className={cn(
+             "mt-1.5 flex items-center gap-2",
+-            canCollapse && props.footer ? "justify-between" : "justify-end",
++            showCollapseControl && props.footer ? "justify-between" : "justify-end",
+           )}
+           data-user-message-footer="true"
+         >
+-          {canCollapse ? (
++          {showCollapseControl ? (
+             <Button
+               type="button"
+               size="xs"
+@@ -2171,7 +2325,6 @@ const SimpleWorkEntryRow = memo(function SimpleWorkEntryRow(props: {
+         role: "button" as const,
+         tabIndex: 0 as const,
+         "aria-label": displayText,
+-        "aria-expanded": expanded,
+         onClick: () => setExpanded((v) => !v),
+         onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+           if (e.key === "Enter" || e.key === " ") {
+@@ -2183,15 +2336,15 @@ const SimpleWorkEntryRow = memo(function SimpleWorkEntryRow(props: {
+     : {};
+ 
+   return (
+-    <div className="flex flex-col rounded-md px-0.5 py-0.5">
+-      <div
+-        className={cn(
+-          "flex select-none items-center gap-1.5 rounded-md transition-[background-color,opacity,translate] duration-200",
+-          canExpand &&
+-            "cursor-pointer hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70",
+-        )}
+-        {...rowToggleProps}
+-      >
++    <div
++      className={cn(
++        "flex flex-col rounded-md px-0.5 py-0.5 transition-colors",
++        canExpand &&
++          "cursor-pointer hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70",
++      )}
++      {...rowToggleProps}
++    >
++      <div className="flex select-none items-center gap-1.5 transition-[opacity,translate] duration-200">
+         <span className={iconWrapperClass}>
+           <WorkEntryIconSvg
+             name={entryIconName}
+diff --git a/apps/web/src/components/chat/ProposedPlanCard.tsx b/apps/web/src/components/chat/ProposedPlanCard.tsx
+index 9746857a8cacdccc02c0b9b37a33c7d7a936c447..756f1f64d9b88fd57d213a3dee68401bd86b7520 100644
+--- a/apps/web/src/components/chat/ProposedPlanCard.tsx
++++ b/apps/web/src/components/chat/ProposedPlanCard.tsx
+@@ -39,12 +39,14 @@ export const ProposedPlanCard = memo(function ProposedPlanCard({
+   threadRef,
+   cwd,
+   workspaceRoot,
++  expandForFind = false,
+ }: {
+   planMarkdown: string;
+   environmentId: EnvironmentId;
+   threadRef?: ScopedThreadRef | undefined;
+   cwd: string | undefined;
+   workspaceRoot: string | undefined;
++  expandForFind?: boolean;
+ }) {
+   const [expanded, setExpanded] = useState(false);
+   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+@@ -73,6 +75,7 @@ export const ProposedPlanCard = memo(function ProposedPlanCard({
+   const collapsedPreview = canCollapse
+     ? buildCollapsedProposedPlanPreviewMarkdown(planMarkdown, { maxLines: 10 })
+     : null;
++  const isCollapsed = canCollapse && !expanded && !expandForFind;
+   const downloadFilename = buildProposedPlanMarkdownFilename(planMarkdown);
+   const saveContents = normalizePlanMarkdownForExport(planMarkdown);
+ 
+@@ -170,8 +173,11 @@ export const ProposedPlanCard = memo(function ProposedPlanCard({
+         </Menu>
+       </div>
+       <div className="mt-4">
+-        <div className={cn("relative", canCollapse && !expanded && "max-h-104 overflow-hidden")}>
+-          {canCollapse && !expanded ? (
++        <div
++          className={cn("relative", isCollapsed && "max-h-104 overflow-hidden")}
++          data-thread-find-text="true"
++        >
++          {isCollapsed ? (
+             <ChatMarkdown
+               text={collapsedPreview ?? ""}
+               cwd={cwd}
+@@ -186,11 +192,11 @@ export const ProposedPlanCard = memo(function ProposedPlanCard({
+               isStreaming={false}
+             />
+           )}
+-          {canCollapse && !expanded ? (
++          {isCollapsed ? (
+             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-card/95 via-card/80 to-transparent" />
+           ) : null}
+         </div>
+-        {canCollapse ? (
++        {canCollapse && !expandForFind ? (
+           <div className="mt-4 flex justify-center">
+             <Button
+               size="sm"
+diff --git a/apps/web/src/components/chat/threadFind.test.ts b/apps/web/src/components/chat/threadFind.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..7bfd6eebd00cbe5026c4c37b918ef2ab13aca274
+--- /dev/null
++++ b/apps/web/src/components/chat/threadFind.test.ts
+@@ -0,0 +1,232 @@
++import { describe, expect, it } from "vite-plus/test";
++import { type TurnId } from "@t3tools/contracts";
++import { type TimelineEntry } from "../../session-logic";
++import {
++  buildThreadFindMatches,
++  clampThreadFindIndex,
++  findThreadTextOccurrences,
++  formatThreadFindCount,
++  isThreadFindActiveForThread,
++  searchableThreadEntryText,
++  stepThreadFindIndex,
++} from "./threadFind";
++
++function userEntry(id: string, text: string, turnId: string | null = null): TimelineEntry {
++  return {
++    id,
++    kind: "message",
++    createdAt: "2026-01-01T00:00:00.000Z",
++    message: {
++      id,
++      role: "user",
++      text,
++      createdAt: "2026-01-01T00:00:00.000Z",
++      updatedAt: "2026-01-01T00:00:00.000Z",
++      streaming: false,
++      turnId: turnId as TurnId | null,
++    },
++  } as unknown as TimelineEntry;
++}
++
++function assistantEntry(id: string, text: string, turnId: string | null = null): TimelineEntry {
++  return {
++    id,
++    kind: "message",
++    createdAt: "2026-01-01T00:00:01.000Z",
++    message: {
++      id,
++      role: "assistant",
++      text,
++      createdAt: "2026-01-01T00:00:01.000Z",
++      updatedAt: "2026-01-01T00:00:01.000Z",
++      streaming: false,
++      turnId: turnId as TurnId | null,
++    },
++  } as unknown as TimelineEntry;
++}
++
++function workEntry(id: string, message: string): TimelineEntry {
++  return {
++    id,
++    kind: "work",
++    createdAt: "2026-01-01T00:00:02.000Z",
++    entry: { id, message, createdAt: "2026-01-01T00:00:02.000Z" },
++  } as unknown as TimelineEntry;
++}
++
++function proposedPlanEntry(id: string, planMarkdown: string): TimelineEntry {
++  return {
++    id,
++    kind: "proposed-plan",
++    createdAt: "2026-01-01T00:00:03.000Z",
++    proposedPlan: {
++      id,
++      turnId: null,
++      planMarkdown,
++      createdAt: "2026-01-01T00:00:03.000Z",
++      updatedAt: "2026-01-01T00:00:03.000Z",
++    },
++  } as unknown as TimelineEntry;
++}
++
++describe("findThreadTextOccurrences", () => {
++  it("matches case-insensitively", () => {
++    expect(findThreadTextOccurrences("Deploy the Deployment", "deploy")).toEqual([0, 11]);
++  });
++
++  it("counts overlapping candidates only once, matching what a highlighter can paint", () => {
++    expect(findThreadTextOccurrences("aaa", "aa")).toEqual([0]);
++    expect(findThreadTextOccurrences("aaaa", "aa")).toEqual([0, 2]);
++  });
++
++  it("returns nothing for empty inputs", () => {
++    expect(findThreadTextOccurrences("", "a")).toEqual([]);
++    expect(findThreadTextOccurrences("a", "")).toEqual([]);
++  });
++
++  it("keeps offsets valid when lowercasing would change the string's length", () => {
++    // "İ".toLowerCase() is "i" + a combining dot — one code unit longer. Naive
++    // lowercased offsets would report "x" at 2 and push Range.setEnd past the
++    // end of the original text node.
++    expect(findThreadTextOccurrences("İx", "x")).toEqual([1]);
++    expect(findThreadTextOccurrences("İİİ needle", "needle")).toEqual([4]);
++    // The exotic character itself simply does not case-fold.
++    expect(findThreadTextOccurrences("İ", "İ")).toEqual([0]);
++  });
++
++  it("still case-folds surrogate-pair characters", () => {
++    // Deseret capital 𐐀 lowercases to 𐐨 — same UTF-16 length, so it folds.
++    expect(findThreadTextOccurrences("𐐀x", "𐐨")).toEqual([0]);
++  });
++});
++
++describe("searchableThreadEntryText", () => {
++  it("searches the user text the timeline actually shows, not the appended contexts", () => {
++    const prompt = [
++      "check the build",
++      "",
++      "<terminal_context>",
++      "- pnpm build:",
++      "  secret sentinel output",
++      "</terminal_context>",
++    ].join("\n");
++
++    const searchable = searchableThreadEntryText(userEntry("m1", prompt));
++
++    expect(searchable).toBe("check the build");
++    expect(searchable).not.toContain("sentinel");
++  });
++
++  it("skips work-log entries", () => {
++    expect(searchableThreadEntryText(workEntry("w1", "ran the sentinel command"))).toBeNull();
++  });
++
++  it("covers proposed plans", () => {
++    expect(
++      searchableThreadEntryText(proposedPlanEntry("p1", "## Plan\n\n## Summary\n\nship it")),
++    ).toBe("ship it");
++  });
++});
++
++describe("buildThreadFindMatches", () => {
++  const entries: TimelineEntry[] = [
++    userEntry("m1", "deploy the service", "turn-1"),
++    assistantEntry("m2", "Deploying now. Deploy finished.", "turn-1"),
++    workEntry("w1", "deploy ran"),
++    proposedPlanEntry("p1", "deploy plan"),
++  ];
++
++  it("emits one match per occurrence, in timeline order, carrying the owning turn", () => {
++    expect(buildThreadFindMatches(entries, "deploy")).toEqual([
++      { entryId: "m1", turnId: "turn-1", occurrence: 0, offset: 0 },
++      { entryId: "m2", turnId: "turn-1", occurrence: 0, offset: 0 },
++      { entryId: "m2", turnId: "turn-1", occurrence: 1, offset: 15 },
++      { entryId: "p1", turnId: null, occurrence: 0, offset: 0 },
++    ]);
++  });
++
++  it("tracks a match's text offset as streaming edits reassign its ordinal", () => {
++    expect(buildThreadFindMatches([assistantEntry("m1", "one x then x")], "x")).toEqual([
++      { entryId: "m1", turnId: null, occurrence: 0, offset: 4 },
++      { entryId: "m1", turnId: null, occurrence: 1, offset: 11 },
++    ]);
++    expect(buildThreadFindMatches([assistantEntry("m1", "one then x")], "x")).toEqual([
++      { entryId: "m1", turnId: null, occurrence: 0, offset: 9 },
++    ]);
++  });
++
++  it("does not count proposed-plan text that the card strips before rendering", () => {
++    const plan = proposedPlanEntry(
++      "p1",
++      "# Hidden title sentinel\n\n## Summary\n\nVisible body sentinel",
++    );
++
++    expect(buildThreadFindMatches([plan], "hidden")).toEqual([]);
++    expect(buildThreadFindMatches([plan], "summary")).toEqual([]);
++    expect(buildThreadFindMatches([plan], "sentinel")).toEqual([
++      { entryId: "p1", turnId: null, occurrence: 0, offset: 13 },
++    ]);
++  });
++
++  it("ignores blank and whitespace-only queries", () => {
++    expect(buildThreadFindMatches(entries, "")).toEqual([]);
++    expect(buildThreadFindMatches(entries, "   ")).toEqual([]);
++  });
++
++  it("trims the query rather than searching for the untrimmed string", () => {
++    expect(buildThreadFindMatches(entries, "  deploy  ")).toHaveLength(4);
++  });
++});
++
++describe("isThreadFindActiveForThread", () => {
++  it("rejects open state that belongs to the previously active thread", () => {
++    expect(
++      isThreadFindActiveForThread(
++        { open: true, threadKey: "environment:thread-a" },
++        "environment:thread-b",
++      ),
++    ).toBe(false);
++  });
++
++  it("accepts open state only for its owning active thread", () => {
++    expect(
++      isThreadFindActiveForThread(
++        { open: true, threadKey: "environment:thread-a" },
++        "environment:thread-a",
++      ),
++    ).toBe(true);
++    expect(
++      isThreadFindActiveForThread(
++        { open: false, threadKey: "environment:thread-a" },
++        "environment:thread-a",
++      ),
++    ).toBe(false);
++  });
++});
++
++describe("clampThreadFindIndex", () => {
++  it("keeps the index inside a shrinking match list", () => {
++    expect(clampThreadFindIndex(4, 2)).toBe(1);
++    expect(clampThreadFindIndex(4, 0)).toBe(0);
++    expect(clampThreadFindIndex(-1, 3)).toBe(0);
++  });
++});
++
++describe("stepThreadFindIndex", () => {
++  it("wraps in both directions", () => {
++    expect(stepThreadFindIndex(2, 3, 1)).toBe(0);
++    expect(stepThreadFindIndex(0, 3, -1)).toBe(2);
++  });
++
++  it("stays at zero without matches", () => {
++    expect(stepThreadFindIndex(0, 0, 1)).toBe(0);
++  });
++});
++
++describe("formatThreadFindCount", () => {
++  it("never reports a position past the end", () => {
++    expect(formatThreadFindCount(4, 2)).toBe("2/2");
++    expect(formatThreadFindCount(0, 0)).toBe("0/0");
++    expect(formatThreadFindCount(1, 3)).toBe("2/3");
++  });
++});
+diff --git a/apps/web/src/components/chat/threadFind.ts b/apps/web/src/components/chat/threadFind.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a7fc6bb346160e09ab1a76233ab1e1ed4ad9c8c4
+--- /dev/null
++++ b/apps/web/src/components/chat/threadFind.ts
+@@ -0,0 +1,178 @@
++import { type TurnId } from "@t3tools/contracts";
++import { type TimelineEntry } from "../../session-logic";
++import { stripDisplayedPlanMarkdown } from "../../proposedPlan";
++import { deriveDisplayedUserMessageContent } from "~/lib/visibleMessageText";
++
++/**
++ * One occurrence of the find query inside one timeline entry.
++ *
++ * Matches are modeled against timeline *entries* rather than rendered DOM
++ * nodes: entries exist even while their row is folded away or unmounted by the
++ * virtualized list, so counts stay stable and every match stays reachable.
++ */
++export interface ThreadFindMatch {
++  /** Timeline entry id — also the id of the row that renders it. */
++  entryId: string;
++  /** Turn that owns the entry, used to unfold a collapsed turn when navigating. */
++  turnId: TurnId | null;
++  /** 0-based index of this occurrence within its own entry. */
++  occurrence: number;
++  /**
++   * UTF-16 offset inside the entry's searchable text. Unlike `occurrence`,
++   * this changes when a streaming edit removes or inserts an earlier match.
++   */
++  offset: number;
++}
++
++export function normalizeThreadFindQuery(query: string): string {
++  return query.trim();
++}
++
++/**
++ * Lowercases for matching without ever changing UTF-16 length: a code point
++ * whose lowercase form is longer (e.g. "İ" → "i" + combining dot) is kept
++ * as-is. Offsets into the folded string are therefore always valid in the
++ * original — the exotic character merely doesn't case-fold, instead of every
++ * offset after it drifting and Range.setEnd throwing past the node's length.
++ */
++function foldThreadFindCase(text: string): string {
++  const lowered = text.toLowerCase();
++  // Per-code-point lowercase mappings never shrink, so equal length means
++  // every mapping was 1:1 and the fast path is exact.
++  if (lowered.length === text.length) {
++    return lowered;
++  }
++  let folded = "";
++  for (const char of text) {
++    const loweredChar = char.toLowerCase();
++    folded += loweredChar.length === char.length ? loweredChar : char;
++  }
++  return folded;
++}
++
++/**
++ * Offsets of every non-overlapping occurrence, case-insensitively. Advancing by
++ * the needle length (not by one) keeps the count in step with what a
++ * left-to-right highlighter can actually paint: "aa" occurs once in "aaa".
++ */
++export function findThreadTextOccurrences(haystack: string, needle: string): number[] {
++  if (needle.length === 0 || haystack.length === 0) {
++    return [];
++  }
++  const lowerHaystack = foldThreadFindCase(haystack);
++  const lowerNeedle = foldThreadFindCase(needle);
++  const offsets: number[] = [];
++  let cursor = 0;
++  while (cursor <= lowerHaystack.length - lowerNeedle.length) {
++    const found = lowerHaystack.indexOf(lowerNeedle, cursor);
++    if (found === -1) {
++      break;
++    }
++    offsets.push(found);
++    cursor = found + lowerNeedle.length;
++  }
++  return offsets;
++}
++
++/**
++ * The text a timeline entry puts on screen, or `null` for entries find does not
++ * cover. Work-log rows (tool calls, commands, reasoning) are deliberately out of
++ * scope — find targets the conversation itself.
++ *
++ * Assistant messages and the displayed plan body are searched as markdown
++ * *source*, so syntax that the renderer hides (link URLs, emphasis markers) is
++ * matched too. That is intentional: extracting renderer-exact plain text would
++ * mean duplicating the markdown pipeline here and drifting from it. Such a
++ * match still navigates to the right message; it just may not paint.
++ */
++export function searchableThreadEntryText(entry: TimelineEntry): string | null {
++  if (entry.kind === "proposed-plan") {
++    return stripDisplayedPlanMarkdown(entry.proposedPlan.planMarkdown);
++  }
++  if (entry.kind !== "message") {
++    return null;
++  }
++  if (entry.message.role === "user") {
++    return deriveDisplayedUserMessageContent(entry.message.text).visibleText;
++  }
++  return entry.message.text;
++}
++
++function threadEntryTurnId(entry: TimelineEntry): TurnId | null {
++  if (entry.kind === "message") {
++    return entry.message.turnId ?? null;
++  }
++  if (entry.kind === "proposed-plan") {
++    return entry.proposedPlan.turnId ?? null;
++  }
++  return null;
++}
++
++export function buildThreadFindMatches(
++  entries: ReadonlyArray<TimelineEntry>,
++  query: string,
++): ThreadFindMatch[] {
++  const normalized = normalizeThreadFindQuery(query);
++  if (normalized.length === 0) {
++    return [];
++  }
++
++  const matches: ThreadFindMatch[] = [];
++  for (const entry of entries) {
++    const text = searchableThreadEntryText(entry);
++    if (text === null) {
++      continue;
++    }
++    const occurrences = findThreadTextOccurrences(text, normalized);
++    for (let occurrence = 0; occurrence < occurrences.length; occurrence += 1) {
++      matches.push({
++        entryId: entry.id,
++        turnId: threadEntryTurnId(entry),
++        occurrence,
++        offset: occurrences[occurrence] ?? 0,
++      });
++    }
++  }
++  return matches;
++}
++
++/**
++ * Find state is owned by the thread on which it was opened. Checking that
++ * ownership during render prevents one stale paint with the previous thread's
++ * query before the thread-change cleanup effect runs.
++ */
++export function isThreadFindActiveForThread(
++  state: { open: boolean; threadKey: string | null },
++  activeThreadKey: string | null,
++): boolean {
++  return state.open && state.threadKey !== null && state.threadKey === activeThreadKey;
++}
++
++/**
++ * Keeps the active position inside the match list as the thread changes under
++ * it — a streaming edit that drops matches must not leave "5 / 2" on screen.
++ */
++export function clampThreadFindIndex(index: number, total: number): number {
++  if (total <= 0) {
++    return 0;
++  }
++  if (!Number.isFinite(index) || index < 0) {
++    return 0;
++  }
++  return Math.min(Math.trunc(index), total - 1);
++}
++
++export function stepThreadFindIndex(index: number, total: number, delta: number): number {
++  if (total <= 0) {
++    return 0;
++  }
++  const clamped = clampThreadFindIndex(index, total);
++  return (((clamped + delta) % total) + total) % total;
++}
++
++export function formatThreadFindCount(index: number, total: number): string {
++  if (total <= 0) {
++    return "0/0";
++  }
++  return `${clampThreadFindIndex(index, total) + 1}/${total}`;
++}
+diff --git a/apps/web/src/components/chat/threadFindHighlights.test.ts b/apps/web/src/components/chat/threadFindHighlights.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..15ecd047c3b62e61f9f214fd818739eedf59c97d
+--- /dev/null
++++ b/apps/web/src/components/chat/threadFindHighlights.test.ts
+@@ -0,0 +1,35 @@
++import { describe, expect, it } from "vite-plus/test";
++import { partitionThreadFindRanges } from "./threadFindHighlights";
++
++const groups = [
++  { rowId: "m1", ranges: ["m1-a", "m1-b"] },
++  { rowId: "m2", ranges: ["m2-a", "m2-b", "m2-c"] },
++];
++
++describe("partitionThreadFindRanges", () => {
++  it("marks exactly one occurrence active, not the whole row", () => {
++    expect(partitionThreadFindRanges(groups, "m2", 1)).toEqual({
++      active: "m2-b",
++      inactive: ["m1-a", "m1-b", "m2-a", "m2-c"],
++    });
++  });
++
++  it("clamps an occurrence the mounted DOM cannot offer", () => {
++    expect(partitionThreadFindRanges(groups, "m1", 9)).toEqual({
++      active: "m1-b",
++      inactive: ["m1-a", "m2-a", "m2-b", "m2-c"],
++    });
++  });
++
++  it("leaves every range inactive when the active row is not mounted", () => {
++    expect(partitionThreadFindRanges(groups, "m9", 0)).toEqual({
++      active: null,
++      inactive: ["m1-a", "m1-b", "m2-a", "m2-b", "m2-c"],
++    });
++    expect(partitionThreadFindRanges(groups, null, 0).active).toBeNull();
++  });
++
++  it("handles an empty collection", () => {
++    expect(partitionThreadFindRanges([], "m1", 0)).toEqual({ active: null, inactive: [] });
++  });
++});
+diff --git a/apps/web/src/components/chat/threadFindHighlights.ts b/apps/web/src/components/chat/threadFindHighlights.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1e66891f5d393b7f48126a70793603ac405c780d
+--- /dev/null
++++ b/apps/web/src/components/chat/threadFindHighlights.ts
+@@ -0,0 +1,229 @@
++import { useCallback, useEffect, useRef, type RefObject } from "react";
++import { clampThreadFindIndex, findThreadTextOccurrences } from "./threadFind";
++
++export const THREAD_FIND_HIGHLIGHT_NAME = "t3-thread-find";
++export const THREAD_FIND_ACTIVE_HIGHLIGHT_NAME = "t3-thread-find-active";
++
++/**
++ * `data-thread-find-text` marks an element as rendering text that
++ * `searchableThreadEntryText` indexes. Only text inside these regions is
++ * painted; row chrome (timestamps, buttons, fold labels, work-log output)
++ * stays unpainted so it can neither light up for text the counter never
++ * counted nor shift the active-occurrence index within a row.
++ */
++const THREAD_FIND_TEXT_SELECTOR = "[data-thread-find-text]";
++const THREAD_FIND_IGNORE_SELECTOR = "[data-thread-find-ignore]";
++
++export interface ThreadFindRangeGroup<T = Range> {
++  rowId: string;
++  ranges: T[];
++}
++
++/**
++ * Splits collected ranges into the single active one and the rest.
++ *
++ * Only the active *occurrence* may carry the active style — highlighting the
++ * whole row would light up every match inside a message at once. The row is
++ * authoritative and the occurrence index is best-effort (inline markup can
++ * split an occurrence across text nodes), so the index is clamped into the row
++ * rather than dropped.
++ */
++export function partitionThreadFindRanges<T>(
++  groups: ReadonlyArray<ThreadFindRangeGroup<T>>,
++  activeRowId: string | null,
++  activeOccurrence: number,
++): { active: T | null; inactive: T[] } {
++  const inactive: T[] = [];
++  let active: T | null = null;
++
++  for (const group of groups) {
++    if (active === null && group.rowId === activeRowId && group.ranges.length > 0) {
++      const index = clampThreadFindIndex(activeOccurrence, group.ranges.length);
++      for (let position = 0; position < group.ranges.length; position += 1) {
++        const range = group.ranges[position]!;
++        if (position === index) {
++          active = range;
++        } else {
++          inactive.push(range);
++        }
++      }
++      continue;
++    }
++    inactive.push(...group.ranges);
++  }
++
++  return { active, inactive };
++}
++
++interface HighlightConstructor {
++  new (...ranges: Range[]): object;
++}
++
++interface HighlightRegistryLike {
++  set(name: string, value: object): void;
++  delete(name: string): void;
++}
++
++/**
++ * The CSS Custom Highlight API paints ranges without touching the DOM, so
++ * markdown output, syntax-highlighted code, copy behavior and the source
++ * offsets other features derive from message text all stay untouched. Browsers
++ * without it simply render no highlights; counting and navigation still work.
++ */
++function resolveHighlightApi(): {
++  registry: HighlightRegistryLike;
++  Highlight: HighlightConstructor;
++} | null {
++  const cssGlobal = globalThis.CSS as unknown as { highlights?: HighlightRegistryLike } | undefined;
++  const registry = cssGlobal?.highlights;
++  const Highlight = (globalThis as { Highlight?: HighlightConstructor }).Highlight;
++  if (!registry || !Highlight) {
++    return null;
++  }
++  return { registry, Highlight };
++}
++
++/**
++ * Collects a range per visible occurrence, grouped by timeline row, in document
++ * order. Only text inside `data-thread-find-text` regions participates, so
++ * the painted set mirrors the searchable model rather than everything a row
++ * happens to render. Occurrences split across text nodes by inline markup
++ * (`**bo**ld`) are not matched — the model-level index owns the count, so a row
++ * simply paints fewer highlights than it reports.
++ */
++export function collectThreadFindRanges(
++  container: HTMLElement,
++  query: string,
++): ThreadFindRangeGroup[] {
++  if (query.length === 0) {
++    return [];
++  }
++
++  const ownerDocument = container.ownerDocument;
++  const groups: ThreadFindRangeGroup[] = [];
++  const groupsByRowId = new Map<string, ThreadFindRangeGroup>();
++
++  for (const scope of container.querySelectorAll(THREAD_FIND_TEXT_SELECTOR)) {
++    if (scope.parentElement?.closest(THREAD_FIND_TEXT_SELECTOR)) {
++      continue; // Nested region — its text is already walked by the ancestor.
++    }
++    const rowId = scope.closest("[data-timeline-row-id]")?.getAttribute("data-timeline-row-id");
++    if (!rowId) {
++      continue;
++    }
++
++    const walker = ownerDocument.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
++    let node = walker.nextNode();
++    while (node) {
++      if (node.parentElement?.closest(THREAD_FIND_IGNORE_SELECTOR)) {
++        node = walker.nextNode();
++        continue;
++      }
++      const text = node.nodeValue ?? "";
++      const offsets = text.length > 0 ? findThreadTextOccurrences(text, query) : [];
++      if (offsets.length > 0) {
++        let group = groupsByRowId.get(rowId);
++        if (!group) {
++          group = { rowId, ranges: [] };
++          groupsByRowId.set(rowId, group);
++          groups.push(group);
++        }
++        for (const offset of offsets) {
++          const range = ownerDocument.createRange();
++          range.setStart(node, offset);
++          range.setEnd(node, offset + query.length);
++          group.ranges.push(range);
++        }
++      }
++      node = walker.nextNode();
++    }
++  }
++
++  return groups;
++}
++
++export interface ThreadFindHighlightsInput {
++  container: HTMLElement | null;
++  /** Normalized query; empty disables painting entirely. */
++  query: string;
++  /** Row id owning the active match, or null when there is no active match. */
++  activeRowId: string | null;
++  /** Index of the active occurrence within its row. */
++  activeOccurrence: number;
++}
++
++/**
++ * Paints find highlights over whatever the virtualized list currently has
++ * mounted, repainting as rows mount, unmount or stream in.
++ */
++export function useThreadFindHighlights(input: ThreadFindHighlightsInput): {
++  repaint: () => void;
++  activeRangeRef: RefObject<Range | null>;
++} {
++  const { container, query, activeRowId, activeOccurrence } = input;
++  const activeRangeRef = useRef<Range | null>(null);
++
++  const repaint = useCallback(() => {
++    const api = resolveHighlightApi();
++    if (!api) {
++      return;
++    }
++    if (!container || query.length === 0) {
++      activeRangeRef.current = null;
++      api.registry.delete(THREAD_FIND_HIGHLIGHT_NAME);
++      api.registry.delete(THREAD_FIND_ACTIVE_HIGHLIGHT_NAME);
++      return;
++    }
++
++    const { active, inactive } = partitionThreadFindRanges(
++      collectThreadFindRanges(container, query),
++      activeRowId,
++      activeOccurrence,
++    );
++
++    activeRangeRef.current = active;
++    api.registry.set(THREAD_FIND_HIGHLIGHT_NAME, new api.Highlight(...inactive));
++    api.registry.set(
++      THREAD_FIND_ACTIVE_HIGHLIGHT_NAME,
++      new api.Highlight(...(active ? [active] : [])),
++    );
++  }, [activeOccurrence, activeRowId, container, query]);
++
++  useEffect(() => {
++    repaint();
++  }, [repaint]);
++
++  useEffect(() => {
++    if (!container || query.length === 0) {
++      return;
++    }
++    let frame: number | null = null;
++    const schedule = () => {
++      if (frame !== null) {
++        return;
++      }
++      frame = requestAnimationFrame(() => {
++        frame = null;
++        repaint();
++      });
++    };
++    const observer = new MutationObserver(schedule);
++    observer.observe(container, { subtree: true, childList: true, characterData: true });
++    return () => {
++      observer.disconnect();
++      if (frame !== null) {
++        cancelAnimationFrame(frame);
++      }
++    };
++  }, [container, query, repaint]);
++
++  useEffect(() => {
++    return () => {
++      const api = resolveHighlightApi();
++      api?.registry.delete(THREAD_FIND_HIGHLIGHT_NAME);
++      api?.registry.delete(THREAD_FIND_ACTIVE_HIGHLIGHT_NAME);
++    };
++  }, []);
++
++  return { repaint, activeRangeRef };
++}
+diff --git a/apps/web/src/index.css b/apps/web/src/index.css
+index fc263e3e9f18373053eb12474acdba29a2ac6476..8daaae40d44d8ef2f94ae173d0bc7a76b86e65e9 100644
+--- a/apps/web/src/index.css
++++ b/apps/web/src/index.css
+@@ -241,6 +241,18 @@ html[data-mobile-composer-route-transition="true"]::view-transition-old(t3-mobil
+   }
+ }
+ 
++/* In-thread find paints through the CSS Custom Highlight API, so matches never
++   mutate rendered markdown, code blocks or copyable text. */
++::highlight(t3-thread-find) {
++  background-color: var(--thread-find-match);
++  color: var(--thread-find-match-foreground);
++}
++
++::highlight(t3-thread-find-active) {
++  background-color: var(--thread-find-match-active);
++  color: var(--thread-find-match-active-foreground);
++}
++
+ @layer components {
+   .sidebar-brand {
+     display: none;
+@@ -861,6 +873,10 @@ html[data-mobile-composer-route-transition="true"]::view-transition-old(t3-mobil
+   --sidebar-row-selected: var(--color-white);
+   --sidebar-border: var(--border);
+   --sidebar-stage-fade: var(--sidebar);
++  --thread-find-match: var(--color-amber-200);
++  --thread-find-match-foreground: var(--color-zinc-900);
++  --thread-find-match-active: var(--color-amber-400);
++  --thread-find-match-active-foreground: var(--color-zinc-900);
+ 
+   @variant dark {
+     color-scheme: dark;
+@@ -896,6 +912,10 @@ html[data-mobile-composer-route-transition="true"]::view-transition-old(t3-mobil
+     --sidebar: var(--card);
+     --sidebar-foreground: var(--foreground);
+     --sidebar-muted-foreground: var(--muted-foreground);
++    --thread-find-match: color-mix(in srgb, var(--color-amber-400) 45%, transparent);
++    --thread-find-match-foreground: var(--color-neutral-100);
++    --thread-find-match-active: var(--color-amber-500);
++    --thread-find-match-active-foreground: var(--color-neutral-950);
+     --sidebar-control-surface: var(--muted);
+     --sidebar-row-hover: var(--accent);
+     --sidebar-row-active: var(--accent);
+diff --git a/apps/web/src/lib/visibleMessageText.ts b/apps/web/src/lib/visibleMessageText.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..9bcd0ef5a7b40dc7abcf40c793b4024661edd0fb
+--- /dev/null
++++ b/apps/web/src/lib/visibleMessageText.ts
+@@ -0,0 +1,45 @@
++import {
++  deriveDisplayedUserMessageState,
++  type ParsedTerminalContextEntry,
++} from "./terminalContext";
++import type { ParsedElementContextEntry } from "./elementContext";
++import {
++  extractTrailingPreviewAnnotation,
++  type ParsedPreviewAnnotation,
++} from "./previewAnnotation";
++
++export interface DisplayedUserMessageContent {
++  /** The prompt text the timeline actually renders, with every trailing context block removed. */
++  visibleText: string;
++  /** The unmodified prompt, including context blocks — what "copy message" yields. */
++  copyText: string;
++  terminalContexts: ParsedTerminalContextEntry[];
++  previewAnnotations: ParsedPreviewAnnotation[];
++  elementContexts: ParsedElementContextEntry[];
++}
++
++/**
++ * Peels the send-time context blocks off a user prompt in the same order the
++ * timeline row does. Anything that reads "what does this message show?" — the
++ * row itself, in-thread find — must go through here so the rendered text and
++ * the searched text cannot drift apart.
++ */
++export function deriveDisplayedUserMessageContent(text: string): DisplayedUserMessageContent {
++  const previewAnnotations: ParsedPreviewAnnotation[] = [];
++  let visibleText = text;
++  while (true) {
++    const extracted = extractTrailingPreviewAnnotation(visibleText);
++    if (!extracted.annotation) break;
++    previewAnnotations.unshift(extracted.annotation);
++    visibleText = extracted.promptText;
++  }
++  const displayed = deriveDisplayedUserMessageState(visibleText);
++
++  return {
++    visibleText: displayed.visibleText,
++    copyText: text,
++    terminalContexts: displayed.contexts,
++    previewAnnotations,
++    elementContexts: displayed.elementContexts,
++  };
++}
+diff --git a/packages/contracts/src/keybindings.ts b/packages/contracts/src/keybindings.ts
+index a38670ffbe581044ca1e9b8683e0316d216d387a..36c31c35f27eb37af036c99960abc646cfa13cd7 100644
+--- a/packages/contracts/src/keybindings.ts
++++ b/packages/contracts/src/keybindings.ts
+@@ -79,6 +79,7 @@ const STATIC_KEYBINDING_COMMANDS = [
+   "chat.newEnvironment",
+   "chat.newLocal",
+   "project.add",
++  "chat.find",
+   "editor.openFavorite",
+   ...MODEL_PICKER_KEYBINDING_COMMANDS,
+   ...COMPOSER_KEYBINDING_COMMANDS,
+@@ -148,6 +149,7 @@ export const DEFAULT_KEYBINDINGS: KeybindingsConfig = [
+   { key: "mod+n", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+o", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+n", command: "chat.newLocal", when: "!terminalFocus" },
++  { key: "mod+f", command: "chat.find", when: "!terminalFocus && !previewFocus" },
+   { key: "mod+shift+m", command: "modelPicker.toggle", when: "!terminalFocus" },
+   { key: "mod+o", command: "editor.openFavorite" },
+   { key: "mod+shift+[", command: "thread.previous" },

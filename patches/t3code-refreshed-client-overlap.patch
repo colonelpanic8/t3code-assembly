@@ -1,0 +1,255 @@
+diff --git a/apps/web/src/components/ChatView.tsx b/apps/web/src/components/ChatView.tsx
+index 2f111396d..37a75c037 100644
+--- a/apps/web/src/components/ChatView.tsx
++++ b/apps/web/src/components/ChatView.tsx
+@@ -2309,6 +2309,11 @@ function ChatViewContent(props: ChatViewProps) {
+     const defaultInstanceId = defaultInstanceIdForDriver(selectedProvider);
+     return providerStatuses.find((status) => status.instanceId === defaultInstanceId) ?? null;
+   }, [activeProviderInstanceId, providerStatuses, selectedProvider]);
++  const threadProviderInstanceId =
++    serverThread?.session?.providerInstanceId ?? serverThread?.modelSelection.instanceId ?? null;
++  const threadProviderDriver =
++    providerStatuses.find((status) => status.instanceId === threadProviderInstanceId)?.driver ??
++    null;
+   const providerStatusBannerKey = getProviderStatusBannerKey(activeProviderStatus);
+   const [dismissedProviderStatusBannerKey, setDismissedProviderStatusBannerKey] = useState<
+     string | null
+@@ -5785,7 +5790,7 @@ function ChatViewContent(props: ChatViewProps) {
+                 revertTurnCountByUserMessageId={revertTurnCountByUserMessageId}
+                 onRevertUserMessage={onRevertUserMessage}
+                 isRevertingCheckpoint={isRevertingCheckpoint}
+-                {...(isServerThread && supportsSelectedResponseFork(activeProviderStatus?.driver)
++                {...(isServerThread && supportsSelectedResponseFork(threadProviderDriver)
+                   ? { onForkFromResponse, isForkingResponse }
+                   : {})}
+                 onImageExpand={onExpandTimelineImage}
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 7b43dd5b1..6f30db4b5 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -2232,7 +2232,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+           ?.providers.find((provider) => provider.instanceId === providerInstanceId)?.driver ??
+         null;
+       const forkSupported = supportsThreadFork(providerDriver);
+-      const sourceTurnId = resolveLatestForkableTurnId(thread.latestTurn);
++      const sourceTurnId = resolveLatestForkableTurnId(thread);
+       const clicked = await api.contextMenu.show(
+         [
+           ...(thread.branch
+diff --git a/apps/web/src/components/SidebarV2.tsx b/apps/web/src/components/SidebarV2.tsx
+index 823ebecc2..ec61299ae 100644
+--- a/apps/web/src/components/SidebarV2.tsx
++++ b/apps/web/src/components/SidebarV2.tsx
+@@ -2439,7 +2439,7 @@ export default function SidebarV2() {
+             ?.providers.find((provider) => provider.instanceId === providerInstanceId)?.driver ??
+           null;
+         const forkSupported = supportsThreadFork(providerDriver);
+-        const sourceTurnId = resolveLatestForkableTurnId(thread.latestTurn);
++        const sourceTurnId = resolveLatestForkableTurnId(thread);
+         const isSettled = settledThreadKeysRef.current.has(threadKey);
+         const isSnoozed = snoozedThreadKeysRef.current.has(threadKey);
+         // Presets resolve at menu-open time (same as the popover).
+diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
+index 7a4dcc6a1..734d1cefa 100644
+--- a/apps/web/src/hooks/useSettings.ts
++++ b/apps/web/src/hooks/useSettings.ts
+@@ -9,7 +9,7 @@
+  * environment receive schema defaults for server fields while client fields
+  * remain fully functional.
+  */
+-import { useCallback, useMemo, useSyncExternalStore } from "react";
++import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+   DEFAULT_SERVER_SETTINGS,
+@@ -26,11 +26,14 @@ import {
+ } from "@t3tools/contracts/settings";
+ import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
+ import {
++  acknowledgePendingServerSettings,
+   applyPendingServerPatches,
+   getPendingServerPatches,
++  getPendingServerPatchForDispatch,
+   NO_PENDING_SERVER_PATCHES,
+-  releasePendingServerPatch,
++  type PendingServerPatch,
+   retainPendingServerPatch,
++  settlePendingServerPatch,
+   subscribePendingServerPatches,
+ } from "./pendingServerSettings";
+ import { compileResolvedKeybindingsConfig } from "@t3tools/shared/keybindings";
+@@ -50,6 +53,7 @@ let clientSettingsSnapshot = DEFAULT_CLIENT_SETTINGS;
+ let clientSettingsHydrated = false;
+ let clientSettingsHydrationPromise: Promise<void> | null = null;
+ let clientSettingsHydrationGeneration = 0;
++const serverSettingsWriteQueueByEnvironment = new Map<EnvironmentId, Promise<void>>();
+ 
+ function emitClientSettingsChange() {
+   for (const listener of clientSettingsListeners) {
+@@ -230,6 +234,11 @@ function useMergedSettings<T>(
+ ): T {
+   const clientSettings = useClientSettingsValue();
+   const pendingPatches = usePendingServerPatches(environmentId);
++  useEffect(() => {
++    if (environmentId) {
++      acknowledgePendingServerSettings(environmentId, serverSettings);
++    }
++  }, [environmentId, serverSettings]);
+ 
+   const optimisticServerSettings = useMemo<ServerSettings>(
+     () => applyPendingServerPatches(serverSettings, pendingPatches),
+@@ -280,7 +289,10 @@ export function usePrimarySettings<T = UnifiedSettings>(
+  * Server keys are applied optimistically through `./pendingServerSettings` and
+  * persisted via RPC. Client keys go through client persistence.
+  */
+-function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
++function useUpdateSettingsTarget(
++  environmentId: EnvironmentId | null,
++  serverSettings: ServerSettings,
++) {
+   const persistServerSettings = useAtomCommand(
+     serverEnvironment.updateSettings,
+     "server settings update",
+@@ -291,12 +303,40 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+ 
+       if (Object.keys(serverPatch).length > 0) {
+         if (environmentId) {
+-          retainPendingServerPatch(environmentId, serverPatch);
+-          void persistServerSettings({
++          const optimisticBase = applyPendingServerPatches(
++            serverSettings,
++            getPendingServerPatches(environmentId),
++          );
++          const pendingId = retainPendingServerPatch(
+             environmentId,
+-            input: { patch: serverPatch },
+-          }).finally(() => {
+-            releasePendingServerPatch(environmentId);
++            serverPatch,
++            optimisticBase,
++            serverSettings,
++          );
++          const previous =
++            serverSettingsWriteQueueByEnvironment.get(environmentId) ?? Promise.resolve();
++          const current = previous
++            .then(async () => {
++              const pendingPatch = getPendingServerPatchForDispatch(environmentId, pendingId);
++              if (!pendingPatch) return;
++              const result = await persistServerSettings({
++                environmentId,
++                input: { patch: pendingPatch },
++              });
++              settlePendingServerPatch(
++                environmentId,
++                pendingId,
++                result._tag === "Success" ? result.value : null,
++              );
++            })
++            .catch(() => {
++              settlePendingServerPatch(environmentId, pendingId, null);
++            });
++          serverSettingsWriteQueueByEnvironment.set(environmentId, current);
++          void current.finally(() => {
++            if (serverSettingsWriteQueueByEnvironment.get(environmentId) === current) {
++              serverSettingsWriteQueueByEnvironment.delete(environmentId);
++            }
+           });
+         }
+       }
+@@ -308,18 +348,24 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+         });
+       }
+     },
+-    [environmentId, persistServerSettings],
++    [environmentId, persistServerSettings, serverSettings],
+   );
+ 
+   return updateSettings;
+ }
+ 
+ export function useUpdateEnvironmentSettings(environmentId: EnvironmentId | null) {
+-  return useUpdateSettingsTarget(environmentId);
++  const serverSettings =
++    useAtomValue(serverEnvironment.configValueAtom(environmentId))?.settings ??
++    DEFAULT_SERVER_SETTINGS;
++  return useUpdateSettingsTarget(environmentId, serverSettings);
+ }
+ 
+ export function useUpdatePrimarySettings() {
+-  return useUpdateSettingsTarget(useAtomValue(primaryEnvironmentIdAtom));
++  return useUpdateSettingsTarget(
++    useAtomValue(primaryEnvironmentIdAtom),
++    useAtomValue(primaryServerSettingsAtom),
++  );
+ }
+ 
+ export function useUpdateClientSettings() {
+diff --git a/packages/contracts/src/keybindings.ts b/packages/contracts/src/keybindings.ts
+index 36c31c35f..ae7291aa5 100644
+--- a/packages/contracts/src/keybindings.ts
++++ b/packages/contracts/src/keybindings.ts
+@@ -146,12 +146,20 @@ export const DEFAULT_KEYBINDINGS: KeybindingsConfig = [
+   { key: "mod+-", command: "preview.zoomOut", when: "previewFocus" },
+   { key: "mod+0", command: "preview.resetZoom", when: "previewFocus" },
+   { key: "mod+k", command: "commandPalette.toggle", when: "!terminalFocus" },
++  { key: "mod+s", command: "composer.stash", when: "!terminalFocus" },
+   { key: "mod+n", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+o", command: "chat.new", when: "!terminalFocus" },
+   { key: "mod+shift+n", command: "chat.newLocal", when: "!terminalFocus" },
+   { key: "mod+f", command: "chat.find", when: "!terminalFocus && !previewFocus" },
+   { key: "mod+shift+m", command: "modelPicker.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+e", command: "modelOptionsPicker.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+a", command: "runtimeModePicker.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+p", command: "planMode.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+v", command: "environmentPicker.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+l", command: "envModePicker.toggle", when: "!terminalFocus" },
++  { key: "mod+shift+b", command: "branchPicker.toggle", when: "!terminalFocus" },
+   { key: "mod+o", command: "editor.openFavorite" },
++  { key: "mod+shift+x", command: "thread.settle", when: "!terminalFocus" },
+   { key: "mod+shift+[", command: "thread.previous" },
+   { key: "mod+shift+]", command: "thread.next" },
+   ...THREAD_JUMP_KEYBINDING_COMMANDS.map((command, index) => ({
+diff --git a/apps/web/src/components/chat/ComposerControlShortcutHint.tsx b/apps/web/src/components/chat/ComposerControlShortcutHint.tsx
+--- a/apps/web/src/components/chat/ComposerControlShortcutHint.tsx
++++ b/apps/web/src/components/chat/ComposerControlShortcutHint.tsx
+@@ -1,8 +1,40 @@
++import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
++import type * as React from "react";
+ import { ChevronDownIcon } from "lucide-react";
+ 
+ import { cn } from "~/lib/utils";
+ import { Kbd } from "../ui/kbd";
+ 
++/**
++ * Compatibility affordance for controls that still render a detached
++ * shortcut hint. Newer controls use ComposerControlChevron inline.
++ */
++export function ComposerControlShortcutHint(props: {
++  anchorRef: React.RefObject<Element | null>;
++  label: string | null;
++}) {
++  if (!props.label) return null;
++  return (
++    <TooltipPrimitive.Root open>
++      <TooltipPrimitive.Portal>
++        <TooltipPrimitive.Positioner
++          anchor={props.anchorRef}
++          side="bottom"
++          align="center"
++          sideOffset={4}
++          className="pointer-events-none z-50"
++        >
++          <TooltipPrimitive.Popup>
++            <Kbd className="h-4 min-w-0 rounded-sm border bg-popover px-1.5 text-[10px] shadow-md/5">
++              {props.label}
++            </Kbd>
++          </TooltipPrimitive.Popup>
++        </TooltipPrimitive.Positioner>
++      </TooltipPrimitive.Portal>
++    </TooltipPrimitive.Root>
++  );
++}
++
+ /**
+  * Trailing affordance for a composer control: the disclosure chevron normally,
+  * and the shortcut keycap in its place while a modifier is held. Reusing the

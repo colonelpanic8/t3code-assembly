@@ -1,0 +1,354 @@
+diff --git a/apps/web/src/components/CommandPalette.logic.test.ts b/apps/web/src/components/CommandPalette.logic.test.ts
+index 37f81bac731b6a4a4f3188b969da9e6cab28d64c..36d5a639ad647cbae22d62c531524c3cf48dd4c8 100644
+--- a/apps/web/src/components/CommandPalette.logic.test.ts
++++ b/apps/web/src/components/CommandPalette.logic.test.ts
+@@ -6,6 +6,7 @@ import {
+   buildThreadActionItems,
+   enumerateCommandPaletteItems,
+   filterCommandPaletteGroups,
++  resolveBrowseAvailability,
+   resolveBrowseTabCompletion,
+   resolveCommandPaletteEmptyStateMessage,
+   resolveNewThreadOnIntent,
+@@ -69,6 +70,108 @@ describe("shouldHandleCommandPaletteShortcut", () => {
+   });
+ });
+ 
++describe("resolveBrowseAvailability", () => {
++  it("allows browsing a connected environment", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "workstation",
++        connectionPhase: "connected",
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Available" });
++  });
++
++  it("stays available on a connected environment even when browse fails", () => {
++    // A browse failure on a reachable host is not an availability problem. The
++    // server returns read_directory_failed for a missing parent, which is the
++    // "type a new folder name and press Enter to create it" case -- gating on
++    // it would make Create & Add unable to ever create anything.
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "workstation",
++        connectionPhase: "connected",
++        connectionError: "read_directory_failed",
++      }),
++    ).toEqual({ _tag: "Available" });
++  });
++
++  it("blocks browsing an environment that is not connected", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "workstation",
++        connectionPhase: "available",
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Unavailable", message: "workstation isn't connected." });
++  });
++
++  it("blocks browsing an offline environment", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "workstation",
++        connectionPhase: "offline",
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Unavailable", message: "workstation is offline." });
++  });
++
++  it("surfaces the connection failure reason when the environment is unreachable", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "remote-box",
++        connectionPhase: "error",
++        connectionError: "ssh: connect: host unreachable",
++      }),
++    ).toEqual({
++      _tag: "Unavailable",
++      message: "Can't reach remote-box. Reason: ssh: connect: host unreachable",
++    });
++  });
++
++  it("reports a bare unreachable message when no reason is available", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "remote-box",
++        connectionPhase: "error",
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Unavailable", message: "Can't reach remote-box." });
++  });
++
++  it("reports transient reconnects without claiming the host is gone", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: "remote-box",
++        connectionPhase: "reconnecting",
++        connectionError: "socket closed",
++      }),
++    ).toEqual({
++      _tag: "Unavailable",
++      message: "Reconnecting to remote-box. Reason: socket closed",
++    });
++  });
++
++  it("falls back to a generic label when the environment has no label", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: null,
++        connectionPhase: "offline",
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Unavailable", message: "this environment is offline." });
++  });
++
++  it("blocks browsing when no environment is selected", () => {
++    expect(
++      resolveBrowseAvailability({
++        environmentLabel: null,
++        connectionPhase: null,
++        connectionError: null,
++      }),
++    ).toEqual({ _tag: "Unavailable", message: "Select an environment first." });
++  });
++});
++
+ describe("enumerateCommandPaletteItems", () => {
+   it("assigns positional jump shortcuts to the first nine displayed items", () => {
+     const items = Array.from({ length: 10 }, (_, index) => ({
+diff --git a/apps/web/src/components/CommandPalette.logic.ts b/apps/web/src/components/CommandPalette.logic.ts
+index 013b0d54a86fbbf9184c5f7e0952825d5c58baec..7bbf86862ae073de8d4963e389c72e2a45844585 100644
+--- a/apps/web/src/components/CommandPalette.logic.ts
++++ b/apps/web/src/components/CommandPalette.logic.ts
+@@ -1,3 +1,4 @@
++import type { EnvironmentConnectionPhase } from "@t3tools/client-runtime/connection";
+ import {
+   type KeybindingCommand,
+   type FilesystemBrowseEntry,
+@@ -409,6 +410,57 @@ export function filterCommandPaletteGroups(input: {
+   });
+ }
+ 
++/**
++ * Whether the *selected environment* can be reached right now. Browsing
++ * resolves paths on that environment's filesystem, so an unreachable one must
++ * fail loudly: otherwise the browse query returns nothing and the empty
++ * directory list is indistinguishable from a real empty directory.
++ *
++ * Deliberately keyed on reachability ONLY, never on a browse failure. Browse
++ * legitimately fails on a reachable host when the path does not exist yet --
++ * the server surfaces `read_directory_failed` for a missing parent, which is
++ * exactly the "type a new folder name and press Enter to create it" case. If
++ * that blocked submission, Create & Add could never create anything.
++ */
++export type BrowseAvailability =
++  | { readonly _tag: "Available" }
++  | { readonly _tag: "Unavailable"; readonly message: string };
++
++const AVAILABLE_BROWSE: BrowseAvailability = { _tag: "Available" };
++
++function unavailable(message: string): BrowseAvailability {
++  return { _tag: "Unavailable", message };
++}
++
++export function resolveBrowseAvailability(input: {
++  readonly environmentLabel: string | null;
++  readonly connectionPhase: EnvironmentConnectionPhase | null;
++  readonly connectionError: string | null;
++}): BrowseAvailability {
++  const label = input.environmentLabel ?? "this environment";
++  const withReason = (text: string) =>
++    input.connectionError ? `${text} Reason: ${input.connectionError}` : text;
++
++  if (input.connectionPhase === null) {
++    return unavailable("Select an environment first.");
++  }
++
++  switch (input.connectionPhase) {
++    case "connected":
++      return AVAILABLE_BROWSE;
++    case "connecting":
++      return unavailable(`Connecting to ${label}...`);
++    case "reconnecting":
++      return unavailable(withReason(`Reconnecting to ${label}.`));
++    case "offline":
++      return unavailable(`${label} is offline.`);
++    case "available":
++      return unavailable(`${label} isn't connected.`);
++    case "error":
++      return unavailable(withReason(`Can't reach ${label}.`));
++  }
++}
++
+ export function buildBrowseGroups(input: {
+   browseEntries: ReadonlyArray<FilesystemBrowseEntry>;
+   browseQuery: string;
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index 5bf2eebf9ebda825c161569e0d18efbee9f14e4f..cc68262a2063d3d0814e8b52142e65dafb8a439e 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -112,6 +112,7 @@ import {
+   ITEM_ICON_CLASS,
+   NEW_THREAD_PROJECT_VIEW_GROUP,
+   RECENT_THREAD_LIMIT,
++  resolveBrowseAvailability,
+   resolveBrowseTabCompletion,
+   resolveCommandPaletteEmptyStateMessage,
+   resolveNewThreadOnIntent,
+@@ -840,10 +841,16 @@ function OpenCommandPaletteDialog(props: {
+   const browseDirectoryPath = isBrowsing ? getBrowseDirectoryPath(query) : "";
+   const browseFilterQuery =
+     isBrowsing && !hasTrailingPathSeparator(query) ? getBrowseLeafPathSegment(query) : "";
++  // Browsing resolves paths on the selected environment's filesystem. Don't
++  // issue the request at all unless that environment is actually connected —
++  // otherwise the failure is indistinguishable from an empty directory.
++  const browseEnvironmentConnection = browseEnvironment?.connection ?? null;
++  const isBrowseEnvironmentConnected = browseEnvironmentConnection?.phase === "connected";
+   const browseQuery = useEnvironmentQuery(
+     isBrowsing &&
+       browseDirectoryPath.length > 0 &&
+       browseEnvironmentId !== null &&
++      isBrowseEnvironmentConnected &&
+       !relativePathNeedsActiveProject
+       ? filesystemEnvironment.browse({
+           environmentId: browseEnvironmentId,
+@@ -856,6 +863,13 @@ function OpenCommandPaletteDialog(props: {
+   );
+   const browseResult = browseQuery.data;
+   const isBrowsePending = browseQuery.isPending;
++  const browseAvailability = resolveBrowseAvailability({
++    environmentLabel: browseEnvironment?.label ?? null,
++    connectionPhase: browseEnvironmentConnection?.phase ?? null,
++    connectionError: browseEnvironmentConnection?.error ?? null,
++  });
++  const browseUnavailableMessage =
++    isBrowsing && browseAvailability._tag === "Unavailable" ? browseAvailability.message : null;
+   const browseEntries = browseResult?.entries ?? EMPTY_BROWSE_ENTRIES;
+   const { filteredEntries: filteredBrowseEntries, exactEntry: exactBrowseEntry } = useMemo(
+     () => filterBrowseEntries({ browseEntries, browseFilterQuery, highlightedItemValue }),
+@@ -1552,6 +1566,32 @@ function OpenCommandPaletteDialog(props: {
+     }) => {
+       const rawCwd = input.rawCwd;
+ 
++      // The path is resolved on the target environment, so refuse outright when
++      // that environment is unreachable rather than dispatching an add that can
++      // only fail. Reuse the browse verdict so the toast states the reason
++      // ("<env> isn't connected.") rather than a bare status word.
++      const targetEnvironment =
++        environments.find((environment) => environment.environmentId === input.environmentId) ??
++        null;
++      const targetAvailability =
++        targetEnvironment === null
++          ? null
++          : resolveBrowseAvailability({
++              environmentLabel: targetEnvironment.label,
++              connectionPhase: targetEnvironment.connection.phase,
++              connectionError: targetEnvironment.connection.error,
++            });
++      if (targetAvailability?._tag === "Unavailable") {
++        toastManager.add(
++          stackedThreadToast({
++            type: "error",
++            title: "Failed to add project",
++            description: targetAvailability.message,
++          }),
++        );
++        return;
++      }
++
+       if (isUnsupportedWindowsProjectPath(rawCwd.trim(), input.platform)) {
+         toastManager.add(
+           stackedThreadToast({
+@@ -1884,9 +1924,13 @@ function OpenCommandPaletteDialog(props: {
+   if (addProjectCloneFlow?.step === "repository") {
+     displayedGroups = [];
+   } else if (addProjectCloneFlow?.step === "confirm") {
+-    displayedGroups = relativePathNeedsActiveProject ? [] : cloneDestinationBrowseGroups;
++    displayedGroups =
++      relativePathNeedsActiveProject || browseUnavailableMessage !== null
++        ? []
++        : cloneDestinationBrowseGroups;
+   } else if (isBrowsing) {
+-    displayedGroups = relativePathNeedsActiveProject ? [] : browseGroups;
++    displayedGroups =
++      relativePathNeedsActiveProject || browseUnavailableMessage !== null ? [] : browseGroups;
+   }
+ 
+   const inputPlaceholder =
+@@ -1894,7 +1938,10 @@ function OpenCommandPaletteDialog(props: {
+     getCommandPaletteInputPlaceholder(paletteMode);
+   const isSubmenu = paletteMode === "submenu" || paletteMode === "submenu-browse";
+   const hasHighlightedBrowseItem = highlightedItemValue?.startsWith("browse:") ?? false;
+-  const canSubmitBrowsePath = isBrowsing && !relativePathNeedsActiveProject;
++  // An unreachable environment can't confirm whether the path exists, so never
++  // offer to add — or worse, create — a directory we were unable to inspect.
++  const canSubmitBrowsePath =
++    isBrowsing && !relativePathNeedsActiveProject && browseUnavailableMessage === null;
+   const willCreateProjectPath =
+     canSubmitBrowsePath &&
+     !isBrowsePending &&
+@@ -2172,13 +2219,15 @@ function OpenCommandPaletteDialog(props: {
+       ? addProjectCloneFlow.source === "url"
+         ? "Enter a Git clone URL and press Enter to continue."
+         : "Enter a repository path and press Enter to look it up."
+-      : addProjectCloneFlow?.step === "confirm"
+-        ? "Choose a destination path and press Enter to clone."
+-        : relativePathNeedsActiveProject
+-          ? "Relative paths require an active project."
+-          : willCreateProjectPath
+-            ? "Press Enter to create this folder and add it as a project."
+-            : undefined;
++      : browseUnavailableMessage !== null
++        ? browseUnavailableMessage
++        : addProjectCloneFlow?.step === "confirm"
++          ? "Choose a destination path and press Enter to clone."
++          : relativePathNeedsActiveProject
++            ? "Relative paths require an active project."
++            : willCreateProjectPath
++              ? "Press Enter to create this folder and add it as a project."
++              : undefined;
+   const emptyStateMessage = resolveCommandPaletteEmptyStateMessage({
+     ...(contextualEmptyStateMessage ? { contextualMessage: contextualEmptyStateMessage } : {}),
+     isNewThreadProjectPickerView,
+@@ -2291,13 +2340,14 @@ function OpenCommandPaletteDialog(props: {
+                     aria-label={`${submitActionLabel} (${addShortcutLabel})`}
+                     disabled={
+                       relativePathNeedsActiveProject ||
++                      browseUnavailableMessage !== null ||
+                       (isCloneDestinationStep && isRemoteProjectPending)
+                     }
+                     onMouseDown={(event) => {
+                       event.preventDefault();
+                     }}
+                     onClick={() => {
+-                      if (relativePathNeedsActiveProject) {
++                      if (relativePathNeedsActiveProject || browseUnavailableMessage !== null) {
+                         return;
+                       }
+                       if (isCloneDestinationStep) {
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index b427037bdf7ac6e17ab295bc445dfc498e956f06..fe12c91ce6481be69c6195340bf6b0116f0ed68e 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -1156,10 +1156,14 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+     if (composerTriggerKind === "skill") {
+       return "No skills found. Try / to browse provider commands.";
+     }
+-    return composerTriggerKind === "path"
+-      ? "No matching files or folders."
+-      : "No matching command.";
+-  }, [composerTriggerKind]);
++    if (composerTriggerKind === "path") {
++      // Path search runs against the thread's environment. A failed lookup is
++      // not the same as "this workspace has no such file" -- say so instead of
++      // rendering an empty menu that reads like a definitive answer.
++      return workspaceEntries.error ?? "No matching files or folders.";
++    }
++    return "No matching command.";
++  }, [composerTriggerKind, workspaceEntries.error]);
+ 
+   // ------------------------------------------------------------------
+   // Provider traits UI

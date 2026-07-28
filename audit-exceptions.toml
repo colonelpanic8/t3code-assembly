@@ -9,12 +9,6 @@ missing_sha256 = "bb488993771671cbe411b2c8c5b7a7613caabc7c0632f86601633b220ac095
 reason = "The local artifact-safety topic rewrites the original image-path resolver and its tests around ThreadArtifactResolver; the supported generated and viewed image paths remain covered there."
 
 [[exception]]
-entry = "t3code/local/artifact-safety"
-missing_count = 2
-missing_sha256 = "6fa0407428295ba1200a4c9b5acca51d00d1f9969a6fb19f3fe0ea78ade03ea6"
-reason = "Later ws.ts work uses the same ThreadArtifactResolver helpers through its consolidated artifact lookup flow, rather than the original import site."
-
-[[exception]]
 entry = "t3code/group/thread-picker"
 missing_count = 2
 missing_sha256 = "b1d83dfcf99f1ceaed163b4784c7ebed9093396f099c133e3061e62f0979c473"
@@ -22,21 +16,21 @@ reason = "Same reviewed loss as before, now reported exactly: the audit's count 
 
 [[exception]]
 entry = "4271"
-missing_count = 7
-missing_sha256 = "40ff7e0ef7ef3a70726521168e16eab0c800384709b1b6965c8069deaacf7ab2"
-reason = "The compact-composer plan-sidebar action moved into the current MenuItem layout; onTogglePlanSidebar remains wired in CompactComposerControlsMenu. The six composer shortcut defaults moved from packages/shared into packages/contracts with the later client-owned keybindings topic and remain in DEFAULT_KEYBINDINGS."
+missing_count = 85
+missing_sha256 = "8c270792dc2b09a0ce87e8659088a734d5ef986a8619cab6f693000d07f7bf9f"
+reason = "Later selector and compact-composer work rewrites the shortcut-hint JSX around ComposerControlShortcutHint and the controlled BranchToolbar selectors. remainingShortcutLabelForCommand and shouldShowCommandHintForModifiers remain the shared behavior, their current tests cover held-modifier and glyph formatting, and all six defaults are carried in packages/contracts DEFAULT_KEYBINDINGS by the refreshed-client overlap epilogue."
 
 [[exception]]
 entry = "4277"
-missing_count = 1
-missing_sha256 = "c2d364beb2bfa70724d8163d6bcd31589cbae9b66f0702c4f82be252fec54c37"
-reason = "The later client-owned keybindings topic moves the thread.settle default rule from packages/shared into packages/contracts; it remains in DEFAULT_KEYBINDINGS and continues to compile through the shared runtime."
+missing_count = 2
+missing_sha256 = "16f70d3e02b97a4a49f3e198bbcc91d07c7d5724d2d5cd05cb0f2e39fa47b2e5"
+reason = "The later sidebar settle flow folds the co-parking exclusion into its coSettlingKeys eligibility check. The client-owned keybindings topic moves the thread.settle default rule from packages/shared into packages/contracts, where the refreshed-client overlap epilogue retains mod+shift+x."
 
 [[exception]]
 entry = "4394"
-missing_count = 34
-missing_sha256 = "7b57a530bb22629e054435224967a6be16d12a18f6a3f36619c42ddc8750031a"
-reason = "Later menu and selection-navigation work rewrote the dropdown component structure. BranchToolbar retains controlled menu state and the environment-mode MenuRadioItem choices."
+missing_count = 38
+missing_sha256 = "5ded66cc3c21365b8f5d0da25d74e0f9687c388eb335244889f0b11c9c8a804d"
+reason = "Later menu and shortcut-hint work rewrites the compact composer and BranchToolbar component structure. Controlled selector state, environment-mode choices, and shortcut hints remain through ComposerControlShortcutHint and the dedicated BranchToolbar selector components."
 
 [[exception]]
 entry = "4324"
@@ -46,9 +40,9 @@ reason = "The generic remote icon span was replaced by EnvironmentBadge, which a
 
 [[exception]]
 entry = "4323"
-missing_count = 4
-missing_sha256 = "9831550456e0570452edb2f55e80f2531427530e76825450f8da3ebe5d91e187"
-reason = "The later client-owned assistant-output topic always retains live deltas and preserves #4323's bounded coalescing and retry machinery, superseding its older server-selected buffered-delivery call sites."
+missing_count = 12
+missing_sha256 = "b85298b9911197c64a74299b1fa20ee0b03395da54527e327e4dfa0a26111a56"
+reason = "The cumulative client topic rewrites these call sites while retaining #4323's Cache-backed buffering, bounded coalescing, retry path, completion fallback, and duplicate-finalization guards. The final implementation keeps the stronger buffered-boundary behavior rather than the branch's exact helper-local expressions."
 
 [[exception]]
 entry = "4337"
@@ -58,9 +52,9 @@ reason = "Project favicon resource construction moved to the asset-access reques
 
 [[exception]]
 entry = "4427"
-missing_count = 4
-missing_sha256 = "e682c0db47ee901b2861747974d7dde23e25bc6a50ba64c8f923cfdaa3b768aa"
-reason = "Inline-image handling was folded into the safer ThreadArtifactResolver lookup and later timeline classification; generated images still use the resolved artifact path flow."
+missing_count = 5
+missing_sha256 = "b42af86e8d50a6111f952480dc3aa2f3e4e2524b1182cb022fd188c12a860802"
+reason = "Inline-image handling was folded into the safer ThreadArtifactResolver lookup and #4506's later timeline grouping. Generated-image work entries are still kept outside collapsed terminal groups, render through GeneratedImageWorkEntryLink, and expose the current expanded-row accessibility state."
 
 [[exception]]
 entry = "4437"
@@ -70,21 +64,21 @@ reason = "Diagnostics now reads storage from the selected environment's server c
 
 [[exception]]
 entry = "4494"
-missing_count = 1
-missing_sha256 = "3999dc290947d21dc8141a0cb4f605d7214c0fd4502aab48890c97aff8abca2b"
-reason = "The client-ownership topic replaces usePrimaryEnvironment()?.environmentId with the canonical primaryEnvironmentIdAtom. The same primary environment ID still selects the server settings target without depending on the presentation hook."
+missing_count = 3
+missing_sha256 = "856ad175c382526366e8b151ab8b92a36a5b297517f35028c685c8fc700f131e"
+reason = "The refreshed-client overlap epilogue carries #4494's acknowledgement-aware pending patch queue and serialized writes. The three absent lines are only the older usePrimaryEnvironment/settingsValueAtom access shape, replaced by primaryEnvironmentIdAtom and configValueAtom in the final client/server ownership model."
 
 [[exception]]
-entry = "t3code/client-suite"
-missing_count = 111
-missing_sha256 = "eb45b54ae91a7f7ac89d13f3f394d7ea5aa707f35dddb712e8ddf05c52a8fc27"
-reason = "The later ownership topic moves environment selectors from page-local sections into the Environment navigation group and deliberately removes the selector from Keybindings after migrating shortcuts from server config to client settings. All shortcut consumers use useClientKeybindings. It narrows restore-defaults to fields shown on each page, moves provider update checks into environment-owned Providers, moves Git-writing model selection into SourceControlWritingSettings, and moves assistant output plus new-thread/worktree defaults to client ownership."
+entry = "4390"
+missing_count = 1
+missing_sha256 = "24f3654a881718c27f62c5df5f456eb06b2c04dc305e08b48fb2fd677bb2d53b"
+reason = "The missing line only adds hasPersistedResumeCursor to ProviderRuntimeIngestion's local test harness. The final tree retains the production method and the ProviderCommandReactor coverage that exercises its fork-versus-resume decision; this ingestion harness does not call it."
 
 [[exception]]
 entry = "t3code/unify-environment-selection"
-missing_count = 14
-missing_sha256 = "ade9fa94c8ff08eeb6e31807c6dcefcca705b0a25fb50dae0a82e47117eb3311"
-reason = "The assembly retains #4323's coalesced, retry-safe assistant ingestion while making it unconditionally live for per-client presentation. This replaces the topic branch's simpler direct-dispatch implementation and keeps stronger buffered-boundary, segmentation, and oversized-delta tests. The remaining settings lines are superseded by the later dedicated SourceControlWritingSettings panel and the client/server-owned UnifiedSettingsPatch split."
+missing_count = 9
+missing_sha256 = "70c57369673d3df71cdce1962c3ea435c8db93e031df501a0bf199bc301bd0c7"
+reason = "The assembly retains #4323's coalesced, retry-safe assistant ingestion while making it unconditionally live for per-client presentation, replacing the topic's simpler direct-dispatch expressions while keeping stronger buffered-boundary and oversized-delta coverage. The settings line is replaced by useUpdateSettingsTarget's final client/server-owned signature."
 
 [[exception]]
 entry = "4263"
@@ -107,8 +101,20 @@ reason = "The thread-picker group replaces the early Command Palette keyboard-na
 [[exception]]
 entry = "4599"
 missing_count = 1
-missing_sha256 = "c1cef838c73ca77f7b08f8307ee7359059442380d6bf835ebd2b6124ac5e177b"
-reason = "The single missing line is the `{ key: \"mod+f\", command: \"chat.find\", when: \"!terminalFocus\" }` default rule in packages/shared/src/keybindings.ts. The client-owned keybindings topic moves default rules from packages/shared into packages/contracts, and this one made the move: the identical rule is present at packages/contracts/src/keybindings.ts, alongside chat.find in the command list, so Cmd+F still has its default binding. Same pattern already documented for #4271 and #4277."
+missing_sha256 = "5b869bc8d4ab700f1346bb290822905727c771430654893b0eb090c253528aa0"
+reason = "The single missing line is the updated mod+f rule in packages/shared. The client-owned keybindings topic moves it into packages/contracts DEFAULT_KEYBINDINGS with the same !terminalFocus && !previewFocus condition, so find stays hidden while preview owns focus."
+
+[[exception]]
+entry = "4605"
+missing_count = 1
+missing_sha256 = "e8a11c5b6c0f7bb0fde42278132b06c01f7fb1fcbb3ea6ba9c2aa2d3a15b6856"
+reason = "The exact Option.isNone snapshot condition is widened by #4405's recovery behavior: an empty cached message body also reloads its snapshot before replay resumes. The replay generation, completion marker, and batching behavior remain intact."
+
+[[exception]]
+entry = "t3code/mobile-thread-replay-render-fixes"
+missing_count = 1
+missing_sha256 = "654e16f3e6c205179fdb9ec9b3b26ea5672c0a18ffd44612a9c84f7935ad6772"
+reason = "The three-argument haptics call is combined with the cumulative topic's client-owned enableAssistantStreaming flag. The final four-argument call suppresses haptics both when streaming presentation is disabled and during replay catch-up."
 
 [[exception]]
 entry = "4590"

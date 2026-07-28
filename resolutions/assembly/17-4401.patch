@@ -1,0 +1,2204 @@
+diff --git a/apps/server/src/assets/AssetAccess.test.ts b/apps/server/src/assets/AssetAccess.test.ts
+index 5b99debf433c3e66c661cc8d40c28d4edc15cadc..aea3d22a0fc8a32e7e2dc96a8277d2f0e5cd08de 100644
+--- a/apps/server/src/assets/AssetAccess.test.ts
++++ b/apps/server/src/assets/AssetAccess.test.ts
+@@ -1,5 +1,5 @@
+ import * as NodeServices from "@effect/platform-node/NodeServices";
+-import { MessageId, ThreadId, TurnId } from "@t3tools/contracts";
++import { DEFAULT_SERVER_SETTINGS, MessageId, ThreadId, TurnId } from "@t3tools/contracts";
+ import { PROJECT_FAVICON_FALLBACK_MARKER } from "@t3tools/shared/projectFavicon";
+ import { describe, expect, it } from "@effect/vitest";
+ import * as Effect from "effect/Effect";
+@@ -7,10 +7,13 @@ import * as FileSystem from "effect/FileSystem";
+ import * as Layer from "effect/Layer";
+ import * as Path from "effect/Path";
+ import * as PlatformError from "effect/PlatformError";
++import * as Stream from "effect/Stream";
+ 
+ import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+ import * as ServerConfig from "../config.ts";
+ import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
++import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
++import * as ServerSettings from "../serverSettings.ts";
+ import * as T3ProjectFileLoader from "../project/T3ProjectFileLoader.ts";
+ import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+ import {
+@@ -30,6 +33,8 @@ const testLayer = Layer.mergeAll(
+     Layer.provide(WorkspacePaths.layer),
+     Layer.provide(T3ProjectFileLoader.layer),
+   ),
++  RepositoryIdentityResolver.layer,
++  ServerSettings.ServerSettingsService.layerTest(),
+   ServerSecretStore.layer.pipe(Layer.provide(configLayer)),
+ ).pipe(Layer.provideMerge(NodeServices.layer));
+ 
+@@ -343,6 +348,191 @@ describe("AssetAccess", () => {
+     }).pipe(Effect.provide(testLayer)),
+   );
+ 
++  it.effect("issues exact capabilities for configured project icons outside the workspace", () =>
++    Effect.gen(function* () {
++      const fileSystem = yield* FileSystem.FileSystem;
++      const path = yield* Path.Path;
++      const root = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-root-",
++      });
++      const iconDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-custom-",
++      });
++      const iconPath = path.join(iconDirectory, "custom.svg");
++      yield* fileSystem.writeFileString(iconPath, "<svg />");
++      const canonicalIconPath = yield* fileSystem.realPath(iconPath);
++      const settings = ServerSettings.ServerSettingsService.of({
++        start: Effect.void,
++        ready: Effect.void,
++        getSettings: Effect.succeed({
++          ...DEFAULT_SERVER_SETTINGS,
++          projectIcons: { [root]: iconPath },
++        }),
++        updateSettings: () => Effect.die("not implemented"),
++        streamChanges: Stream.empty,
++      });
++
++      const result = yield* issueAssetUrl({
++        resource: { _tag: "project-favicon", cwd: root, revision: iconPath },
++      }).pipe(Effect.provideService(ServerSettings.ServerSettingsService, settings));
++      const suffix = result.relativeUrl.slice(`${ASSET_ROUTE_PREFIX}/`.length);
++      const separatorIndex = suffix.indexOf("/");
++
++      expect(
++        yield* resolveAsset(suffix.slice(0, separatorIndex), suffix.slice(separatorIndex + 1)),
++      ).toEqual({ kind: "file", path: canonicalIconPath });
++    }).pipe(Effect.provide(testLayer)),
++  );
++
++  it.effect("finds workspace icon settings keyed by the unnormalized request root", () =>
++    Effect.gen(function* () {
++      const fileSystem = yield* FileSystem.FileSystem;
++      const path = yield* Path.Path;
++      const root = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-raw-root-",
++      });
++      const requestedRoot = `${root}/.`;
++      const iconDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-raw-custom-",
++      });
++      const iconPath = path.join(iconDirectory, "custom.svg");
++      yield* fileSystem.writeFileString(iconPath, "<svg />");
++      const settings = ServerSettings.ServerSettingsService.of({
++        start: Effect.void,
++        ready: Effect.void,
++        getSettings: Effect.succeed({
++          ...DEFAULT_SERVER_SETTINGS,
++          projectIcons: { [requestedRoot]: iconPath },
++        }),
++        updateSettings: () => Effect.die("not implemented"),
++        streamChanges: Stream.empty,
++      });
++
++      const result = yield* issueAssetUrl({
++        resource: { _tag: "project-favicon", cwd: requestedRoot, revision: iconPath },
++      }).pipe(Effect.provideService(ServerSettings.ServerSettingsService, settings));
++
++      expect(result.relativeUrl.endsWith("/custom.svg")).toBe(true);
++    }).pipe(Effect.provide(testLayer)),
++  );
++
++  it.effect("rejects automatically discovered icon symlinks outside the workspace", () =>
++    Effect.gen(function* () {
++      const fileSystem = yield* FileSystem.FileSystem;
++      const path = yield* Path.Path;
++      const root = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-auto-symlink-root-",
++      });
++      const outsideDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-auto-symlink-outside-",
++      });
++      const outsidePath = path.join(outsideDirectory, "secret.svg");
++      yield* fileSystem.writeFileString(outsidePath, "<svg>secret</svg>");
++      yield* fileSystem.symlink(outsidePath, path.join(root, "favicon.svg"));
++
++      const error = yield* issueAssetUrl({
++        resource: { _tag: "project-favicon", cwd: root },
++      }).pipe(Effect.flip);
++
++      expect(error._tag).toBe("AssetProjectFaviconNotFoundError");
++    }).pipe(Effect.provide(testLayer)),
++  );
++
++  it.effect("rejects a configured project icon replaced by a symlink after signing", () =>
++    Effect.gen(function* () {
++      const fileSystem = yield* FileSystem.FileSystem;
++      const path = yield* Path.Path;
++      const root = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-symlink-root-",
++      });
++      const iconDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-symlink-custom-",
++      });
++      const outsideDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-symlink-outside-",
++      });
++      const iconPath = path.join(iconDirectory, "custom.svg");
++      const outsidePath = path.join(outsideDirectory, "secret.svg");
++      yield* fileSystem.writeFileString(iconPath, "<svg>icon</svg>");
++      yield* fileSystem.writeFileString(outsidePath, "<svg>secret</svg>");
++      const settings = ServerSettings.ServerSettingsService.of({
++        start: Effect.void,
++        ready: Effect.void,
++        getSettings: Effect.succeed({
++          ...DEFAULT_SERVER_SETTINGS,
++          projectIcons: { [root]: iconPath },
++        }),
++        updateSettings: () => Effect.die("not implemented"),
++        streamChanges: Stream.empty,
++      });
++
++      const result = yield* issueAssetUrl({
++        resource: { _tag: "project-favicon", cwd: root, revision: iconPath },
++      }).pipe(Effect.provideService(ServerSettings.ServerSettingsService, settings));
++      const suffix = result.relativeUrl.slice(`${ASSET_ROUTE_PREFIX}/`.length);
++      const separatorIndex = suffix.indexOf("/");
++      const token = suffix.slice(0, separatorIndex);
++
++      yield* fileSystem.remove(iconPath);
++      yield* fileSystem.symlink(outsidePath, iconPath);
++
++      expect(yield* resolveAsset(token, suffix.slice(separatorIndex + 1))).toBeNull();
++    }).pipe(Effect.provide(testLayer)),
++  );
++
++  it.effect("uses a configured git-remote icon across clone paths", () =>
++    Effect.gen(function* () {
++      const fileSystem = yield* FileSystem.FileSystem;
++      const path = yield* Path.Path;
++      const root = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-remote-root-",
++      });
++      const iconDirectory = yield* fileSystem.makeTempDirectoryScoped({
++        prefix: "t3-asset-favicon-remote-custom-",
++      });
++      const iconPath = path.join(iconDirectory, "custom.svg");
++      yield* fileSystem.writeFileString(iconPath, "<svg />");
++      const canonicalIconPath = yield* fileSystem.realPath(iconPath);
++      const settings = ServerSettings.ServerSettingsService.of({
++        start: Effect.void,
++        ready: Effect.void,
++        getSettings: Effect.succeed({
++          ...DEFAULT_SERVER_SETTINGS,
++          projectIconsByGitRemote: { "github.com/t3tools/t3code": iconPath },
++        }),
++        updateSettings: () => Effect.die("not implemented"),
++        streamChanges: Stream.empty,
++      });
++      const repositoryIdentityResolver = RepositoryIdentityResolver.RepositoryIdentityResolver.of({
++        resolve: () =>
++          Effect.succeed({
++            canonicalKey: "github.com/t3tools/t3code",
++            locator: {
++              source: "git-remote",
++              remoteName: "origin",
++              remoteUrl: "git@github.com:T3Tools/T3Code.git",
++            },
++          }),
++      });
++
++      const result = yield* issueAssetUrl({
++        resource: { _tag: "project-favicon", cwd: root, revision: iconPath },
++      }).pipe(
++        Effect.provideService(ServerSettings.ServerSettingsService, settings),
++        Effect.provideService(
++          RepositoryIdentityResolver.RepositoryIdentityResolver,
++          repositoryIdentityResolver,
++        ),
++      );
++      const suffix = result.relativeUrl.slice(`${ASSET_ROUTE_PREFIX}/`.length);
++      const separatorIndex = suffix.indexOf("/");
++
++      expect(
++        yield* resolveAsset(suffix.slice(0, separatorIndex), suffix.slice(separatorIndex + 1)),
++      ).toEqual({ kind: "file", path: canonicalIconPath });
++    }).pipe(Effect.provide(testLayer)),
++  );
++
+   it.effect("preserves structured project favicon resolution causes", () =>
+     Effect.gen(function* () {
+       const fileSystem = yield* FileSystem.FileSystem;
+@@ -361,6 +551,7 @@ describe("AssetAccess", () => {
+         cause: platformCause,
+       });
+       const resolver = ProjectFaviconResolver.ProjectFaviconResolver.of({
++        resolve: () => Effect.fail(resolutionCause),
+         resolvePath: () => Effect.fail(resolutionCause),
+       });
+ 
+diff --git a/apps/server/src/assets/AssetAccess.ts b/apps/server/src/assets/AssetAccess.ts
+index 1bdaf9c4fa4b3b5dde07434cbaab73ac5ef9d912..d5f5b8dd018420afdee5b1e0d8304dc1a69b4a19 100644
+--- a/apps/server/src/assets/AssetAccess.ts
++++ b/apps/server/src/assets/AssetAccess.ts
+@@ -38,6 +38,8 @@ import * as ServerSecretStore from "../auth/ServerSecretStore.ts";
+ import { resolveAttachmentPathById } from "../attachmentStore.ts";
+ import * as ServerConfig from "../config.ts";
+ import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
++import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
++import * as ServerSettings from "../serverSettings.ts";
+ import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+ import type { ResolvedThreadArtifactPath } from "./ThreadArtifactResolver.ts";
+ 
+@@ -85,6 +87,12 @@ const AssetClaimsSchema = Schema.Union([
+     relativePath: Schema.NullOr(Schema.String),
+     expiresAt: Schema.Number,
+   }),
++  Schema.Struct({
++    version: Schema.Literal(2),
++    kind: Schema.Literal("project-icon"),
++    absolutePath: Schema.NullOr(Schema.String),
++    expiresAt: Schema.Number,
++  }),
+ ]);
+ type AssetClaims = typeof AssetClaimsSchema.Type;
+ 
+@@ -283,8 +291,8 @@ export const issueAssetUrl = Effect.fn("AssetAccess.issueAssetUrl")(function* (i
+             }),
+         ),
+       );
+-      const faviconResolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
+-      const faviconPath = yield* faviconResolver.resolvePath(workspaceRoot).pipe(
++      const settings = yield* ServerSettings.ServerSettingsService;
++      const serverSettings = yield* settings.getSettings.pipe(
+         Effect.mapError(
+           (cause) =>
+             new AssetProjectFaviconResolutionError({
+@@ -293,39 +301,67 @@ export const issueAssetUrl = Effect.fn("AssetAccess.issueAssetUrl")(function* (i
+             }),
+         ),
+       );
+-      const relativePath = faviconPath ? path.relative(workspaceRoot, faviconPath) : null;
+-      if (
+-        relativePath &&
+-        !(yield* resolveCanonicalWorkspaceFile({ workspaceRoot, relativePath }).pipe(
++      const faviconResolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
++      const repositoryIdentityResolver =
++        yield* RepositoryIdentityResolver.RepositoryIdentityResolver;
++      const repositoryIdentity = yield* repositoryIdentityResolver.resolve(workspaceRoot);
++      const customIconPaths = [
++        serverSettings.projectIcons[workspaceRoot] ??
++          serverSettings.projectIcons[input.resource.cwd],
++        ...(repositoryIdentity
++          ? [serverSettings.projectIconsByGitRemote[repositoryIdentity.canonicalKey]]
++          : []),
++      ].filter((iconPath): iconPath is string => iconPath !== undefined);
++      const resolvedFavicon = yield* faviconResolver
++        .resolve(workspaceRoot, customIconPaths.length === 0 ? undefined : { customIconPaths })
++        .pipe(
+           Effect.mapError(
+             (cause) =>
+-              new AssetProjectFaviconInspectionError({
++              new AssetProjectFaviconResolutionError({
+                 resource: input.resource,
+                 cause,
+               }),
+           ),
+-        ))
+-      ) {
+-        return yield* new AssetProjectFaviconNotFoundError({
+-          resource: input.resource,
+-        });
++        );
++      const canonicalFaviconPath = resolvedFavicon
++        ? resolvedFavicon.source === "custom-setting"
++          ? yield* optionOnNotFound(fileSystem.realPath(resolvedFavicon.path)).pipe(
++              Effect.mapError(
++                (cause) =>
++                  new AssetProjectFaviconInspectionError({
++                    resource: input.resource,
++                    cause,
++                  }),
++              ),
++            )
++          : yield* Effect.gen(function* () {
++              const canonicalPath = yield* resolveCanonicalWorkspaceFile({
++                workspaceRoot,
++                relativePath: path.relative(workspaceRoot, resolvedFavicon.path),
++              }).pipe(
++                Effect.mapError(
++                  (cause) =>
++                    new AssetProjectFaviconInspectionError({
++                      resource: input.resource,
++                      cause,
++                    }),
++                ),
++              );
++              return canonicalPath === null ? Option.none<string>() : Option.some(canonicalPath);
++            })
++        : Option.none<string>();
++      if (resolvedFavicon && Option.isNone(canonicalFaviconPath)) {
++        return yield* new AssetProjectFaviconNotFoundError({ resource: input.resource });
+       }
+       claims = {
+-        version: 1,
+-        kind: "project-favicon",
+-        workspaceRoot: yield* fileSystem.realPath(workspaceRoot).pipe(
+-          Effect.mapError(
+-            (cause) =>
+-              new AssetWorkspaceResolutionError({
+-                resource: input.resource,
+-                cause,
+-              }),
+-          ),
+-        ),
+-        relativePath,
++        version: 2,
++        kind: "project-icon",
++        absolutePath: Option.getOrNull(canonicalFaviconPath),
+         expiresAt,
+       };
+-      fileName = relativePath ? path.basename(relativePath) : PROJECT_FAVICON_FALLBACK_MARKER;
++      fileName = resolvedFavicon
++        ? path.basename(resolvedFavicon.path)
++        : PROJECT_FAVICON_FALLBACK_MARKER;
+       break;
+     }
+   }
+@@ -432,6 +468,32 @@ export const resolveAsset = Effect.fn("AssetAccess.resolveAsset")(function* (
+     });
+     return faviconPath ? ({ kind: "file", path: faviconPath } satisfies ResolvedAsset) : null;
+   }
++  if (claims.kind === "project-icon") {
++    if (claims.absolutePath === null) return null;
++    const fileSystem = yield* FileSystem.FileSystem;
++    const canonicalPath = yield* optionOnNotFound(fileSystem.realPath(claims.absolutePath)).pipe(
++      Effect.tapError((cause) =>
++        Effect.logError("Failed to canonicalize configured project icon.", {
++          path: claims.absolutePath,
++          cause,
++        }),
++      ),
++      Effect.orElseSucceed(() => Option.none()),
++    );
++    if (Option.isNone(canonicalPath) || canonicalPath.value !== claims.absolutePath) return null;
++    const info = yield* optionOnNotFound(fileSystem.stat(canonicalPath.value)).pipe(
++      Effect.tapError((cause) =>
++        Effect.logError("Failed to inspect configured project icon.", {
++          path: canonicalPath.value,
++          cause,
++        }),
++      ),
++      Effect.orElseSucceed(() => Option.none()),
++    );
++    return Option.isSome(info) && info.value.type === "File"
++      ? ({ kind: "file", path: canonicalPath.value } satisfies ResolvedAsset)
++      : null;
++  }
+ 
+   const decodedPath = decodeRelativePath(relativePath);
+   if (decodedPath === null) return null;
+diff --git a/apps/server/src/project/ProjectFaviconResolver.test.ts b/apps/server/src/project/ProjectFaviconResolver.test.ts
+index 75db78844a5071be4c9e4e32f49d48cbf3eef44e..a0779e50bd833dfa784d0497ea9cc91009eea8a4 100644
+--- a/apps/server/src/project/ProjectFaviconResolver.test.ts
++++ b/apps/server/src/project/ProjectFaviconResolver.test.ts
+@@ -77,6 +77,66 @@ it.layer(TestLayer)("ProjectFaviconResolverLive", (it) => {
+       }),
+     );
+ 
++    it.effect("prefers a configured icon outside the workspace", () =>
++      Effect.gen(function* () {
++        const resolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
++        const cwd = yield* makeTempDir;
++        const iconDirectory = yield* makeTempDir;
++        yield* writeTextFile(iconDirectory, "custom.svg", "<svg>custom</svg>");
++        yield* writeTextFile(cwd, "favicon.svg", "<svg>favicon</svg>");
++
++        const resolved = yield* resolver.resolvePath(cwd, {
++          customIconPaths: [`${iconDirectory}/custom.svg`],
++        });
++
++        expect(resolved).toBe(`${iconDirectory}/custom.svg`);
++      }),
++    );
++
++    it.effect("resolves configured relative paths from the workspace", () =>
++      Effect.gen(function* () {
++        const resolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
++        const cwd = yield* makeTempDir;
++        yield* writeTextFile(cwd, ".local/icon.svg", "<svg>custom</svg>");
++
++        const resolved = yield* resolver.resolvePath(cwd, {
++          customIconPaths: [".local/icon.svg"],
++        });
++
++        expect(resolved).toBe(`${cwd}/.local/icon.svg`);
++      }),
++    );
++
++    it.effect("falls back to discovery when the configured icon does not exist", () =>
++      Effect.gen(function* () {
++        const resolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
++        const cwd = yield* makeTempDir;
++        yield* writeTextFile(cwd, "favicon.svg", "<svg>favicon</svg>");
++
++        const resolved = yield* resolver.resolvePath(cwd, {
++          customIconPaths: ["/missing/custom.svg"],
++        });
++
++        expect(resolved).toBe(`${cwd}/favicon.svg`);
++      }),
++    );
++
++    it.effect("uses the next configured icon when a higher-priority path is missing", () =>
++      Effect.gen(function* () {
++        const resolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
++        const cwd = yield* makeTempDir;
++        const iconDirectory = yield* makeTempDir;
++        yield* writeTextFile(iconDirectory, "remote.svg", "<svg>remote</svg>");
++        yield* writeTextFile(cwd, "favicon.svg", "<svg>favicon</svg>");
++
++        const resolved = yield* resolver.resolvePath(cwd, {
++          customIconPaths: ["/missing/path-specific.svg", `${iconDirectory}/remote.svg`],
++        });
++
++        expect(resolved).toBe(`${iconDirectory}/remote.svg`);
++      }),
++    );
++
+     it.effect("falls back to well-known files when the t3.json iconPath does not exist", () =>
+       Effect.gen(function* () {
+         const resolver = yield* ProjectFaviconResolver.ProjectFaviconResolver;
+diff --git a/apps/server/src/project/ProjectFaviconResolver.ts b/apps/server/src/project/ProjectFaviconResolver.ts
+index 2c7195de630bf0e56a546541db7b3d278bd796ff..bb4369a7cde1687de6e6f1444967317aead202a8 100644
+--- a/apps/server/src/project/ProjectFaviconResolver.ts
++++ b/apps/server/src/project/ProjectFaviconResolver.ts
+@@ -6,6 +6,8 @@
+  *
+  * @module ProjectFaviconResolver
+  */
++import * as NodeOS from "node:os";
++
+ import * as Context from "effect/Context";
+ import * as Effect from "effect/Effect";
+ import * as FileSystem from "effect/FileSystem";
+@@ -84,6 +86,22 @@ export class ProjectFaviconResolutionError extends Schema.TaggedErrorClass<Proje
+ export class ProjectFaviconResolver extends Context.Service<
+   ProjectFaviconResolver,
+   {
++    /**
++     * Resolve a favicon together with the trust boundary that selected it.
++     *
++     * Explicit user settings may intentionally point outside the workspace,
++     * while project metadata and automatic discovery must remain contained.
++     */
++    readonly resolve: (
++      cwd: string,
++      options?: { readonly customIconPaths?: ReadonlyArray<string> },
++    ) => Effect.Effect<
++      {
++        readonly path: string;
++        readonly source: "custom-setting" | "workspace";
++      } | null,
++      ProjectFaviconResolutionError
++    >;
+     /**
+      * Resolve a favicon or icon file path for the provided workspace root.
+      *
+@@ -91,6 +109,7 @@ export class ProjectFaviconResolver extends Context.Service<
+      */
+     readonly resolvePath: (
+       cwd: string,
++      options?: { readonly customIconPaths?: ReadonlyArray<string> },
+     ) => Effect.Effect<string | null, ProjectFaviconResolutionError>;
+   }
+ >()("t3/project/ProjectFaviconResolver") {}
+@@ -103,6 +122,16 @@ function extractIconHref(source: string): string | null {
+   return null;
+ }
+ 
++function expandHomePath(input: string, path: Path.Path): string {
++  if (input === "~") {
++    return NodeOS.homedir();
++  }
++  if (input.startsWith("~/") || input.startsWith("~\\")) {
++    return path.join(NodeOS.homedir(), input.slice(2));
++  }
++  return input;
++}
++
+ const optionOnNotFound = <A, R>(
+   effect: Effect.Effect<A, PlatformError.PlatformError, R>,
+ ): Effect.Effect<Option.Option<A>, PlatformError.PlatformError, R> =>
+@@ -166,9 +195,9 @@ export const make = Effect.gen(function* () {
+     return null;
+   });
+ 
+-  const resolvePath: ProjectFaviconResolver["Service"]["resolvePath"] = Effect.fn(
+-    "ProjectFaviconResolver.resolvePath",
+-  )(function* (cwd) {
++  const resolve: ProjectFaviconResolver["Service"]["resolve"] = Effect.fn(
++    "ProjectFaviconResolver.resolve",
++  )(function* (cwd, options) {
+     const projectCwd = yield* workspacePaths.normalizeWorkspaceRoot(cwd).pipe(
+       Effect.mapError(
+         (cause) =>
+@@ -179,19 +208,43 @@ export const make = Effect.gen(function* () {
+           }),
+       ),
+     );
++    // User-local settings override checked-in metadata and automatic discovery.
++    // Relative paths are resolved from the workspace; absolute and home-relative
++    // paths may point at a central icon directory outside the repository.
++    for (const configuredPath of options?.customIconPaths ?? []) {
++      const expandedIconPath = expandHomePath(configuredPath.trim(), path);
++      const customIconPath = path.isAbsolute(expandedIconPath)
++        ? path.resolve(expandedIconPath)
++        : path.resolve(projectCwd, expandedIconPath);
++      const customIconStats = yield* optionOnNotFound(fileSystem.stat(customIconPath)).pipe(
++        Effect.mapError(
++          (cause) =>
++            new ProjectFaviconResolutionError({
++              operation: "stat-candidate",
++              workspaceRoot: projectCwd,
++              absolutePath: customIconPath,
++              cause,
++            }),
++        ),
++      );
++      if (Option.isSome(customIconStats) && customIconStats.value.type === "File") {
++        return { path: customIconPath, source: "custom-setting" as const };
++      }
++    }
++
+     // A t3.json iconPath takes precedence over the well-known locations.
+     const projectFile = yield* projectFileLoader.load(projectCwd);
+     if (Option.isSome(projectFile) && projectFile.value.iconPath !== undefined) {
+       const existing = yield* findExistingFile(projectCwd, [projectFile.value.iconPath]);
+       if (existing) {
+-        return existing;
++        return { path: existing, source: "workspace" as const };
+       }
+     }
+ 
+     for (const candidate of FAVICON_CANDIDATES) {
+       const existing = yield* findExistingFile(projectCwd, [candidate]);
+       if (existing) {
+-        return existing;
++        return { path: existing, source: "workspace" as const };
+       }
+     }
+ 
+@@ -235,14 +288,17 @@ export const make = Effect.gen(function* () {
+       }
+       const existing = yield* findExistingFile(projectCwd, resolveIconHref(href));
+       if (existing) {
+-        return existing;
++        return { path: existing, source: "workspace" as const };
+       }
+     }
+ 
+     return null;
+   });
+ 
+-  return ProjectFaviconResolver.of({ resolvePath });
++  const resolvePath: ProjectFaviconResolver["Service"]["resolvePath"] = (cwd, options) =>
++    resolve(cwd, options).pipe(Effect.map((resolved) => resolved?.path ?? null));
++
++  return ProjectFaviconResolver.of({ resolve, resolvePath });
+ });
+ 
+ export const layer = Layer.effect(ProjectFaviconResolver, make);
+diff --git a/apps/server/src/serverSettings.test.ts b/apps/server/src/serverSettings.test.ts
+index 50ca810a95a5c689ad2694075e11e209339c045d..479049d4e8618d7f3015c21aaa7faccb0d40454e 100644
+--- a/apps/server/src/serverSettings.test.ts
++++ b/apps/server/src/serverSettings.test.ts
+@@ -555,6 +555,12 @@ it.layer(NodeServices.layer)("server settings", (it) => {
+       const fileSystem = yield* FileSystem.FileSystem;
+       const next = yield* serverSettings.updateSettings({
+         addProjectBaseDirectory: "~/Development",
++        projectIcons: {
++          "/workspace/t3code": "~/.config/t3code/icons/t3code.svg",
++        },
++        projectIconsByGitRemote: {
++          "github.com/t3tools/t3code": "~/.config/t3code/icons/t3code.svg",
++        },
+         observability: {
+           otlpTracesUrl: "http://localhost:4318/v1/traces",
+           otlpMetricsUrl: "http://localhost:4318/v1/metrics",
+@@ -577,6 +583,12 @@ it.layer(NodeServices.layer)("server settings", (it) => {
+       // @effect-diagnostics-next-line preferSchemaOverJson:off
+       assert.deepEqual(JSON.parse(raw), {
+         addProjectBaseDirectory: "~/Development",
++        projectIcons: {
++          "/workspace/t3code": "~/.config/t3code/icons/t3code.svg",
++        },
++        projectIconsByGitRemote: {
++          "github.com/t3tools/t3code": "~/.config/t3code/icons/t3code.svg",
++        },
+         observability: {
+           otlpTracesUrl: "http://localhost:4318/v1/traces",
+           otlpMetricsUrl: "http://localhost:4318/v1/metrics",
+diff --git a/apps/server/src/ws.ts b/apps/server/src/ws.ts
+index 45f52c67fc6ffe42e1c43ab22960cf4a660807c3..26af06f7dd4ead7d87ca5d18c0d306f45c319f0c 100644
+--- a/apps/server/src/ws.ts
++++ b/apps/server/src/ws.ts
+@@ -1099,6 +1099,7 @@ const makeWsRpcLayer = (
+           auth,
+           cwd: config.cwd,
+           keybindingsConfigPath: config.keybindingsConfigPath,
++          settingsConfigPath: config.settingsPath,
+           keybindings: keybindingsConfig.keybindings,
+           issues: keybindingsConfig.issues,
+           providers,
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index cc68262a2063d3d0814e8b52142e65dafb8a439e..8bc8022f58aca42a4c7e75d410f7145b94b1f65e 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -179,11 +179,13 @@ function getEnvironmentBrowsePlatform(os: string | null | undefined): string {
+ function renderProjectActionIcon(project: {
+   environmentId: EnvironmentId;
+   workspaceRoot: string;
++  repositoryIdentity?: { readonly canonicalKey?: string } | null;
+ }): ReactNode {
+   return (
+     <ProjectFavicon
+       environmentId={project.environmentId}
+       cwd={project.workspaceRoot}
++      repositoryKey={project.repositoryIdentity?.canonicalKey}
+       className={ITEM_ICON_CLASS}
+     />
+   );
+diff --git a/apps/web/src/components/ProjectFavicon.test.ts b/apps/web/src/components/ProjectFavicon.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..d1511a1a544aeaee21392b30b7f1d2eb4e1dbbed
+--- /dev/null
++++ b/apps/web/src/components/ProjectFavicon.test.ts
+@@ -0,0 +1,95 @@
++import { describe, expect, it } from "vite-plus/test";
++
++import { projectFaviconSettingsRevision } from "./ProjectFavicon";
++
++describe("projectFaviconSettingsRevision", () => {
++  it("stays bounded for large remote icon maps", () => {
++    const projectIconsByGitRemote = Object.fromEntries(
++      Array.from({ length: 20 }, (_, index) => [
++        `github.com/example/${"r".repeat(900)}-${index}`,
++        `/icons/${"i".repeat(900)}-${index}.svg`,
++      ]),
++    );
++
++    const revision = projectFaviconSettingsRevision(
++      { projectIcons: {}, projectIconsByGitRemote },
++      "/workspace/project",
++    );
++
++    expect(revision).toBeDefined();
++    expect(revision?.length).toBeLessThanOrEqual(1024);
++  });
++
++  it("is stable across remote map insertion order and changes with icon settings", () => {
++    const first = projectFaviconSettingsRevision(
++      {
++        projectIcons: {},
++        projectIconsByGitRemote: {
++          "github.com/example/two": "/icons/two.svg",
++          "github.com/example/one": "/icons/one.svg",
++        },
++      },
++      "/workspace/project",
++    );
++    const reordered = projectFaviconSettingsRevision(
++      {
++        projectIcons: {},
++        projectIconsByGitRemote: {
++          "github.com/example/one": "/icons/one.svg",
++          "github.com/example/two": "/icons/two.svg",
++        },
++      },
++      "/workspace/project",
++    );
++    const changed = projectFaviconSettingsRevision(
++      {
++        projectIcons: {},
++        projectIconsByGitRemote: {
++          "github.com/example/one": "/icons/one-next.svg",
++          "github.com/example/two": "/icons/two.svg",
++        },
++      },
++      "/workspace/project",
++    );
++
++    expect(first).toBe(reordered);
++    expect(changed).not.toBe(first);
++  });
++
++  it("changes when remote settings change even with a workspace override", () => {
++    const first = projectFaviconSettingsRevision(
++      {
++        projectIcons: { "/workspace/project": "/icons/local.svg" },
++        projectIconsByGitRemote: { "github.com/example/one": "/icons/one.svg" },
++      },
++      "/workspace/project",
++    );
++    const remoteChanged = projectFaviconSettingsRevision(
++      {
++        projectIcons: { "/workspace/project": "/icons/local.svg" },
++        projectIconsByGitRemote: { "github.com/example/one": "/icons/one-next.svg" },
++      },
++      "/workspace/project",
++    );
++
++    expect(remoteChanged).not.toBe(first);
++  });
++
++  it("changes when repository identity becomes available", () => {
++    const settings = {
++      projectIcons: {},
++      projectIconsByGitRemote: {
++        "github.com/example/one": "/icons/one.svg",
++      },
++    };
++
++    const unresolved = projectFaviconSettingsRevision(settings, "/workspace/project");
++    const resolved = projectFaviconSettingsRevision(
++      settings,
++      "/workspace/project",
++      "github.com/example/one",
++    );
++
++    expect(resolved).not.toBe(unresolved);
++  });
++});
+diff --git a/apps/web/src/components/ProjectFavicon.tsx b/apps/web/src/components/ProjectFavicon.tsx
+index 022e998e49402c11cfbb551d2bd6d76f20ea3e55..010053453c0e4fffb191ffec63d1821f5c7b51c2 100644
+--- a/apps/web/src/components/ProjectFavicon.tsx
++++ b/apps/web/src/components/ProjectFavicon.tsx
+@@ -7,13 +7,56 @@ import { useAssetUrl, useRefreshAssetUrl } from "../assets/assetUrls";
+ 
+ const loadedProjectFaviconSrcs = new Set<string>();
+ 
++function hashProjectFaviconRevision(input: string): string {
++  let hash = 0x811c9dc5;
++  for (let index = 0; index < input.length; index += 1) {
++    hash ^= input.charCodeAt(index);
++    hash = Math.imul(hash, 0x01000193) >>> 0;
++  }
++  return hash.toString(36);
++}
++
++export function projectFaviconSettingsRevision(
++  settings: {
++    readonly projectIcons: Readonly<Record<string, string>>;
++    readonly projectIconsByGitRemote: Readonly<Record<string, string>>;
++  },
++  cwd: string,
++  repositoryKey?: string | null,
++): string | undefined {
++  const pathEntries = Object.entries(settings.projectIcons);
++  const remoteEntries = Object.entries(settings.projectIconsByGitRemote);
++  if (pathEntries.length === 0 && remoteEntries.length === 0 && !repositoryKey) return undefined;
++  const revisionSource = JSON.stringify([
++    "workspace",
++    cwd,
++    "paths",
++    pathEntries.sort(([left], [right]) => left.localeCompare(right)),
++    "repository",
++    repositoryKey ?? null,
++    "remotes",
++    remoteEntries.sort(([left], [right]) => left.localeCompare(right)),
++  ]);
++  return `icons:${revisionSource.length}:${hashProjectFaviconRevision(revisionSource)}`;
++}
++
+ export function ProjectFavicon(input: {
+   environmentId: EnvironmentId;
+   cwd: string;
++  repositoryKey?: string | null | undefined;
+   className?: string | undefined;
+   fallbackIcon?: ComponentType<{ className?: string }>;
+ }) {
+-  const resource = { _tag: "project-favicon", cwd: input.cwd } as const;
++  const configuredIconRevision = useEnvironmentSettings(input.environmentId, (settings) =>
++    projectFaviconSettingsRevision(settings, input.cwd, input.repositoryKey),
++  );
++  // The revision lives on the shared resource so the refresh query below keys
++  // on exactly the same asset the image was minted from.
++  const resource = {
++    _tag: "project-favicon",
++    cwd: input.cwd,
++    ...(configuredIconRevision ? { revision: configuredIconRevision } : {}),
++  } as const;
+   const src = useAssetUrl(input.environmentId, resource);
+   // Clicking an icon re-issues its asset URL, which makes the server resolve
+   // the project's icon from scratch. That is what picks up an icon that was
+diff --git a/apps/web/src/components/ProjectIconSettings.test.ts b/apps/web/src/components/ProjectIconSettings.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1dce9a747e4ab268b9d7baaa9d55808320f484e2
+--- /dev/null
++++ b/apps/web/src/components/ProjectIconSettings.test.ts
+@@ -0,0 +1,150 @@
++import { describe, expect, it } from "vite-plus/test";
++
++import { replaceProjectIconSetting } from "./ProjectIconSettings";
++
++describe("replaceProjectIconSetting", () => {
++  it("sets and trims a project icon without changing other projects", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: { "/workspace/one": "/icons/one.svg" },
++          projectIconsByGitRemote: {},
++        },
++        { workspaceRoot: "/workspace/two" },
++        "workspace",
++        "  ~/icons/two.svg  ",
++      ),
++    ).toEqual({
++      projectIcons: {
++        "/workspace/one": "/icons/one.svg",
++        "/workspace/two": "~/icons/two.svg",
++      },
++      projectIconsByGitRemote: {},
++    });
++  });
++
++  it("removes only the selected project when the path is blank", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: {
++            "/workspace/one": "/icons/one.svg",
++            "/workspace/two": "/icons/two.svg",
++          },
++          projectIconsByGitRemote: {},
++        },
++        { workspaceRoot: "/workspace/one" },
++        "workspace",
++        " ",
++      ),
++    ).toEqual({
++      projectIcons: { "/workspace/two": "/icons/two.svg" },
++      projectIconsByGitRemote: {},
++    });
++  });
++
++  it("sets a portable git-remote icon and removes the local path override", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: {
++            "/workspace/one": "/icons/local.svg",
++            "/workspace/two": "/icons/two.svg",
++          },
++          projectIconsByGitRemote: {
++            "github.com/example/other": "/icons/other.svg",
++          },
++        },
++        {
++          workspaceRoot: "/workspace/one",
++          repositoryKey: "github.com/example/one",
++        },
++        "git-remote",
++        " ~/icons/one.svg ",
++      ),
++    ).toEqual({
++      projectIcons: { "/workspace/two": "/icons/two.svg" },
++      projectIconsByGitRemote: {
++        "github.com/example/other": "/icons/other.svg",
++        "github.com/example/one": "~/icons/one.svg",
++      },
++    });
++  });
++
++  it("falls back to a workspace setting when the project has no git remote", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: {},
++          projectIconsByGitRemote: {},
++        },
++        { workspaceRoot: "/workspace/one" },
++        "git-remote",
++        "/icons/one.svg",
++      ),
++    ).toEqual({
++      projectIcons: { "/workspace/one": "/icons/one.svg" },
++      projectIconsByGitRemote: {},
++    });
++  });
++
++  it("removes the portable icon when switching back to workspace scope", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: {
++            "/workspace/two": "/icons/two.svg",
++          },
++          projectIconsByGitRemote: {
++            "github.com/example/one": "/icons/one-remote.svg",
++            "github.com/example/two": "/icons/two-remote.svg",
++          },
++        },
++        {
++          workspaceRoot: "/workspace/one",
++          repositoryKey: "github.com/example/one",
++        },
++        "workspace",
++        "/icons/one-local.svg",
++      ),
++    ).toEqual({
++      projectIcons: {
++        "/workspace/one": "/icons/one-local.svg",
++        "/workspace/two": "/icons/two.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/two": "/icons/two-remote.svg",
++      },
++    });
++  });
++
++  it("removes both scoped overrides when resetting from workspace scope", () => {
++    expect(
++      replaceProjectIconSetting(
++        {
++          projectIcons: {
++            "/workspace/one": "/icons/one-local.svg",
++            "/workspace/two": "/icons/two.svg",
++          },
++          projectIconsByGitRemote: {
++            "github.com/example/one": "/icons/one-remote.svg",
++            "github.com/example/two": "/icons/two-remote.svg",
++          },
++        },
++        {
++          workspaceRoot: "/workspace/one",
++          repositoryKey: "github.com/example/one",
++        },
++        "workspace",
++        " ",
++      ),
++    ).toEqual({
++      projectIcons: {
++        "/workspace/two": "/icons/two.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/two": "/icons/two-remote.svg",
++      },
++    });
++  });
++});
+diff --git a/apps/web/src/components/ProjectIconSettings.tsx b/apps/web/src/components/ProjectIconSettings.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a324299e428152512f44ed63ba837d709f913a7
+--- /dev/null
++++ b/apps/web/src/components/ProjectIconSettings.tsx
+@@ -0,0 +1,373 @@
++import { useAtomValue } from "@effect/atom-react";
++import type { EnvironmentId } from "@t3tools/contracts";
++import {
++  isAtomCommandInterrupted,
++  squashAtomCommandFailure,
++} from "@t3tools/client-runtime/state/runtime";
++import { applyProjectIconUpdate } from "@t3tools/shared/serverSettings";
++import { useCallback, useEffect, useRef, useState } from "react";
++
++import { useEnvironmentSettings } from "../hooks/useSettings";
++import { environmentServerConfigsAtom, serverEnvironment } from "../state/server";
++import { useAtomCommand } from "../state/use-atom-command";
++import { ProjectFavicon } from "./ProjectFavicon";
++import { Button } from "./ui/button";
++import { Checkbox } from "./ui/checkbox";
++import {
++  Dialog,
++  DialogDescription,
++  DialogFooter,
++  DialogHeader,
++  DialogPanel,
++  DialogPopup,
++  DialogTitle,
++} from "./ui/dialog";
++import { Input } from "./ui/input";
++import { stackedThreadToast, toastManager } from "./ui/toast";
++
++export interface ProjectIconTarget {
++  readonly environmentId: EnvironmentId;
++  readonly environmentLabel: string | null;
++  readonly title: string;
++  readonly workspaceRoot: string;
++  readonly repositoryKey?: string | undefined;
++}
++
++export type ProjectIconScope = "workspace" | "git-remote";
++
++interface PendingProjectIconSave {
++  readonly id: number;
++  readonly path: string;
++  readonly scope: ProjectIconScope;
++  readonly status: "pending" | "awaiting-stream";
++}
++
++export function replaceProjectIconSetting(
++  input: {
++    readonly projectIcons: Readonly<Record<string, string>>;
++    readonly projectIconsByGitRemote: Readonly<Record<string, string>>;
++  },
++  target: Pick<ProjectIconTarget, "workspaceRoot" | "repositoryKey">,
++  scope: ProjectIconScope,
++  iconPath: string,
++): {
++  readonly projectIcons: Record<string, string>;
++  readonly projectIconsByGitRemote: Record<string, string>;
++} {
++  const trimmedPath = iconPath.trim();
++  return applyProjectIconUpdate(
++    input,
++    scope === "git-remote" && target.repositoryKey
++      ? {
++          scope,
++          workspaceRoot: target.workspaceRoot,
++          repositoryKey: target.repositoryKey,
++          iconPath: trimmedPath,
++        }
++      : {
++          scope: "workspace",
++          workspaceRoot: target.workspaceRoot,
++          ...(target.repositoryKey ? { repositoryKey: target.repositoryKey } : {}),
++          iconPath: trimmedPath,
++        },
++  );
++}
++
++function useProjectIconSetting(target: ProjectIconTarget) {
++  const projectIcons = useEnvironmentSettings(
++    target.environmentId,
++    (settings) => settings.projectIcons,
++  );
++  const projectIconsByGitRemote = useEnvironmentSettings(
++    target.environmentId,
++    (settings) => settings.projectIconsByGitRemote,
++  );
++  const serverConfigs = useAtomValue(environmentServerConfigsAtom);
++  const updateServerSettings = useAtomCommand(serverEnvironment.updateSettings, {
++    reportFailure: false,
++  });
++  const workspaceIconPath = projectIcons[target.workspaceRoot] ?? "";
++  const repositoryIconPath = target.repositoryKey
++    ? (projectIconsByGitRemote[target.repositoryKey] ?? "")
++    : "";
++  const initialScope: ProjectIconScope =
++    workspaceIconPath || !target.repositoryKey ? "workspace" : "git-remote";
++  const iconPath = workspaceIconPath || repositoryIconPath;
++  const settingsPath =
++    serverConfigs.get(target.environmentId)?.settingsConfigPath ?? "settings.json";
++
++  const saveIconPath = useCallback(
++    async (nextPath: string, scope: ProjectIconScope): Promise<boolean> => {
++      const trimmedPath = nextPath.trim();
++      const result = await updateServerSettings({
++        environmentId: target.environmentId,
++        input: {
++          patch: {
++            projectIconUpdate:
++              scope === "git-remote" && target.repositoryKey
++                ? {
++                    scope,
++                    workspaceRoot: target.workspaceRoot,
++                    repositoryKey: target.repositoryKey,
++                    iconPath: trimmedPath,
++                  }
++                : {
++                    scope: "workspace",
++                    workspaceRoot: target.workspaceRoot,
++                    ...(target.repositoryKey ? { repositoryKey: target.repositoryKey } : {}),
++                    iconPath: trimmedPath,
++                  },
++          },
++        },
++      });
++      if (result._tag === "Success") {
++        return true;
++      }
++      if (!isAtomCommandInterrupted(result)) {
++        const error = squashAtomCommandFailure(result);
++        toastManager.add(
++          stackedThreadToast({
++            type: "error",
++            title: "Failed to update project icon",
++            description: error instanceof Error ? error.message : "An error occurred.",
++          }),
++        );
++      }
++      return false;
++    },
++    [target, updateServerSettings],
++  );
++
++  return {
++    iconPath,
++    initialScope,
++    repositoryIconPath,
++    saveIconPath,
++    settingsPath,
++    workspaceIconPath,
++  };
++}
++
++export function ProjectIconPathField({ target }: { readonly target: ProjectIconTarget }) {
++  const { iconPath, initialScope, saveIconPath, settingsPath } = useProjectIconSetting(target);
++  const [draftPath, setDraftPath] = useState(iconPath);
++  const [scope, setScope] = useState<ProjectIconScope>(initialScope);
++  const [pathDirty, setPathDirty] = useState(false);
++  const [scopeDirty, setScopeDirty] = useState(false);
++  const [pendingSave, setPendingSave] = useState<PendingProjectIconSave | null>(null);
++  const saveQueueRef = useRef(Promise.resolve());
++  const latestSaveIdRef = useRef(0);
++  const queueSave = useCallback(
++    (nextPath: string, nextScope: ProjectIconScope) => {
++      const id = latestSaveIdRef.current + 1;
++      latestSaveIdRef.current = id;
++      const path = nextPath.trim();
++      const observableScope = path.length === 0 || !target.repositoryKey ? "workspace" : nextScope;
++      if (observableScope !== nextScope) {
++        setScope(observableScope);
++        setScopeDirty(true);
++      }
++      setPendingSave({ id, path, scope: observableScope, status: "pending" });
++      const save = saveQueueRef.current.then(() => saveIconPath(nextPath, observableScope));
++      saveQueueRef.current = save.then(
++        () => undefined,
++        () => undefined,
++      );
++      void save.then((saved) => {
++        if (latestSaveIdRef.current !== id) return;
++        setPendingSave((current) =>
++          current?.id === id && saved
++            ? { ...current, status: "awaiting-stream" }
++            : current?.id === id
++              ? null
++              : current,
++        );
++      });
++      return save;
++    },
++    [saveIconPath, target.repositoryKey],
++  );
++
++  useEffect(() => {
++    if (pathDirty || pendingSave !== null) return;
++    setDraftPath(iconPath);
++  }, [iconPath, pathDirty, pendingSave]);
++  useEffect(() => {
++    if (scopeDirty || pendingSave !== null) return;
++    setScope(initialScope);
++  }, [initialScope, pendingSave, scopeDirty]);
++  useEffect(() => {
++    if (
++      pendingSave?.status !== "awaiting-stream" ||
++      iconPath !== pendingSave.path ||
++      initialScope !== pendingSave.scope ||
++      draftPath.trim() !== pendingSave.path ||
++      scope !== pendingSave.scope
++    ) {
++      return;
++    }
++    setPendingSave(null);
++    setPathDirty(false);
++    setScopeDirty(false);
++  }, [draftPath, iconPath, initialScope, pendingSave, scope]);
++
++  return (
++    <label className="grid min-w-0 gap-1.5 sm:col-span-2">
++      <span className="font-medium text-foreground">Custom icon path</span>
++      <Input
++        size="sm"
++        aria-label={`Custom icon path for ${target.title}`}
++        value={draftPath}
++        placeholder="~/icons/project.svg"
++        onChange={(event) => {
++          const nextPath = event.currentTarget.value;
++          setDraftPath(nextPath);
++          setPathDirty(true);
++        }}
++        onBlur={(event) => {
++          void queueSave(event.currentTarget.value, scope);
++        }}
++        onKeyDown={(event) => {
++          if (event.key === "Enter") event.currentTarget.blur();
++        }}
++      />
++      {target.repositoryKey ? (
++        <span className="flex min-w-0 items-start gap-2 text-xs text-muted-foreground">
++          <Checkbox
++            aria-label={`Use icon for all clones of ${target.repositoryKey}`}
++            checked={scope === "git-remote"}
++            onCheckedChange={(checked) => {
++              const nextScope = checked ? "git-remote" : "workspace";
++              setScope(nextScope);
++              setScopeDirty(true);
++              void queueSave(draftPath, nextScope);
++            }}
++          />
++          <span className="min-w-0">
++            Use for all clones of{" "}
++            <span className="font-mono text-[11px]">{target.repositoryKey}</span>
++          </span>
++        </span>
++      ) : null}
++      <span className="truncate text-xs text-muted-foreground" title={settingsPath}>
++        Absolute, ~/…, or project-relative. Stored in {settingsPath}.
++      </span>
++    </label>
++  );
++}
++
++function ProjectIconDialogContent({
++  target,
++  onClose,
++}: {
++  readonly target: ProjectIconTarget;
++  readonly onClose: () => void;
++}) {
++  const { iconPath, initialScope, saveIconPath, settingsPath } = useProjectIconSetting(target);
++  const [draftPath, setDraftPath] = useState(iconPath);
++  const [scope, setScope] = useState<ProjectIconScope>(initialScope);
++  const submit = async (nextPath: string) => {
++    if (await saveIconPath(nextPath, scope)) {
++      toastManager.add({
++        type: "success",
++        title: nextPath.trim() ? "Project icon updated" : "Project icon reset",
++        description: target.title,
++      });
++      onClose();
++    }
++  };
++
++  return (
++    <DialogPopup className="max-w-lg">
++      <DialogHeader>
++        <DialogTitle>Project icon</DialogTitle>
++        <DialogDescription>
++          Set a user-local icon for {target.title} without changing the project repository.
++        </DialogDescription>
++      </DialogHeader>
++      <DialogPanel className="space-y-4">
++        <div className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-muted/25 p-3">
++          <ProjectFavicon
++            environmentId={target.environmentId}
++            cwd={target.workspaceRoot}
++            repositoryKey={target.repositoryKey}
++            className="size-8"
++          />
++          <div className="min-w-0">
++            <p className="truncate font-medium text-foreground">{target.title}</p>
++            <p className="truncate font-mono text-xs text-muted-foreground">
++              {target.workspaceRoot}
++            </p>
++          </div>
++        </div>
++        <label className="grid gap-1.5">
++          <span className="font-medium text-foreground">Icon path</span>
++          <Input
++            autoFocus
++            aria-label={`Custom icon path for ${target.title}`}
++            value={draftPath}
++            placeholder="~/icons/project.svg"
++            onChange={(event) => setDraftPath(event.target.value)}
++            onKeyDown={(event) => {
++              if (event.key === "Enter") void submit(draftPath);
++            }}
++          />
++        </label>
++        {target.repositoryKey ? (
++          <label className="flex items-start gap-2 rounded-md border border-border/70 bg-muted/20 p-3">
++            <Checkbox
++              checked={scope === "git-remote"}
++              onCheckedChange={(checked) => setScope(checked ? "git-remote" : "workspace")}
++            />
++            <span className="grid min-w-0 gap-0.5">
++              <span className="font-medium text-foreground">Use for every clone</span>
++              <span className="text-sm text-muted-foreground">
++                Match the normalized git remote{" "}
++                <span className="font-mono text-xs">{target.repositoryKey}</span> on other machines
++                and at other paths.
++              </span>
++            </span>
++          </label>
++        ) : null}
++        <p className="text-sm text-muted-foreground">
++          Use an absolute path, ~/…, or a path relative to the project. The setting is stored in{" "}
++          <span className="font-mono text-xs">{settingsPath}</span>.
++        </p>
++        {target.environmentLabel ? (
++          <p className="text-sm text-muted-foreground">Environment: {target.environmentLabel}</p>
++        ) : null}
++      </DialogPanel>
++      <DialogFooter>
++        {iconPath ? (
++          <Button variant="ghost" className="mr-auto" onClick={() => void submit("")}>
++            Reset to automatic
++          </Button>
++        ) : null}
++        <Button variant="outline" onClick={onClose}>
++          Cancel
++        </Button>
++        <Button onClick={() => void submit(draftPath)}>Save</Button>
++      </DialogFooter>
++    </DialogPopup>
++  );
++}
++
++export function ProjectIconDialog({
++  target,
++  onOpenChange,
++}: {
++  readonly target: ProjectIconTarget | null;
++  readonly onOpenChange: (open: boolean) => void;
++}) {
++  return (
++    <Dialog open={target !== null} onOpenChange={onOpenChange}>
++      {target ? (
++        <ProjectIconDialogContent
++          key={`${target.environmentId}:${target.workspaceRoot}`}
++          target={target}
++          onClose={() => onOpenChange(false)}
++        />
++      ) : null}
++    </Dialog>
++  );
++}
+diff --git a/apps/web/src/components/Sidebar.logic.test.ts b/apps/web/src/components/Sidebar.logic.test.ts
+index accbc26f5be491e0cbed9811be7d07128c82b2e8..3ac592e6084f97418769bd51e24971fcd806a02c 100644
+--- a/apps/web/src/components/Sidebar.logic.test.ts
++++ b/apps/web/src/components/Sidebar.logic.test.ts
+@@ -22,6 +22,7 @@ import {
+   resolveProjectStatusIndicator,
+   pruneSidebarChangeRequestStates,
+   resolveSidebarThreadGitCwd,
++  resolveProjectRepositoryKey,
+   resolveSidebarStageBadgeLabel,
+   resolveThreadRowClassName,
+   resolveSidebarV2Status,
+@@ -97,6 +98,21 @@ describe("shouldPublishSidebarChangeRequestState", () => {
+   });
+ });
+ 
++describe("resolveProjectRepositoryKey", () => {
++  it("preserves a repository identity for sidebar favicon cache revisions", () => {
++    expect(
++      resolveProjectRepositoryKey({
++        repositoryIdentity: { canonicalKey: "github.com/pingdotgg/t3code" },
++      }),
++    ).toBe("github.com/pingdotgg/t3code");
++  });
++
++  it("returns null while repository identity is unavailable", () => {
++    expect(resolveProjectRepositoryKey(undefined)).toBeNull();
++    expect(resolveProjectRepositoryKey({ repositoryIdentity: null })).toBeNull();
++  });
++});
++
+ describe("shouldNavigateAfterProjectRemoval", () => {
+   const projectThreads = [{ environmentId: "environment-local", id: "thread-1" }];
+ 
+diff --git a/apps/web/src/components/Sidebar.logic.ts b/apps/web/src/components/Sidebar.logic.ts
+index 5ec28d8ab5272443cc107a9faec68f1342ba22f2..2a156cf616feb33214b3a7a8306791b3fa3d698b 100644
+--- a/apps/web/src/components/Sidebar.logic.ts
++++ b/apps/web/src/components/Sidebar.logic.ts
+@@ -24,6 +24,16 @@ export const THREAD_JUMP_HINT_SHOW_DELAY_MS = 100;
+ // Visible sidebar rows are prewarmed into the thread-detail cache so opening a
+ // nearby thread usually reuses an already-hot subscription.
+ export const SIDEBAR_THREAD_PREWARM_LIMIT = 10;
++
++export function resolveProjectRepositoryKey(
++  project:
++    | { readonly repositoryIdentity?: { readonly canonicalKey: string } | null | undefined }
++    | null
++    | undefined,
++): string | null {
++  return project?.repositoryIdentity?.canonicalKey ?? null;
++}
++
+ type SidebarProject = {
+   id: string;
+   title: string;
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 036ebce461e4db1a94e7f744763832b88471e4f9..76416e5bc0570c1f769d32f9ba6826d93d2733ed 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -22,6 +22,7 @@ import {
+   ThreadWorktreeIndicator,
+ } from "./ThreadStatusIndicators";
+ import { ProjectFavicon } from "./ProjectFavicon";
++import { ProjectIconDialog, type ProjectIconTarget } from "./ProjectIconSettings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { autoAnimate } from "@formkit/auto-animate";
+ import React, { useCallback, useEffect, memo, useMemo, useRef, useState } from "react";
+@@ -1296,6 +1297,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+   const [projectRenameTitle, setProjectRenameTitle] = useState("");
+   const [projectGroupingTarget, setProjectGroupingTarget] =
+     useState<SidebarProjectGroupMember | null>(null);
++  const [projectIconTarget, setProjectIconTarget] = useState<ProjectIconTarget | null>(null);
+   const [projectGroupingSelection, setProjectGroupingSelection] = useState<
+     SidebarProjectGroupingMode | "inherit"
+   >("inherit");
+@@ -1679,7 +1681,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+ 
+         const actionHandlers = new Map<string, () => Promise<void> | void>();
+         const makeLeaf = (
+-          action: "rename" | "grouping" | "copy-path" | "delete",
++          action: "rename" | "grouping" | "icon" | "copy-path" | "delete",
+           member: SidebarProjectGroupMember,
+           options?: {
+             destructive?: boolean;
+@@ -1695,6 +1697,15 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+               case "grouping":
+                 openProjectGroupingDialog(member);
+                 return;
++              case "icon":
++                setProjectIconTarget({
++                  environmentId: member.environmentId,
++                  environmentLabel: member.environmentLabel,
++                  title: member.title,
++                  workspaceRoot: member.workspaceRoot,
++                  repositoryKey: member.repositoryIdentity?.canonicalKey,
++                });
++                return;
+               case "copy-path":
+                 copyPathToClipboard(member.workspaceRoot, { path: member.workspaceRoot });
+                 return;
+@@ -1712,7 +1723,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+         };
+ 
+         const buildTargetedItem = (
+-          action: "rename" | "grouping" | "copy-path" | "delete",
++          action: "rename" | "grouping" | "icon" | "copy-path" | "delete",
+           label: string,
+           options?: {
+             destructive?: boolean;
+@@ -1748,6 +1759,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+           [
+             buildTargetedItem("rename", "Rename"),
+             buildTargetedItem("grouping", "Group into..."),
++            buildTargetedItem("icon", "Project icon..."),
+             buildTargetedItem("copy-path", "Copy Path"),
+             buildTargetedItem("delete", "Remove", {
+               destructive: true,
+@@ -2374,7 +2386,11 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+               }`}
+             />
+           )}
+-          <ProjectFavicon environmentId={project.environmentId} cwd={project.workspaceRoot} />
++          <ProjectFavicon
++            environmentId={project.environmentId}
++            cwd={project.workspaceRoot}
++            repositoryKey={project.repositoryIdentity?.canonicalKey}
++          />
+           <span className="flex min-w-0 flex-1 items-center gap-2">
+             <span className="truncate text-sm font-medium text-sidebar-foreground/90">
+               {project.displayName}
+@@ -2523,6 +2539,13 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+         </DialogPopup>
+       </Dialog>
+ 
++      <ProjectIconDialog
++        target={projectIconTarget}
++        onOpenChange={(open) => {
++          if (!open) setProjectIconTarget(null);
++        }}
++      />
++
+       <Dialog
+         open={projectGroupingTarget !== null}
+         onOpenChange={(open) => {
+diff --git a/apps/web/src/components/SidebarV2.tsx b/apps/web/src/components/SidebarV2.tsx
+index 3efae88cb8a4b6da56231f20620c419c803143a1..0f5975f7d905493205883f4485f6a569135236a5 100644
+--- a/apps/web/src/components/SidebarV2.tsx
++++ b/apps/web/src/components/SidebarV2.tsx
+@@ -128,6 +128,8 @@ import {
+   isSidebarThreadEffectivelySettled,
+   isTrailingDoubleClick,
+   orderItemsByPreferredIds,
++  resolveAdjacentThreadId,
++  resolveProjectRepositoryKey,
+   resolveSettledTimestamp,
+   pruneSidebarChangeRequestStates,
+   resolveNextActiveThreadIdAfterSettle,
+@@ -155,6 +157,11 @@ import {
+   type SnoozePreset,
+ } from "./Sidebar.snooze";
+ import { ProjectFavicon } from "./ProjectFavicon";
++import {
++  ProjectIconDialog,
++  ProjectIconPathField,
++  type ProjectIconTarget,
++} from "./ProjectIconSettings";
+ import { ProviderInstanceIcon } from "./chat/ProviderInstanceIcon";
+ import { getTriggerDisplayModelLabel } from "./chat/providerIconUtils";
+ import { deriveProviderInstanceEntries, type ProviderInstanceEntry } from "../providerInstances";
+@@ -283,6 +290,7 @@ function SidebarV2ThreadTooltip({
+   thread,
+   projectTitle,
+   projectCwd,
++  projectRepositoryKey,
+   environmentLabel,
+   driverKind,
+   modelInstanceId,
+@@ -292,6 +300,7 @@ function SidebarV2ThreadTooltip({
+   thread: SidebarThreadSummary;
+   projectTitle: string | null;
+   projectCwd: string | null;
++  projectRepositoryKey: string | null;
+   environmentLabel: string | null;
+   driverKind: ProviderInstanceEntry["driverKind"] | null;
+   modelInstanceId: string;
+@@ -317,6 +326,7 @@ function SidebarV2ThreadTooltip({
+               <ProjectFavicon
+                 environmentId={thread.environmentId}
+                 cwd={projectCwd ?? ""}
++                repositoryKey={projectRepositoryKey}
+                 className="size-4 shrink-0 stroke-muted-foreground"
+               />
+               <div className="min-w-0 wrap-break-word text-foreground/90">{projectTitle}</div>
+@@ -437,6 +447,7 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+   currentEnvironmentId: string | null;
+   environmentLabel: string | null;
+   projectCwd: string | null;
++  projectRepositoryKey: string | null;
+   projectTitle: string | null;
+   providerEntryByInstanceId: ReadonlyMap<string, ProviderInstanceEntry>;
+   onThreadClick: (event: ReactMouseEvent, threadRef: ScopedThreadRef) => void;
+@@ -448,6 +459,10 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+   isRenaming: boolean;
+   renamingTitle: string;
+   onContextMenu: (threadRef: ScopedThreadRef, position: { x: number; y: number }) => void;
++  onProjectIconContextMenu: (
++    threadRef: ScopedThreadRef,
++    position: { x: number; y: number },
++  ) => void;
+   onSettle: (threadRef: ScopedThreadRef) => void;
+   onUnsettle: (threadRef: ScopedThreadRef) => void;
+   onSnooze: (threadRef: ScopedThreadRef, preset: SnoozePreset) => void;
+@@ -605,6 +620,7 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+       thread={thread}
+       projectTitle={props.projectTitle}
+       projectCwd={props.projectCwd}
++      projectRepositoryKey={props.projectRepositoryKey}
+       environmentLabel={props.environmentLabel}
+       driverKind={driverKind}
+       modelInstanceId={modelInstanceId}
+@@ -626,6 +642,17 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+     },
+     [onContextMenu, threadRef],
+   );
++  const handleProjectIconContextMenu = useCallback(
++    (event: ReactMouseEvent<HTMLSpanElement>) => {
++      event.preventDefault();
++      event.stopPropagation();
++      props.onProjectIconContextMenu(threadRef, {
++        x: event.clientX,
++        y: event.clientY,
++      });
++    },
++    [props.onProjectIconContextMenu, threadRef],
++  );
+   const handleKeyDown = useCallback(
+     (event: ReactKeyboardEvent) => {
+       if (event.target !== event.currentTarget) return;
+@@ -833,10 +860,12 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+                 !props.isActive &&
+                   "opacity-40 grayscale group-hover/v2-row:opacity-100 group-hover/v2-row:grayscale-0",
+               )}
++              onContextMenu={handleProjectIconContextMenu}
+             >
+               <ProjectFavicon
+                 environmentId={thread.environmentId}
+                 cwd={props.projectCwd ?? ""}
++                repositoryKey={props.projectRepositoryKey}
+                 className={largeIcons ? "size-6" : "size-4"}
+                 fallbackIcon={MessageSquareIcon}
+               />
+@@ -941,20 +970,26 @@ const SidebarV2Row = memo(function SidebarV2Row(props: {
+             )}
+           >
+             {largeIcons ? (
+-              <ProjectFavicon
+-                environmentId={thread.environmentId}
+-                cwd={props.projectCwd ?? ""}
+-                className="size-14 shrink-0"
+-              />
++              <span className="shrink-0" onContextMenu={handleProjectIconContextMenu}>
++                <ProjectFavicon
++                  environmentId={thread.environmentId}
++                  cwd={props.projectCwd ?? ""}
++                  repositoryKey={props.projectRepositoryKey}
++                  className="size-14 shrink-0"
++                />
++              </span>
+             ) : null}
+             <div className={cn(largeIcons && "min-w-0 flex-1")}>
+               <div className="flex h-5 min-w-0 items-center gap-1.5">
+                 {largeIcons ? null : (
+-                  <ProjectFavicon
+-                    environmentId={thread.environmentId}
+-                    cwd={props.projectCwd ?? ""}
+-                    className="size-4 shrink-0"
+-                  />
++                  <span className="shrink-0" onContextMenu={handleProjectIconContextMenu}>
++                    <ProjectFavicon
++                      environmentId={thread.environmentId}
++                      cwd={props.projectCwd ?? ""}
++                      repositoryKey={props.projectRepositoryKey}
++                      className="size-4 shrink-0"
++                    />
++                  </span>
+                 )}
+                 {props.projectTitle ? (
+                   <span
+@@ -1132,6 +1167,7 @@ export default function SidebarV2() {
+   const [projectActionsTarget, setProjectActionsTarget] = useState<SidebarProjectSnapshot | null>(
+     null,
+   );
++  const [projectIconTarget, setProjectIconTarget] = useState<ProjectIconTarget | null>(null);
+   const [projectScopeMenuOpen, setProjectScopeMenuOpen] = useState(false);
+   const newThreadContext = useHandleNewThread();
+   const openAddProjectCommandPalette = useCallback(
+@@ -1237,6 +1273,19 @@ export default function SidebarV2() {
+       ),
+     [projectGroups],
+   );
++  const projectMemberByKey = useMemo(
++    () =>
++      new Map(
++        projectGroups.flatMap((group) =>
++          group.memberProjects.map(
++            (member) => [`${member.environmentId}:${member.id}`, member] as const,
++          ),
++        ),
++      ),
++    [projectGroups],
++  );
++  const projectMemberByKeyRef = useRef(projectMemberByKey);
++  projectMemberByKeyRef.current = projectMemberByKey;
+ 
+   // now is quantized to the minute so effectiveSettled memoization doesn't
+   // churn on every render; auto-settle thresholds are day-granular anyway.
+@@ -1696,6 +1745,46 @@ export default function SidebarV2() {
+   // event and defeat row memoization during streaming.
+   const threadByKeyRef = useRef(threadByKey);
+   threadByKeyRef.current = threadByKey;
++  const handleProjectIconContextMenu = useCallback(
++    (threadRef: ScopedThreadRef, position: { x: number; y: number }) => {
++      void (async () => {
++        const api = readLocalApi();
++        if (!api) return;
++        const thread = threadByKeyRef.current.get(scopedThreadKey(threadRef));
++        if (!thread) return;
++        const member = projectMemberByKeyRef.current.get(
++          `${thread.environmentId}:${thread.projectId}`,
++        );
++        if (!member) return;
++        const settings = serverConfigs.get(member.environmentId)?.settings;
++        const configuredIcon =
++          settings?.projectIcons[member.workspaceRoot] ??
++          (member.repositoryIdentity
++            ? settings?.projectIconsByGitRemote[member.repositoryIdentity.canonicalKey]
++            : undefined);
++        const clicked = await settlePromise(() =>
++          api.contextMenu.show(
++            [
++              {
++                id: "configure-project-icon",
++                label: configuredIcon ? "Change project icon..." : "Set project icon...",
++              },
++            ],
++            position,
++          ),
++        );
++        if (clicked._tag === "Failure" || clicked.value !== "configure-project-icon") return;
++        setProjectIconTarget({
++          environmentId: member.environmentId,
++          environmentLabel: member.environmentLabel,
++          title: member.title,
++          workspaceRoot: member.workspaceRoot,
++          repositoryKey: member.repositoryIdentity?.canonicalKey,
++        });
++      })();
++    },
++    [serverConfigs],
++  );
+   // handleNewThread is inherently unstable (depends on the projects list);
+   // a ref keeps it out of attemptSettle's dependency array.
+   const handleNewThreadRef = useRef(newThreadContext.handleNewThread);
+@@ -2583,6 +2672,7 @@ export default function SidebarV2() {
+                     <ProjectFavicon
+                       environmentId={scopedProjectGroup.environmentId}
+                       cwd={scopedProjectGroup.workspaceRoot}
++                      repositoryKey={scopedProjectGroup.repositoryIdentity?.canonicalKey}
+                       className="size-4 shrink-0"
+                     />
+                   ) : (
+@@ -2620,6 +2710,7 @@ export default function SidebarV2() {
+                           <ProjectFavicon
+                             environmentId={project.environmentId}
+                             cwd={project.workspaceRoot}
++                            repositoryKey={project.repositoryIdentity?.canonicalKey}
+                             className="size-4 shrink-0"
+                           />
+                           <span className="min-w-0 truncate text-sm">{project.displayName}</span>
+@@ -2732,6 +2823,9 @@ export default function SidebarV2() {
+                       projectCwd={
+                         projectCwdByKey.get(`${thread.environmentId}:${thread.projectId}`) ?? null
+                       }
++                      projectRepositoryKey={resolveProjectRepositoryKey(
++                        projectMemberByKey.get(`${thread.environmentId}:${thread.projectId}`),
++                      )}
+                       projectTitle={
+                         projectDisplayNameByKey.get(
+                           `${thread.environmentId}:${thread.projectId}`,
+@@ -2747,6 +2841,7 @@ export default function SidebarV2() {
+                       isRenaming={renamingThreadKey === threadKey}
+                       renamingTitle={renamingThreadKey === threadKey ? renamingTitle : ""}
+                       onContextMenu={handleThreadContextMenu}
++                      onProjectIconContextMenu={handleProjectIconContextMenu}
+                       onSettle={attemptSettle}
+                       onUnsettle={attemptUnsettle}
+                       onSnooze={attemptSnooze}
+@@ -2860,6 +2955,12 @@ export default function SidebarV2() {
+           ) : null}
+         </SidebarGroup>
+       </SidebarContent>
++      <ProjectIconDialog
++        target={projectIconTarget}
++        onOpenChange={(open) => {
++          if (!open) setProjectIconTarget(null);
++        }}
++      />
+       <Dialog
+         open={projectActionsTarget !== null}
+         onOpenChange={(open) => {
+@@ -2886,6 +2987,7 @@ export default function SidebarV2() {
+                     <ProjectFavicon
+                       environmentId={member.environmentId}
+                       cwd={member.workspaceRoot}
++                      repositoryKey={member.repositoryIdentity?.canonicalKey}
+                       className="size-5 shrink-0 sm:size-4"
+                     />
+                     <div className="min-w-0 flex-1">
+@@ -2971,6 +3073,15 @@ export default function SidebarV2() {
+                         </SelectPopup>
+                       </Select>
+                     </label>
++                    <ProjectIconPathField
++                      target={{
++                        environmentId: member.environmentId,
++                        environmentLabel: member.environmentLabel,
++                        title: member.title,
++                        workspaceRoot: member.workspaceRoot,
++                        repositoryKey: member.repositoryIdentity?.canonicalKey,
++                      }}
++                    />
+                   </div>
+                   <div className="flex flex-wrap items-center gap-2 sm:pl-7">
+                     <Button
+diff --git a/packages/contracts/src/assets.ts b/packages/contracts/src/assets.ts
+index 51f416779a8b9fe2605463a1b39e4bce68fcdcdc..910016a45191e4ce393273ce1e288de9a2b9b6b4 100644
+--- a/packages/contracts/src/assets.ts
++++ b/packages/contracts/src/assets.ts
+@@ -20,6 +20,9 @@ export const AssetResource = Schema.Union([
+   }),
+   Schema.TaggedStruct("project-favicon", {
+     cwd: TrimmedNonEmptyString.check(Schema.isMaxLength(ASSET_PATH_MAX_LENGTH)),
++    revision: Schema.optional(
++      TrimmedNonEmptyString.check(Schema.isMaxLength(ASSET_PATH_MAX_LENGTH)),
++    ),
+   }),
+ ]);
+ export type AssetResource = typeof AssetResource.Type;
+diff --git a/packages/contracts/src/server.ts b/packages/contracts/src/server.ts
+index 69699c7a8394c2bc7842b6ff79ce2eed1873542a..0677cdadf240c12f1eb7e06a1a1e43874d8730bd 100644
+--- a/packages/contracts/src/server.ts
++++ b/packages/contracts/src/server.ts
+@@ -412,6 +412,7 @@ export const ServerConfig = Schema.Struct({
+   auth: ServerAuthDescriptor,
+   cwd: TrimmedNonEmptyString,
+   keybindingsConfigPath: TrimmedNonEmptyString,
++  settingsConfigPath: Schema.optionalKey(TrimmedNonEmptyString),
+   keybindings: ResolvedKeybindingsConfig,
+   issues: ServerConfigIssues,
+   providers: ServerProviders,
+diff --git a/packages/contracts/src/settings.test.ts b/packages/contracts/src/settings.test.ts
+index a581bb704105662582302895a5e0755b73c25aed..711d34199221bd2f636ad54743738a0565ca3811 100644
+--- a/packages/contracts/src/settings.test.ts
++++ b/packages/contracts/src/settings.test.ts
+@@ -167,6 +167,78 @@ describe("ServerSettings.sourceControlWritingStyle", () => {
+   });
+ });
+ 
++describe("ServerSettings project icons", () => {
++  it("defaults to an empty map for existing settings files", () => {
++    expect(decodeServerSettings({}).projectIcons).toEqual({});
++    expect(decodeServerSettings({}).projectIconsByGitRemote).toEqual({});
++  });
++
++  it("trims project roots, git remotes, and icon paths in settings and patches", () => {
++    const input = {
++      projectIcons: {
++        "  /workspace/t3code  ": "  ~/.config/t3code/icons/t3code.svg  ",
++      },
++      projectIconsByGitRemote: {
++        "  github.com/t3tools/t3code  ": "  ~/.config/t3code/icons/t3code.svg  ",
++      },
++    };
++
++    expect(decodeServerSettings(input).projectIcons).toEqual({
++      "/workspace/t3code": "~/.config/t3code/icons/t3code.svg",
++    });
++    expect(decodeServerSettings(input).projectIconsByGitRemote).toEqual({
++      "github.com/t3tools/t3code": "~/.config/t3code/icons/t3code.svg",
++    });
++    expect(decodeServerSettingsPatch(input).projectIcons).toEqual({
++      "/workspace/t3code": "~/.config/t3code/icons/t3code.svg",
++    });
++    expect(decodeServerSettingsPatch(input).projectIconsByGitRemote).toEqual({
++      "github.com/t3tools/t3code": "~/.config/t3code/icons/t3code.svg",
++    });
++  });
++
++  it("rejects empty project roots, git remotes, and icon paths", () => {
++    expect(() => decodeServerSettings({ projectIcons: { "": "/icons/project.svg" } })).toThrow();
++    expect(() => decodeServerSettingsPatch({ projectIcons: { "/workspace": "  " } })).toThrow();
++    expect(() =>
++      decodeServerSettings({ projectIconsByGitRemote: { "": "/icons/project.svg" } }),
++    ).toThrow();
++    expect(() =>
++      decodeServerSettingsPatch({
++        projectIconsByGitRemote: { "github.com/example/project": "  " },
++      }),
++    ).toThrow();
++  });
++
++  it("decodes atomic project icon updates and permits a blank reset path", () => {
++    expect(
++      decodeServerSettingsPatch({
++        projectIconUpdate: {
++          scope: "workspace",
++          workspaceRoot: "  /workspace/t3code  ",
++          repositoryKey: "  github.com/t3tools/t3code  ",
++          iconPath: "  ",
++        },
++      }).projectIconUpdate,
++    ).toEqual({
++      scope: "workspace",
++      workspaceRoot: "/workspace/t3code",
++      repositoryKey: "github.com/t3tools/t3code",
++      iconPath: "",
++    });
++
++    expect(() =>
++      decodeServerSettingsPatch({
++        projectIconUpdate: {
++          scope: "git-remote",
++          workspaceRoot: "/workspace/t3code",
++          iconPath: "/icons/project.svg",
++        },
++      }),
++    ).toThrow();
++  });
++});
++
+ describe("ServerSettingsPatch.providerInstances", () => {
+   it("treats providerInstances as an optional whole-map replacement", () => {
+     const patch = decodeServerSettingsPatch({});
+diff --git a/packages/contracts/src/settings.ts b/packages/contracts/src/settings.ts
+index b1f6b5138a845061226b1482b86bcc84b586d832..1ffdc87364d38b3219d89613c43f520980620535 100644
+--- a/packages/contracts/src/settings.ts
++++ b/packages/contracts/src/settings.ts
+@@ -416,6 +416,11 @@ export type SourceControlWritingStyleSettings = typeof SourceControlWritingStyle
+ 
+ export const DEFAULT_AUTOMATIC_GIT_FETCH_INTERVAL = Duration.seconds(30);
+ 
++const ProjectIconPath = TrimmedNonEmptyString.check(Schema.isMaxLength(1024));
++const ProjectIconWorkspaceRoot = TrimmedNonEmptyString.check(Schema.isMaxLength(1024));
++const ProjectIconGitRemote = TrimmedNonEmptyString.check(Schema.isMaxLength(1024));
++const ProjectIconUpdatePath = TrimmedString.check(Schema.isMaxLength(1024));
++
+ export const ServerSettings = Schema.Struct({
+   enableAssistantStreaming: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
+   enableProviderUpdateChecks: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(true))),
+@@ -431,6 +436,12 @@ export const ServerSettings = Schema.Struct({
+     Schema.withDecodingDefault(Effect.succeed(true)),
+   ),
+   addProjectBaseDirectory: TrimmedString.pipe(Schema.withDecodingDefault(Effect.succeed(""))),
++  projectIcons: Schema.Record(ProjectIconWorkspaceRoot, ProjectIconPath).pipe(
++    Schema.withDecodingDefault(Effect.succeed({})),
++  ),
++  projectIconsByGitRemote: Schema.Record(ProjectIconGitRemote, ProjectIconPath).pipe(
++    Schema.withDecodingDefault(Effect.succeed({})),
++  ),
+   textGenerationModelSelection: ModelSelection.pipe(
+     Schema.withDecodingDefault(
+       Effect.succeed({
+@@ -561,6 +572,22 @@ const OpenCodeSettingsPatch = Schema.Struct({
+   customModels: Schema.optionalKey(Schema.Array(Schema.String)),
+ });
+ 
++export const ProjectIconUpdate = Schema.Union([
++  Schema.Struct({
++    scope: Schema.Literal("workspace"),
++    workspaceRoot: ProjectIconWorkspaceRoot,
++    repositoryKey: Schema.optionalKey(ProjectIconGitRemote),
++    iconPath: ProjectIconUpdatePath,
++  }),
++  Schema.Struct({
++    scope: Schema.Literal("git-remote"),
++    workspaceRoot: ProjectIconWorkspaceRoot,
++    repositoryKey: ProjectIconGitRemote,
++    iconPath: ProjectIconUpdatePath,
++  }),
++]);
++export type ProjectIconUpdate = typeof ProjectIconUpdate.Type;
++
+ export const ServerSettingsPatch = Schema.Struct({
+   // Server settings
+   enableAssistantStreaming: Schema.optionalKey(Schema.Boolean),
+@@ -569,6 +596,14 @@ export const ServerSettingsPatch = Schema.Struct({
+   defaultThreadEnvMode: Schema.optionalKey(ThreadEnvMode),
+   newWorktreesStartFromOrigin: Schema.optionalKey(Schema.Boolean),
+   addProjectBaseDirectory: Schema.optionalKey(TrimmedString),
++  // Whole-map replacement. Omitting a key removes that project's override.
++  projectIcons: Schema.optionalKey(Schema.Record(ProjectIconWorkspaceRoot, ProjectIconPath)),
++  // Whole-map replacement. Keys are normalized repository identities such as
++  // github.com/t3tools/t3code, independent of clone URL or local path.
++  projectIconsByGitRemote: Schema.optionalKey(Schema.Record(ProjectIconGitRemote, ProjectIconPath)),
++  // Atomic single-project update. The server applies this against the latest
++  // icon maps so concurrent edits cannot replace unrelated entries.
++  projectIconUpdate: Schema.optionalKey(ProjectIconUpdate),
+   textGenerationModelSelection: Schema.optionalKey(ModelSelectionPatch),
+   sourceControlWritingStyle: Schema.optionalKey(
+     Schema.Struct({
+diff --git a/packages/shared/src/serverSettings.test.ts b/packages/shared/src/serverSettings.test.ts
+index 2352c6e29390f8250b891e3eb33a7b2ed5b1fcda..a843b8a6e8185790ea2c6fce68b92f64556f6cbe 100644
+--- a/packages/shared/src/serverSettings.test.ts
++++ b/packages/shared/src/serverSettings.test.ts
+@@ -295,4 +295,120 @@ describe("serverSettings helpers", () => {
+       config: { homePath: "~/.codex" },
+     });
+   });
++
++  it("replaces project icon maps so clearing an override removes it", () => {
++    const current = {
++      ...DEFAULT_SERVER_SETTINGS,
++      projectIcons: {
++        "/workspace/one": "/icons/one.svg",
++        "/workspace/two": "/icons/two.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/one": "/icons/one.svg",
++        "github.com/example/two": "/icons/two.svg",
++      },
++    };
++
++    const next = applyServerSettingsPatch(current, {
++      projectIcons: {
++        "/workspace/two": "/icons/two-next.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/two": "/icons/two-next.svg",
++      },
++    });
++
++    expect(next.projectIcons).toEqual({
++      "/workspace/two": "/icons/two-next.svg",
++    });
++    expect(next.projectIconsByGitRemote).toEqual({
++      "github.com/example/two": "/icons/two-next.svg",
++    });
++  });
++
++  it("applies project icon updates without replacing unrelated concurrent entries", () => {
++    const current = {
++      ...DEFAULT_SERVER_SETTINGS,
++      projectIcons: {
++        "/workspace/one": "/icons/one.svg",
++        "/workspace/concurrent": "/icons/concurrent.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/one": "/icons/one-remote.svg",
++        "github.com/example/concurrent": "/icons/concurrent-remote.svg",
++      },
++    };
++
++    const next = applyServerSettingsPatch(current, {
++      projectIconUpdate: {
++        scope: "workspace",
++        workspaceRoot: "/workspace/one",
++        repositoryKey: "github.com/example/one",
++        iconPath: "/icons/one-next.svg",
++      },
++    });
++
++    expect(next.projectIcons).toEqual({
++      "/workspace/one": "/icons/one-next.svg",
++      "/workspace/concurrent": "/icons/concurrent.svg",
++    });
++    expect(next.projectIconsByGitRemote).toEqual({
++      "github.com/example/concurrent": "/icons/concurrent-remote.svg",
++    });
++    expect("projectIconUpdate" in next).toBe(false);
++  });
++
++  it("removes the workspace override when switching to git-remote scope", () => {
++    const current = {
++      ...DEFAULT_SERVER_SETTINGS,
++      projectIcons: {
++        "/workspace/one": "/icons/one.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/other": "/icons/other.svg",
++      },
++    };
++
++    const next = applyServerSettingsPatch(current, {
++      projectIconUpdate: {
++        scope: "git-remote",
++        workspaceRoot: "/workspace/one",
++        repositoryKey: "github.com/example/one",
++        iconPath: "/icons/one-remote.svg",
++      },
++    });
++
++    expect(next.projectIcons).toEqual({});
++    expect(next.projectIconsByGitRemote).toEqual({
++      "github.com/example/one": "/icons/one-remote.svg",
++      "github.com/example/other": "/icons/other.svg",
++    });
++  });
++
++  it("clears both scopes when resetting a workspace icon", () => {
++    const current = {
++      ...DEFAULT_SERVER_SETTINGS,
++      projectIcons: {
++        "/workspace/one": "/icons/one.svg",
++      },
++      projectIconsByGitRemote: {
++        "github.com/example/one": "/icons/one-remote.svg",
++        "github.com/example/other": "/icons/other.svg",
++      },
++    };
++
++    const next = applyServerSettingsPatch(current, {
++      projectIconUpdate: {
++        scope: "workspace",
++        workspaceRoot: "/workspace/one",
++        repositoryKey: "github.com/example/one",
++        iconPath: "",
++      },
++    });
++
++    expect(next.projectIcons).toEqual({});
++    expect(next.projectIconsByGitRemote).toEqual({
++      "github.com/example/other": "/icons/other.svg",
++    });
++  });
+ });
+diff --git a/packages/shared/src/serverSettings.ts b/packages/shared/src/serverSettings.ts
+index e0e53648acc0c9081e9b83c09df469995ae10baa..d1ff2020db5c48a2247fb7ba332f075bc22b377f 100644
+--- a/packages/shared/src/serverSettings.ts
++++ b/packages/shared/src/serverSettings.ts
+@@ -57,6 +57,8 @@ export function resolveSourceControlWriterModelSelection(
+     : settings.textGenerationModelSelection;
+ }
+ 
++type ProjectIconMaps = Pick<ServerSettings, "projectIcons" | "projectIconsByGitRemote">;
++
+ export interface PersistedServerObservabilitySettings {
+   readonly otlpTracesUrl: string | undefined;
+   readonly otlpMetricsUrl: string | undefined;
+@@ -115,15 +117,65 @@ function mergeModelSelectionOptionsById(input: {
+   return [...merged.entries()].map(([id, value]) => ({ id, value }));
+ }
+ 
++function replaceIconInMap(
++  entries: Readonly<Record<string, string>>,
++  key: string,
++  iconPath: string,
++): Record<string, string> {
++  const next = { ...entries };
++  if (iconPath.length === 0) {
++    delete next[key];
++  } else {
++    next[key] = iconPath;
++  }
++  return next;
++}
++
++export function applyProjectIconUpdate(
++  current: ProjectIconMaps,
++  update: NonNullable<ServerSettingsPatch["projectIconUpdate"]>,
++): ProjectIconMaps {
++  if (update.scope === "git-remote") {
++    const projectIcons = { ...current.projectIcons };
++    delete projectIcons[update.workspaceRoot];
++    return {
++      projectIcons,
++      projectIconsByGitRemote: replaceIconInMap(
++        current.projectIconsByGitRemote,
++        update.repositoryKey,
++        update.iconPath,
++      ),
++    };
++  }
++
++  const projectIconsByGitRemote = { ...current.projectIconsByGitRemote };
++  if (update.repositoryKey) {
++    delete projectIconsByGitRemote[update.repositoryKey];
++  }
++  return {
++    projectIcons: replaceIconInMap(current.projectIcons, update.workspaceRoot, update.iconPath),
++    projectIconsByGitRemote,
++  };
++}
++
++/**
++ * Applies a server settings patch while treating textGenerationModelSelection as
++ * replace-on-provider/model updates. This prevents stale nested options from
++ * surviving a reset patch that intentionally omits options.
++ */
+ export function applyServerSettingsPatch(
+   current: ServerSettings,
+   patch: ServerSettingsPatch,
+ ): ServerSettings {
+   const selectionPatch = patch.textGenerationModelSelection;
+-  const { automaticGitFetchInterval, ...patchForMerge } = patch;
++  const { automaticGitFetchInterval, projectIconUpdate, ...patchForMerge } = patch;
+   const next = deepMerge(current, patchForMerge);
+   const nextWithReplacements = {
+     ...next,
++    ...(patch.projectIcons !== undefined ? { projectIcons: patch.projectIcons } : {}),
++    ...(patch.projectIconsByGitRemote !== undefined
++      ? { projectIconsByGitRemote: patch.projectIconsByGitRemote }
++      : {}),
+     ...(patch.providerInstances !== undefined
+       ? { providerInstances: patch.providerInstances }
+       : {}),
+@@ -132,8 +184,14 @@ export function applyServerSettingsPatch(
+       : {}),
+     ...(automaticGitFetchInterval !== undefined ? { automaticGitFetchInterval } : {}),
+   };
++  const nextWithProjectIconUpdate = projectIconUpdate
++    ? {
++        ...nextWithReplacements,
++        ...applyProjectIconUpdate(nextWithReplacements, projectIconUpdate),
++      }
++    : nextWithReplacements;
+   if (!selectionPatch) {
+-    return nextWithReplacements;
++    return nextWithProjectIconUpdate;
+   }
+ 
+   const instanceId = selectionPatch.instanceId ?? current.textGenerationModelSelection.instanceId;
+@@ -146,7 +204,7 @@ export function applyServerSettingsPatch(
+       });
+ 
+   return {
+-    ...nextWithReplacements,
++    ...nextWithProjectIconUpdate,
+     textGenerationModelSelection: createModelSelection(instanceId, model, options),
+   };
+ }
