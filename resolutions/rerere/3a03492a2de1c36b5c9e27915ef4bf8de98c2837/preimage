@@ -1,0 +1,216 @@
+import {
+  type ProviderDriverKind,
+  type ProviderInstanceId,
+  type ProviderOptionSelection,
+  type ScopedThreadRef,
+  type ServerProviderModel,
+} from "@t3tools/contracts";
+import {
+  buildProviderOptionSelectionsFromDescriptors,
+  getProviderOptionCurrentValue,
+  getProviderOptionDescriptors,
+  isClaudeUltrathinkPrompt,
+} from "@t3tools/shared/model";
+import type { ReactElement } from "react";
+
+import type { DraftId } from "../../composerDraftStore";
+import { getProviderModelCapabilities } from "../../providerModels";
+import {
+  shouldRenderTraitsControls,
+  TraitsMenuContent,
+  TraitsPicker,
+  type TraitsPickerControlProps,
+} from "./TraitsPicker";
+
+export type ComposerProviderStateInput = {
+  provider: ProviderDriverKind;
+  model: string;
+  models: ReadonlyArray<ServerProviderModel>;
+  promptInjectionState?: ComposerPromptInjectionState;
+  modelOptions: ReadonlyArray<ProviderOptionSelection> | null | undefined;
+};
+
+export type ComposerPromptInjectionState = "none" | "ultrathink";
+
+export type ComposerProviderState = {
+  provider: ProviderDriverKind;
+  promptEffort: string | null;
+  modelOptionsForDispatch: ReadonlyArray<ProviderOptionSelection> | undefined;
+  composerFrameClassName?: string;
+  composerSurfaceClassName?: string;
+  modelPickerIconClassName?: string;
+};
+
+export type ModelOptionsShortcutTarget = "compact-controls-menu" | "traits-picker";
+export type CompactControlsMenuOpenSource = "direct" | "model-options" | "runtime-mode";
+export type ComposerPicker = "model" | "traits" | "runtime-mode" | "compact-controls-menu";
+
+export type ComposerPickerState = {
+  readonly modelOpen: boolean;
+  readonly traitsOpen: boolean;
+  readonly runtimeModeOpen: boolean;
+  readonly compactControlsMenuOpenSource: CompactControlsMenuOpenSource | null;
+};
+
+export function resolveComposerPickerOpenChange(
+  current: ComposerPickerState,
+  picker: ComposerPicker,
+  open: boolean,
+  compactControlsMenuOpenSource: CompactControlsMenuOpenSource = "direct",
+): ComposerPickerState {
+  if (!open) {
+    switch (picker) {
+      case "model":
+        return { ...current, modelOpen: false };
+      case "traits":
+        return { ...current, traitsOpen: false };
+      case "runtime-mode":
+        return { ...current, runtimeModeOpen: false };
+      case "compact-controls-menu":
+        return { ...current, compactControlsMenuOpenSource: null };
+    }
+  }
+
+  return {
+    modelOpen: picker === "model",
+    traitsOpen: picker === "traits",
+    runtimeModeOpen: picker === "runtime-mode",
+    compactControlsMenuOpenSource:
+      picker === "compact-controls-menu" ? compactControlsMenuOpenSource : null,
+  };
+}
+
+export function toggleCompactControlsMenuForShortcut(
+  current: CompactControlsMenuOpenSource | null,
+  source: Exclude<CompactControlsMenuOpenSource, "direct">,
+): CompactControlsMenuOpenSource | null {
+  if (current === null) return source;
+  if (current === "direct" || current === source) return null;
+  return source;
+}
+
+export function resolveModelOptionsShortcutTarget(input: {
+  readonly isComposerUnavailable: boolean;
+  readonly isCompact: boolean;
+  readonly compactTraitsAvailable: boolean;
+  readonly expandedTraitsAvailable: boolean;
+}): ModelOptionsShortcutTarget | null {
+  if (input.isComposerUnavailable) return null;
+  if (input.isCompact) {
+    return input.compactTraitsAvailable ? "compact-controls-menu" : null;
+  }
+  return input.expandedTraitsAvailable ? "traits-picker" : null;
+}
+
+type TraitsRenderInput = {
+  provider: ProviderDriverKind;
+  instanceId?: ProviderInstanceId;
+  threadRef?: ScopedThreadRef;
+  draftId?: DraftId;
+  model: string;
+  models: ReadonlyArray<ServerProviderModel>;
+  modelOptions: ReadonlyArray<ProviderOptionSelection> | undefined;
+  prompt: string;
+  onPromptChange: (prompt: string) => void;
+  onSelectionComplete?: () => void;
+};
+
+export function getComposerPromptInjectionState(prompt: string): ComposerPromptInjectionState {
+  return isClaudeUltrathinkPrompt(prompt) ? "ultrathink" : "none";
+}
+
+export function getComposerProviderState(input: ComposerProviderStateInput): ComposerProviderState {
+  const { provider, model, models, modelOptions, promptInjectionState = "none" } = input;
+  const caps = getProviderModelCapabilities(models, model, provider);
+  const descriptors = getProviderOptionDescriptors({ caps, selections: modelOptions });
+  const primarySelectDescriptor = descriptors.find(
+    (descriptor): descriptor is Extract<(typeof descriptors)[number], { type: "select" }> =>
+      descriptor.type === "select",
+  );
+  const primaryValue = getProviderOptionCurrentValue(primarySelectDescriptor ?? null);
+  const promptEffort = typeof primaryValue === "string" ? primaryValue : null;
+  const ultrathinkActive =
+    (primarySelectDescriptor?.promptInjectedValues?.length ?? 0) > 0 &&
+    promptInjectionState === "ultrathink";
+
+  return {
+    provider,
+    promptEffort,
+    modelOptionsForDispatch: buildProviderOptionSelectionsFromDescriptors(descriptors),
+    ...(ultrathinkActive
+      ? {
+          composerFrameClassName: "ultrathink-frame",
+          composerSurfaceClassName: "shadow-[0_0_0_1px_rgba(255,255,255,0.07)_inset]",
+          modelPickerIconClassName: "ultrathink-chroma",
+        }
+      : {}),
+  };
+}
+
+function renderTraitsControl(
+  Component: typeof TraitsMenuContent | typeof TraitsPicker,
+  input: TraitsRenderInput,
+<<<<<<<
+  pickerControlProps?: TraitsPickerControlProps,
+): ReactNode {
+=======
+): ReactElement | null {
+>>>>>>>
+  const {
+    provider,
+    instanceId,
+    threadRef,
+    draftId,
+    model,
+    models,
+    modelOptions,
+    prompt,
+    onPromptChange,
+    onSelectionComplete,
+  } = input;
+  const hasTarget = threadRef !== undefined || draftId !== undefined;
+  if (
+    !hasTarget ||
+    !shouldRenderTraitsControls({ provider, models, model, modelOptions, prompt })
+  ) {
+    return null;
+  }
+  return (
+    <Component
+      provider={provider}
+      {...(instanceId ? { instanceId } : {})}
+      models={models}
+      {...(threadRef ? { threadRef } : {})}
+      {...(draftId ? { draftId } : {})}
+      model={model}
+      modelOptions={modelOptions}
+      prompt={prompt}
+      onPromptChange={onPromptChange}
+<<<<<<<
+      {...(onSelectionComplete ? { onSelectionComplete } : {})}
+=======
+      {...(pickerControlProps ?? {})}
+>>>>>>>
+    />
+  );
+}
+
+export function renderProviderTraitsMenuContent(input: TraitsRenderInput): ReactElement | null {
+  return renderTraitsControl(TraitsMenuContent, input);
+}
+
+<<<<<<<
+export function renderProviderTraitsPicker(
+  input: TraitsRenderInput & TraitsPickerControlProps,
+): ReactNode {
+  const { open, onOpenChange, shortcutHintLabel, ...rest } = input;
+  return renderTraitsControl(TraitsPicker, rest, {
+    ...(open !== undefined ? { open } : {}),
+    ...(onOpenChange ? { onOpenChange } : {}),
+    ...(shortcutHintLabel !== undefined ? { shortcutHintLabel } : {}),
+  });
+=======
+export function renderProviderTraitsPicker(input: TraitsRenderInput): ReactElement | null {
+  return renderTraitsControl(TraitsPicker, input);
+>>>>>>>
+}

@@ -1,10 +1,18 @@
 {
-  description = "Hermetic T3 Code assembly tooling";
+  description = "T3 Code fork-fold assembly tooling";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    fork-fold.url = "github:colonelpanic8/fork-fold";
+    fork-fold.inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   outputs =
-    { nixpkgs, ... }:
+    {
+      nixpkgs,
+      fork-fold,
+      ...
+    }:
     let
       systems = [
         "x86_64-linux"
@@ -21,11 +29,10 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          default = pkgs.mkShell {
-            packages = with pkgs; [
-              git
+          default = fork-fold.lib.mkMaintenanceShell {
+            inherit pkgs;
+            extraPackages = with pkgs; [
               jq
-              just
               python3
             ];
           };
