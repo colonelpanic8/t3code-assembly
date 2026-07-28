@@ -44,7 +44,7 @@
       "branch": "t3code/error-on-unreachable-environment-browse",
       "pin": "fc2294e7d4ca",
       "summary": "Error instead of silently failing when browsing an unreachable environment",
-      "note": "Belongs in this group rather than the main stack: it edits the same\nCommandPalette trio, and specifically the browse/submit region that #4257\n(tab completion) and #4426 (environment-aware picker) also touch. Placed last\nso its availability gating composes on top of the combined browse flow.\n"
+      "note": "Belongs in this group rather than the main assembly: it edits the same\nCommandPalette trio, and specifically the browse/submit region that #4257\n(tab completion) and #4426 (environment-aware picker) also touch. Placed last\nso its availability gating composes on top of the combined browse flow.\n"
     }
   ],
   "pre_epilogue_commit": "b13f2894eab7eb7ede25b68aa7ea422de3add584",

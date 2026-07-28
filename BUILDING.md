@@ -1,10 +1,10 @@
-# Building the personal T3 Code stack
+# Building the personal T3 Code assembly
 
-This branch (`t3code/stack-tooling`) owns everything needed to reproduce the
-personal T3 Code build: the manifests, the rebuild tooling, the epilogue
+This repository owns everything needed to reproduce the personal T3 Code
+build: the pinned T3 Code submodule, manifests, rebuild tooling, epilogue
 patches, and this document. **This document is the authoritative reference for
-the whole workflow.** The skills under `dotfiles/agents/skills/` only route to
-it; if they ever disagree with it, this file wins.
+the whole workflow.** The skills under `dotfiles/agents/skills/` only route
+here; if they ever disagree with it, this file wins.
 
 ## The model in one page
 
@@ -14,22 +14,22 @@ that installable works like a small distro:
 
 - Every change lives on its own **topic branch** on the fork
   (`fork` = `colonelpanic8/t3code`; `origin` = `pingdotgg/t3code`).
-- `stack/stack.toml` is the **intent**: which topics are carried, in what
+- `assembly.toml` is the **intent**: which topics are carried, in what
   merge order.
-- `stack/bin/rebuild-t3code-stack.py` merges the topics, in order, onto
-  upstream `main`, producing the integration branch **`t3code/stack`** — the
+- `bin/rebuild-t3code-assembly.py` merges the topics, in order, onto
+  upstream `main`, producing the integration branch **`t3code/assembled`** — the
   **artifact**.
-- `stack/stack.lock.json` records what the last rebuild actually produced.
-- NixOS pins one commit of `t3code/stack` (the `t3code-integration` flake
+- `assembly.lock.json` records what the last rebuild actually produced.
+- NixOS pins one commit of `t3code/assembled` (the `t3code-integration` flake
   input in `/srv/dotfiles/nixos/flake.nix`) and installs the result via the
   flake's `overlays.client`.
 
 So changing the installed app is always the same loop: change a topic branch
 or the manifest → rebuild → verify → push → repin Nix → switch.
 
-`t3code/stack` is a build artifact, regenerated and force-pushed on every
+`t3code/assembled` is a build artifact, regenerated and force-pushed on every
 rebuild: **never commit to it, never base work on it, never merge it back.**
-Dated tags (`t3code-stack/<timestamp>`) keep every published revision
+Dated tags (`t3code-assembled/<timestamp>`) keep every published revision
 fetchable for old pins.
 
 Why merges rather than patches: this replaced a Nix `applyPatches` stack of
@@ -40,44 +40,47 @@ not reintroduce patch stacks.
 
 ## Layout
 
-```
-stack/
-  stack.toml                  main manifest (ordered topics; the intent)
-  stack.lock.json             what the last rebuild actually produced
-  thread-picker.toml          GROUP sub-manifest + thread-picker.lock.json
-  audit-exceptions.toml       reviewed content-audit exceptions (digest-guarded)
-  patches/                    epilogue patches
-  bin/
-    rebuild-t3code-stack.py   the builder (modes: extend / refresh / reproduce)
-    audit-stack-content.py    verification step 1
-    replay-resolutions.py     conflict helper
-    resolve-from-baseline.py  conflict helper (dangerous; see below)
+```text
+.
+├── assembly.toml                 main manifest (ordered topics; the intent)
+├── assembly.lock.json            what the last rebuild actually produced
+├── thread-picker.toml            group manifest + thread-picker.lock.json
+├── audit-exceptions.toml         reviewed audit exceptions (digest-guarded)
+├── patches/                      epilogue patches
+├── bin/
+│   ├── rebuild-t3code-assembly.py
+│   ├── audit-assembly-content.py
+│   ├── replay-resolutions.py
+│   └── resolve-from-baseline.py
+└── t3code/                       pinned upstream T3 Code submodule
 ```
 
 **Groups.** A group is a sub-manifest whose output branch is pinned as a
 single entry in the main manifest — a subsystem tree, like linux-next. Use one
 when several topics all edit the same files (`thread-picker.toml` holds the
 CommandPalette cluster): the combination is resolved once against stable
-upstream instead of re-derived against a shifting stack on every refresh.
-Rebuild the group first, then pin its new head in `stack.toml`.
+upstream instead of re-derived against a shifting assembly on every refresh.
+Rebuild the group first, then pin its new head in `assembly.toml`.
 
-**Epilogues** (`stack/patches/`) are patches that are functions of the
+**Epilogues** (`patches/`) are patches that are functions of the
 _assembled_ tree and so cannot live on any topic branch: a migration ID that
-depends on which IDs the stack already consumed, a test fixture that must
+depends on which IDs the assembly already consumed, a test fixture that must
 enumerate every settings field, glue between two topics with no single owner.
 Keep them minimal; when glue belongs to one cluster, put it on that cluster's
 group branch instead. Note: some historical compat patches carried original
 work that exists on no branch — if a build fails on a missing symbol, suspect
 that first.
 
-One generated file lives outside `stack/`: `stack-build-info.json` at the repo
-root **of the integration branch** — see "Build provenance".
+One generated file uses the legacy compatibility name
+`stack-build-info.json` at the root **of the assembled T3 Code tree** — see
+"Build provenance". The carried application code still consumes that filename;
+it is not the name of this repository or workflow.
 
 ## The three modes
 
 ```sh
-stack/bin/rebuild-t3code-stack.py --mode <mode> --write-lock --push \
-    [--manifest stack/thread-picker.toml]
+bin/rebuild-t3code-assembly.py --mode <mode> --write-lock --push \
+    [--manifest thread-picker.toml]
 ```
 
 - **`extend`** — the routine path for adding topics. Starts at the locked
@@ -121,7 +124,7 @@ Resolve **semantically**. Never `-X ours` / `-X theirs`, and never a
 line-union of both sides — line-unions produce plausible-looking breakage
 (orphaned `} from "..."` lines whose `import {` opener was dropped, the same
 identifier imported twice from one module, duplicated JSX with orphaned
-ternary closes). Every syntax error in this stack's history came from one.
+ternary closes). Every syntax error in this assembly's history came from one.
 
 **rerere resolves most conflicts now.** It is enabled repo-locally; its cache
 (`.git/rr-cache`, not versioned) has learned every resolution staged in past
@@ -146,7 +149,7 @@ sure the result contains it.
 
 Helpers, in order of preference:
 
-1. `replay-resolutions.py --from-build fork/t3code/stack --label '#4257'` —
+1. `replay-resolutions.py --from-build fork/t3code/assembled --label '#4257'` —
    replays that entry's resolution verbatim from a previous build (use a
    remote ref; the branch may not exist locally). Exact, but only valid while
    entry order is unchanged up to that entry; past any insertion or reorder
@@ -155,7 +158,7 @@ Helpers, in order of preference:
 2. `resolve-from-baseline.py --baseline <tree>` — copies whole files from a
    reference tree. Sound only when that tree is known-correct for the file
    AND no later entry contributes to it. For a group build, pass
-   `--foreign-manifest stack/stack.toml` so files touched by non-group
+   `--foreign-manifest assembly.toml` so files touched by non-group
    entries are refused. **`--force` overrides that check and is lossy** — it
    has silently dropped shipped features and a whole test. Use it only for a
    file whose content comes from exactly one topic. `Sidebar.tsx`,
@@ -196,19 +199,19 @@ Two rules drive everything here, each learned the expensive way:
 
 Run all five steps, in order. Do not stop early.
 
-1. **Content audit** — `stack/bin/audit-stack-content.py <rev>`. For every
+1. **Content audit** — `bin/audit-assembly-content.py <rev>`. For every
    manifest entry, checks that the substantive lines its branch adds are
    present in the built tree. Non-zero MISSING is not automatically a bug (a
    later entry may legitimately rewrite those lines) but **every one needs a
    specific explanation before pushing**. Reviewed rewrites live in
-   `stack/audit-exceptions.toml`, guarded by exact missing-line count and
+   `audit-exceptions.toml`, guarded by exact missing-line count and
    digest so a newly dropped line fails again. A large count on an entry
    resolved with `--force` means its content was dropped. This is the only
    step that proves features survived.
 2. **Tree diff vs the previous lock** — every change must be explainable by
    upstream movement plus topic movement; anything else is resolution drift.
    Detects drift; does not prove completeness (that is step 1's job).
-3. **Conflict count** in the lock — a rising count means the stack is
+3. **Conflict count** in the lock — a rising count means the assembly is
    drifting; consider a new group.
 4. **Build** — from the dotfiles checkout, with the flake input pinned to the
    candidate rev:
@@ -286,5 +289,5 @@ to the version in Settings → General.
 
 The build worktree plus its state file is a complete resumable checkpoint.
 Park progress on a named branch so it survives worktree removal, and report
-the exact entry and conflicted files. **Never push a stack that has not passed
+the exact entry and conflicted files. **Never push an assembly that has not passed
 the content audit.**

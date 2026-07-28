@@ -1,9 +1,9 @@
-# Ordered integration manifest for the personal T3 Code stack.
+# Ordered integration manifest for the personal T3 Code assembly.
 #
 # This file is INTENT: which upstream PRs and fork branches are carried, and in
 # what order they are merged onto live upstream main.
-# `stack/bin/rebuild-t3code-stack.py` consumes it and produces
-# `stack/stack.lock.json` plus a force-pushed integration branch on the fork.
+# `bin/rebuild-t3code-assembly.py` consumes it and produces
+# `assembly.lock.json` plus a force-pushed integration branch on the fork.
 #
 # The integration branch is a BUILD ARTIFACT. Never commit to it, never base
 # work on it, never merge it back. It is regenerated from scratch every refresh.
@@ -20,8 +20,8 @@
 upstream = "https://github.com/pingdotgg/t3code"
 upstream_ref = "main"
 fork = "https://github.com/colonelpanic8/t3code"
-integration_branch = "t3code/stack"
-tag_prefix = "t3code-stack"
+integration_branch = "t3code/assembled"
+tag_prefix = "t3code-assembled"
 
 # ---------------------------------------------------------------------------
 # Inline image generation
@@ -59,7 +59,7 @@ branch = "t3code/group/thread-picker"
 pin = "b13f2894eab7"
 summary = "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue"
 note = """
-GROUP entry, built from stack/thread-picker.toml; the add-project glue helpers
+GROUP entry, built from thread-picker.toml; the add-project glue helpers
 live on the group branch. Rebuild the group first, then pin its new head here.
 """
 
@@ -324,7 +324,7 @@ state/threads.ts change sits in a different region than #4405's backoff.
 kind = "local"
 branch = "t3code/local/build-provenance"
 pin = "103329cf5654"
-summary = "Show the build's commit, and a Settings page describing the assembled stack"
+summary = "Show the build's commit, and a Settings page describing the assembled tree"
 note = """
 Reads stack-build-info.json, which the rebuild writes as this branch's final
 commit. Placed near last so its SettingsPanels.tsx and SettingsSidebarNav.tsx
@@ -400,7 +400,7 @@ image-adjacent topic, cluster the three into a group.
 """
 
 # ---------------------------------------------------------------------------
-# Epilogue: fixes that are emergent from the assembled stack, not independent
+# Epilogue: fixes that are emergent from the assembled tree, not independent
 # topics. Applied after all merges.
 # ---------------------------------------------------------------------------
 
@@ -409,7 +409,7 @@ patch = "patches/t3code-sidebar-v2-large-icons-fixture.patch"
 summary = "Add sidebarV2LargeIcons to the desktop ClientSettings test fixture"
 note = """
 #4324 adds sidebarV2LargeIcons as a required ClientSettings field but does not
-update apps/desktop's fixture, which must list every field. Stack-emergent, so
+update apps/desktop's fixture, which must list every field. Assembly-emergent, so
 it cannot live on #4324's branch.
 """
 
@@ -419,14 +419,14 @@ summary = "Re-run the snooze schema update as migration 36"
 note = """
 The snooze feature arrived upstream with migration ID 34 after that ID had
 already been recorded locally for ProjectionThreadGoals. A function of the
-assembled stack, so it cannot be a normal entry.
+assembled tree, so it cannot be a normal entry.
 """
 
 [[epilogue]]
 patch = "patches/t3code-assembled-runtime-imports.patch"
 summary = "Restore assembled runtime imports and project icon types"
 note = """
-Stack-emergent glue: project icons and primary settings reference hooks supplied
+Assembly-emergent glue: project icons and primary settings reference hooks supplied
 by other carried topics. Also widens the project-icon renderer's structural type
 to the exact optional-property shape used by the assembled project model.
 """
@@ -438,7 +438,7 @@ note = """
 #4271 and #4394 both reshape ChatComposer around the prompt-stash implementation.
 Their assembled replay mangles the NUL-delimited template strings used for image
 deduplication and in-flight snapshot identity. Neither topic is broken alone;
-this patch restores those three stack-emergent expressions.
+this patch restores those three assembly-emergent expressions.
 """
 
 [[epilogue]]

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the personal T3 Code integration branch from an ordered manifest.
+"""Build the personal T3 Code assembly from an ordered manifest.
 
 The integration branch is a build artifact. Refresh and reproduce regenerate it
 from scratch; extend preserves the locked prefix and merges only newly appended
@@ -26,17 +26,19 @@ import tomllib
 from datetime import datetime, timezone
 from pathlib import Path
 
-# This tooling lives in the T3 Code fork on the `t3code/stack-tooling` branch.
-# Manifests, locks and epilogue patches sit beside it under stack/.
-STACK_DIR = Path(__file__).resolve().parent.parent
-REPO_ROOT = STACK_DIR.parent
-DEFAULT_MANIFEST = STACK_DIR / "stack.toml"
+# The assembly repository owns the manifests, locks, epilogue patches, and a
+# pinned T3 Code checkout. Build worktrees live beside (not inside) the
+# submodule so the submodule remains clean.
+ASSEMBLY_ROOT = Path(__file__).resolve().parent.parent
+SOURCE_REPO = ASSEMBLY_ROOT / "t3code"
+WORKTREE_ROOT = ASSEMBLY_ROOT / ".worktrees"
+DEFAULT_MANIFEST = ASSEMBLY_ROOT / "assembly.toml"
 
 # Set from --manifest. A GROUP manifest (e.g. thread-picker.toml) is an
 # ordinary manifest whose output branch is pinned as a single entry in the main
 # one -- the same tool, two levels, like a subsystem tree under linux-next.
 MANIFEST = DEFAULT_MANIFEST
-LOCK = STACK_DIR / "stack.lock.json"
+LOCK = ASSEMBLY_ROOT / "assembly.lock.json"
 
 
 def set_manifest(path: Path) -> None:
@@ -49,8 +51,8 @@ def set_manifest(path: Path) -> None:
     WORKTREE_NAME = f"{MANIFEST.stem}-build"
 
 
-STATE_NAME = "t3code-stack-state.json"
-WORKTREE_NAME = "t3code-stack-build"
+STATE_NAME = "t3code-assembly-state.json"
+WORKTREE_NAME = "t3code-assembly-build"
 
 # Written into the integration branch as its final commit, so the built app can
 # show what it is made of. It is deliberately NOT the lock: the lock is intent
@@ -58,6 +60,9 @@ WORKTREE_NAME = "t3code-stack-build"
 # with the artifact. Keep it a pure function of (upstream base, resolved entry
 # OIDs) -- no timestamps, no per-run counters -- or an unchanged rebuild starts
 # producing a changed tree and the "no flake bump needed" signal dies.
+# Compatibility interface consumed by the currently carried provenance topic.
+# Renaming it requires a coordinated T3 Code topic change; it is not a name for
+# this repository or workflow.
 PROVENANCE_FILE = "stack-build-info.json"
 PROVENANCE_SCHEMA_VERSION = 1
 
@@ -88,6 +93,41 @@ def git_ok(repo: Path, *args: str) -> bool:
     ).returncode == 0
 
 
+def ensure_remote(repo: Path, name: str, url: str) -> None:
+    current = git(repo, "remote", "get-url", name, check=False)
+    if current:
+        if current != url:
+            git(repo, "remote", "set-url", name, url)
+    else:
+        git(repo, "remote", "add", name, url)
+
+
+def configure_source_repo(repo: Path, manifest: dict) -> None:
+    if not git_ok(repo, "rev-parse", "--git-dir"):
+        raise Fail(
+            f"{repo} is not an initialized T3 Code checkout; "
+            "run `git submodule update --init`"
+        )
+    ensure_remote(repo, "origin", manifest["upstream"])
+    ensure_remote(repo, "fork", manifest["fork"])
+    git(repo, "config", "rerere.enabled", "true")
+    git(repo, "config", "rerere.autoupdate", "false")
+
+
+def pin_source_checkout(repo: Path, upstream_commit: str) -> None:
+    if repo != SOURCE_REPO.resolve():
+        return
+    dirty = git(repo, "status", "--porcelain")
+    if dirty:
+        raise Fail(
+            "the T3 Code submodule has local changes; cannot update its pin:\n"
+            f"{dirty}"
+        )
+    if git(repo, "rev-parse", "HEAD") != upstream_commit:
+        git(repo, "checkout", "--detach", upstream_commit, capture=False)
+    print(f"pinned t3code submodule to upstream base {upstream_commit}")
+
+
 def load_manifest() -> dict:
     with MANIFEST.open("rb") as handle:
         return tomllib.load(handle)
@@ -114,7 +154,7 @@ def resolve_entry(repo: Path, entry: dict, mode: str) -> str:
         if kind == "external" and not git_ok(repo, "cat-file", "-e", f"{pin}^{{commit}}"):
             ref = entry["ref"]
             git(repo, "fetch", "origin",
-                f"+{ref}:refs/t3code-stack/{ref.replace('/', '-')}", check=False)
+                f"+{ref}:refs/t3code-assembly/{ref.replace('/', '-')}", check=False)
         if not git_ok(repo, "cat-file", "-e", f"{pin}^{{commit}}"):
             raise Fail(
                 f"{entry_label(entry)}: pinned OID {pin} not present locally; "
@@ -124,8 +164,8 @@ def resolve_entry(repo: Path, entry: dict, mode: str) -> str:
 
     if kind == "external":
         ref = entry["ref"]
-        git(repo, "fetch", "origin", f"+{ref}:refs/t3code-stack/{ref.replace('/', '-')}")
-        return git(repo, "rev-parse", f"refs/t3code-stack/{ref.replace('/', '-')}")
+        git(repo, "fetch", "origin", f"+{ref}:refs/t3code-assembly/{ref.replace('/', '-')}")
+        return git(repo, "rev-parse", f"refs/t3code-assembly/{ref.replace('/', '-')}")
 
     branch = entry["branch"]
     # Both PR topics and fork-local carry topics are published on the fork.
@@ -198,7 +238,7 @@ def prepare_extend(
         )
 
     prepare_worktree(repo, worktree, base)
-    print(f"extending locked stack: {lock['commit']}")
+    print(f"extending locked assembly: {lock['commit']}")
     print(f"locked upstream main: {main}")
     print(f"new entries: {len(entries) - len(locked_manifest)}")
     return main, locked_results, len(locked_manifest)
@@ -239,7 +279,7 @@ def load_group_provenance() -> dict[str, list[dict]]:
     Nesting stops at one level, which is as deep as the manifests go.
     """
     groups: dict[str, list[dict]] = {}
-    for path in sorted(STACK_DIR.glob("*.lock.json")):
+    for path in sorted(ASSEMBLY_ROOT.glob("*.lock.json")):
         if path == LOCK:
             continue
         try:
@@ -328,7 +368,7 @@ def commit_provenance(worktree: Path, provenance: dict) -> str:
     (worktree / PROVENANCE_FILE).write_text(json.dumps(provenance, indent=2) + "\n")
     git(worktree, "add", PROVENANCE_FILE)
     if git(worktree, "status", "--porcelain", "--", PROVENANCE_FILE):
-        git(worktree, "commit", "-q", "-m", "stack: record build provenance")
+        git(worktree, "commit", "-q", "-m", "assembly: record build provenance")
     return git(worktree, "rev-parse", "HEAD")
 
 
@@ -359,7 +399,7 @@ def clear_state(worktree: Path) -> None:
 def merge_entry(worktree: Path, entry: dict, oid: str) -> bool:
     """Merge one entry. Returns True on clean merge, False if conflicted."""
     label = entry_label(entry)
-    message = f"stack: merge {label} ({entry.get('summary', '')})".strip()
+    message = f"assembly: merge {label} ({entry.get('summary', '')})".strip()
     proc = subprocess.run(
         [
             "git", "-C", str(worktree), "merge", "--no-ff", "--no-edit",
@@ -388,7 +428,8 @@ def record_epilogue(results: list[dict], patch: Path) -> None:
 def run(args: argparse.Namespace) -> int:
     manifest = load_manifest()
     repo = Path(args.repo).resolve()
-    worktree = repo / ".worktrees" / WORKTREE_NAME
+    configure_source_repo(repo, manifest)
+    worktree = WORKTREE_ROOT / WORKTREE_NAME
     entries = manifest["entry"]
     epilogues = manifest.get("epilogue", [])
 
@@ -444,7 +485,8 @@ def run(args: argparse.Namespace) -> int:
         print(f"resuming at entry {start + 1}/{len(entries)}")
     else:
         print("fetching upstream main and fork...")
-        git(repo, "fetch", "origin", "main", capture=False)
+        upstream_ref = manifest["upstream_ref"]
+        git(repo, "fetch", "origin", upstream_ref, capture=False)
         git(repo, "fetch", "fork", capture=False)
         mode = args.mode
         conflicts = 0
@@ -462,7 +504,7 @@ def run(args: argparse.Namespace) -> int:
                     )
                 main = locked_main
             else:
-                main = git(repo, "rev-parse", "origin/main")
+                main = git(repo, "rev-parse", f"origin/{upstream_ref}")
             results = []
             start = 0
             print(f"upstream main: {main}")
@@ -540,10 +582,10 @@ def run(args: argparse.Namespace) -> int:
     )
 
     # Epilogues are patches, not topics: they are functions of the ASSEMBLED
-    # tree (e.g. a migration ID that depends on what the stack already used),
+    # tree (e.g. a migration ID that depends on what the assembly already used),
     # so they cannot exist as branches based on upstream main.
     for epilogue in epilogues:
-        patch = STACK_DIR / epilogue["patch"]
+        patch = ASSEMBLY_ROOT / epilogue["patch"]
         label = epilogue.get("summary", patch.name)
         reverse = subprocess.run(
             ["git", "-C", str(worktree), "apply", "--reverse", "--check", str(patch)],
@@ -585,7 +627,7 @@ def run(args: argparse.Namespace) -> int:
         git(
             worktree, "-c", "user.name=Ivan Malison",
             "-c", "user.email=IvanMalison@gmail.com",
-            "commit", "-q", "-m", f"stack: {label}",
+            "commit", "-q", "-m", f"assembly: {label}",
         )
         print(f"  epilogue {patch.name} applied")
         record_epilogue(results, patch)
@@ -640,6 +682,7 @@ def run(args: argparse.Namespace) -> int:
         print(f"tree CHANGED (was {previous_tree})")
 
     if args.write_lock:
+        pin_source_checkout(repo, main)
         LOCK.write_text(json.dumps(lock, indent=2) + "\n")
         print(f"wrote {LOCK}")
     else:
@@ -662,8 +705,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--repo",
-        default="/home/imalison/Projects/t3code",
-        help="path to the T3 Code checkout",
+        default=SOURCE_REPO,
+        help="path to the T3 Code checkout (defaults to the repository submodule)",
     )
     parser.add_argument(
         "--mode",
@@ -672,7 +715,7 @@ def main() -> int:
         help=(
             "reproduce: merge at manifest pins. refresh: rebuild from current "
             "upstream and topic heads. extend: merge an appended manifest suffix "
-            "onto the locked stack without refreshing its prefix."
+            "onto the locked assembly without refreshing its prefix."
         ),
     )
     parser.add_argument(
@@ -680,7 +723,7 @@ def main() -> int:
         type=Path,
         default=DEFAULT_MANIFEST,
         help=(
-            "Manifest to build. A group manifest (e.g. stack/thread-picker.toml) "
+            "Manifest to build. A group manifest (e.g. thread-picker.toml) "
             "produces a branch that the main manifest then pins as one entry. "
             "Lock, state, and build worktree are all derived from this name."
         ),

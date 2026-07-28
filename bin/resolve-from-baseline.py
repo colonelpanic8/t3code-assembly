@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Resolve stack-build merge conflicts using a known-good baseline tree.
+"""Resolve assembly-build merge conflicts using a known-good baseline tree.
 
 For a conflicted file, if NO manifest entry after the current one touches that
 file, then the baseline tree's version of it is exactly the correct post-merge
@@ -26,8 +26,8 @@ import sys
 import tomllib
 from pathlib import Path
 
-STACK_DIR = Path(__file__).resolve().parent.parent
-MANIFEST = STACK_DIR / "stack.toml"
+ASSEMBLY_ROOT = Path(__file__).resolve().parent.parent
+MANIFEST = ASSEMBLY_ROOT / "assembly.toml"
 
 
 def sh(repo: Path, *args: str) -> str:
@@ -46,17 +46,17 @@ def touched_by_entry(repo: Path, main: str, pin: str) -> set[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline", required=True)
-    parser.add_argument("--repo", default="/home/imalison/Projects/t3code")
+    parser.add_argument("--repo", default=ASSEMBLY_ROOT / "t3code")
     parser.add_argument("--manifest", default=str(MANIFEST))
-    parser.add_argument("--worktree", default="stack-build")
+    parser.add_argument("--worktree", default="assembly-build")
     parser.add_argument(
         "--foreign-manifest",
         default=None,
         help=(
-            "Another manifest (typically the main stack) whose entries are NOT "
+            "Another manifest (typically the main assembly) whose entries are NOT "
             "part of this build. Any file they touch is refused: copying baseline "
             "would import their content into this branch early and make them "
-            "falsely report EMPTY upstack. Use when building a GROUP manifest."
+            "falsely report EMPTY later. Use when building a GROUP manifest."
         ),
     )
     parser.add_argument("--list", action="store_true", help="report only")
@@ -75,7 +75,9 @@ def main() -> int:
     args = parser.parse_args()
 
     repo = Path(args.repo)
-    worktree = repo / ".worktrees" / args.worktree
+    worktree = Path(args.worktree)
+    if not worktree.is_absolute():
+        worktree = ASSEMBLY_ROOT / ".worktrees" / worktree
     baseline = Path(args.baseline)
     manifest = tomllib.load(open(args.manifest, "rb"))
     entries = manifest["entry"]

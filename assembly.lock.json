@@ -2,7 +2,7 @@
   "generated": "2026-07-28T01:47:57.350058+00:00",
   "mode": "refresh",
   "upstream_main": "a148e08197fc38b24e59c10c7cd5ba06dd182dab",
-  "integration_branch": "t3code/stack",
+  "integration_branch": "t3code/assembled",
   "commit": "d7c98d5eaf68f41588b82ec2b4b1d0ba815f8b6d",
   "tree": "f97c1d90269424396b369bcacb58728c51630aba",
   "built_tree": "f9ff0d199ab0cd2f08628360f4f59d862eb24a04",
@@ -37,7 +37,7 @@
       "branch": "t3code/group/thread-picker",
       "pin": "b13f2894eab7",
       "summary": "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue",
-      "note": "GROUP entry, built from stack/thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembled stack on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as a stack epilogue.\n\nRebuild the group first, then pin its new head here.\n"
+      "note": "GROUP entry, built from thread-picker.toml. These PRs all\nedit the same CommandPalette trio, so combining them here -- against upstream\nmain -- resolves the combination once against a STABLE base instead of\nre-deriving it against a shifting assembly on every refresh.\n\nIt also gives the add-project flow helpers a home: they are what the group needs\nto coexist, so they live on the group branch rather than as an assembly epilogue.\n\nRebuild the group first, then pin its new head here.\n"
     },
     {
       "pr": 4271,
@@ -226,7 +226,7 @@
       "branch": "fix/recover-bootstrap-thread-id",
       "pin": "4605e902c5b9",
       "summary": "Recover draft thread IDs after failed bootstrap cleanup",
-      "note": "Under applyPatches this needed a compat patch because\nOrchestrationGetSnapshotError and OrchestrationDispatchCommandError have\nbyte-identical bodies, so `patch` silently landed retryWithNewThreadId on the\nWRONG class at this stack's offset. A 3-way merge cannot make that mistake.\n"
+      "note": "Under applyPatches this needed a compat patch because\nOrchestrationGetSnapshotError and OrchestrationDispatchCommandError have\nbyte-identical bodies, so `patch` silently landed retryWithNewThreadId on the\nWRONG class at this assembly's offset. A 3-way merge cannot make that mistake.\n"
     },
     {
       "kind": "local",
@@ -269,8 +269,8 @@
       "kind": "local",
       "branch": "t3code/local/build-provenance",
       "pin": "103329cf5654",
-      "summary": "Show the build's commit, and a Settings page describing the assembled stack",
-      "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit, so it has to be able to see the assembled result -- but it is ordinary\napp code and belongs on a topic, not in the tooling. Placed last so its edits\nto SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite\nand t3code/unify-environment-selection have finished restructuring them.\n\nLocal rather than a PR: the value is entirely in describing a personally\nassembled stack, which upstream does not have.\n"
+      "summary": "Show the build's commit, and a Settings page describing the assembled tree",
+      "note": "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit, so it has to be able to see the assembled result -- but it is ordinary\napp code and belongs on a topic, not in the tooling. Placed last so its edits\nto SettingsPanels.tsx and SettingsSidebarNav.tsx land after t3code/client-suite\nand t3code/unify-environment-selection have finished restructuring them.\n\nLocal rather than a PR: the value is entirely in describing a personal\nassembly, which upstream does not have.\n"
     },
     {
       "pr": 4598,

@@ -84,7 +84,7 @@ reason = "The later ownership topic moves environment selectors from page-local 
 entry = "t3code/unify-environment-selection"
 missing_count = 14
 missing_sha256 = "ade9fa94c8ff08eeb6e31807c6dcefcca705b0a25fb50dae0a82e47117eb3311"
-reason = "The assembled stack retains #4323's coalesced, retry-safe assistant ingestion while making it unconditionally live for per-client presentation. This replaces the topic branch's simpler direct-dispatch implementation and keeps stronger buffered-boundary, segmentation, and oversized-delta tests. The remaining settings lines are superseded by the later dedicated SourceControlWritingSettings panel and the client/server-owned UnifiedSettingsPatch split."
+reason = "The assembly retains #4323's coalesced, retry-safe assistant ingestion while making it unconditionally live for per-client presentation. This replaces the topic branch's simpler direct-dispatch implementation and keeps stronger buffered-boundary, segmentation, and oversized-delta tests. The remaining settings lines are superseded by the later dedicated SourceControlWritingSettings panel and the client/server-owned UnifiedSettingsPatch split."
 
 [[exception]]
 entry = "4263"

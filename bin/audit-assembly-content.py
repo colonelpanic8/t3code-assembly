@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify every manifest entry's content actually reached the integration branch.
+"""Verify every manifest entry's content actually reached the assembly.
 
 The tree-vs-baseline diff used during the applyPatches migration was the WRONG
 oracle: the baseline was itself defective (it under-carried #4477, and encoded a
@@ -23,21 +23,26 @@ import subprocess
 import tomllib
 import sys
 from pathlib import Path
-STACK_DIR=Path(__file__).resolve().parent.parent
-REPO=str(STACK_DIR.parent)
+ASSEMBLY_ROOT=Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("stack", nargs="?", default="HEAD", help="integration revision to audit")
+parser.add_argument("assembly", nargs="?", default="HEAD", help="assembly revision to audit")
+parser.add_argument(
+    "--repo",
+    default=ASSEMBLY_ROOT / "t3code",
+    help="path to the T3 Code checkout (defaults to the repository submodule)",
+)
 args = parser.parse_args()
-STACK=args.stack
-EXCEPTIONS=tomllib.load(open(STACK_DIR / "audit-exceptions.toml", "rb"))
+ASSEMBLY=args.assembly
+REPO=str(Path(args.repo).resolve())
+EXCEPTIONS=tomllib.load(open(ASSEMBLY_ROOT / "audit-exceptions.toml", "rb"))
 EXCEPTIONS={exception["entry"]: exception for exception in EXCEPTIONS.get("exception", [])}
 def sh(*a):
     return subprocess.run(["git","-C",REPO,*a],capture_output=True,text=True).stdout
 
 entries=[]
 for manifest_path, lock_path in [
-    (STACK_DIR / "stack.toml", STACK_DIR / "stack.lock.json"),
-    (STACK_DIR / "thread-picker.toml", STACK_DIR / "thread-picker.lock.json"),
+    (ASSEMBLY_ROOT / "assembly.toml", ASSEMBLY_ROOT / "assembly.lock.json"),
+    (ASSEMBLY_ROOT / "thread-picker.toml", ASSEMBLY_ROOT / "thread-picker.lock.json"),
 ]:
     lock=json.loads(lock_path.read_text())
     main=lock["upstream_main"]
@@ -71,7 +76,7 @@ for label,pin,main in entries:
         added=[l for l in sh("diff","-U0",f"{main}...{oid}","--",f).splitlines()
                if l.startswith("+") and not l.startswith("+++") and significant(l)]
         if not added: continue
-        cur=sh("show",f"{STACK}:{f}")
+        cur=sh("show",f"{ASSEMBLY}:{f}")
         if not cur: 
             miss+=len(added); tot+=len(added); worst[f]=len(added); continue
         m2=[l for l in added if l[1:].strip() not in cur]

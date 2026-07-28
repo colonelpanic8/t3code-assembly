@@ -5,7 +5,7 @@
 # their combination once against a stable base.
 #
 # The output branch is pinned as a single `kind = "fork"` entry in
-# stack/stack.toml. Same tool, two levels; a subsystem tree, in linux-next
+# assembly.toml. Same tool, two levels; a subsystem tree, in linux-next
 # terms.
 #
 # Deliberately NOT in this group:
@@ -15,7 +15,7 @@
 #   #4401, #4474  touch CommandPalette.tsx incidentally (one file each).
 #
 # Rebuild:
-#   stack/bin/rebuild-t3code-stack.py --manifest stack/thread-picker.toml \
+#   bin/rebuild-t3code-assembly.py --manifest thread-picker.toml \
 #       --mode reproduce --write-lock --push
 
 upstream = "https://github.com/pingdotgg/t3code"
@@ -66,7 +66,7 @@ on the combined browse flow.
 
 # ---------------------------------------------------------------------------
 # The glue members need in order to COEXIST belongs here, on the group branch,
-# rather than in any single PR or as a stack epilogue. The old
+# rather than in any single PR or as an assembly epilogue. The old
 # command-palette-logic-helpers epilogue was removed: the member branches now
 # carry those helpers themselves, and replaying it broke the web build.
 # ---------------------------------------------------------------------------
