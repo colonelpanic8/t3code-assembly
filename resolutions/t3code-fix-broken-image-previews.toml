@@ -1,0 +1,6 @@
+# fork-fold resolution record: full first-parent -> resolved-merge diff.
+# Replayed only when ours_tree and theirs both match exactly; otherwise
+# proposed via 3-way merge for human confirmation.
+ours_tree = "ee37d1333440fb073c763f3475204cca2cb76223"
+theirs = "929653023ea083b947da7d2817bbad7b7df3f3fd"
+resolved_tree = "d6a6de612e78a9e02e15d0e28da9633e022ec30c"

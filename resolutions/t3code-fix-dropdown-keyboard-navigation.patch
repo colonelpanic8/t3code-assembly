@@ -1,0 +1,1257 @@
+diff --git a/apps/web/src/AppRoot.test.tsx b/apps/web/src/AppRoot.test.tsx
+index d6d7434769e43b95955cebd37ed18c1bba1b0362..76e560d34071d318a704b749b8437b6ab03f0dd2 100644
+--- a/apps/web/src/AppRoot.test.tsx
++++ b/apps/web/src/AppRoot.test.tsx
+@@ -4,6 +4,7 @@ import { describe, expect, it } from "vite-plus/test";
+ 
+ import { ElectronBrowserHost } from "./browser/ElectronBrowserHost";
+ import { PreviewAutomationHosts } from "./components/preview/PreviewAutomationHosts";
++import { SelectionNavigationBindings } from "./components/SelectionNavigationBindings";
+ import { AppAtomRegistryProvider } from "./rpc/atomRegistry";
+ import type { AppRouter } from "./router";
+ import { AppRoot } from "./AppRoot";
+@@ -16,9 +17,10 @@ describe("AppRoot", () => {
+     const children = Children.toArray(
+       (root as ReactElement<{ readonly children: ReactNode }>).props.children,
+     );
+-    expect(children).toHaveLength(3);
+-    expect(isValidElement(children[0]) && children[0].type).toBe(RouterProvider);
+-    expect(isValidElement(children[1]) && children[1].type).toBe(PreviewAutomationHosts);
+-    expect(isValidElement(children[2]) && children[2].type).toBe(ElectronBrowserHost);
++    expect(children).toHaveLength(4);
++    expect(isValidElement(children[0]) && children[0].type).toBe(SelectionNavigationBindings);
++    expect(isValidElement(children[1]) && children[1].type).toBe(RouterProvider);
++    expect(isValidElement(children[2]) && children[2].type).toBe(PreviewAutomationHosts);
++    expect(isValidElement(children[3]) && children[3].type).toBe(ElectronBrowserHost);
+   });
+ });
+diff --git a/apps/web/src/AppRoot.tsx b/apps/web/src/AppRoot.tsx
+index b1fd21f84fa9b25539447ba93c7bc3201906696e..3f6b3cfd0eb5daa369814aaa1ee65bf9018ec8b7 100644
+--- a/apps/web/src/AppRoot.tsx
++++ b/apps/web/src/AppRoot.tsx
+@@ -2,6 +2,7 @@ import { RouterProvider } from "@tanstack/react-router";
+ 
+ import { ElectronBrowserHost } from "./browser/ElectronBrowserHost";
+ import { PreviewAutomationHosts } from "./components/preview/PreviewAutomationHosts";
++import { SelectionNavigationBindings } from "./components/SelectionNavigationBindings";
+ import { AppAtomRegistryProvider } from "./rpc/atomRegistry";
+ import type { AppRouter } from "./router";
+ 
+@@ -13,6 +14,7 @@ import type { AppRouter } from "./router";
+ export function AppRoot({ router }: { readonly router: AppRouter }) {
+   return (
+     <AppAtomRegistryProvider>
++      <SelectionNavigationBindings />
+       <RouterProvider router={router} />
+       <PreviewAutomationHosts />
+       <ElectronBrowserHost />
+diff --git a/apps/web/src/components/BranchToolbar.tsx b/apps/web/src/components/BranchToolbar.tsx
+index a0e413e8cfe9b01843090f7bf4979edbd17e161d..ed0caa9c6d9b481daf42410b1ce7f0c3cd25595c 100644
+--- a/apps/web/src/components/BranchToolbar.tsx
++++ b/apps/web/src/components/BranchToolbar.tsx
+@@ -16,10 +16,7 @@ import { useProject, useThread, useThreadShellsForProjectRefs } from "../state/e
+ import { useLayoutScopedState } from "../hooks/useLayoutScopedOpenState";
+ import { useIsMobile } from "../hooks/useMediaQuery";
+ import { useTerminalFocus } from "../hooks/useTerminalFocus";
+-import {
+-  remainingShortcutLabelForCommand,
+-  shouldShowCommandHintForModifiers,
+-} from "../keybindings";
++import { shortcutLabelForCommand, shouldShowCommandHintForModifiers } from "../keybindings";
+ import { useShortcutModifierState } from "../shortcutModifierState";
+ import {
+   type BranchToolbarPicker,
+@@ -101,6 +98,7 @@ interface MobileRunContextSelectorProps {
+   onEnvModeChange: (mode: EnvMode) => void;
+   previousWorktreeLabel: string | null;
+   onUsePreviousWorktree: () => void;
++  onSelectionComplete?: () => void;
+ }
+ 
+ const MobileRunContextSelector = memo(function MobileRunContextSelector({
+@@ -121,6 +119,7 @@ const MobileRunContextSelector = memo(function MobileRunContextSelector({
+   onEnvModeChange,
+   previousWorktreeLabel,
+   onUsePreviousWorktree,
++  onSelectionComplete,
+ }: MobileRunContextSelectorProps) {
+   const activeEnvironment = useMemo(
+     () => availableEnvironments?.find((env) => env.environmentId === environmentId) ?? null,
+@@ -189,7 +188,10 @@ const MobileRunContextSelector = memo(function MobileRunContextSelector({
+               <MenuGroupLabel>Run on</MenuGroupLabel>
+               <MenuRadioGroup
+                 value={environmentId}
+-                onValueChange={(value) => onEnvironmentChange(value as EnvironmentId)}
++                onValueChange={(value) => {
++                  onEnvironmentChange(value as EnvironmentId);
++                  onSelectionComplete?.();
++                }}
+               >
+                 {availableEnvironments.map((env) => {
+                   const Icon = env.isPrimary ? MonitorIcon : CloudIcon;
+@@ -218,9 +220,11 @@ const MobileRunContextSelector = memo(function MobileRunContextSelector({
+             onValueChange={(value) => {
+               if (value === "previous-worktree") {
+                 onUsePreviousWorktree();
++                onSelectionComplete?.();
+                 return;
+               }
+               onEnvModeChange(value as EnvMode);
++              onSelectionComplete?.();
+             }}
+           >
+             <MenuRadioItem disabled={envModeLocked} value="local">
+@@ -415,13 +419,6 @@ export const BranchToolbar = memo(function BranchToolbar({
+       },
+       toggleEnvModePicker: () => {
+         if (envModeShortcutTarget === null) return false;
+-        // Workspace is a two-state choice, so the chord flips it directly (like
+-        // planMode.toggle) instead of opening a two-item menu. On mobile the
+-        // control lives in the combined run-context sheet, which still opens.
+-        if (envModeShortcutTarget === "env-mode") {
+-          onEnvModeChange(effectiveEnvMode === "worktree" ? "local" : "worktree");
+-          return true;
+-        }
+         handlePickerToggle(envModeShortcutTarget);
+         return true;
+       },
+@@ -430,14 +427,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+         return branchSelectorRef.current?.togglePicker() ?? false;
+       },
+     }),
+-    [
+-      effectiveEnvMode,
+-      environmentShortcutTarget,
+-      envModeShortcutTarget,
+-      handlePickerToggle,
+-      isRendered,
+-      onEnvModeChange,
+-    ],
++    [environmentShortcutTarget, envModeShortcutTarget, handlePickerToggle, isRendered],
+   );
+ 
+   // Hold-modifier hint badges, mirroring the composer footer controls.
+@@ -450,7 +440,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+     "environmentPicker.toggle",
+     { platform: navigator.platform, context: shortcutContext },
+   )
+-    ? remainingShortcutLabelForCommand(keybindings, "environmentPicker.toggle", shortcutModifiers, {
++    ? shortcutLabelForCommand(keybindings, "environmentPicker.toggle", {
+         context: shortcutContext,
+       })
+     : null;
+@@ -460,7 +450,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+     "envModePicker.toggle",
+     { platform: navigator.platform, context: shortcutContext },
+   )
+-    ? remainingShortcutLabelForCommand(keybindings, "envModePicker.toggle", shortcutModifiers, {
++    ? shortcutLabelForCommand(keybindings, "envModePicker.toggle", {
+         context: shortcutContext,
+       })
+     : null;
+@@ -470,7 +460,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+     "branchPicker.toggle",
+     { platform: navigator.platform, context: shortcutContext },
+   )
+-    ? remainingShortcutLabelForCommand(keybindings, "branchPicker.toggle", shortcutModifiers, {
++    ? shortcutLabelForCommand(keybindings, "branchPicker.toggle", {
+         context: shortcutContext,
+       })
+     : null;
+@@ -501,6 +491,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+           onEnvModeChange={onEnvModeChange}
+           previousWorktreeLabel={previousWorktreeLabel}
+           onUsePreviousWorktree={onUsePreviousWorktree}
++          {...(onComposerFocusRequest ? { onSelectionComplete: onComposerFocusRequest } : {})}
+         />
+       ) : (
+         <div className="flex min-w-0 flex-1 items-center gap-1">
+@@ -513,6 +504,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+                 open={environmentPickerOpen}
+                 onOpenChange={(open) => handlePickerOpenChange("environment", open)}
+                 shortcutHintLabel={availableEnvironmentHintLabel}
++                {...(onComposerFocusRequest ? { onSelectionComplete: onComposerFocusRequest } : {})}
+                 {...(showEnvironmentPicker && onEnvironmentChange ? { onEnvironmentChange } : {})}
+               />
+               <Separator orientation="vertical" className="mx-0.5 h-3.5!" />
+@@ -528,6 +520,7 @@ export const BranchToolbar = memo(function BranchToolbar({
+             onEnvModeChange={onEnvModeChange}
+             previousWorktreeLabel={previousWorktreeLabel}
+             onUsePreviousWorktree={onUsePreviousWorktree}
++            {...(onComposerFocusRequest ? { onSelectionComplete: onComposerFocusRequest } : {})}
+           />
+         </div>
+       )}
+diff --git a/apps/web/src/components/BranchToolbarEnvModeSelector.tsx b/apps/web/src/components/BranchToolbarEnvModeSelector.tsx
+index 2340b301683f12dc2791cfd54b9c28fc084ca334..02c9f2abcb60d58440e946d6818a109694b4c440 100644
+--- a/apps/web/src/components/BranchToolbarEnvModeSelector.tsx
++++ b/apps/web/src/components/BranchToolbarEnvModeSelector.tsx
+@@ -32,6 +32,7 @@ interface BranchToolbarEnvModeSelectorProps {
+   onEnvModeChange: (mode: EnvMode) => void;
+   previousWorktreeLabel?: string | null;
+   onUsePreviousWorktree?: () => void;
++  onSelectionComplete?: () => void;
+ }
+ 
+ export const BranchToolbarEnvModeSelector = memo(function BranchToolbarEnvModeSelector({
+@@ -44,6 +45,7 @@ export const BranchToolbarEnvModeSelector = memo(function BranchToolbarEnvModeSe
+   onEnvModeChange,
+   previousWorktreeLabel,
+   onUsePreviousWorktree,
++  onSelectionComplete,
+ }: BranchToolbarEnvModeSelectorProps) {
+   const showPreviousWorktree = Boolean(previousWorktreeLabel && onUsePreviousWorktree);
+   const envModeItems = useMemo(
+@@ -88,9 +90,11 @@ export const BranchToolbarEnvModeSelector = memo(function BranchToolbarEnvModeSe
+       onValueChange={(value: string | null) => {
+         if (value === PREVIOUS_WORKTREE_SELECT_VALUE) {
+           onUsePreviousWorktree?.();
++          onSelectionComplete?.();
+           return;
+         }
+         onEnvModeChange(value as EnvMode);
++        onSelectionComplete?.();
+       }}
+       items={envModeItems}
+     >
+diff --git a/apps/web/src/components/BranchToolbarEnvironmentSelector.tsx b/apps/web/src/components/BranchToolbarEnvironmentSelector.tsx
+index 81134038c879a654346ffee453ccae276ae5845c..c26ae9bc340762c0c54fc27e0c5d684e8b21a42c 100644
+--- a/apps/web/src/components/BranchToolbarEnvironmentSelector.tsx
++++ b/apps/web/src/components/BranchToolbarEnvironmentSelector.tsx
+@@ -3,9 +3,7 @@ import { CloudIcon, MonitorIcon } from "lucide-react";
+ import { memo, useMemo } from "react";
+ 
+ import type { EnvironmentOption } from "./BranchToolbar.logic";
+-import { cn } from "../lib/utils";
+-import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
+-import { ComposerShortcutKeycap } from "./chat/ComposerControlShortcutHint";
++import { Kbd } from "./ui/kbd";
+ import {
+   Select,
+   SelectGroup,
+@@ -26,6 +24,7 @@ interface BranchToolbarEnvironmentSelectorProps {
+   // Absent when there is only one environment to show: the indicator still
+   // renders (as a static label) so remote projects are always identifiable.
+   onEnvironmentChange?: (environmentId: EnvironmentId) => void;
++  onSelectionComplete?: () => void;
+ }
+ 
+ export const BranchToolbarEnvironmentSelector = memo(function BranchToolbarEnvironmentSelector({
+@@ -36,6 +35,7 @@ export const BranchToolbarEnvironmentSelector = memo(function BranchToolbarEnvir
+   onOpenChange,
+   shortcutHintLabel,
+   onEnvironmentChange,
++  onSelectionComplete,
+ }: BranchToolbarEnvironmentSelectorProps) {
+   const activeEnvironment = useMemo(() => {
+     return availableEnvironments.find((env) => env.environmentId === environmentId) ?? null;
+@@ -51,27 +51,15 @@ export const BranchToolbarEnvironmentSelector = memo(function BranchToolbarEnvir
+   );
+ 
+   if (envLocked || onEnvironmentChange === undefined) {
+-    // The indicator still renders so remote projects stay identifiable, but it
+-    // is inert here — say why, since it otherwise reads as a dead control.
+-    const inertReason = envLocked
+-      ? "This thread already started, so it cannot move to another environment"
+-      : "The only environment available for this project";
+     return (
+-      <Tooltip>
+-        <TooltipTrigger
+-          render={
+-            <span className="inline-flex min-w-0 max-w-full items-center gap-1 border border-transparent px-[calc(--spacing(3)-1px)] text-sm font-medium text-muted-foreground/70 sm:text-xs" />
+-          }
+-        >
+-          {activeEnvironment?.isPrimary ? (
+-            <MonitorIcon className="size-3 shrink-0" />
+-          ) : (
+-            <CloudIcon className="size-3 shrink-0" />
+-          )}
+-          <span className="truncate">{activeEnvironment?.label ?? "Run on"}</span>
+-        </TooltipTrigger>
+-        <TooltipPopup side="top">{inertReason}</TooltipPopup>
+-      </Tooltip>
++      <span className="inline-flex min-w-0 max-w-full items-center gap-1 border border-transparent px-[calc(--spacing(3)-1px)] text-sm font-medium text-muted-foreground/70 sm:text-xs">
++        {activeEnvironment?.isPrimary ? (
++          <MonitorIcon className="size-3 shrink-0" />
++        ) : (
++          <CloudIcon className="size-3 shrink-0" />
++        )}
++        <span className="truncate">{activeEnvironment?.label ?? "Run on"}</span>
++      </span>
+     );
+   }
+ 
+@@ -81,16 +69,16 @@ export const BranchToolbarEnvironmentSelector = memo(function BranchToolbarEnvir
+       value={environmentId}
+       {...(open !== undefined ? { open } : {})}
+       {...(onOpenChange ? { onOpenChange } : {})}
+-      onValueChange={(value) => onEnvironmentChange(value as EnvironmentId)}
++      onValueChange={(value) => {
++        onEnvironmentChange(value as EnvironmentId);
++        onSelectionComplete?.();
++      }}
+       items={environmentItems}
+     >
+       <SelectTrigger
+         variant="ghost"
+         size="xs"
+-        className={cn(
+-          "min-w-0 max-w-full font-medium",
+-          shortcutHintLabel && "[&_[data-slot=select-icon]]:hidden",
+-        )}
++        className="min-w-0 max-w-full font-medium"
+         aria-label="Run on"
+       >
+         {activeEnvironment?.isPrimary ? (
+@@ -99,7 +87,9 @@ export const BranchToolbarEnvironmentSelector = memo(function BranchToolbarEnvir
+           <CloudIcon className="size-3 shrink-0" />
+         )}
+         <SelectValue />
+-        {shortcutHintLabel ? <ComposerShortcutKeycap label={shortcutHintLabel} /> : null}
++        {shortcutHintLabel ? (
++          <Kbd className="h-4 min-w-0 rounded-sm px-1.5 text-[10px]">{shortcutHintLabel}</Kbd>
++        ) : null}
+       </SelectTrigger>
+       <SelectPopup>
+         <SelectGroup>
+diff --git a/apps/web/src/components/SelectionNavigationBindings.tsx b/apps/web/src/components/SelectionNavigationBindings.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a578a9c2c01d098e2e6815cd43f221ab9b932e0
+--- /dev/null
++++ b/apps/web/src/components/SelectionNavigationBindings.tsx
+@@ -0,0 +1,12 @@
++import { useLayoutEffect } from "react";
++
++import { handleSelectionNavigationKeyDown } from "../selectionNavigation";
++
++export function SelectionNavigationBindings() {
++  useLayoutEffect(() => {
++    window.addEventListener("keydown", handleSelectionNavigationKeyDown, true);
++    return () => window.removeEventListener("keydown", handleSelectionNavigationKeyDown, true);
++  }, []);
++
++  return null;
++}
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index 0128763c1fc61b594d56471adb00944ef11cfb4a..ac311928701f3f922957fa9bdc8feac10713f90a 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -220,12 +220,9 @@ import { formatProviderSkillDisplayName } from "../../providerSkillPresentation"
+ import { searchProviderSkills } from "../../providerSkillSearch";
+ import { useMediaQuery } from "../../hooks/useMediaQuery";
+ import type { ReviewCommentContext } from "../../reviewCommentContext";
+-import {
+-  remainingShortcutLabelForCommand,
+-  shouldShowCommandHintForModifiers,
+-} from "../../keybindings";
++import { shortcutLabelForCommand, shouldShowCommandHintForModifiers } from "../../keybindings";
+ import { useShortcutModifierState } from "../../shortcutModifierState";
+-import { ComposerShortcutKeycap } from "./ComposerControlShortcutHint";
++import { ComposerControlShortcutHint } from "./ComposerControlShortcutHint";
+ 
+ const IMAGE_SIZE_LIMIT_LABEL = `${Math.round(PROVIDER_SEND_TURN_MAX_IMAGE_BYTES / (1024 * 1024))}MB`;
+ 
+@@ -310,10 +307,12 @@ const ComposerFooterModeControls = memo(function ComposerFooterModeControls(prop
+   onToggleInteractionMode: () => void;
+   onRuntimeModeChange: (mode: RuntimeMode) => void;
+   onTogglePlanSidebar: () => void;
++  onSelectionComplete: () => void;
+ }) {
+   const runtimeModeOption = runtimeModeConfig[props.runtimeMode];
+   const RuntimeModeIcon = runtimeModeOption.icon;
+-  const runtimeModeInlineHint = props.runtimeModeShortcutHintLabel;
++  const interactionModeTriggerRef = useRef<HTMLButtonElement | null>(null);
++  const runtimeModeTriggerRef = useRef<HTMLButtonElement | null>(null);
+   const interactionModeTooltip =
+     props.interactionMode === "plan"
+       ? "Plan mode — click to return to normal build mode"
+@@ -329,6 +328,7 @@ const ComposerFooterModeControls = memo(function ComposerFooterModeControls(prop
+         <TooltipTrigger
+           render={
+             <Button
++              ref={interactionModeTriggerRef}
+               variant="ghost"
+               className={cn(
+                 "shrink-0 whitespace-nowrap px-2 sm:px-3",
+@@ -351,15 +351,13 @@ const ComposerFooterModeControls = memo(function ComposerFooterModeControls(prop
+           <span className="sr-only sm:not-sr-only">
+             {props.interactionMode === "plan" ? "Plan" : "Build"}
+           </span>
+-          {props.interactionModeShortcutHintLabel ? (
+-            <ComposerShortcutKeycap
+-              label={props.interactionModeShortcutHintLabel}
+-              className="shrink-0"
+-            />
+-          ) : null}
+         </TooltipTrigger>
+         <TooltipPopup side="top">{interactionModeTooltip}</TooltipPopup>
+       </Tooltip>
++      <ComposerControlShortcutHint
++        anchorRef={interactionModeTriggerRef}
++        label={props.interactionModeShortcutHintLabel}
++      />
+     </>
+   ) : null;
+ 
+@@ -372,26 +370,25 @@ const ComposerFooterModeControls = memo(function ComposerFooterModeControls(prop
+           value={props.runtimeMode}
+           open={props.runtimeModePickerOpen}
+           onOpenChange={props.onRuntimeModePickerOpenChange}
+-          onValueChange={(value) => props.onRuntimeModeChange(value!)}
++          onValueChange={(value) => {
++            props.onRuntimeModeChange(value!);
++            props.onSelectionComplete();
++          }}
+         >
+           <TooltipTrigger
+             render={
+               <SelectTrigger
++                ref={runtimeModeTriggerRef}
+                 variant="ghost"
+                 size="sm"
+-                className={cn(
+-                  "font-medium",
+-                  runtimeModeInlineHint && "[&_[data-slot=select-icon]]:hidden",
+-                )}
++                className="font-medium"
+                 aria-label="Runtime mode"
++                data-chat-runtime-mode-picker="true"
+               />
+             }
+           >
+             <RuntimeModeIcon className="size-4" />
+             <SelectValue>{runtimeModeOption.label}</SelectValue>
+-            {runtimeModeInlineHint ? (
+-              <ComposerShortcutKeycap label={runtimeModeInlineHint} className="shrink-0" />
+-            ) : null}
+           </TooltipTrigger>
+           <SelectPopup alignItemWithTrigger={false}>
+             {runtimeModeOptions.map((mode) => {
+@@ -417,6 +414,10 @@ const ComposerFooterModeControls = memo(function ComposerFooterModeControls(prop
+         </Select>
+         <TooltipPopup side="top">{runtimeModeOption.description}</TooltipPopup>
+       </Tooltip>
++      <ComposerControlShortcutHint
++        anchorRef={runtimeModeTriggerRef}
++        label={props.runtimeModeShortcutHintLabel}
++      />
+ 
+       {interactionModeToggle}
+ 
+@@ -1316,6 +1317,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+     modelOptions: composerModelOptions?.[selectedInstanceId],
+     prompt,
+     onPromptChange: setPromptFromTraits,
++    onSelectionComplete: scheduleComposerFocus,
+   });
+   // Hint badges show while the held modifiers are a subset of a composer
+   // control shortcut's modifiers; computed once here and passed down.
+@@ -1323,14 +1325,12 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+   const terminalFocus = useTerminalFocus();
+   const shortcutContext = useMemo(() => ({ terminalFocus }), [terminalFocus]);
+   const composerControlHintLabels = useMemo(() => {
+-    const hintLabel = (command: Parameters<typeof remainingShortcutLabelForCommand>[1]) =>
++    const hintLabel = (command: Parameters<typeof shortcutLabelForCommand>[1]) =>
+       shouldShowCommandHintForModifiers(shortcutModifiers, keybindings, command, {
+         platform: navigator.platform,
+         context: shortcutContext,
+       })
+-        ? remainingShortcutLabelForCommand(keybindings, command, shortcutModifiers, {
+-            context: shortcutContext,
+-          })
++        ? shortcutLabelForCommand(keybindings, command, { context: shortcutContext })
+         : null;
+ 
+     return {
+@@ -1351,6 +1351,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+     modelOptions: composerModelOptions?.[selectedInstanceId],
+     prompt,
+     onPromptChange: setPromptFromTraits,
++    onSelectionComplete: scheduleComposerFocus,
+     open: isComposerTraitsPickerOpen,
+     onOpenChange: (open) => {
+       applyComposerPickerOpenChange("traits", open);
+@@ -2108,8 +2109,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+         // unique image into the overflow list for nothing.
+         const existingDedupKeys = new Set(
+           composerImagesRef.current.map(
+-            (image) => `${image.mimeType} ${image.sizeBytes} ${image.name}`,
+-          ),
++            (image) => `${image.mimeType}          ),
+         );
+         const capacity = Math.max(
+           0,
+@@ -2119,8 +2119,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+           (attachment) =>
+             !existingIds.has(attachment.id) &&
+             !existingDedupKeys.has(
+-              `${attachment.mimeType} ${attachment.sizeBytes} ${attachment.name}`,
+-            ),
++              `${attachment.mimeType}            ),
+         );
+         // Anything past the attachment limit cannot be restored. The entry is
+         // already out of the queue, so report the overflow by name instead of
+@@ -2225,8 +2224,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+     // the composer has been cleared the user can type something genuinely
+     // new (or switch threads) while encoding continues, and that deserves its
+     // own entry.
+-    const snapshotKey = `${String(composerDraftTarget)} ${prompt} ${images
+-      .map((image) => image.id)
++    const snapshotKey = `${String(composerDraftTarget)}      .map((image) => image.id)
+       .join(",")}`;
+     if (stashInFlightRef.current.has(snapshotKey)) return;
+     stashInFlightRef.current.add(snapshotKey);
+@@ -3303,6 +3301,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                     }}
+                     getModelDisabledReason={getModelDisabledReason}
+                     onInstanceModelChange={onProviderModelSelect}
++                    onSelectionComplete={scheduleComposerFocus}
+                   />
+                 )}
+ 
+@@ -3337,6 +3336,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                     onToggleInteractionMode={toggleInteractionMode}
+                     onTogglePlanSidebar={togglePlanSidebar}
+                     onRuntimeModeChange={handleRuntimeModeChange}
++                    onSelectionComplete={scheduleComposerFocus}
+                   />
+                 ) : (
+                   <>
+@@ -3364,6 +3364,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                       onToggleInteractionMode={toggleInteractionMode}
+                       onRuntimeModeChange={handleRuntimeModeChange}
+                       onTogglePlanSidebar={togglePlanSidebar}
++                      onSelectionComplete={scheduleComposerFocus}
+                     />
+                   </>
+                 )}
+diff --git a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx b/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
+index 18b0622046df481478330ede95b9c5af2063afaf..41a095887f9440fdd1f6ef44f6a5fdcd92013698 100644
+--- a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
++++ b/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
+@@ -1,5 +1,5 @@
+ import { ProviderInteractionMode, RuntimeMode } from "@t3tools/contracts";
+-import { memo, type ReactNode } from "react";
++import { memo, type ReactNode, useRef } from "react";
+ import { EllipsisIcon, ListTodoIcon } from "lucide-react";
+ import { Button } from "../ui/button";
+ import {
+@@ -11,7 +11,7 @@ import {
+   MenuSeparator as MenuDivider,
+   MenuTrigger,
+ } from "../ui/menu";
+-import { ComposerShortcutKeycap } from "./ComposerControlShortcutHint";
++import { ComposerControlShortcutHint } from "./ComposerControlShortcutHint";
+ 
+ export function compactComposerShortcutHintLabel(input: {
+   modelOptions: string | null;
+@@ -43,7 +43,9 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+   onToggleInteractionMode: () => void;
+   onTogglePlanSidebar: () => void;
+   onRuntimeModeChange: (mode: RuntimeMode) => void;
++  onSelectionComplete: () => void;
+ }) {
++  const triggerRef = useRef<HTMLButtonElement>(null);
+   return (
+     <>
+       <Menu
+@@ -53,6 +55,7 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+         <MenuTrigger
+           render={
+             <Button
++              ref={triggerRef}
+               size="sm"
+               variant="ghost"
+               className="shrink-0 px-2 text-muted-foreground/70 hover:text-foreground/80"
+@@ -61,9 +64,6 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+           }
+         >
+           <EllipsisIcon aria-hidden="true" className="size-4" />
+-          {props.shortcutHintLabel ? (
+-            <ComposerShortcutKeycap label={props.shortcutHintLabel} className="shrink-0" />
+-          ) : null}
+         </MenuTrigger>
+         <MenuPopup align="start">
+           {props.traitsMenuContent ? (
+@@ -80,6 +80,7 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+                 onValueChange={(value) => {
+                   if (!value || value === props.interactionMode) return;
+                   props.onToggleInteractionMode();
++                  props.onSelectionComplete();
+                 }}
+               >
+                 <MenuRadioItem value="default">Chat</MenuRadioItem>
+@@ -94,6 +95,7 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+             onValueChange={(value) => {
+               if (!value || value === props.runtimeMode) return;
+               props.onRuntimeModeChange(value as RuntimeMode);
++              props.onSelectionComplete();
+             }}
+           >
+             <MenuRadioItem value="approval-required">Supervised</MenuRadioItem>
+@@ -104,7 +106,12 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+           {props.activePlan ? (
+             <>
+               <MenuDivider />
+-              <MenuItem onClick={props.onTogglePlanSidebar}>
++              <MenuItem
++                onClick={() => {
++                  props.onTogglePlanSidebar();
++                  props.onSelectionComplete();
++                }}
++              >
+                 <ListTodoIcon className="size-4 shrink-0" />
+                 {props.planSidebarOpen
+                   ? `Hide ${props.planSidebarLabel.toLowerCase()} sidebar`
+@@ -114,6 +121,7 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+           ) : null}
+         </MenuPopup>
+       </Menu>
++      <ComposerControlShortcutHint anchorRef={triggerRef} label={props.shortcutHintLabel} />
+     </>
+   );
+ });
+diff --git a/apps/web/src/components/chat/ComposerCommandMenu.tsx b/apps/web/src/components/chat/ComposerCommandMenu.tsx
+index 9021b6b46091882dfb8fd4ebd154ee222d5277a7..d2278d4c2e59b92bdcfe58244292389c88d26a4b 100644
+--- a/apps/web/src/components/chat/ComposerCommandMenu.tsx
++++ b/apps/web/src/components/chat/ComposerCommandMenu.tsx
+@@ -139,7 +139,11 @@ export const ComposerCommandMenu = memo(function ComposerCommandMenu(props: {
+         );
+       }}
+     >
+-      <div ref={listRef} className="dropdown-glass relative w-full overflow-hidden rounded-[20px]">
++      <div
++        ref={listRef}
++        data-composer-command-menu={props.items.length > 0 ? "" : undefined}
++        className="dropdown-glass relative w-full overflow-hidden rounded-[20px]"
++      >
+         {props.items.length > 0 ? (
+           <CommandList className="max-h-72">
+             {groups.map((group, groupIndex) => (
+diff --git a/apps/web/src/components/chat/ProviderModelPicker.tsx b/apps/web/src/components/chat/ProviderModelPicker.tsx
+index e9fd86a0cd5fa428da11b3955e57957fd91aab3d..8f3cc0248d26981755602f845e3e59010fd4b5af 100644
+--- a/apps/web/src/components/chat/ProviderModelPicker.tsx
++++ b/apps/web/src/components/chat/ProviderModelPicker.tsx
+@@ -44,6 +44,7 @@ export const ProviderModelPicker = memo(function ProviderModelPicker(props: {
+   onOpenChange?: (open: boolean) => void;
+   getModelDisabledReason?: (instanceId: ProviderInstanceId, model: string) => string | null;
+   onInstanceModelChange: (instanceId: ProviderInstanceId, model: string) => void;
++  onSelectionComplete?: () => void;
+ }) {
+   const [uncontrolledIsMenuOpen, setUncontrolledIsMenuOpen] = useState(false);
+   const isMenuOpen = props.open ?? uncontrolledIsMenuOpen;
+@@ -132,6 +133,7 @@ export const ProviderModelPicker = memo(function ProviderModelPicker(props: {
+     if (props.disabled) return;
+     props.onInstanceModelChange(instanceId, model);
+     setIsMenuOpen(false);
++    props.onSelectionComplete?.();
+   };
+ 
+   return (
+diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
+index 134d2d40fb43321afb68b8512b22b767146b7ad4..71293b9ce2340c12c7ece4ee3ccb3a261f70af48 100644
+--- a/apps/web/src/components/chat/TraitsPicker.tsx
++++ b/apps/web/src/components/chat/TraitsPicker.tsx
+@@ -16,7 +16,7 @@ import {
+ } from "@t3tools/shared/model";
+ import { memo, useCallback, useRef, useState } from "react";
+ import type { VariantProps } from "class-variance-authority";
+-import { ZapIcon } from "lucide-react";
++import { ChevronDownIcon, ZapIcon } from "lucide-react";
+ import { Button, buttonVariants } from "../ui/button";
+ import {
+   Menu,
+@@ -31,7 +31,7 @@ import { useComposerDraftStore, DraftId } from "../../composerDraftStore";
+ import { getProviderModelCapabilities } from "../../providerModels";
+ import { cn } from "~/lib/utils";
+ import { Badge } from "../ui/badge";
+-import { ComposerControlChevron } from "./ComposerControlShortcutHint";
++import { ComposerControlShortcutHint } from "./ComposerControlShortcutHint";
+ 
+ type ProviderOptions = ReadonlyArray<ProviderOptionSelection>;
+ 
+@@ -219,6 +219,7 @@ export interface TraitsMenuContentProps {
+   allowPromptInjectedEffort?: boolean;
+   triggerVariant?: VariantProps<typeof buttonVariants>["variant"];
+   triggerClassName?: string;
++  onSelectionComplete?: () => void;
+ }
+ 
+ export interface TraitsPickerControlProps {
+@@ -236,6 +237,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+   onPromptChange,
+   modelOptions,
+   allowPromptInjectedEffort = true,
++  onSelectionComplete,
+   ...persistence
+ }: TraitsMenuContentProps & TraitsPersistence) {
+   const setProviderModelOptions = useComposerDraftStore((store) => store.setProviderModelOptions);
+@@ -288,6 +290,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+           ? ULTRATHINK_PROMPT_PREFIX
+           : applyClaudePromptEffortPrefix(prompt, "ultrathink");
+       onPromptChange(nextPrompt);
++      onSelectionComplete?.();
+       return;
+     }
+     if (ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id) return;
+@@ -296,6 +299,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+       onPromptChange(stripped);
+     }
+     updateDescriptors(replaceDescriptorCurrentValue(descriptors, descriptor.id, value));
++    onSelectionComplete?.();
+   };
+ 
+   if (!hasAnyControls) {
+@@ -368,6 +372,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+                   updateDescriptors(
+                     replaceDescriptorCurrentValue(descriptors, descriptor.id, value === "on"),
+                   );
++                  onSelectionComplete?.();
+                 }}
+               >
+                 {(["on", "off"] as const).map((value) => (
+@@ -440,9 +445,11 @@ export const TraitsPicker = memo(function TraitsPicker({
+   open,
+   onOpenChange,
+   shortcutHintLabel,
++  onSelectionComplete,
+   ...persistence
+ }: TraitsMenuContentProps & TraitsPickerControlProps & TraitsPersistence) {
+   const [uncontrolledMenuOpen, setUncontrolledMenuOpen] = useState(false);
++  const triggerRef = useRef<HTMLButtonElement | null>(null);
+   const isMenuOpen = open ?? uncontrolledMenuOpen;
+   const { descriptors, primarySelectDescriptor, ultrathinkPromptControlled, fastModeEnabled } =
+     getTraitsSectionVisibility({
+@@ -494,8 +501,10 @@ export const TraitsPicker = memo(function TraitsPicker({
+       <MenuTrigger
+         render={
+           <Button
++            ref={triggerRef}
+             size="sm"
+             variant={triggerVariant ?? "ghost"}
++            data-chat-provider-traits-picker="true"
+             className={cn(
+               isCodexStyle
+                 ? "min-w-0 max-w-40 shrink justify-start overflow-hidden whitespace-nowrap px-2 text-muted-foreground/70 hover:text-foreground/80 sm:max-w-48 sm:px-3 [&_svg]:mx-0"
+@@ -509,13 +518,13 @@ export const TraitsPicker = memo(function TraitsPicker({
+           <span className="flex min-w-0 w-full items-center gap-1.5 overflow-hidden">
+             {fastModeIcon}
+             <span className="min-w-0 truncate">{triggerLabel}</span>
+-            <ComposerControlChevron hintLabel={shortcutHintLabel} className="shrink-0" />
++            <ChevronDownIcon aria-hidden="true" className="size-3 shrink-0 opacity-60" />
+           </span>
+         ) : (
+           <>
+             {fastModeIcon}
+             <span>{triggerLabel}</span>
+-            <ComposerControlChevron hintLabel={shortcutHintLabel} />
++            <ChevronDownIcon aria-hidden="true" className="size-3 opacity-60" />
+           </>
+         )}
+       </MenuTrigger>
+@@ -529,9 +538,11 @@ export const TraitsPicker = memo(function TraitsPicker({
+           onPromptChange={onPromptChange}
+           modelOptions={modelOptions}
+           allowPromptInjectedEffort={allowPromptInjectedEffort}
++          {...(onSelectionComplete ? { onSelectionComplete } : {})}
+           {...persistence}
+         />
+       </MenuPopup>
++      <ComposerControlShortcutHint anchorRef={triggerRef} label={shortcutHintLabel ?? null} />
+     </Menu>
+   );
+ });
+diff --git a/apps/web/src/components/chat/composerProviderState.tsx b/apps/web/src/components/chat/composerProviderState.tsx
+index dc6df55189dd55b482a8595749f17148543ab141..5fedc5d87836807d04904980d90ea680b3329077 100644
+--- a/apps/web/src/components/chat/composerProviderState.tsx
++++ b/apps/web/src/components/chat/composerProviderState.tsx
+@@ -112,6 +112,7 @@ type TraitsRenderInput = {
+   modelOptions: ReadonlyArray<ProviderOptionSelection> | undefined;
+   prompt: string;
+   onPromptChange: (prompt: string) => void;
++  onSelectionComplete?: () => void;
+ };
+ 
+ export function getComposerPromptInjectionState(prompt: string): ComposerPromptInjectionState {
+@@ -161,6 +162,7 @@ function renderTraitsControl(
+     modelOptions,
+     prompt,
+     onPromptChange,
++    onSelectionComplete,
+   } = input;
+   const hasTarget = threadRef !== undefined || draftId !== undefined;
+   if (
+@@ -180,6 +182,7 @@ function renderTraitsControl(
+       modelOptions={modelOptions}
+       prompt={prompt}
+       onPromptChange={onPromptChange}
++      {...(onSelectionComplete ? { onSelectionComplete } : {})}
+       {...(pickerControlProps ?? {})}
+     />
+   );
+diff --git a/apps/web/src/selectionNavigation.test.ts b/apps/web/src/selectionNavigation.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..c17424741cbe2c746c88a1dc35d3b043ad1f8bed
+--- /dev/null
++++ b/apps/web/src/selectionNavigation.test.ts
+@@ -0,0 +1,308 @@
++import { afterEach, describe, expect, it, vi } from "vite-plus/test";
++
++import { handleSelectionNavigationKeyDown } from "./selectionNavigation";
++
++class TestElement extends EventTarget {
++  ownerDocument!: Document;
++  parentElement: TestElement | null = null;
++  hidden = false;
++  id = "";
++  attributes = new Map<string, string>();
++
++  contains(candidate: unknown): boolean {
++    for (let current = candidate as TestElement | null; current; current = current.parentElement) {
++      if (current === this) return true;
++    }
++    return false;
++  }
++
++  getAttribute(name: string): string | null {
++    return this.attributes.get(name) ?? null;
++  }
++
++  hasAttribute(name: string): boolean {
++    return this.attributes.has(name);
++  }
++
++  closest(selector: string): TestElement | null {
++    if (
++      (selector === '[data-chat-composer-form="true"]' &&
++        this.attributes.get("data-chat-composer-form") === "true") ||
++      (selector === "[data-terminal-owner]" && this.attributes.has("data-terminal-owner")) ||
++      (selector === "[data-keybinding-capture]" && this.attributes.has("data-keybinding-capture"))
++    ) {
++      return this;
++    }
++    return this.parentElement?.closest(selector) ?? null;
++  }
++}
++
++class TestKeyboardEvent extends Event {
++  readonly key: string;
++  readonly repeat: boolean;
++
++  constructor(type: string, init: KeyboardEventInit) {
++    super(type, init);
++    this.key = init.key ?? "";
++    this.repeat = init.repeat ?? false;
++  }
++}
++
++function keyboardEvent(
++  target: TestElement,
++  input: Partial<KeyboardEvent> & Pick<KeyboardEvent, "key">,
++): KeyboardEvent {
++  return {
++    altKey: false,
++    ctrlKey: false,
++    defaultPrevented: false,
++    isComposing: false,
++    metaKey: false,
++    repeat: false,
++    shiftKey: false,
++    stopImmediatePropagation: vi.fn(),
++    preventDefault: vi.fn(),
++    target,
++    ...input,
++  } as unknown as KeyboardEvent;
++}
++
++function testDocument(target: TestElement, surfaces: TestElement[]): Document {
++  const body = new TestElement();
++  const document = {
++    activeElement: target,
++    body,
++    defaultView: { KeyboardEvent: TestKeyboardEvent },
++    querySelectorAll: () => surfaces,
++  } as unknown as Document;
++  target.ownerDocument = document;
++  for (const surface of surfaces) surface.ownerDocument = document;
++  return document;
++}
++
++afterEach(() => {
++  vi.unstubAllGlobals();
++});
++
++describe("selection navigation", () => {
++  it.each([
++    ["n", "ArrowDown"],
++    ["p", "ArrowUp"],
++  ] as const)("routes Control-%s to %s in an owned listbox", (key, expected) => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const target = new TestElement();
++    const surface = new TestElement();
++    surface.id = "project-options";
++    target.attributes.set("aria-controls", surface.id);
++    testDocument(target, [surface]);
++
++    const dispatchedKeys: string[] = [];
++    target.addEventListener("keydown", (event) => {
++      dispatchedKeys.push((event as TestKeyboardEvent).key);
++    });
++    const event = keyboardEvent(target, { key, ctrlKey: true });
++
++    handleSelectionNavigationKeyDown(event);
++
++    expect(dispatchedKeys).toEqual([expected]);
++    expect(event.preventDefault).toHaveBeenCalledOnce();
++    expect(event.stopImmediatePropagation).toHaveBeenCalledOnce();
++  });
++
++  it.each([
++    ["model", "data-chat-provider-model-picker", "combobox-list"],
++    ["runtime/access", "data-chat-runtime-mode-picker", "select-popup"],
++    ["effort and provider options", "data-chat-provider-traits-picker", "menu-popup"],
++  ] as const)(
++    "routes the first chord after a tooltip replaces the %s picker trigger slot",
++    (_label, triggerMarker, popupSlot) => {
++      vi.stubGlobal("Element", TestElement);
++      vi.stubGlobal("HTMLElement", TestElement);
++
++      const target = new TestElement();
++      target.attributes.set("aria-expanded", "true");
++      target.attributes.set("data-slot", "tooltip-trigger");
++      target.attributes.set(triggerMarker, "true");
++      const surface = new TestElement();
++      surface.attributes.set("data-slot", popupSlot);
++      testDocument(target, [surface]);
++
++      const dispatchedKeys: string[] = [];
++      target.addEventListener("keydown", (event) => {
++        dispatchedKeys.push((event as TestKeyboardEvent).key);
++      });
++
++      handleSelectionNavigationKeyDown(keyboardEvent(target, { key: "n", ctrlKey: true }));
++
++      expect(dispatchedKeys).toEqual(["ArrowDown"]);
++    },
++  );
++
++  it("routes navigation in the model picker search input", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const searchInput = new TestElement();
++    searchInput.attributes.set("data-slot", "combobox-input");
++    searchInput.attributes.set("aria-controls", "model-picker-options");
++    const modelPickerPopup = new TestElement();
++    modelPickerPopup.id = "model-picker-options";
++    modelPickerPopup.attributes.set("data-slot", "combobox-popup");
++    testDocument(searchInput, [modelPickerPopup]);
++
++    const dispatchedKeys: string[] = [];
++    searchInput.addEventListener("keydown", (event) => {
++      dispatchedKeys.push((event as TestKeyboardEvent).key);
++    });
++
++    handleSelectionNavigationKeyDown(keyboardEvent(searchInput, { key: "n", ctrlKey: true }));
++    handleSelectionNavigationKeyDown(keyboardEvent(searchInput, { key: "p", ctrlKey: true }));
++
++    expect(dispatchedKeys).toEqual(["ArrowDown", "ArrowUp"]);
++  });
++
++  it.each([
++    ["project picker", "menu-trigger", "menu-popup"],
++    ["effort and provider options picker", "menu-trigger", "menu-popup"],
++    ["compact composer controls picker", "menu-trigger", "menu-popup"],
++    ["implementation actions menu", "menu-trigger", "menu-popup"],
++    ["submenu", "menu-sub-trigger", "menu-sub-content"],
++  ] as const)(
++    "routes the first chord after opening a %s without an aria-controls link",
++    (_label, triggerSlot, popupSlot) => {
++      vi.stubGlobal("Element", TestElement);
++      vi.stubGlobal("HTMLElement", TestElement);
++
++      const trigger = new TestElement();
++      trigger.attributes.set("aria-expanded", "true");
++      trigger.attributes.set("data-slot", triggerSlot);
++      const popup = new TestElement();
++      popup.attributes.set("data-slot", popupSlot);
++      testDocument(trigger, [popup]);
++
++      const dispatchedKeys: string[] = [];
++      trigger.addEventListener("keydown", (event) => {
++        dispatchedKeys.push((event as TestKeyboardEvent).key);
++      });
++
++      handleSelectionNavigationKeyDown(keyboardEvent(trigger, { key: "n", ctrlKey: true }));
++
++      expect(dispatchedKeys).toEqual(["ArrowDown"]);
++    },
++  );
++
++  it("routes navigation while focus is inside the project picker popup", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const projectPickerPopup = new TestElement();
++    projectPickerPopup.attributes.set("data-slot", "menu-popup");
++    const focusedItem = new TestElement();
++    focusedItem.parentElement = projectPickerPopup;
++    testDocument(focusedItem, [projectPickerPopup]);
++
++    const dispatchedKeys: string[] = [];
++    focusedItem.addEventListener("keydown", (event) => {
++      dispatchedKeys.push((event as TestKeyboardEvent).key);
++    });
++
++    handleSelectionNavigationKeyDown(keyboardEvent(focusedItem, { key: "p", ctrlKey: true }));
++
++    expect(dispatchedKeys).toEqual(["ArrowUp"]);
++  });
++
++  it("routes navigation to the portaled composer suggestion menu", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const composer = new TestElement();
++    composer.attributes.set("data-chat-composer-form", "true");
++    const target = new TestElement();
++    target.parentElement = composer;
++    const surface = new TestElement();
++    surface.attributes.set("data-composer-command-menu", "");
++    testDocument(target, [surface]);
++
++    const dispatchedKeys: string[] = [];
++    target.addEventListener("keydown", (event) => {
++      dispatchedKeys.push((event as TestKeyboardEvent).key);
++    });
++
++    handleSelectionNavigationKeyDown(keyboardEvent(target, { key: "p", ctrlKey: true }));
++
++    expect(dispatchedKeys).toEqual(["ArrowUp"]);
++  });
++
++  it("does not claim navigation for an empty composer suggestion menu", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const composer = new TestElement();
++    composer.attributes.set("data-chat-composer-form", "true");
++    const target = new TestElement();
++    target.parentElement = composer;
++    const emptySurface = new TestElement();
++    testDocument(target, [emptySurface]);
++    const event = keyboardEvent(target, { key: "n", ctrlKey: true });
++
++    handleSelectionNavigationKeyDown(event);
++
++    expect(event.preventDefault).not.toHaveBeenCalled();
++    expect(event.stopImmediatePropagation).not.toHaveBeenCalled();
++  });
++
++  it("does not claim navigation for an unrelated visible picker", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const body = new TestElement();
++    const targetContainer = new TestElement();
++    targetContainer.parentElement = body;
++    const target = new TestElement();
++    target.parentElement = targetContainer;
++    const pickerContainer = new TestElement();
++    pickerContainer.parentElement = body;
++    const surface = new TestElement();
++    surface.parentElement = pickerContainer;
++    const document = testDocument(target, [surface]);
++    (document as unknown as { body: TestElement }).body = body;
++    const event = keyboardEvent(target, { key: "n", ctrlKey: true });
++
++    handleSelectionNavigationKeyDown(event);
++
++    expect(event.preventDefault).not.toHaveBeenCalled();
++    expect(event.stopImmediatePropagation).not.toHaveBeenCalled();
++  });
++
++  it("ignores modified chords, terminals, and keybinding capture fields", () => {
++    vi.stubGlobal("Element", TestElement);
++    vi.stubGlobal("HTMLElement", TestElement);
++
++    const target = new TestElement();
++    const surface = new TestElement();
++    surface.id = "owned-options";
++    target.attributes.set("aria-controls", surface.id);
++    testDocument(target, [surface]);
++
++    for (const event of [
++      keyboardEvent(target, { key: "n", ctrlKey: true, shiftKey: true }),
++      keyboardEvent(target, { key: "p", metaKey: true }),
++    ]) {
++      handleSelectionNavigationKeyDown(event);
++      expect(event.preventDefault).not.toHaveBeenCalled();
++    }
++
++    target.attributes.set("data-terminal-owner", "");
++    const terminalEvent = keyboardEvent(target, { key: "n", ctrlKey: true });
++    handleSelectionNavigationKeyDown(terminalEvent);
++    expect(terminalEvent.preventDefault).not.toHaveBeenCalled();
++
++    target.attributes.delete("data-terminal-owner");
++    target.attributes.set("data-keybinding-capture", "");
++    const captureEvent = keyboardEvent(target, { key: "p", ctrlKey: true });
++    handleSelectionNavigationKeyDown(captureEvent);
++    expect(captureEvent.preventDefault).not.toHaveBeenCalled();
++  });
++});
+diff --git a/apps/web/src/selectionNavigation.ts b/apps/web/src/selectionNavigation.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..92d11c543335224d0294ebc303413b3e4b0a1a3f
+--- /dev/null
++++ b/apps/web/src/selectionNavigation.ts
+@@ -0,0 +1,146 @@
++const CANDIDATE_SURFACE_SELECTOR = [
++  "[data-composer-command-menu]",
++  '[data-slot="command-dialog-popup"]',
++  '[data-slot="command-list"]',
++  '[data-slot="combobox-popup"]',
++  '[data-slot="autocomplete-popup"]',
++  '[data-slot="select-popup"]',
++  '[data-slot="menu-popup"]',
++  '[data-slot="menu-sub-content"]',
++  '[role="listbox"]',
++].join(",");
++
++type SelectionNavigationKey = "ArrowDown" | "ArrowUp";
++
++const SURFACE_SLOT_BY_TRIGGER_SLOT: Readonly<Record<string, string>> = {
++  "autocomplete-trigger": "autocomplete-popup",
++  "combobox-trigger": "combobox-popup",
++  "menu-trigger": "menu-popup",
++  "menu-sub-trigger": "menu-sub-content",
++  "select-trigger": "select-popup",
++};
++
++const SURFACE_SLOT_BY_TRIGGER_MARKER: Readonly<Record<string, string>> = {
++  "data-chat-provider-model-picker": "combobox-list",
++  "data-chat-provider-traits-picker": "menu-popup",
++  "data-chat-runtime-mode-picker": "select-popup",
++};
++
++function resolveSelectionNavigationKey(event: KeyboardEvent): SelectionNavigationKey | null {
++  if (
++    event.defaultPrevented ||
++    event.isComposing ||
++    !event.ctrlKey ||
++    event.altKey ||
++    event.metaKey ||
++    event.shiftKey
++  ) {
++    return null;
++  }
++
++  const key = event.key.toLowerCase();
++  if (key === "n") return "ArrowDown";
++  if (key === "p") return "ArrowUp";
++  return null;
++}
++
++function candidateSurfaceBelongsToFocus(
++  surface: HTMLElement,
++  focusedElement: Element | null,
++  document: Document,
++): boolean {
++  if (!focusedElement) return false;
++  if (surface.contains(focusedElement)) return true;
++
++  const controlledIds = focusedElement.getAttribute("aria-controls")?.split(/\s+/) ?? [];
++  if (surface.id && controlledIds.includes(surface.id)) return true;
++
++  const triggerSlot = focusedElement.getAttribute("data-slot");
++  const surfaceSlot = surface.getAttribute("data-slot");
++  if (
++    focusedElement.getAttribute("aria-expanded") === "true" &&
++    triggerSlot !== null &&
++    surfaceSlot === SURFACE_SLOT_BY_TRIGGER_SLOT[triggerSlot]
++  ) {
++    return true;
++  }
++
++  if (focusedElement.getAttribute("aria-expanded") === "true") {
++    for (const [triggerMarker, popupSlot] of Object.entries(SURFACE_SLOT_BY_TRIGGER_MARKER)) {
++      if (focusedElement.hasAttribute(triggerMarker) && surfaceSlot === popupSlot) {
++        return true;
++      }
++    }
++  }
++
++  if (
++    surface.hasAttribute("data-composer-command-menu") &&
++    focusedElement.closest('[data-chat-composer-form="true"]') !== null
++  ) {
++    return true;
++  }
++
++  // Some non-portaled pickers render beside their controlling input without
++  // an aria-controls relationship. Accept a nearby shared container, but do
++  // not climb as far as body where an unrelated open picker could match.
++  let container = surface.parentElement;
++  for (let depth = 0; container && depth < 6; depth += 1) {
++    if (container === document.body) return false;
++    if (container.contains(focusedElement)) return true;
++    container = container.parentElement;
++  }
++  return false;
++}
++
++function isCandidateSelectionOpen(document: Document, eventTarget: EventTarget | null): boolean {
++  const focusedElement =
++    document.activeElement instanceof Element
++      ? document.activeElement
++      : eventTarget instanceof Element
++        ? eventTarget
++        : null;
++
++  return Array.from(document.querySelectorAll<HTMLElement>(CANDIDATE_SURFACE_SELECTOR)).some(
++    (surface) =>
++      !surface.hidden &&
++      surface.getAttribute("aria-hidden") !== "true" &&
++      candidateSurfaceBelongsToFocus(surface, focusedElement, document),
++  );
++}
++
++function dispatchSelectionNavigation(event: KeyboardEvent, key: SelectionNavigationKey): void {
++  event.preventDefault();
++  event.stopImmediatePropagation();
++
++  const document = (event.target as Node | null)?.ownerDocument ?? globalThis.document;
++  const target =
++    document.activeElement instanceof HTMLElement ? document.activeElement : event.target;
++  if (!(target instanceof EventTarget)) return;
++
++  const KeyboardEventConstructor = document.defaultView?.KeyboardEvent ?? KeyboardEvent;
++  target.dispatchEvent(
++    new KeyboardEventConstructor("keydown", {
++      bubbles: true,
++      cancelable: true,
++      code: key,
++      key,
++      repeat: event.repeat,
++    }),
++  );
++}
++
++export function handleSelectionNavigationKeyDown(event: KeyboardEvent): void {
++  const key = resolveSelectionNavigationKey(event);
++  if (!key || !(event.target instanceof Element)) return;
++  if (
++    event.target.closest("[data-terminal-owner]") !== null ||
++    event.target.closest("[data-keybinding-capture]") !== null
++  ) {
++    return;
++  }
++
++  const document = (event.target as Node).ownerDocument;
++  if (!document) return;
++  if (!isCandidateSelectionOpen(document, event.target)) return;
++  dispatchSelectionNavigation(event, key);
++}

@@ -1,0 +1,255 @@
+# fork-fold manifest, migrated from assembly.toml.
+# manifest.lock.json records FACT; the assembled branch is compiled output.
+
+provenance_file = "stack-build-info.json"
+
+[remotes]
+upstream = "https://github.com/pingdotgg/t3code"
+fork = "https://github.com/colonelpanic8/t3code"
+
+[base]
+remote = "upstream"
+ref = "main"
+submodule = "t3code"
+
+[publish]
+remote = "fork"
+branch = "t3code/assembled"
+tag_prefix = "t3code-assembled"
+
+[[entry]]
+pr = 3984
+summary = "Render generated images inline in chat"
+note = "External (jakeleventhal)."
+
+[[entry]]
+branch = "fork:t3code/local/artifact-safety"
+summary = "Constrain #3984's generic artifact paths to the real thread workspace"
+note = "Must follow #3984, whose artifact paths it constrains."
+
+[[entry]]
+branch = "fork:t3code/searchable-new-thread-projects"
+pr = 4259
+summary = "Searchable new-thread project picker"
+
+[[entry]]
+branch = "fork:t3code/group/thread-picker"
+summary = "Thread-picker group: #4263 + #4257 + #4258 + #4426 + #4590 + glue"
+note = "GROUP entry, built from thread-picker.toml; the add-project glue helpers\nlive on the group branch. Rebuild the group first, then pin its new head here."
+
+[[entry]]
+branch = "fork:t3code/composer-keyboard-shortcuts"
+pr = 4271
+summary = "Keyboard-select composer controls + hold-modifier hints"
+
+[[entry]]
+branch = "fork:t3code/fix-dropdown-keyboard-navigation"
+pr = 4394
+summary = "Navigate open selections with Ctrl-N/Ctrl-P"
+
+[[entry]]
+branch = "fork:feat/settle-thread-keybinding"
+pr = 4277
+summary = "Settle the open thread with Mod+Shift+X"
+
+[[entry]]
+branch = "fork:fix/draft-thread-promotion-recovery"
+pr = 4318
+summary = "Recover stalled draft-thread promotion"
+
+[[entry]]
+branch = "fork:fix/coalesce-assistant-streaming"
+pr = 4323
+summary = "Coalesce high-frequency assistant streaming deltas"
+
+[[entry]]
+branch = "fork:feat/sidebar-v2-large-icons"
+pr = 4324
+summary = "Optional larger sidebar v2 project icons"
+
+[[entry]]
+pr = 4181
+summary = "Trigger the slash-command menu mid-prompt, not just at line start"
+note = "External (dmstoykov)."
+
+[[entry]]
+branch = "fork:fix/android-adaptive-icon"
+pr = 4332
+summary = "Properly sized flat foreground for Android adaptive icons"
+
+[[entry]]
+branch = "fork:feat/favicon-reload-on-click"
+pr = 4337
+summary = "Refresh a project favicon when its icon is clicked"
+
+[[entry]]
+branch = "fork:fix/stuck-turn-recovery"
+pr = 4386
+summary = "Recover stranded provider turns after lost completion events"
+
+[[entry]]
+branch = "fork:fix/android-composer-keyboard-positioning"
+pr = 4388
+summary = "Keep the Android new-task composer above the keyboard while it expands"
+
+[[entry]]
+branch = "fork:t3code/add-thread-forking"
+pr = 4390
+summary = "Clone a thread through its latest completed response from the sidebar"
+
+[[entry]]
+branch = "fork:feat/project-icons"
+pr = 4401
+summary = "User-local project icons"
+
+[[entry]]
+branch = "fork:fix/thread-detail-load-hardening"
+pr = 4405
+summary = "Self-heal empty thread details and back off failed thread subscriptions"
+
+[[entry]]
+branch = "fork:t3code/subscription-transport-recovery"
+pr = 4602
+summary = "Recover subscriptions that lose their transport"
+note = "Adjacent to #4405: both edit packages/client-runtime/src/rpc/client.ts and its\ntest, the only two topics touching subscription lifecycle. Complementary to\n#4593, which recovers only the settle path of the same issue (#4589)."
+
+[[entry]]
+branch = "fork:feat/mobile-environment-first-new-thread"
+pr = 4447
+summary = "Environment-first new task on mobile"
+
+[[entry]]
+branch = "fork:t3code/inline-image-support"
+pr = 4427
+summary = "Show completed image-generation activity as compact evidence links"
+
+[[entry]]
+branch = "fork:t3code/user-input-qna-timeline"
+pr = 4506
+summary = "Show answered questions in the thread timeline"
+note = "Overlaps #4427's generated-image handling, so it must follow #4427."
+
+[[entry]]
+branch = "fork:fix/model-picker-shortcuts"
+pr = 4433
+summary = "Refresh positional model-picker shortcuts when virtualized rows are reordered"
+
+[[entry]]
+branch = "fork:t3code/configurable-workspace-placement"
+pr = 4439
+summary = "Configure centralized or repository-local worktree placement"
+
+[[entry]]
+branch = "fork:t3code/xdg-storage-layout"
+pr = 4437
+summary = "Separate config, data, state, cache, and runtime storage with XDG/legacy override"
+
+[[entry]]
+branch = "fork:fix/discover-claude-models"
+pr = 4477
+summary = "Discover Claude models from SDK initialization rather than the fallback catalog"
+
+[[entry]]
+branch = "fork:fix/sidebar-resize-after-window-growth"
+pr = 4482
+summary = "Refresh the sidebar resize cap when the window grows"
+
+[[entry]]
+branch = "fork:t3code/filter-hidden-codex-models"
+pr = 4487
+summary = "Drop non-interactive Codex models from the model picker"
+
+[[entry]]
+branch = "fork:t3code/fix-provider-settings-toggle"
+pr = 4494
+summary = "Keep rapid settings edits from reverting each other"
+
+[[entry]]
+branch = "fork:fix/recover-bootstrap-thread-id"
+pr = 4484
+summary = "Recover draft thread IDs after failed bootstrap cleanup"
+
+[[entry]]
+branch = "fork:t3code/local/nix-flake"
+summary = "Nix flake: dev shell and desktop package"
+
+[[entry]]
+branch = "fork:t3code/unify-environment-selection"
+summary = "Complete client-only, pairing, environment presentation, and unified settings suite"
+note = "Canonical cumulative client topic. Carries #4444, #4474, #4496, #4505,\n#4538, and t3code/show-remote-host-name. #4444 consolidates the closed #4479,\n#4486, #4548, #4559, and #4567 topics."
+
+[[entry]]
+branch = "fork:t3code/add-custom-snooze-time"
+pr = 4677
+summary = "Snooze threads until a custom local date and time"
+note = "Follows t3code/unify-environment-selection, which reshapes SidebarV2.tsx."
+
+[[entry]]
+branch = "fork:t3code/settle-state-reconcile"
+pr = 4593
+summary = "Reconcile client state when a settle does not land"
+note = "Last of the client-runtime subscription topics: it touches\napps/web/src/connection/platform.ts after t3code/unify-environment-selection\nhas restructured it. Its state/threads.ts change sits in a different region\nthan #4405's backoff."
+
+[[entry]]
+branch = "fork:t3code/local/build-provenance"
+summary = "Show the build's commit, and a Settings page describing the assembled tree"
+note = "Reads stack-build-info.json, which the rebuild writes as this branch's final\ncommit. Placed near last so its SettingsPanels.tsx and SettingsSidebarNav.tsx\nedits land after t3code/unify-environment-selection."
+
+[[entry]]
+branch = "fork:t3code/clear-unanswerable-provider-requests"
+pr = 4598
+summary = "Clear pending approval and user-input requests when no provider session is bound"
+note = "Appended so it merges once against the assembled state of the four topics that\ntouch its files: #4386 and #4390 (ProviderCommandReactor.ts), #4427 and #4506\n(session-logic.test.ts)."
+
+[[entry]]
+branch = "fork:t3code/investigate-large-thread-rendering"
+pr = 4605
+summary = "Fix quadratic thread-reopen replay: batch client apply + cap server resume gap"
+note = "Before #4599: this restructures ChatView.tsx (extracting\nthreadTimelineModel.ts) and #4599 builds on that final shape. Touches ws.ts\nand client-runtime state/threads.ts, so it merges after #4405, #4593, and\n#4602."
+
+[[entry]]
+branch = "fork:t3code/find-in-thread"
+pr = 4599
+summary = "Cmd+F find in thread"
+note = "Mostly new modules; its MessagesTimeline.tsx and ChatView.tsx edits want the\nfinal shape after #4605's timeline extraction. Its keybindings.ts entries are\nadditive one-line registry rows, the same shape as #4271 and #4277."
+
+[[entry]]
+branch = "fork:t3code/mobile-thread-replay-render-fixes"
+summary = "Cut mobile thread-reopen replay churn in the feed pipeline"
+note = "Mobile-only (apps/mobile plus its t3-markdown-text module), so no overlap with\nthe web/client-runtime topics above it. Branch-linked, not PR-linked: #4624\nwas closed upstream without merging, so the BRANCH is authoritative and this\nentry must not be dropped just because the PR is closed. Its head carries a\nfollow-up commit past the PR."
+
+[[entry]]
+branch = "fork:t3code/fix-broken-image-previews"
+pr = 4631
+summary = "Render markdown images from workspace files"
+note = "Overlaps t3code/local/artifact-safety and #3984 in ChatMarkdown, but on the\n`img` renderer where they own `code`; all import from ../assets/assetUrls, so\nexpect a small import-region conflict and nothing semantic. Appended via\nextend rather than placed beside them; if ChatMarkdown gains a third\nimage-adjacent topic, cluster the three into a group."
+
+[[entry]]
+branch = "fork:t3code/add-mobile-build-action"
+summary = "Build and publish sideloadable Android APKs from the assembled branch"
+note = "CI and release tooling only; kept last because it does not overlap application code."
+
+[[entry]]
+patch = "patches/t3code-sidebar-v2-large-icons-fixture.patch"
+summary = "Add sidebarV2LargeIcons to the desktop ClientSettings test fixture"
+note = "#4324 adds sidebarV2LargeIcons as a required ClientSettings field but does not\nupdate apps/desktop's fixture, which must list every field. Assembly-emergent, so\nit cannot live on #4324's branch."
+
+[[entry]]
+patch = "patches/t3code-projection-threads-snoozed-migration-compat.patch"
+summary = "Re-run the snooze schema update as migration 36"
+note = "The snooze feature arrived upstream with migration ID 34 after that ID had\nalready been recorded locally for ProjectionThreadGoals. A function of the\nassembled tree, so it cannot be a normal entry."
+
+[[entry]]
+patch = "patches/t3code-assembled-runtime-imports.patch"
+summary = "Restore assembled runtime imports and project icon types"
+note = "Assembly-emergent glue: project icons and primary settings reference hooks supplied\nby other carried topics. Also widens the project-icon renderer's structural type\nto the exact optional-property shape used by the assembled project model."
+
+[[entry]]
+patch = "patches/t3code-chat-composer-stash-merge.patch"
+summary = "Restore prompt-stash dedupe and snapshot keys after composer merges"
+note = "#4271 and #4394 both reshape ChatComposer around the prompt-stash implementation.\nTheir assembled replay mangles the NUL-delimited template strings used for image\ndeduplication and in-flight snapshot identity. Neither topic is broken alone;\nthis patch restores those three assembly-emergent expressions."
+
+[[entry]]
+patch = "patches/t3code-refreshed-client-overlap.patch"
+summary = "Reconcile refreshed client topics after the cumulative settings merge"
+note = "Assembly-emergent overlap: the cumulative client topic moves settings ownership\nand keybindings after #4271, #4277, #4390, #4494, and upstream prompt stash.\nKeep the refreshed settings write queue, shortcut defaults, and thread-forking\ncall sites against that final structure."

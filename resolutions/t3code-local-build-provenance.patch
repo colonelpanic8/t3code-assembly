@@ -1,0 +1,2084 @@
+diff --git a/apps/mobile/app.config.ts b/apps/mobile/app.config.ts
+index 1cf432db4e9a48356dd986a4aa3b6e50687a7b22..8006a88e4e22dc24977ab8b7e68d069a499ae1e7 100644
+--- a/apps/mobile/app.config.ts
++++ b/apps/mobile/app.config.ts
+@@ -1,11 +1,16 @@
+ import type { ExpoConfig } from "expo/config";
+ 
+ import { BRAND_ASSET_PATHS } from "../../scripts/lib/brand-assets.ts";
++import { readBuildProvenance } from "../../scripts/lib/build-provenance.ts";
+ import { loadRepoEnv } from "../../scripts/lib/public-config.ts";
+ 
+ type AppVariant = "development" | "preview" | "production";
+ 
+ const repoEnv = loadRepoEnv();
++// Which commit and which assembled stack this bundle came from. Read through
++// the same helper the web build uses, so both apps answer "what am I running"
++// the same way. Absent for an ordinary checkout, which the Build screen says.
++const buildProvenance = readBuildProvenance();
+ Object.assign(process.env, repoEnv);
+ 
+ const APP_VARIANT = resolveAppVariant(repoEnv.APP_VARIANT);
+@@ -347,6 +352,16 @@ const config: ExpoConfig = {
+       tracesDataset: repoEnv.EXPO_PUBLIC_OTLP_TRACES_DATASET ?? null,
+       tracesToken: repoEnv.EXPO_PUBLIC_OTLP_TRACES_TOKEN ?? null,
+     },
++    build: {
++      commit: buildProvenance.commit,
++      repoRemote: buildProvenance.repoRemote,
++      date: buildProvenance.date,
++      dirty: buildProvenance.dirty,
++      // Carried as text, not an object: the Expo manifest is fetched at launch
++      // on OTA builds, and one string keeps a large stack record out of the
++      // structured config the runtime walks eagerly.
++      stackBuildInfo: buildProvenance.stackBuildInfo,
++    },
+     eas: {
+       projectId: "d763fcb8-d37c-41ea-a773-b54a0ab4a454",
+     },
+diff --git a/apps/mobile/src/Stack.tsx b/apps/mobile/src/Stack.tsx
+index 224d0ae3fea9e182f5145cefc85b4e9635e7be40..ce68869d2095c7a248fd16e44b125369c9064417 100644
+--- a/apps/mobile/src/Stack.tsx
++++ b/apps/mobile/src/Stack.tsx
+@@ -43,6 +43,7 @@ import { NewTaskEnvironmentRouteScreen } from "./features/threads/NewTaskEnviron
+ import { NewTaskFlowProvider } from "./features/threads/new-task-flow-provider";
+ import { NewTaskRouteScreen } from "./features/threads/NewTaskRouteScreen";
+ import { SettingsAppearanceRouteScreen } from "./features/settings/SettingsAppearanceRouteScreen";
++import { SettingsBuildRouteScreen } from "./features/settings/SettingsBuildRouteScreen";
+ import { SettingsClientStorageRouteScreen } from "./features/settings/SettingsClientStorageRouteScreen";
+ import { SettingsAuthRouteScreen } from "./features/settings/SettingsAuthRouteScreen";
+ import { SettingsEnvironmentsRouteScreen } from "./features/settings/SettingsEnvironmentsRouteScreen";
+@@ -176,6 +177,13 @@ const SettingsSheetStack = createNativeStackNavigator({
+         title: "Appearance",
+       },
+     }),
++    SettingsBuild: createNativeStackScreen({
++      screen: SettingsBuildRouteScreen,
++      linking: "build",
++      options: {
++        title: "Build",
++      },
++    }),
+     SettingsClientStorage: createNativeStackScreen({
+       screen: SettingsClientStorageRouteScreen,
+       linking: "client-storage",
+diff --git a/apps/mobile/src/features/settings/SettingsBuildRouteScreen.tsx b/apps/mobile/src/features/settings/SettingsBuildRouteScreen.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..48cfd23bb170d4a613adddb166c07a0c09348ca2
+--- /dev/null
++++ b/apps/mobile/src/features/settings/SettingsBuildRouteScreen.tsx
+@@ -0,0 +1,244 @@
++import Constants from "expo-constants";
++import { SymbolView } from "expo-symbols";
++import { Pressable, ScrollView, View } from "react-native";
++import { useSafeAreaInsets } from "react-native-safe-area-context";
++
++import { formatCommitDate, formatRepoLabel, shortCommit } from "@t3tools/shared/buildProvenance";
++import {
++  countStack,
++  entryBranchUrl,
++  entryCommitUrl,
++  entryPullRequestUrl,
++  upstreamCommitUrl,
++  type StackEntry,
++  type StackProvenance,
++} from "@t3tools/shared/stackProvenance";
++
++import { AppText as Text } from "../../components/AppText";
++import {
++  BUILD_COMMIT,
++  BUILD_COMMIT_SHORT,
++  BUILD_COMMIT_URL,
++  BUILD_DATE,
++  BUILD_DIRTY,
++  BUILD_REPO_LABEL,
++  STACK_PROVENANCE,
++} from "../../lib/buildProvenance";
++import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
++import { useThemeColor } from "../../lib/useThemeColor";
++import { SettingsSection } from "./components/SettingsSection";
++
++/** A label/value pair. `url` turns the value into a link out to GitHub. */
++function FieldRow(props: {
++  readonly label: string;
++  readonly value: string;
++  readonly url?: string | null;
++  readonly mono?: boolean;
++  readonly first?: boolean;
++}) {
++  const link = useThemeColor("--color-link");
++  const valueClass = props.mono
++    ? "text-right text-base font-mono text-foreground"
++    : "text-right text-base text-foreground";
++
++  return (
++    <View
++      className={
++        props.first
++          ? "flex-row items-baseline gap-4 px-4 py-3"
++          : "flex-row items-baseline gap-4 border-t border-border/50 px-4 py-3"
++      }
++    >
++      <Text className="shrink-0 text-base text-foreground-muted">{props.label}</Text>
++      <View className="min-w-0 flex-1 items-end">
++        {props.url ? (
++          <Pressable onPress={() => void tryOpenExternalUrl(props.url ?? "", "build-provenance")}>
++            <Text className={valueClass} style={{ color: link }} numberOfLines={1}>
++              {props.value}
++            </Text>
++          </Pressable>
++        ) : (
++          <Text className={valueClass} numberOfLines={2}>
++            {props.value}
++          </Text>
++        )}
++      </View>
++    </View>
++  );
++}
++
++function ThisBuildSection() {
++  const version = Constants.expoConfig?.version ?? "0.0.0";
++  const variant = (Constants.expoConfig?.extra?.appVariant as string | undefined) ?? "production";
++  const commitDate = formatCommitDate(BUILD_DATE);
++
++  return (
++    <SettingsSection title="This build">
++      <FieldRow first label="Version" value={version} />
++      <FieldRow label="Variant" value={variant} />
++      {BUILD_COMMIT ? (
++        <FieldRow
++          mono
++          label="Commit"
++          value={BUILD_DIRTY ? `${BUILD_COMMIT_SHORT} (modified)` : BUILD_COMMIT_SHORT}
++          url={BUILD_COMMIT_URL}
++        />
++      ) : (
++        <FieldRow label="Commit" value="No record" />
++      )}
++      {BUILD_REPO_LABEL ? <FieldRow label="Repository" value={BUILD_REPO_LABEL} /> : null}
++      {commitDate ? <FieldRow label="Committed" value={commitDate} /> : null}
++    </SettingsSection>
++  );
++}
++
++function UpstreamSection({ provenance }: { readonly provenance: StackProvenance }) {
++  const { upstream } = provenance;
++  const repoLabel = formatRepoLabel(upstream.remote);
++  const date = formatCommitDate(upstream.date);
++
++  return (
++    <SettingsSection title="Upstream base">
++      {repoLabel ? <FieldRow first label="Repository" value={repoLabel} /> : null}
++      <FieldRow
++        first={!repoLabel}
++        mono
++        label="Commit"
++        value={shortCommit(upstream.commit)}
++        url={upstreamCommitUrl(upstream)}
++      />
++      {upstream.subject ? <FieldRow label="Subject" value={upstream.subject} /> : null}
++      {date ? <FieldRow label="Committed" value={date} /> : null}
++    </SettingsSection>
++  );
++}
++
++function EntryRow(props: {
++  readonly entry: StackEntry;
++  readonly provenance: StackProvenance;
++  readonly first: boolean;
++  readonly nested?: boolean;
++}) {
++  const { entry, provenance } = props;
++  const link = useThemeColor("--color-link");
++  const url =
++    entryPullRequestUrl(entry, provenance.upstream.remote) ??
++    entryBranchUrl(entry, provenance.fork.remote) ??
++    entryCommitUrl(entry, provenance.fork.remote, provenance.upstream.remote);
++  // "merged" is the ordinary outcome and would be noise on every row; the
++  // others mean the entry contributed nothing, which is worth seeing.
++  const status = entry.status === "merged" ? null : entry.status;
++
++  return (
++    <View
++      className={[
++        props.first ? "px-4 py-3" : "border-t border-border/50 px-4 py-3",
++        props.nested ? "pl-8" : "",
++      ].join(" ")}
++    >
++      <View className="flex-row items-baseline gap-3">
++        {url ? (
++          <Pressable onPress={() => void tryOpenExternalUrl(url, "build-provenance")}>
++            <Text className="text-base font-mono" style={{ color: link }}>
++              {entry.label}
++            </Text>
++          </Pressable>
++        ) : (
++          <Text className="text-base font-mono text-foreground">{entry.label}</Text>
++        )}
++        <View className="min-w-0 flex-1 items-end">
++          <Text className="text-sm text-foreground-muted">
++            {status ? `${entry.kind} · ${status}` : entry.kind}
++          </Text>
++        </View>
++      </View>
++      {entry.summary ? (
++        <Text className="mt-1 text-sm leading-5 text-foreground-muted">{entry.summary}</Text>
++      ) : null}
++      {entry.entries.map((child, index) => (
++        <EntryRow
++          key={`${child.label}:${child.commit}`}
++          entry={child}
++          provenance={provenance}
++          first={index === 0}
++          nested
++        />
++      ))}
++    </View>
++  );
++}
++
++function CarriedSection({ provenance }: { readonly provenance: StackProvenance }) {
++  const counts = countStack(provenance.entries);
++  const forkLabel = formatRepoLabel(provenance.fork.remote);
++  const summary = [
++    `${counts.changes} ${counts.changes === 1 ? "change" : "changes"}`,
++    counts.pullRequests > 0 ? `${counts.pullRequests} pull requests` : null,
++    counts.epilogues > 0 ? `${counts.epilogues} stack-only patches` : null,
++    counts.inert > 0 ? `${counts.inert} now inert` : null,
++  ]
++    .filter(Boolean)
++    .join(" · ");
++
++  return (
++    <View className="gap-2">
++      <Text className="px-2 text-sm font-t3-medium text-foreground-muted">Carried on top</Text>
++      <Text className="px-2 text-sm leading-5 text-foreground-muted/80">
++        {forkLabel
++          ? `${summary}, merged in this order onto ${provenance.fork.branch} in ${forkLabel}.`
++          : `${summary}.`}
++      </Text>
++      <View className="overflow-hidden rounded-[24px] border-continuous bg-card">
++        {provenance.entries.map((entry, index) => (
++          <EntryRow
++            key={`${entry.label}:${entry.commit}`}
++            entry={entry}
++            provenance={provenance}
++            first={index === 0}
++          />
++        ))}
++      </View>
++    </View>
++  );
++}
++
++function NoStackSection() {
++  const icon = useThemeColor("--color-icon");
++  return (
++    <SettingsSection title="Carried on top">
++      <View className="items-center gap-2 px-6 py-8">
++        <SymbolView name="shippingbox" size={28} tintColor={icon} type="monochrome" />
++        <Text className="text-center text-sm leading-5 text-foreground-muted">
++          This build carries no assembled stack — it was built straight from a checkout rather than
++          from an integration branch, so there is nothing on top of upstream to list.
++        </Text>
++      </View>
++    </SettingsSection>
++  );
++}
++
++export function SettingsBuildRouteScreen() {
++  const insets = useSafeAreaInsets();
++
++  return (
++    <View collapsable={false} className="flex-1 bg-sheet">
++      <ScrollView
++        contentInsetAdjustmentBehavior="automatic"
++        contentInset={{ bottom: Math.max(insets.bottom, 18) }}
++        showsVerticalScrollIndicator={false}
++        className="flex-1"
++        contentContainerClassName="gap-6 px-5 pt-4 pb-[18px]"
++      >
++        <ThisBuildSection />
++        {STACK_PROVENANCE ? (
++          <>
++            <UpstreamSection provenance={STACK_PROVENANCE} />
++            <CarriedSection provenance={STACK_PROVENANCE} />
++          </>
++        ) : (
++          <NoStackSection />
++        )}
++      </ScrollView>
++    </View>
++  );
++}
+diff --git a/apps/mobile/src/features/settings/SettingsRouteScreen.tsx b/apps/mobile/src/features/settings/SettingsRouteScreen.tsx
+index 20d382ed0b17db478ec25d0c7f7e538f08660b60..80257995f4d863922f009918fde13cfb15f86bcc 100644
+--- a/apps/mobile/src/features/settings/SettingsRouteScreen.tsx
++++ b/apps/mobile/src/features/settings/SettingsRouteScreen.tsx
+@@ -715,6 +715,7 @@ function AppSettingsSection() {
+   return (
+     <SettingsSection title="App">
+       <SettingsRow icon="internaldrive" label="Client Storage" target="SettingsClientStorage" />
++      <SettingsRow icon="shippingbox" label="Build" target="SettingsBuild" />
+       <SettingsRow icon="doc.text" label="Legal" fullScreenTarget="SettingsLegal" />
+       {Updates.isEnabled ? (
+         <Pressable
+diff --git a/apps/mobile/src/features/settings/components/settings-sheet-targets.ts b/apps/mobile/src/features/settings/components/settings-sheet-targets.ts
+index 71c059bedb4880e754fb2202a47904d3e9c8ab04..133f51594198d43ab62d746270ce0bae6a166aa6 100644
+--- a/apps/mobile/src/features/settings/components/settings-sheet-targets.ts
++++ b/apps/mobile/src/features/settings/components/settings-sheet-targets.ts
+@@ -2,6 +2,7 @@ export type SettingsSheetTarget =
+   | "SettingsEnvironments"
+   | "SettingsArchive"
+   | "SettingsAppearance"
+-  | "SettingsClientStorage";
++  | "SettingsClientStorage"
++  | "SettingsBuild";
+ 
+ export type SettingsLegalDocumentTarget = "SettingsLegal";
+diff --git a/apps/mobile/src/lib/buildProvenance.test.ts b/apps/mobile/src/lib/buildProvenance.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..9a8f405648e271e95f530a6c199b8fb08fdeffb0
+--- /dev/null
++++ b/apps/mobile/src/lib/buildProvenance.test.ts
+@@ -0,0 +1,83 @@
++import { describe, expect, it, vi } from "vite-plus/test";
++
++/**
++ * The parsing and URL building are covered in @t3tools/shared. What is only
++ * testable here is the glue: reading the values back out of the Expo config.
++ * That glue fails silently -- a wrong `extra` path yields a page that renders
++ * "No record" on a build that has a perfectly good record -- so it is worth
++ * pinning the shape the config actually carries.
++ */
++
++const mocks = vi.hoisted(() => ({ extra: {} as Record<string, unknown> }));
++
++vi.mock("expo-constants", () => ({
++  default: {
++    get expoConfig() {
++      return { extra: mocks.extra };
++    },
++  },
++}));
++
++async function loadProvenance(build: unknown) {
++  mocks.extra = build === undefined ? {} : { build };
++  vi.resetModules();
++  return import("./buildProvenance");
++}
++
++describe("mobile build provenance", () => {
++  it("reads the values app.config.ts embeds under extra.build", async () => {
++    const provenance = await loadProvenance({
++      commit: "0123456789abcdef0123456789abcdef01234567",
++      repoRemote: "https://github.com/colonelpanic8/t3code.git",
++      date: "2026-07-27T03:26:20-07:00",
++      dirty: false,
++      stackBuildInfo: "",
++    });
++
++    expect(provenance.BUILD_COMMIT_SHORT).toBe("0123456789ab");
++    expect(provenance.BUILD_REPO_LABEL).toBe("colonelpanic8/t3code");
++    expect(provenance.BUILD_COMMIT_URL).toBe(
++      "https://github.com/colonelpanic8/t3code/commit/0123456789abcdef0123456789abcdef01234567",
++    );
++    expect(provenance.BUILD_DIRTY).toBe(false);
++  });
++
++  it("reports no provenance rather than a placeholder when the build has none", async () => {
++    const provenance = await loadProvenance(undefined);
++
++    expect(provenance.BUILD_COMMIT).toBe("");
++    expect(provenance.BUILD_COMMIT_URL).toBeNull();
++    expect(provenance.STACK_PROVENANCE).toBeNull();
++  });
++
++  // The manifest round-trips through JSON, and a non-string here would throw
++  // inside the parser on a screen the user opened to diagnose something else.
++  it("ignores values that are not strings", async () => {
++    const provenance = await loadProvenance({ commit: 42, stackBuildInfo: { entries: [] } });
++
++    expect(provenance.BUILD_COMMIT).toBe("");
++    expect(provenance.STACK_PROVENANCE).toBeNull();
++  });
++
++  it("parses an embedded stack record", async () => {
++    const provenance = await loadProvenance({
++      stackBuildInfo: JSON.stringify({
++        schemaVersion: 1,
++        manifest: "stack.toml",
++        upstream: {
++          remote: "https://github.com/pingdotgg/t3code",
++          ref: "main",
++          commit: "23ea08daf27a2f56b85e605dd3d36f66bd1a132d",
++          subject: "test: account for lazy thread feed details",
++          date: "2026-07-27T02:56:34-07:00",
++        },
++        fork: { remote: "https://github.com/colonelpanic8/t3code", branch: "t3code/stack" },
++        entries: [{ label: "#4624", kind: "fork", status: "merged", commit: "abc1234" }],
++      }),
++    });
++
++    expect(provenance.STACK_PROVENANCE?.entries).toHaveLength(1);
++    expect(provenance.STACK_PROVENANCE?.entries[0]?.label).toBe("#4624");
++    expect(provenance.STACK_PROVENANCE?.fork.branch).toBe("t3code/stack");
++  });
++});
+diff --git a/apps/mobile/src/lib/buildProvenance.ts b/apps/mobile/src/lib/buildProvenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..5d7dcfd4db3391ab5aa6e02b8b86344482701a09
+--- /dev/null
++++ b/apps/mobile/src/lib/buildProvenance.ts
+@@ -0,0 +1,59 @@
++import Constants from "expo-constants";
++
++import {
++  formatRepoLabel,
++  gitHubCommitUrl,
++  gitHubRepoUrl,
++  shortCommit,
++} from "@t3tools/shared/buildProvenance";
++import { parseStackProvenance } from "@t3tools/shared/stackProvenance";
++
++/**
++ * Which commit of which repository this bundle was built from, and what stack
++ * it was assembled from.
++ *
++ * The app version answers "which release line is this"; it cannot answer "is
++ * this the build with the fix I just merged", because every build off a given
++ * version shares it. `apps/mobile/app.config.ts` reads these at build time
++ * through the same helper `apps/web/vite.config.ts` uses, and puts them in the
++ * Expo config's `extra`, which is the only channel that survives both a local
++ * `expo run` and an EAS build.
++ *
++ * Every value is optional. A build with no provenance is normal, so consumers
++ * must render its absence rather than a placeholder commit.
++ */
++
++interface EmbeddedBuild {
++  readonly commit?: unknown;
++  readonly repoRemote?: unknown;
++  readonly date?: unknown;
++  readonly dirty?: unknown;
++  readonly stackBuildInfo?: unknown;
++}
++
++const embedded = (Constants.expoConfig?.extra?.build ?? {}) as EmbeddedBuild;
++
++function text(value: unknown): string {
++  return typeof value === "string" ? value.trim() : "";
++}
++
++export const BUILD_COMMIT = text(embedded.commit);
++export const BUILD_REPO_REMOTE = text(embedded.repoRemote);
++
++/** ISO 8601 committer date of `BUILD_COMMIT`, not the moment of the build. */
++export const BUILD_DATE = text(embedded.date);
++
++/** Tracked files differed from `BUILD_COMMIT` when the bundle was built. */
++export const BUILD_DIRTY = embedded.dirty === true;
++
++export const BUILD_COMMIT_SHORT = shortCommit(BUILD_COMMIT);
++export const BUILD_COMMIT_URL = gitHubCommitUrl(BUILD_REPO_REMOTE, BUILD_COMMIT);
++export const BUILD_REPO_URL = gitHubRepoUrl(BUILD_REPO_REMOTE);
++export const BUILD_REPO_LABEL = formatRepoLabel(BUILD_REPO_REMOTE);
++
++/**
++ * What this build is assembled from, when it was assembled by the stack
++ * rebuild. Null for an ordinary build of a plain checkout, which is most of
++ * them -- there is no stack to describe.
++ */
++export const STACK_PROVENANCE = parseStackProvenance(text(embedded.stackBuildInfo));
+diff --git a/apps/mobile/src/lib/openExternalUrl.ts b/apps/mobile/src/lib/openExternalUrl.ts
+index 10e6378bc000c7c610fa5a63b61ede081358cd2d..623fec371424e1088ebefa507a274de19979db62 100644
+--- a/apps/mobile/src/lib/openExternalUrl.ts
++++ b/apps/mobile/src/lib/openExternalUrl.ts
+@@ -1,7 +1,12 @@
+ import * as Schema from "effect/Schema";
+ import { Linking } from "react-native";
+ 
+-const ExternalUrlTarget = Schema.Literals(["file-preview", "markdown-link", "pull-request"]);
++const ExternalUrlTarget = Schema.Literals([
++  "build-provenance",
++  "file-preview",
++  "markdown-link",
++  "pull-request",
++]);
+ 
+ export type ExternalUrlTarget = typeof ExternalUrlTarget.Type;
+ 
+diff --git a/apps/web/src/buildProvenance.ts b/apps/web/src/buildProvenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..9ef52035573085d7d345d6bd69888053a54690e6
+--- /dev/null
++++ b/apps/web/src/buildProvenance.ts
+@@ -0,0 +1,34 @@
++import {
++  formatRepoLabel,
++  gitHubCommitUrl,
++  gitHubRepoUrl,
++  shortCommit,
++} from "@t3tools/shared/buildProvenance";
++
++/**
++ * Which commit of which repository this bundle was built from.
++ *
++ * `APP_VERSION` answers "which release line is this"; it cannot answer "is this
++ * the build with the fix I just merged", because every build off a given
++ * package version shares it. These values are injected at build time from git
++ * (see apps/web/vite.config.ts) or, where there is no git context to read --
++ * a Nix sandbox, an unpacked source tarball -- from `T3CODE_BUILD_*` env vars
++ * supplied by whatever performs the build.
++ *
++ * Every value is optional. A build with no provenance is normal, so consumers
++ * must render its absence rather than a placeholder commit.
++ */
++
++export const BUILD_COMMIT = import.meta.env.BUILD_COMMIT?.trim() ?? "";
++export const BUILD_REPO_REMOTE = import.meta.env.BUILD_REPO_REMOTE?.trim() ?? "";
++
++/** ISO 8601 committer date of `BUILD_COMMIT`, not the moment of the build. */
++export const BUILD_DATE = import.meta.env.BUILD_DATE?.trim() ?? "";
++
++/** Tracked files differed from `BUILD_COMMIT` when the bundle was built. */
++export const BUILD_DIRTY = import.meta.env.BUILD_DIRTY === true;
++
++export const BUILD_COMMIT_SHORT = shortCommit(BUILD_COMMIT);
++export const BUILD_COMMIT_URL = gitHubCommitUrl(BUILD_REPO_REMOTE, BUILD_COMMIT);
++export const BUILD_REPO_URL = gitHubRepoUrl(BUILD_REPO_REMOTE);
++export const BUILD_REPO_LABEL = formatRepoLabel(BUILD_REPO_REMOTE);
+diff --git a/apps/web/src/components/ExternalLink.tsx b/apps/web/src/components/ExternalLink.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..f1d1114761cc4c16cca0dd33723dd0b2ce3bf7de
+--- /dev/null
++++ b/apps/web/src/components/ExternalLink.tsx
+@@ -0,0 +1,28 @@
++import type { ComponentPropsWithoutRef } from "react";
++
++import { cn } from "../lib/utils";
++import { useOpenExternalUrl } from "../lib/openExternalUrl";
++
++/** An anchor that opens in the system browser rather than navigating the app. */
++export function ExternalLink({
++  href,
++  className,
++  children,
++  ...anchorProps
++}: ComponentPropsWithoutRef<"a"> & { href: string }) {
++  const openExternalUrl = useOpenExternalUrl();
++
++  return (
++    <a
++      {...anchorProps}
++      href={href}
++      onClick={(event) => openExternalUrl(event, href)}
++      className={cn(
++        "underline decoration-dotted underline-offset-2 transition-colors hover:text-foreground",
++        className,
++      )}
++    >
++      {children}
++    </a>
++  );
++}
+diff --git a/apps/web/src/components/settings/BuildCommitLink.tsx b/apps/web/src/components/settings/BuildCommitLink.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..31efbeff56352131ba404e37c9de5fdd000aea85
+--- /dev/null
++++ b/apps/web/src/components/settings/BuildCommitLink.tsx
+@@ -0,0 +1,47 @@
++import {
++  BUILD_COMMIT,
++  BUILD_COMMIT_SHORT,
++  BUILD_COMMIT_URL,
++  BUILD_DATE,
++  BUILD_DIRTY,
++  BUILD_REPO_LABEL,
++} from "../../buildProvenance";
++import { formatCommitDate } from "@t3tools/shared/buildProvenance";
++import { ExternalLink } from "../ExternalLink";
++import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
++
++const COMMIT_CLASS = "font-mono text-[11px] text-muted-foreground";
++
++/**
++ * The commit this build came from, linked to it on the host it was built from.
++ *
++ * Renders nothing when the build carries no provenance, which is the normal
++ * state for a build made outside a checkout without `T3CODE_BUILD_*` set.
++ */
++export function BuildCommitLink() {
++  if (!BUILD_COMMIT) return null;
++
++  const label = `${BUILD_COMMIT_SHORT}${BUILD_DIRTY ? "-modified" : ""}`;
++  const tooltip = [
++    BUILD_REPO_LABEL ? `${BUILD_REPO_LABEL}@${BUILD_COMMIT}` : BUILD_COMMIT,
++    formatCommitDate(BUILD_DATE),
++    BUILD_DIRTY ? "Built with uncommitted changes" : null,
++  ]
++    .filter(Boolean)
++    .join(" — ");
++
++  const commit = BUILD_COMMIT_URL ? (
++    <ExternalLink href={BUILD_COMMIT_URL} className={COMMIT_CLASS}>
++      {label}
++    </ExternalLink>
++  ) : (
++    <code className={COMMIT_CLASS}>{label}</code>
++  );
++
++  return (
++    <Tooltip>
++      <TooltipTrigger render={commit} />
++      <TooltipPopup>{tooltip}</TooltipPopup>
++    </Tooltip>
++  );
++}
+diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index fa9fb029242ac6650e692bed8bedc04fa1294fae..613eff05cd3d7e8523dcd7e04b0ee14129e0f2a5 100644
+--- a/apps/web/src/components/settings/SettingsPanels.tsx
++++ b/apps/web/src/components/settings/SettingsPanels.tsx
+@@ -39,6 +39,7 @@ import {
+   isDesktopUpdateButtonDisabled,
+   resolveDesktopUpdateButtonAction,
+ } from "../../components/desktopUpdate.logic";
++import { BuildCommitLink } from "./BuildCommitLink";
+ import { ProviderModelPicker } from "../chat/ProviderModelPicker";
+ import { TraitsPicker } from "../chat/TraitsPicker";
+ import { isElectron } from "../../env";
+@@ -170,6 +171,13 @@ function AboutVersionTitle() {
+     <span className="inline-flex items-center gap-2">
+       <span>Version</span>
+       <code className="text-[11px] font-medium text-muted-foreground">{APP_VERSION}</code>
++      <BuildCommitLink />
++      <Link
++        to="/settings/build"
++        className="text-[11px] font-normal text-muted-foreground/70 underline decoration-dotted underline-offset-2 hover:text-foreground"
++      >
++        Details
++      </Link>
+     </span>
+   );
+ }
+diff --git a/apps/web/src/components/settings/SettingsSidebarNav.tsx b/apps/web/src/components/settings/SettingsSidebarNav.tsx
+index 136f4086b165461cd812b38f82c19572ba87e88d..e35e683060b967d1ac454af1ad249fb1179574a1 100644
+--- a/apps/web/src/components/settings/SettingsSidebarNav.tsx
++++ b/apps/web/src/components/settings/SettingsSidebarNav.tsx
+@@ -7,6 +7,7 @@ import {
+   GitBranchIcon,
+   KeyboardIcon,
+   Link2Icon,
++  PackageIcon,
+   Settings2Icon,
+ } from "lucide-react";
+ import { useCanGoBack, useNavigate } from "@tanstack/react-router";
+@@ -32,7 +33,8 @@ export type SettingsSectionPath =
+   | "/settings/source-control"
+   | "/settings/connections"
+   | "/settings/beta"
+-  | "/settings/archived";
++  | "/settings/archived"
++  | "/settings/build";
+ 
+ export type SettingsNavItem = {
+   label: string;
+@@ -54,6 +56,9 @@ export const SETTINGS_NAV_GROUPS: ReadonlyArray<{
+       { label: "Connections", to: "/settings/connections", icon: Link2Icon },
+       { label: "Beta", to: "/settings/beta", icon: FlaskConicalIcon },
+       { label: "Archive", to: "/settings/archived", icon: ArchiveIcon },
++      // Client, not Environment: it describes the bundle this client is
++      // running, which is the same whichever environment is selected.
++      { label: "Build", to: "/settings/build", icon: PackageIcon },
+     ],
+   },
+   {
+diff --git a/apps/web/src/components/settings/StackSettings.tsx b/apps/web/src/components/settings/StackSettings.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..f72b2bc4db717765768a877a6ff13a919554e2c8
+--- /dev/null
++++ b/apps/web/src/components/settings/StackSettings.tsx
+@@ -0,0 +1,319 @@
++import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
++import { useState, type ReactNode } from "react";
++
++import { APP_VERSION } from "../../branding";
++import {
++  BUILD_COMMIT,
++  BUILD_COMMIT_SHORT,
++  BUILD_COMMIT_URL,
++  BUILD_DATE,
++  BUILD_DIRTY,
++  BUILD_REPO_LABEL,
++} from "../../buildProvenance";
++import { formatCommitDate, formatRepoLabel, shortCommit } from "@t3tools/shared/buildProvenance";
++import {
++  countStack,
++  entryBranchUrl,
++  entryCommitUrl,
++  entryPullRequestUrl,
++  upstreamCommitUrl,
++  type StackEntry,
++  type StackEntryKind,
++  type StackEntryStatus,
++  type StackProvenance,
++} from "@t3tools/shared/stackProvenance";
++import { STACK_PROVENANCE } from "../../stackProvenance";
++import { cn } from "../../lib/utils";
++import { ExternalLink } from "../ExternalLink";
++import { Badge } from "../ui/badge";
++import { SettingsPageContainer, SettingsSection } from "./settingsLayout";
++
++const KIND_LABELS: Record<StackEntryKind, string> = {
++  fork: "PR branch",
++  local: "Local only",
++  external: "External PR",
++  epilogue: "Patch",
++};
++
++/**
++ * "merged" is the ordinary outcome and would be noise on every row, so only the
++ * outcomes that mean the entry is a drop candidate get a badge.
++ */
++const STATUS_LABELS: Partial<Record<StackEntryStatus, string>> = {
++  absorbed: "Already upstream",
++  empty: "Changed nothing",
++};
++
++function FieldRow({ label, children }: { label: string; children: ReactNode }) {
++  return (
++    <div className="flex flex-col gap-0.5 sm:grid sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-4">
++      <dt className="text-[13px] text-muted-foreground/80">{label}</dt>
++      <dd className="min-w-0 text-[13px] text-foreground">{children}</dd>
++    </div>
++  );
++}
++
++function Mono({ children }: { children: ReactNode }) {
++  return <span className="font-mono text-[12px]">{children}</span>;
++}
++
++function ThisBuildSection() {
++  const repoLabel = BUILD_REPO_LABEL ?? "an unknown repository";
++  const commitDate = formatCommitDate(BUILD_DATE);
++
++  return (
++    <SettingsSection title="This build">
++      <dl className="space-y-2.5 px-3 sm:px-4">
++        <FieldRow label="Version">
++          <Mono>{APP_VERSION}</Mono>
++        </FieldRow>
++        {BUILD_COMMIT ? (
++          <FieldRow label="Commit">
++            <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
++              {BUILD_COMMIT_URL ? (
++                <ExternalLink href={BUILD_COMMIT_URL} className="font-mono text-[12px]">
++                  {BUILD_COMMIT_SHORT}
++                </ExternalLink>
++              ) : (
++                <Mono>{BUILD_COMMIT_SHORT}</Mono>
++              )}
++              <span className="text-muted-foreground/80">in {repoLabel}</span>
++              {BUILD_DIRTY ? (
++                <Badge variant="warning" size="sm">
++                  Uncommitted changes
++                </Badge>
++              ) : null}
++            </span>
++          </FieldRow>
++        ) : null}
++        {commitDate ? <FieldRow label="Committed">{commitDate}</FieldRow> : null}
++      </dl>
++    </SettingsSection>
++  );
++}
++
++function UpstreamSection({ provenance }: { provenance: StackProvenance }) {
++  const { upstream } = provenance;
++  const commitUrl = upstreamCommitUrl(upstream);
++  const repoLabel = formatRepoLabel(upstream.remote);
++  const date = formatCommitDate(upstream.date);
++
++  return (
++    <SettingsSection title="Upstream base">
++      <p className="px-3 text-[13px] leading-[1.45] text-muted-foreground/80 sm:px-4">
++        Everything below was merged onto this commit. It carries all of upstream&rsquo;s history up
++        to that point; only the changes listed here are additional.
++      </p>
++      <dl className="mt-3 space-y-2.5 px-3 sm:px-4">
++        <FieldRow label="Repository">
++          {repoLabel ? (
++            <>
++              {repoLabel}
++              <span className="text-muted-foreground/80"> · {upstream.ref}</span>
++            </>
++          ) : (
++            <span className="text-muted-foreground/80">Unknown</span>
++          )}
++        </FieldRow>
++        <FieldRow label="Commit">
++          {commitUrl ? (
++            <ExternalLink href={commitUrl} className="font-mono text-[12px]">
++              {shortCommit(upstream.commit)}
++            </ExternalLink>
++          ) : (
++            <Mono>{shortCommit(upstream.commit)}</Mono>
++          )}
++        </FieldRow>
++        {upstream.subject ? <FieldRow label="Subject">{upstream.subject}</FieldRow> : null}
++        {date ? <FieldRow label="Committed">{date}</FieldRow> : null}
++      </dl>
++    </SettingsSection>
++  );
++}
++
++function EntryNote({ note }: { note: string }) {
++  const [isExpanded, setIsExpanded] = useState(false);
++
++  return (
++    <div className="mt-1.5">
++      <button
++        type="button"
++        onClick={() => setIsExpanded((expanded) => !expanded)}
++        className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/70 hover:text-foreground"
++        aria-expanded={isExpanded}
++      >
++        {isExpanded ? (
++          <ChevronDownIcon className="size-3" />
++        ) : (
++          <ChevronRightIcon className="size-3" />
++        )}
++        Why it is carried
++      </button>
++      {isExpanded ? (
++        <p className="mt-1 max-w-2xl whitespace-pre-wrap text-[12px] leading-[1.5] text-muted-foreground/80">
++          {note}
++        </p>
++      ) : null}
++    </div>
++  );
++}
++
++function EntryRow({
++  entry,
++  provenance,
++  isNested = false,
++}: {
++  entry: StackEntry;
++  provenance: StackProvenance;
++  isNested?: boolean;
++}) {
++  const [isExpanded, setIsExpanded] = useState(false);
++
++  const pullRequestUrl = entryPullRequestUrl(entry, provenance.upstream.remote);
++  const branchUrl = entryBranchUrl(entry, provenance.fork.remote);
++  const commitUrl = entryCommitUrl(entry, provenance.upstream.remote, provenance.fork.remote);
++  const statusLabel = STATUS_LABELS[entry.status];
++  const hasMembers = entry.entries.length > 0;
++
++  return (
++    <div className={cn("py-2.5", isNested && "border-l border-border/60 pl-4")}>
++      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
++        {pullRequestUrl ? (
++          <ExternalLink href={pullRequestUrl} className="font-mono text-[12px] font-medium">
++            {entry.label}
++          </ExternalLink>
++        ) : (
++          <span className="font-mono text-[12px] font-medium break-all">{entry.label}</span>
++        )}
++        <Badge variant="outline" size="sm">
++          {KIND_LABELS[entry.kind]}
++        </Badge>
++        {statusLabel ? (
++          <Badge variant="warning" size="sm">
++            {statusLabel}
++          </Badge>
++        ) : null}
++        {commitUrl ? (
++          <ExternalLink
++            href={commitUrl}
++            className="ml-auto font-mono text-[11px] text-muted-foreground"
++          >
++            {shortCommit(entry.commit)}
++          </ExternalLink>
++        ) : null}
++      </div>
++
++      {entry.summary ? (
++        <p className="mt-1 max-w-2xl text-[13px] leading-[1.45] text-foreground/90">
++          {entry.summary}
++        </p>
++      ) : null}
++
++      {entry.branch ? (
++        <p className="mt-0.5 truncate text-[11px] text-muted-foreground/70">
++          {branchUrl ? (
++            <ExternalLink href={branchUrl} className="font-mono">
++              {entry.branch}
++            </ExternalLink>
++          ) : (
++            <span className="font-mono">{entry.branch}</span>
++          )}
++        </p>
++      ) : null}
++
++      {entry.note ? <EntryNote note={entry.note} /> : null}
++
++      {hasMembers ? (
++        <div className="mt-2">
++          <button
++            type="button"
++            onClick={() => setIsExpanded((expanded) => !expanded)}
++            className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/70 hover:text-foreground"
++            aria-expanded={isExpanded}
++          >
++            {isExpanded ? (
++              <ChevronDownIcon className="size-3" />
++            ) : (
++              <ChevronRightIcon className="size-3" />
++            )}
++            {entry.entries.length} changes in this group
++          </button>
++          {isExpanded ? (
++            <div className="mt-1">
++              {entry.entries.map((member) => (
++                <EntryRow
++                  key={`${member.label}:${member.commit}`}
++                  entry={member}
++                  provenance={provenance}
++                  isNested
++                />
++              ))}
++            </div>
++          ) : null}
++        </div>
++      ) : null}
++    </div>
++  );
++}
++
++function CarriedSection({ provenance }: { provenance: StackProvenance }) {
++  const counts = countStack(provenance.entries);
++  const forkLabel = formatRepoLabel(provenance.fork.remote);
++
++  const summary = [
++    `${counts.changes} ${counts.changes === 1 ? "change" : "changes"}`,
++    counts.pullRequests > 0 ? `${counts.pullRequests} pull requests` : null,
++    counts.epilogues > 0 ? `${counts.epilogues} stack-only patches` : null,
++    counts.inert > 0 ? `${counts.inert} now inert` : null,
++  ]
++    .filter(Boolean)
++    .join(" · ");
++
++  return (
++    <SettingsSection title="Carried on top">
++      <p className="px-3 text-[13px] leading-[1.45] text-muted-foreground/80 sm:px-4">
++        {summary}
++        {forkLabel ? (
++          <>
++            , merged in this order onto{" "}
++            <span className="font-mono text-[12px]">{provenance.fork.branch}</span> in {forkLabel}.
++          </>
++        ) : (
++          "."
++        )}
++      </p>
++      <div className="mt-2 divide-y divide-border/60 px-3 sm:px-4">
++        {provenance.entries.map((entry) => (
++          <EntryRow key={`${entry.label}:${entry.commit}`} entry={entry} provenance={provenance} />
++        ))}
++      </div>
++    </SettingsSection>
++  );
++}
++
++function NoStackSection() {
++  return (
++    <SettingsSection title="Carried on top">
++      <p className="px-3 text-[13px] leading-[1.45] text-muted-foreground/80 sm:px-4">
++        This build carries no assembled stack — it was built straight from a checkout rather than
++        from an integration branch, so there is nothing on top of upstream to list.
++      </p>
++    </SettingsSection>
++  );
++}
++
++export function StackSettings() {
++  return (
++    <SettingsPageContainer>
++      <ThisBuildSection />
++      {STACK_PROVENANCE ? (
++        <>
++          <UpstreamSection provenance={STACK_PROVENANCE} />
++          <CarriedSection provenance={STACK_PROVENANCE} />
++        </>
++      ) : (
++        <NoStackSection />
++      )}
++    </SettingsPageContainer>
++  );
++}
+diff --git a/apps/web/src/lib/openExternalUrl.ts b/apps/web/src/lib/openExternalUrl.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..9693c0e93c0b3340a11510da5b6bd0ea8ae2d4ce
+--- /dev/null
++++ b/apps/web/src/lib/openExternalUrl.ts
+@@ -0,0 +1,33 @@
++import { type MouseEvent, useCallback } from "react";
++
++import { toastManager } from "../components/ui/toast";
++import { readLocalApi } from "../localApi";
++
++/**
++ * Returns a click handler that opens a URL in the system browser.
++ *
++ * A bare anchor cannot be used: in the desktop shell it would navigate the app
++ * window itself out of the app, and there is no way back. Propagation is
++ * stopped so a link inside a row does not also activate the row.
++ */
++export function useOpenExternalUrl() {
++  return useCallback((event: MouseEvent<HTMLElement>, url: string) => {
++    event.preventDefault();
++    event.stopPropagation();
++
++    const api = readLocalApi();
++    if (!api) {
++      toastManager.add({ type: "error", title: "Link opening is unavailable." });
++      return;
++    }
++
++    void api.shell.openExternal(url).catch((error: unknown) => {
++      console.error(error);
++      toastManager.add({
++        type: "error",
++        title: "Unable to open link",
++        description: error instanceof Error ? error.message : "An error occurred.",
++      });
++    });
++  }, []);
++}
+diff --git a/apps/web/src/routeTree.gen.ts b/apps/web/src/routeTree.gen.ts
+index 093d9decf804679e8c76fb0364a7b13d8353052a..02685200be5123982e7f66da0694cb13a654707f 100644
+--- a/apps/web/src/routeTree.gen.ts
++++ b/apps/web/src/routeTree.gen.ts
+@@ -21,6 +21,7 @@ import { Route as SettingsGeneralRouteImport } from './routes/settings.general'
+ import { Route as SettingsEnvironmentRouteImport } from './routes/settings.environment'
+ import { Route as SettingsDiagnosticsRouteImport } from './routes/settings.diagnostics'
+ import { Route as SettingsConnectionsRouteImport } from './routes/settings.connections'
++import { Route as SettingsBuildRouteImport } from './routes/settings.build'
+ import { Route as SettingsBetaRouteImport } from './routes/settings.beta'
+ import { Route as SettingsArchivedRouteImport } from './routes/settings.archived'
+ import { Route as ConnectCallbackRouteImport } from './routes/connect_.callback'
+@@ -86,6 +87,11 @@ const SettingsConnectionsRoute = SettingsConnectionsRouteImport.update({
+   path: '/connections',
+   getParentRoute: () => SettingsRoute,
+ } as any)
++const SettingsBuildRoute = SettingsBuildRouteImport.update({
++  id: '/build',
++  path: '/build',
++  getParentRoute: () => SettingsRoute,
++} as any)
+ const SettingsBetaRoute = SettingsBetaRouteImport.update({
+   id: '/beta',
+   path: '/beta',
+@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
+   '/connect/callback': typeof ConnectCallbackRoute
+   '/settings/archived': typeof SettingsArchivedRoute
+   '/settings/beta': typeof SettingsBetaRoute
++  '/settings/build': typeof SettingsBuildRoute
+   '/settings/connections': typeof SettingsConnectionsRoute
+   '/settings/diagnostics': typeof SettingsDiagnosticsRoute
+   '/settings/environment': typeof SettingsEnvironmentRoute
+@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
+   '/connect/callback': typeof ConnectCallbackRoute
+   '/settings/archived': typeof SettingsArchivedRoute
+   '/settings/beta': typeof SettingsBetaRoute
++  '/settings/build': typeof SettingsBuildRoute
+   '/settings/connections': typeof SettingsConnectionsRoute
+   '/settings/diagnostics': typeof SettingsDiagnosticsRoute
+   '/settings/environment': typeof SettingsEnvironmentRoute
+@@ -158,6 +166,7 @@ export interface FileRoutesById {
+   '/connect_/callback': typeof ConnectCallbackRoute
+   '/settings/archived': typeof SettingsArchivedRoute
+   '/settings/beta': typeof SettingsBetaRoute
++  '/settings/build': typeof SettingsBuildRoute
+   '/settings/connections': typeof SettingsConnectionsRoute
+   '/settings/diagnostics': typeof SettingsDiagnosticsRoute
+   '/settings/environment': typeof SettingsEnvironmentRoute
+@@ -179,6 +188,7 @@ export interface FileRouteTypes {
+     | '/connect/callback'
+     | '/settings/archived'
+     | '/settings/beta'
++    | '/settings/build'
+     | '/settings/connections'
+     | '/settings/diagnostics'
+     | '/settings/environment'
+@@ -196,6 +206,7 @@ export interface FileRouteTypes {
+     | '/connect/callback'
+     | '/settings/archived'
+     | '/settings/beta'
++    | '/settings/build'
+     | '/settings/connections'
+     | '/settings/diagnostics'
+     | '/settings/environment'
+@@ -215,6 +226,7 @@ export interface FileRouteTypes {
+     | '/connect_/callback'
+     | '/settings/archived'
+     | '/settings/beta'
++    | '/settings/build'
+     | '/settings/connections'
+     | '/settings/diagnostics'
+     | '/settings/environment'
+@@ -321,6 +333,13 @@ declare module '@tanstack/react-router' {
+       preLoaderRoute: typeof SettingsConnectionsRouteImport
+       parentRoute: typeof SettingsRoute
+     }
++    '/settings/build': {
++      id: '/settings/build'
++      path: '/build'
++      fullPath: '/settings/build'
++      preLoaderRoute: typeof SettingsBuildRouteImport
++      parentRoute: typeof SettingsRoute
++    }
+     '/settings/beta': {
+       id: '/settings/beta'
+       path: '/beta'
+@@ -376,6 +395,7 @@ const ChatRouteWithChildren = ChatRoute._addFileChildren(ChatRouteChildren)
+ interface SettingsRouteChildren {
+   SettingsArchivedRoute: typeof SettingsArchivedRoute
+   SettingsBetaRoute: typeof SettingsBetaRoute
++  SettingsBuildRoute: typeof SettingsBuildRoute
+   SettingsConnectionsRoute: typeof SettingsConnectionsRoute
+   SettingsDiagnosticsRoute: typeof SettingsDiagnosticsRoute
+   SettingsEnvironmentRoute: typeof SettingsEnvironmentRoute
+@@ -388,6 +408,7 @@ interface SettingsRouteChildren {
+ const SettingsRouteChildren: SettingsRouteChildren = {
+   SettingsArchivedRoute: SettingsArchivedRoute,
+   SettingsBetaRoute: SettingsBetaRoute,
++  SettingsBuildRoute: SettingsBuildRoute,
+   SettingsConnectionsRoute: SettingsConnectionsRoute,
+   SettingsDiagnosticsRoute: SettingsDiagnosticsRoute,
+   SettingsEnvironmentRoute: SettingsEnvironmentRoute,
+diff --git a/apps/web/src/routes/settings.build.tsx b/apps/web/src/routes/settings.build.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..eec9af32317aa834b3941743783a524e219574c2
+--- /dev/null
++++ b/apps/web/src/routes/settings.build.tsx
+@@ -0,0 +1,11 @@
++import { createFileRoute } from "@tanstack/react-router";
++
++import { StackSettings } from "../components/settings/StackSettings";
++
++function SettingsBuildRoute() {
++  return <StackSettings />;
++}
++
++export const Route = createFileRoute("/settings/build")({
++  component: SettingsBuildRoute,
++});
+diff --git a/apps/web/src/stackProvenance.ts b/apps/web/src/stackProvenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..58fdbe95140d705e4f2d57d9dae0f156d18c1911
+--- /dev/null
++++ b/apps/web/src/stackProvenance.ts
+@@ -0,0 +1,12 @@
++import { parseStackProvenance } from "@t3tools/shared/stackProvenance";
++
++/**
++ * What this build is assembled from, when it was assembled by the stack
++ * rebuild. Null for an ordinary build of a plain checkout, which is most of
++ * them -- there is no stack to describe.
++ *
++ * Embedded as text rather than an object literal so the bundle carries one
++ * string constant. Only the Build route imports this module, so the parse
++ * happens when that route's chunk loads.
++ */
++export const STACK_PROVENANCE = parseStackProvenance(import.meta.env.STACK_BUILD_INFO ?? "");
+diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
+index ac1da93f5c85e81866c2c9c7694c08f2eb61eb5c..8fffed324b14f46ac1802120b2ff7befd93a3c48 100644
+--- a/apps/web/src/vite-env.d.ts
++++ b/apps/web/src/vite-env.d.ts
+@@ -14,6 +14,11 @@ interface ImportMetaEnv {
+   readonly VITE_RELAY_OTLP_TRACES_DATASET: string;
+   readonly VITE_RELAY_OTLP_TRACES_TOKEN: string;
+   readonly APP_VERSION: string;
++  readonly BUILD_COMMIT: string;
++  readonly BUILD_REPO_REMOTE: string;
++  readonly BUILD_DATE: string;
++  readonly BUILD_DIRTY: boolean;
++  readonly STACK_BUILD_INFO: string;
+ }
+ 
+ interface ImportMeta {
+diff --git a/apps/web/tsconfig.json b/apps/web/tsconfig.json
+index 0e226fc136d4b81e63415141b7d190ae835f85bd..c62a3c2f8965bc1f0d62266fa37352135013adc8 100644
+--- a/apps/web/tsconfig.json
++++ b/apps/web/tsconfig.json
+@@ -25,5 +25,12 @@
+       }
+     ]
+   },
+-  "include": ["src", "vite.config.ts", "vercel.ts", "test", "../../scripts/lib/public-config.ts"]
++  "include": [
++    "src",
++    "vite.config.ts",
++    "vercel.ts",
++    "test",
++    "../../scripts/lib/public-config.ts",
++    "../../scripts/lib/build-provenance.ts"
++  ]
+ }
+diff --git a/apps/web/vite.config.ts b/apps/web/vite.config.ts
+index e1d590ecdf239d7a08a0af1c6c4aa24f9094411d..db15d39d45206e519ace2f1e324bc70d25bc77c5 100644
+--- a/apps/web/vite.config.ts
++++ b/apps/web/vite.config.ts
+@@ -1,3 +1,5 @@
++// @effect-diagnostics nodeBuiltinImport:off - Build configuration; it runs in
++// plain Node before any Effect runtime exists.
+ import tailwindcss from "@tailwindcss/vite";
+ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+ import babel from "@rolldown/plugin-babel";
+@@ -5,10 +7,12 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
+ import { defineProject, type TestProjectInlineConfiguration } from "vite-plus/test/config";
+ import "vite-plus/test/config";
+ import { defineConfig } from "vite-plus";
++import * as NodeURL from "node:url";
+ import pkg from "./package.json" with { type: "json" };
+ 
+ import { DEV_PROXIED_PATH_PREFIXES } from "@t3tools/shared/devProxy";
+ 
++import { readBuildProvenance } from "../../scripts/lib/build-provenance";
+ import { loadRepoEnv } from "../../scripts/lib/public-config";
+ 
+ const repoEnv = loadRepoEnv();
+@@ -37,6 +41,16 @@ const configuredRelayTracingDataset = repoEnv.VITE_RELAY_OTLP_TRACES_DATASET?.tr
+ const configuredRelayTracingToken = repoEnv.VITE_RELAY_OTLP_TRACES_TOKEN?.trim() || "";
+ const configuredHostedAppChannel = process.env.VITE_HOSTED_APP_CHANNEL?.trim() || "";
+ const configuredAppVersion = process.env.APP_VERSION?.trim() || pkg.version;
++
++const repoRoot = NodeURL.fileURLToPath(new URL("../../", import.meta.url));
++
++const buildProvenance = readBuildProvenance(repoRoot);
++const configuredStackBuildInfo = buildProvenance.stackBuildInfo;
++const configuredBuildCommit = buildProvenance.commit;
++const configuredBuildRepoRemote = buildProvenance.repoRemote;
++const configuredBuildDate = buildProvenance.date;
++const configuredBuildDirty = buildProvenance.dirty;
++
+ const configuredHostedAppUrl = (() => {
+   const explicitHostedAppUrl = process.env.VITE_HOSTED_APP_URL?.trim();
+   if (explicitHostedAppUrl) {
+@@ -173,6 +187,11 @@ export default defineConfig(() => {
+       "import.meta.env.VITE_HOSTED_APP_URL": JSON.stringify(configuredHostedAppUrl ?? ""),
+       "import.meta.env.VITE_HOSTED_APP_CHANNEL": JSON.stringify(configuredHostedAppChannel),
+       "import.meta.env.APP_VERSION": JSON.stringify(configuredAppVersion),
++      "import.meta.env.BUILD_COMMIT": JSON.stringify(configuredBuildCommit),
++      "import.meta.env.BUILD_REPO_REMOTE": JSON.stringify(configuredBuildRepoRemote),
++      "import.meta.env.BUILD_DATE": JSON.stringify(configuredBuildDate),
++      "import.meta.env.BUILD_DIRTY": JSON.stringify(configuredBuildDirty),
++      "import.meta.env.STACK_BUILD_INFO": JSON.stringify(configuredStackBuildInfo),
+     },
+     resolve: {
+       tsconfigPaths: true,
+diff --git a/packages/shared/package.json b/packages/shared/package.json
+index 13b3fbdb81e011cbb62cc5fea11dec13327ad0a2..8f5760b06211999274a809c8da4323094b6b16ba 100644
+--- a/packages/shared/package.json
++++ b/packages/shared/package.json
+@@ -210,6 +210,14 @@
+     "./localServerDiscovery": {
+       "types": "./src/localServerDiscovery.ts",
+       "import": "./src/localServerDiscovery.ts"
++    },
++    "./buildProvenance": {
++      "types": "./src/buildProvenance.ts",
++      "import": "./src/buildProvenance.ts"
++    },
++    "./stackProvenance": {
++      "types": "./src/stackProvenance.ts",
++      "import": "./src/stackProvenance.ts"
+     }
+   },
+   "scripts": {
+diff --git a/packages/shared/src/buildProvenance.test.ts b/packages/shared/src/buildProvenance.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..a02c3e90d1f0677f2fcfe0df506c7600ac6b043c
+--- /dev/null
++++ b/packages/shared/src/buildProvenance.test.ts
+@@ -0,0 +1,120 @@
++import { describe, expect, it } from "vite-plus/test";
++
++import {
++  formatCommitDate,
++  formatRepoLabel,
++  gitHubCommitUrl,
++  gitHubRepoUrl,
++  parseGitHubRemote,
++  shortCommit,
++} from "./buildProvenance.ts";
++
++const COMMIT = "d596d17d63421081833b0fe852993a6b1fe617a0";
++
++describe("parseGitHubRemote", () => {
++  it.each([
++    ["https://github.com/colonelpanic8/t3code.git", "colonelpanic8", "t3code"],
++    ["https://github.com/colonelpanic8/t3code", "colonelpanic8", "t3code"],
++    ["http://github.com/pingdotgg/t3code/", "pingdotgg", "t3code"],
++    ["https://x-access-token:abc@github.com/pingdotgg/t3code.git", "pingdotgg", "t3code"],
++    ["git@github.com:colonelpanic8/t3code.git", "colonelpanic8", "t3code"],
++    ["ssh://git@github.com/colonelpanic8/t3code", "colonelpanic8", "t3code"],
++    ["  https://github.com/pingdotgg/t3code.git\n", "pingdotgg", "t3code"],
++  ])("parses %s", (remote, owner, repo) => {
++    expect(parseGitHubRemote(remote)).toEqual({ owner, repo });
++  });
++
++  it.each([
++    ["", "an empty remote"],
++    ["https://gitlab.com/owner/repo.git", "a non-GitHub host"],
++    ["https://github.com/owner", "a remote with no repository segment"],
++    ["not a url", "unparseable text"],
++  ])("rejects %s (%s)", (remote) => {
++    expect(parseGitHubRemote(remote)).toBeNull();
++  });
++
++  it("keeps a repository name that itself ends in .git", () => {
++    expect(parseGitHubRemote("https://github.com/owner/repo.git.git")).toEqual({
++      owner: "owner",
++      repo: "repo.git",
++    });
++  });
++});
++
++describe("gitHubRepoUrl", () => {
++  it("normalizes every remote form to the browsable https URL", () => {
++    expect(gitHubRepoUrl("git@github.com:colonelpanic8/t3code.git")).toBe(
++      "https://github.com/colonelpanic8/t3code",
++    );
++  });
++
++  it("returns null for an unrecognized remote", () => {
++    expect(gitHubRepoUrl("https://example.com/owner/repo")).toBeNull();
++  });
++});
++
++describe("gitHubCommitUrl", () => {
++  it("builds a commit permalink", () => {
++    expect(gitHubCommitUrl("https://github.com/colonelpanic8/t3code.git", COMMIT)).toBe(
++      `https://github.com/colonelpanic8/t3code/commit/${COMMIT}`,
++    );
++  });
++
++  it("accepts an abbreviated commit", () => {
++    expect(gitHubCommitUrl("https://github.com/colonelpanic8/t3code", "d596d17")).toBe(
++      "https://github.com/colonelpanic8/t3code/commit/d596d17",
++    );
++  });
++
++  it.each([
++    ["", "no commit"],
++    ["   ", "blank"],
++    ["not-a-sha", "non-hex"],
++    ["abc", "too short to be unambiguous"],
++  ])("returns null for %s (%s)", (commit) => {
++    expect(gitHubCommitUrl("https://github.com/colonelpanic8/t3code", commit)).toBeNull();
++  });
++
++  it("returns null when the remote is unrecognized", () => {
++    expect(gitHubCommitUrl("", COMMIT)).toBeNull();
++  });
++});
++
++describe("shortCommit", () => {
++  it("abbreviates to twelve characters", () => {
++    expect(shortCommit(COMMIT)).toBe("d596d17d6342");
++  });
++
++  it("leaves an already-short commit alone", () => {
++    expect(shortCommit(" d596d17 ")).toBe("d596d17");
++  });
++
++  it("returns an empty string when there is no commit", () => {
++    expect(shortCommit("")).toBe("");
++  });
++});
++
++describe("formatCommitDate", () => {
++  it("renders a real commit date", () => {
++    // Locale-dependent formatting, so assert the parts that do not vary.
++    expect(formatCommitDate("2026-07-25T22:46:58-07:00")).toContain("2026");
++  });
++
++  it.each([
++    ["", "no date"],
++    ["   ", "blank"],
++    ["not a date", "unparseable"],
++  ])("returns null for %s (%s)", (isoDate) => {
++    expect(formatCommitDate(isoDate)).toBeNull();
++  });
++});
++
++describe("formatRepoLabel", () => {
++  it("renders owner/repo", () => {
++    expect(formatRepoLabel("git@github.com:colonelpanic8/t3code.git")).toBe("colonelpanic8/t3code");
++  });
++
++  it("returns null for an unrecognized remote", () => {
++    expect(formatRepoLabel("")).toBeNull();
++  });
++});
+diff --git a/packages/shared/src/buildProvenance.ts b/packages/shared/src/buildProvenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..97c8495c4ee3b86ffc5404e42e26591444aa0e62
+--- /dev/null
++++ b/packages/shared/src/buildProvenance.ts
+@@ -0,0 +1,78 @@
++// @effect-diagnostics globalDate:off - parses a fixed ISO string from the
++// build record for display; it never reads the clock, so it is deterministic.
++/**
++ * Pure helpers for describing where a build came from.
++ *
++ * Kept separate from `buildProvenance.ts` so they stay testable: that module
++ * reads values that only exist after vite's build-time `define` substitution.
++ */
++
++/**
++ * Matches the remote forms git hands back for a GitHub repository:
++ * `https://github.com/owner/repo(.git)`, the `x-access-token@` variant CI
++ * checkouts leave behind, and `git@github.com:owner/repo(.git)`.
++ */
++const GITHUB_REMOTE_PATTERN =
++  /^(?:https?:\/\/(?:[^@/]+@)?github\.com\/|(?:ssh:\/\/)?git@github\.com[:/])([^/]+)\/(.+?)(?:\.git)?\/?$/;
++
++const COMMIT_PATTERN = /^[0-9a-f]{7,40}$/i;
++
++const SHORT_COMMIT_LENGTH = 12;
++
++export interface GitHubRepo {
++  readonly owner: string;
++  readonly repo: string;
++}
++
++export function parseGitHubRemote(remote: string): GitHubRepo | null {
++  const match = GITHUB_REMOTE_PATTERN.exec(remote.trim());
++  if (!match) return null;
++
++  const [, owner, repo] = match;
++  if (!owner || !repo) return null;
++
++  return { owner, repo };
++}
++
++export function gitHubRepoUrl(remote: string): string | null {
++  const parsed = parseGitHubRemote(remote);
++  return parsed && `https://github.com/${parsed.owner}/${parsed.repo}`;
++}
++
++export function gitHubCommitUrl(remote: string, commit: string): string | null {
++  const repoUrl = gitHubRepoUrl(remote);
++  if (!repoUrl || !COMMIT_PATTERN.test(commit.trim())) return null;
++
++  return `${repoUrl}/commit/${commit.trim()}`;
++}
++
++/**
++ * Twelve characters, which is unambiguous well past this repository's size
++ * while still fitting the settings version line.
++ */
++export function shortCommit(commit: string): string {
++  return commit.trim().slice(0, SHORT_COMMIT_LENGTH);
++}
++
++const COMMIT_DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
++  dateStyle: "medium",
++  timeStyle: "short",
++});
++
++/**
++ * A commit date is a fixed point in the past, so it is rendered absolutely
++ * rather than as "3 days ago" -- the question it answers is "which build is
++ * this", and a relative answer changes every time you look at it.
++ */
++export function formatCommitDate(isoDate: string): string | null {
++  const trimmed = isoDate.trim();
++  if (!trimmed) return null;
++
++  const parsed = new Date(trimmed);
++  return Number.isNaN(parsed.getTime()) ? null : COMMIT_DATE_FORMAT.format(parsed);
++}
++
++export function formatRepoLabel(remote: string): string | null {
++  const parsed = parseGitHubRemote(remote);
++  return parsed && `${parsed.owner}/${parsed.repo}`;
++}
+diff --git a/packages/shared/src/stackProvenance.test.ts b/packages/shared/src/stackProvenance.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..3a409b3378d2e396138a9379012e20d0e02abcbc
+--- /dev/null
++++ b/packages/shared/src/stackProvenance.test.ts
+@@ -0,0 +1,235 @@
++import { describe, expect, it } from "vite-plus/test";
++
++import {
++  countStack,
++  entryBranchUrl,
++  entryCommitUrl,
++  entryPullRequestUrl,
++  parseStackProvenance,
++  upstreamCommitUrl,
++  type StackEntry,
++} from "./stackProvenance.ts";
++
++const UPSTREAM_REMOTE = "https://github.com/pingdotgg/t3code";
++const FORK_REMOTE = "https://github.com/colonelpanic8/t3code";
++
++const DOCUMENT = {
++  schemaVersion: 1,
++  manifest: "stack.toml",
++  upstream: {
++    remote: UPSTREAM_REMOTE,
++    ref: "main",
++    commit: "5719e8ac4020dda0e375ef61d044b61f55a0df8a",
++    subject: "feat(web): show fast mode as a bolt",
++    date: "2026-07-24T19:28:37-07:00",
++  },
++  fork: { remote: FORK_REMOTE, branch: "t3code/stack" },
++  entries: [
++    {
++      label: "#3984",
++      kind: "external",
++      status: "merged",
++      commit: "690d45fdd7a903911b5ea47c5dbce6469def10c6",
++      pr: 3984,
++      ref: "refs/pull/3984/head",
++      summary: "Render generated images inline in chat",
++    },
++    {
++      label: "t3code/group/thread-picker",
++      kind: "fork",
++      status: "merged",
++      commit: "b15922fad031c605b31c6501097d649bc23cd83c",
++      branch: "t3code/group/thread-picker",
++      summary: "Thread-picker group",
++      note: "  GROUP entry.  ",
++      entries: [
++        {
++          label: "#4263",
++          kind: "fork",
++          status: "merged",
++          commit: "ef15fa2ea50b4b6f1c6c0929e0a214301211dac6",
++          pr: 4263,
++          branch: "t3code/replace-ctrl-n-thread-modal",
++          summary: "Unify the new thread project picker",
++        },
++        {
++          label: "#4257",
++          kind: "fork",
++          status: "absorbed",
++          commit: "ee5da25a75f9d414a1e3c38d00d2129d01481ad2",
++          pr: 4257,
++          branch: "t3code/directory-path-tab-completion",
++          summary: "Directory path tab completion",
++        },
++      ],
++    },
++    {
++      label: "fixture.patch",
++      kind: "epilogue",
++      status: "epilogue",
++      commit: "",
++      summary: "Add a missing test fixture field",
++    },
++  ],
++};
++
++function parse(document: unknown) {
++  return parseStackProvenance(JSON.stringify(document));
++}
++
++describe("parseStackProvenance", () => {
++  it("reads a complete document", () => {
++    const provenance = parse(DOCUMENT);
++
++    expect(provenance?.schemaVersion).toBe(1);
++    expect(provenance?.upstream.commit).toBe(DOCUMENT.upstream.commit);
++    expect(provenance?.fork.branch).toBe("t3code/stack");
++    expect(provenance?.entries).toHaveLength(3);
++  });
++
++  it("trims notes and preserves their internal newlines", () => {
++    const withNewlines = {
++      ...DOCUMENT,
++      entries: [{ label: "#1", note: "\n first\n\n second \n" }],
++    };
++
++    expect(parse(withNewlines)?.entries[0]?.note).toBe("first\n\n second");
++  });
++
++  it("inlines group members", () => {
++    const group = parse(DOCUMENT)?.entries[1];
++
++    expect(group?.entries.map((entry) => entry.pr)).toEqual([4263, 4257]);
++  });
++
++  it("stops nesting after one level, matching the manifests", () => {
++    const nested = {
++      ...DOCUMENT,
++      entries: [
++        {
++          label: "outer",
++          entries: [{ label: "inner", entries: [{ label: "deeper" }] }],
++        },
++      ],
++    };
++
++    expect(parse(nested)?.entries[0]?.entries[0]?.entries).toEqual([]);
++  });
++
++  it("drops entries with no label rather than failing the document", () => {
++    const damaged = { ...DOCUMENT, entries: [{ kind: "fork" }, { label: "#1" }] };
++
++    expect(parse(damaged)?.entries.map((entry) => entry.label)).toEqual(["#1"]);
++  });
++
++  it("falls back to sane defaults for an unrecognized kind or status", () => {
++    const damaged = { ...DOCUMENT, entries: [{ label: "#1", kind: "wat", status: "wat" }] };
++    const entry = parse(damaged)?.entries[0];
++
++    expect(entry?.kind).toBe("fork");
++    expect(entry?.status).toBe("merged");
++  });
++
++  it("ignores a non-integer pull request number", () => {
++    const damaged = { ...DOCUMENT, entries: [{ label: "#1", pr: "4259" }] };
++
++    expect(parse(damaged)?.entries[0]?.pr).toBeNull();
++  });
++
++  it.each([
++    ["", "an unset build-time constant"],
++    ["   ", "blank"],
++    ["not json", "unparseable"],
++    ["[1, 2]", "a non-object document"],
++    ['{"entries": []}', "a document with no upstream base"],
++    ['{"upstream": {}}', "an upstream base with no commit"],
++  ])("returns null for %s (%s)", (raw) => {
++    expect(parseStackProvenance(raw)).toBeNull();
++  });
++
++  it("survives a document whose entries are not an array", () => {
++    expect(parse({ ...DOCUMENT, entries: "nope" })?.entries).toEqual([]);
++  });
++});
++
++describe("entry links", () => {
++  const provenance = parse(DOCUMENT);
++  const external = provenance!.entries[0]!;
++  const group = provenance!.entries[1]!;
++  const epilogue = provenance!.entries[2]!;
++
++  it("points pull requests at upstream even for a fork branch", () => {
++    const member = group.entries[0]!;
++
++    expect(entryPullRequestUrl(member, UPSTREAM_REMOTE)).toBe(
++      "https://github.com/pingdotgg/t3code/pull/4263",
++    );
++  });
++
++  it("points branches at the fork", () => {
++    expect(entryBranchUrl(group, FORK_REMOTE)).toBe(
++      "https://github.com/colonelpanic8/t3code/tree/t3code/group/thread-picker",
++    );
++  });
++
++  it("resolves an external entry's commit against upstream", () => {
++    expect(entryCommitUrl(external, UPSTREAM_REMOTE, FORK_REMOTE)).toBe(
++      `https://github.com/pingdotgg/t3code/commit/${external.commit}`,
++    );
++  });
++
++  it("resolves every other entry's commit against the fork", () => {
++    expect(entryCommitUrl(group, UPSTREAM_REMOTE, FORK_REMOTE)).toBe(
++      `https://github.com/colonelpanic8/t3code/commit/${group.commit}`,
++    );
++  });
++
++  it("has no commit link for an epilogue, which has no commit of its own", () => {
++    expect(entryCommitUrl(epilogue, UPSTREAM_REMOTE, FORK_REMOTE)).toBeNull();
++  });
++
++  it("has no pull request link for an entry without one", () => {
++    expect(entryPullRequestUrl(group, UPSTREAM_REMOTE)).toBeNull();
++  });
++
++  it("links the upstream base commit", () => {
++    expect(upstreamCommitUrl(provenance!.upstream)).toBe(
++      `https://github.com/pingdotgg/t3code/commit/${DOCUMENT.upstream.commit}`,
++    );
++  });
++});
++
++describe("countStack", () => {
++  it("counts group members individually but the group once", () => {
++    const counts = countStack(parse(DOCUMENT)!.entries);
++
++    // Two top-level entries plus the group's two members, with the group row
++    // itself not double-counted.
++    expect(counts).toEqual({
++      rows: 3,
++      changes: 4,
++      pullRequests: 3,
++      epilogues: 1,
++      inert: 1,
++    });
++  });
++
++  it("counts an empty stack as empty", () => {
++    expect(countStack([])).toEqual({
++      rows: 0,
++      changes: 0,
++      pullRequests: 0,
++      epilogues: 0,
++      inert: 0,
++    });
++  });
++
++  it("does not count the same pull request twice", () => {
++    const duplicated = [
++      { label: "#1", pr: 1, entries: [] },
++      { label: "#1", pr: 1, entries: [] },
++    ] as unknown as StackEntry[];
++
++    expect(countStack(duplicated).pullRequests).toBe(1);
++  });
++});
+diff --git a/packages/shared/src/stackProvenance.ts b/packages/shared/src/stackProvenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..23397556ca6ea155e33f6059b516a9d679e43187
+--- /dev/null
++++ b/packages/shared/src/stackProvenance.ts
+@@ -0,0 +1,196 @@
++import { gitHubCommitUrl, gitHubRepoUrl } from "./buildProvenance.ts";
++
++/**
++ * Reads `stack-build-info.json`, which the stack rebuild writes as the final
++ * commit on the integration branch this app is built from.
++ *
++ * Nothing validates the file between the generator and here, and it is a
++ * diagnostic rather than a load-bearing input, so every parse failure degrades:
++ * a malformed entry is dropped, a malformed document yields null, and the page
++ * says it has no record instead of throwing away the rest of settings.
++ */
++
++export type StackEntryKind = "fork" | "local" | "external" | "epilogue";
++export type StackEntryStatus = "merged" | "absorbed" | "empty" | "epilogue";
++
++const KINDS = new Set<string>(["fork", "local", "external", "epilogue"] satisfies StackEntryKind[]);
++const STATUSES = new Set<string>([
++  "merged",
++  "absorbed",
++  "empty",
++  "epilogue",
++] satisfies StackEntryStatus[]);
++
++/** Groups are pinned as a single entry holding a sub-manifest. They do not nest further. */
++const MAX_ENTRY_DEPTH = 1;
++
++export interface StackEntry {
++  readonly label: string;
++  readonly kind: StackEntryKind;
++  readonly status: StackEntryStatus;
++  readonly commit: string;
++  readonly pr: number | null;
++  readonly branch: string | null;
++  readonly ref: string | null;
++  readonly summary: string | null;
++  readonly note: string | null;
++  readonly entries: readonly StackEntry[];
++}
++
++export interface StackUpstream {
++  readonly remote: string;
++  readonly ref: string;
++  readonly commit: string;
++  readonly subject: string;
++  readonly date: string;
++}
++
++export interface StackFork {
++  readonly remote: string;
++  readonly branch: string;
++}
++
++export interface StackProvenance {
++  readonly schemaVersion: number;
++  readonly manifest: string;
++  readonly upstream: StackUpstream;
++  readonly fork: StackFork;
++  readonly entries: readonly StackEntry[];
++}
++
++function readString(value: unknown): string | null {
++  if (typeof value !== "string") return null;
++  const trimmed = value.trim();
++  return trimmed === "" ? null : trimmed;
++}
++
++function readRecord(value: unknown): Record<string, unknown> | null {
++  return typeof value === "object" && value !== null && !Array.isArray(value)
++    ? (value as Record<string, unknown>)
++    : null;
++}
++
++function parseEntry(value: unknown, depth: number): StackEntry | null {
++  const record = readRecord(value);
++  const label = record && readString(record.label);
++  if (!record || !label) return null;
++
++  const kind = readString(record.kind);
++  const status = readString(record.status);
++
++  return {
++    label,
++    kind: kind !== null && KINDS.has(kind) ? (kind as StackEntryKind) : "fork",
++    status: status !== null && STATUSES.has(status) ? (status as StackEntryStatus) : "merged",
++    commit: readString(record.commit) ?? "",
++    pr: typeof record.pr === "number" && Number.isInteger(record.pr) ? record.pr : null,
++    branch: readString(record.branch),
++    ref: readString(record.ref),
++    summary: readString(record.summary),
++    note: readString(record.note),
++    entries: depth > 0 ? parseEntries(record.entries, depth - 1) : [],
++  };
++}
++
++function parseEntries(value: unknown, depth: number): readonly StackEntry[] {
++  if (!Array.isArray(value)) return [];
++  return value
++    .map((entry) => parseEntry(entry, depth))
++    .filter((entry): entry is StackEntry => entry !== null);
++}
++
++function parseUpstream(value: unknown): StackUpstream | null {
++  const record = readRecord(value);
++  const commit = record && readString(record.commit);
++  if (!record || !commit) return null;
++
++  return {
++    remote: readString(record.remote) ?? "",
++    ref: readString(record.ref) ?? "",
++    commit,
++    subject: readString(record.subject) ?? "",
++    date: readString(record.date) ?? "",
++  };
++}
++
++export function parseStackProvenance(raw: string): StackProvenance | null {
++  if (raw.trim() === "") return null;
++
++  let parsed: unknown;
++  try {
++    parsed = JSON.parse(raw);
++  } catch {
++    return null;
++  }
++
++  const record = readRecord(parsed);
++  const upstream = record && parseUpstream(record.upstream);
++  if (!record || !upstream) return null;
++
++  const fork = readRecord(record.fork);
++
++  return {
++    schemaVersion: typeof record.schemaVersion === "number" ? record.schemaVersion : 0,
++    manifest: readString(record.manifest) ?? "",
++    upstream,
++    fork: {
++      remote: (fork && readString(fork.remote)) ?? "",
++      branch: (fork && readString(fork.branch)) ?? "",
++    },
++    entries: parseEntries(record.entries, MAX_ENTRY_DEPTH),
++  };
++}
++
++/**
++ * Pull requests are always numbered against upstream, even for a topic whose
++ * branch lives on the fork -- the PR is the proposal to upstream.
++ */
++export function entryPullRequestUrl(entry: StackEntry, upstreamRemote: string): string | null {
++  const repoUrl = gitHubRepoUrl(upstreamRemote);
++  return repoUrl && entry.pr !== null ? `${repoUrl}/pull/${entry.pr}` : null;
++}
++
++export function entryBranchUrl(entry: StackEntry, forkRemote: string): string | null {
++  const repoUrl = gitHubRepoUrl(forkRemote);
++  return repoUrl && entry.branch ? `${repoUrl}/tree/${entry.branch}` : null;
++}
++
++/**
++ * An external entry is merged from a PR head on upstream, which is the only
++ * place that commit is reachable. Everything else is published on the fork.
++ */
++export function entryCommitUrl(
++  entry: StackEntry,
++  upstreamRemote: string,
++  forkRemote: string,
++): string | null {
++  return gitHubCommitUrl(entry.kind === "external" ? upstreamRemote : forkRemote, entry.commit);
++}
++
++export function upstreamCommitUrl(upstream: StackUpstream): string | null {
++  return gitHubCommitUrl(upstream.remote, upstream.commit);
++}
++
++export interface StackCounts {
++  /** Entries the page shows as rows, groups counted once. */
++  readonly rows: number;
++  /** Every change carried, groups counted as their members. */
++  readonly changes: number;
++  readonly pullRequests: number;
++  readonly epilogues: number;
++  /** Entries upstream already absorbed, or whose merge changed nothing. */
++  readonly inert: number;
++}
++
++export function countStack(entries: readonly StackEntry[]): StackCounts {
++  const flat = entries.flatMap((entry) => (entry.entries.length > 0 ? entry.entries : [entry]));
++  const pullRequests = new Set(flat.filter((entry) => entry.pr !== null).map((entry) => entry.pr));
++
++  return {
++    rows: entries.length,
++    changes: flat.length,
++    pullRequests: pullRequests.size,
++    epilogues: flat.filter((entry) => entry.kind === "epilogue").length,
++    inert: flat.filter((entry) => entry.status === "absorbed" || entry.status === "empty").length,
++  };
++}
+diff --git a/scripts/lib/build-provenance.ts b/scripts/lib/build-provenance.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..4c577dbbac87b4e03d3af8dab4fa7e02cc258679
+--- /dev/null
++++ b/scripts/lib/build-provenance.ts
+@@ -0,0 +1,123 @@
++// @effect-diagnostics nodeBuiltinImport:off - Build configuration; it runs in
++// plain Node before any Effect runtime exists.
++import * as NodeChildProcess from "node:child_process";
++import * as NodeFS from "node:fs";
++import * as NodePath from "node:path";
++import * as NodeURL from "node:url";
++
++/**
++ * Reads, at build time, which commit a bundle came from and what stack it was
++ * assembled from. Shared so the web bundle and the mobile bundle describe
++ * themselves identically -- two readers drifted apart is exactly the failure
++ * the Build page exists to make visible.
++ *
++ * Every field is optional. A build with no provenance is normal (an ordinary
++ * checkout, a source tarball), so consumers must render its absence rather than
++ * invent a placeholder.
++ */
++
++/**
++ * Resolved from this file rather than the caller's cwd: `app.config.ts` is
++ * transpiled by Expo into a module scope where `import.meta` is unavailable, so
++ * callers cannot compute it themselves.
++ */
++export const REPO_ROOT = NodePath.dirname(
++  NodePath.dirname(NodePath.dirname(NodeURL.fileURLToPath(import.meta.url))),
++);
++
++export interface BuildProvenance {
++  readonly commit: string;
++  readonly repoRemote: string;
++  /** ISO 8601 committer date of `commit`, not the moment of the build. */
++  readonly date: string;
++  /** Tracked files differed from `commit` when the bundle was built. */
++  readonly dirty: boolean;
++  /** `stack-build-info.json` re-serialized, or "" when this is not an assembled build. */
++  readonly stackBuildInfo: string;
++}
++
++/**
++ * Runs git in the repository. A null status covers every way git can be
++ * unavailable rather than merely unsuccessful -- not on PATH, no `.git`
++ * directory, timed out -- which callers must distinguish from a real non-zero
++ * exit. Builds that happen away from a checkout (a Nix sandbox, an unpacked
++ * source tarball) are expected, and pass provenance through T3CODE_BUILD_*.
++ */
++function runGit(
++  repoRoot: string,
++  ...args: readonly string[]
++): { status: number | null; stdout: string } {
++  try {
++    const result = NodeChildProcess.spawnSync("git", args, {
++      cwd: repoRoot,
++      encoding: "utf8",
++      timeout: 5_000,
++      stdio: ["ignore", "pipe", "ignore"],
++    });
++    if (result.error) return { status: null, stdout: "" };
++    return { status: result.status, stdout: result.stdout?.trim() ?? "" };
++  } catch {
++    return { status: null, stdout: "" };
++  }
++}
++
++function readGit(repoRoot: string, ...args: readonly string[]): string {
++  const result = runGit(repoRoot, ...args);
++  return result.status === 0 ? result.stdout : "";
++}
++
++/**
++ * The stack rebuild writes `stack-build-info.json` as the integration branch's
++ * final commit; a plain checkout has no such file and the Build page says so.
++ * Re-serialized to drop formatting, which also fails the build loudly on
++ * malformed JSON rather than shipping a bundle whose provenance silently
++ * refuses to parse.
++ */
++export function readStackBuildInfo(repoRoot: string): string {
++  let raw: string;
++  try {
++    raw = NodeFS.readFileSync(NodePath.join(repoRoot, "stack-build-info.json"), "utf8");
++  } catch {
++    return "";
++  }
++  return JSON.stringify(JSON.parse(raw));
++}
++
++/**
++ * The fork an assembled build was published from. A sandboxed builder has no
++ * git remote to read, and no reason to be told this twice -- the stack record
++ * it is building from already names the fork.
++ */
++function stackForkRemote(stackBuildInfo: string): string {
++  if (stackBuildInfo === "") return "";
++  try {
++    const { fork } = JSON.parse(stackBuildInfo) as { fork?: { remote?: unknown } };
++    return typeof fork?.remote === "string" ? fork.remote.trim() : "";
++  } catch {
++    return "";
++  }
++}
++
++export function readBuildProvenance(repoRoot: string = REPO_ROOT): BuildProvenance {
++  const stackBuildInfo = readStackBuildInfo(repoRoot);
++
++  // Read from git so a plain build is self-describing, overridable so a
++  // sandboxed builder can supply what it already knows.
++  const commit = process.env.T3CODE_BUILD_COMMIT?.trim() || readGit(repoRoot, "rev-parse", "HEAD");
++  const repoRemote =
++    process.env.T3CODE_BUILD_REPO_REMOTE?.trim() ||
++    readGit(repoRoot, "remote", "get-url", "origin") ||
++    stackForkRemote(stackBuildInfo);
++  const date =
++    process.env.T3CODE_BUILD_DATE?.trim() || readGit(repoRoot, "log", "-1", "--format=%cI");
++  const dirty = (() => {
++    const override = process.env.T3CODE_BUILD_DIRTY?.trim().toLowerCase();
++    if (override) return override === "1" || override === "true";
++    // `git diff --quiet` exits 1 for tracked-file changes. Untracked files are
++    // deliberately ignored: they are mostly build output and scratch, and
++    // finding them costs a stat of the whole worktree.
++    return runGit(repoRoot, "diff", "--quiet", "HEAD").status === 1;
++  })();
++
++  return { commit, repoRemote, date, dirty, stackBuildInfo };
++}

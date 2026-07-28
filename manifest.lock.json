@@ -1,0 +1,637 @@
+{
+  "version": 1,
+  "pins": {
+    "base": "476d69cd1d5d89b4aad77df8fc01c71e34af930c",
+    "entries": {
+      "feat/favicon-reload-on-click": "37604c99b46f990e333033ec143f391719d05093",
+      "feat/mobile-environment-first-new-thread": "49d2d83992221e083528cdf9d54eb950a0d819b7",
+      "feat/project-icons": "6f052c818ab1e59ca5e1af48bbbd69db27af425a",
+      "feat/settle-thread-keybinding": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c",
+      "feat/sidebar-v2-large-icons": "923db8ca6a3ace6365cd9539a714e93837cc88cb",
+      "fix/android-adaptive-icon": "97ac5cef13c647637766834c1bf3b78f7e13ec5f",
+      "fix/android-composer-keyboard-positioning": "f5846bf0146be27ff54d451a1f085f9d5963aaa9",
+      "fix/coalesce-assistant-streaming": "8638e03b83b6936f0cfa7a6fa324dffe66565f17",
+      "fix/discover-claude-models": "50cdd15219ab2d41823846a1f5a728449d5c7a05",
+      "fix/draft-thread-promotion-recovery": "e42331268c5fae90090d0a9f14a97a0eddf11bf0",
+      "fix/model-picker-shortcuts": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a",
+      "fix/recover-bootstrap-thread-id": "2385d73e0bfae205b090ef44cfdbde35f5ed655e",
+      "fix/sidebar-resize-after-window-growth": "81bd69e9f8abeb9037136635c4e02464ac60c63a",
+      "fix/stuck-turn-recovery": "c14c025db47501c7c2f56294091b92e993dda048",
+      "fix/thread-detail-load-hardening": "e17b96ec7ef389cdcc351113e83514612b49dc72",
+      "pr-3984": "690d45fdd7a903911b5ea47c5dbce6469def10c6",
+      "pr-4181": "d95abc106cdd4283bfc8ccc64525e795312b8c76",
+      "t3code-assembled-runtime-imports": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed",
+      "t3code-chat-composer-stash-merge": "32fccc63f34559ddf4dc1f218897ebe067510180",
+      "t3code-projection-threads-snoozed-migration-compat": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d",
+      "t3code-refreshed-client-overlap": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d",
+      "t3code-sidebar-v2-large-icons-fixture": "98abc5da3772e0754612fd80e82c6afeba651070",
+      "t3code/add-custom-snooze-time": "9b728aed7d53f1c21fd1422977e4c160803baf72",
+      "t3code/add-mobile-build-action": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4",
+      "t3code/add-thread-forking": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51",
+      "t3code/clear-unanswerable-provider-requests": "495be4153ec9f9402140224e4ca2f9289a9d974a",
+      "t3code/composer-keyboard-shortcuts": "441c87d80253d5ce887d0886ba44d5d874007286",
+      "t3code/configurable-workspace-placement": "b8aa507bc229db74761453f71d01920fd4d9f6f0",
+      "t3code/filter-hidden-codex-models": "c75d35701081c09d2308fb0da96f2a13eca9faf8",
+      "t3code/find-in-thread": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75",
+      "t3code/fix-broken-image-previews": "929653023ea083b947da7d2817bbad7b7df3f3fd",
+      "t3code/fix-dropdown-keyboard-navigation": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059",
+      "t3code/fix-provider-settings-toggle": "05e12e767e1206b4d115cc8ccf65306641fa251b",
+      "t3code/group/thread-picker": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
+      "t3code/inline-image-support": "2944f46c085204fb42d7f049d45b6636103298a2",
+      "t3code/investigate-large-thread-rendering": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127",
+      "t3code/local/artifact-safety": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976",
+      "t3code/local/build-provenance": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f",
+      "t3code/local/nix-flake": "f58759e6f6be5e8e351831fe967d549c1e866110",
+      "t3code/mobile-thread-replay-render-fixes": "8399d436a6bd53c3284bdb03ecca919a435e689c",
+      "t3code/searchable-new-thread-projects": "b3408bb2266fe1021d5e97fb984a402728c024fa",
+      "t3code/settle-state-reconcile": "5fc3aefd627cc5417544dc99c0ead5399ac6115a",
+      "t3code/subscription-transport-recovery": "b5836f14b7815f0277d04ebfa8142162647d9195",
+      "t3code/unify-environment-selection": "74fd875c4d13773cedd1b9c1b6dea56863733f0a",
+      "t3code/user-input-qna-timeline": "cf61aeb38823ab88ad4160ef5aefb232fee34d12",
+      "t3code/xdg-storage-layout": "8d7270e82ccb610903290cafbfd0ccd177af5a0b"
+    }
+  },
+  "build": {
+    "generated": "2026-07-28T09:22:08.724552314+00:00",
+    "base": "476d69cd1d5d89b4aad77df8fc01c71e34af930c",
+    "commit": "6a8d3dffb0364b921aca1bd74513e8e7fd70c548",
+    "pre_provenance_commit": "8b68999791d58df1e4a4562ab86da0c83e61930d",
+    "tree": "b0309bd7e24ee83a566b50b6f00cc971d66256e4",
+    "built_tree": "7fc2b676d1c94d1579df71d4fd0158785e4253e5",
+    "previous_tree": null,
+    "tree_changed": true,
+    "conflicts": 16,
+    "manifest_entries": [
+      {
+        "name": "pr-3984",
+        "kind": "pr",
+        "source": "upstream#3984",
+        "pin": "690d45fdd7a903911b5ea47c5dbce6469def10c6"
+      },
+      {
+        "name": "t3code/local/artifact-safety",
+        "kind": "branch",
+        "source": "fork:t3code/local/artifact-safety",
+        "pin": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976"
+      },
+      {
+        "name": "t3code/searchable-new-thread-projects",
+        "kind": "branch",
+        "source": "fork:t3code/searchable-new-thread-projects",
+        "pin": "b3408bb2266fe1021d5e97fb984a402728c024fa"
+      },
+      {
+        "name": "t3code/group/thread-picker",
+        "kind": "branch",
+        "source": "fork:t3code/group/thread-picker",
+        "pin": "b13f2894eab7eb7ede25b68aa7ea422de3add584"
+      },
+      {
+        "name": "t3code/composer-keyboard-shortcuts",
+        "kind": "branch",
+        "source": "fork:t3code/composer-keyboard-shortcuts",
+        "pin": "441c87d80253d5ce887d0886ba44d5d874007286"
+      },
+      {
+        "name": "t3code/fix-dropdown-keyboard-navigation",
+        "kind": "branch",
+        "source": "fork:t3code/fix-dropdown-keyboard-navigation",
+        "pin": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059"
+      },
+      {
+        "name": "feat/settle-thread-keybinding",
+        "kind": "branch",
+        "source": "fork:feat/settle-thread-keybinding",
+        "pin": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c"
+      },
+      {
+        "name": "fix/draft-thread-promotion-recovery",
+        "kind": "branch",
+        "source": "fork:fix/draft-thread-promotion-recovery",
+        "pin": "e42331268c5fae90090d0a9f14a97a0eddf11bf0"
+      },
+      {
+        "name": "fix/coalesce-assistant-streaming",
+        "kind": "branch",
+        "source": "fork:fix/coalesce-assistant-streaming",
+        "pin": "8638e03b83b6936f0cfa7a6fa324dffe66565f17"
+      },
+      {
+        "name": "feat/sidebar-v2-large-icons",
+        "kind": "branch",
+        "source": "fork:feat/sidebar-v2-large-icons",
+        "pin": "923db8ca6a3ace6365cd9539a714e93837cc88cb"
+      },
+      {
+        "name": "pr-4181",
+        "kind": "pr",
+        "source": "upstream#4181",
+        "pin": "d95abc106cdd4283bfc8ccc64525e795312b8c76"
+      },
+      {
+        "name": "fix/android-adaptive-icon",
+        "kind": "branch",
+        "source": "fork:fix/android-adaptive-icon",
+        "pin": "97ac5cef13c647637766834c1bf3b78f7e13ec5f"
+      },
+      {
+        "name": "feat/favicon-reload-on-click",
+        "kind": "branch",
+        "source": "fork:feat/favicon-reload-on-click",
+        "pin": "37604c99b46f990e333033ec143f391719d05093"
+      },
+      {
+        "name": "fix/stuck-turn-recovery",
+        "kind": "branch",
+        "source": "fork:fix/stuck-turn-recovery",
+        "pin": "c14c025db47501c7c2f56294091b92e993dda048"
+      },
+      {
+        "name": "fix/android-composer-keyboard-positioning",
+        "kind": "branch",
+        "source": "fork:fix/android-composer-keyboard-positioning",
+        "pin": "f5846bf0146be27ff54d451a1f085f9d5963aaa9"
+      },
+      {
+        "name": "t3code/add-thread-forking",
+        "kind": "branch",
+        "source": "fork:t3code/add-thread-forking",
+        "pin": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51"
+      },
+      {
+        "name": "feat/project-icons",
+        "kind": "branch",
+        "source": "fork:feat/project-icons",
+        "pin": "6f052c818ab1e59ca5e1af48bbbd69db27af425a"
+      },
+      {
+        "name": "fix/thread-detail-load-hardening",
+        "kind": "branch",
+        "source": "fork:fix/thread-detail-load-hardening",
+        "pin": "e17b96ec7ef389cdcc351113e83514612b49dc72"
+      },
+      {
+        "name": "t3code/subscription-transport-recovery",
+        "kind": "branch",
+        "source": "fork:t3code/subscription-transport-recovery",
+        "pin": "b5836f14b7815f0277d04ebfa8142162647d9195"
+      },
+      {
+        "name": "feat/mobile-environment-first-new-thread",
+        "kind": "branch",
+        "source": "fork:feat/mobile-environment-first-new-thread",
+        "pin": "49d2d83992221e083528cdf9d54eb950a0d819b7"
+      },
+      {
+        "name": "t3code/inline-image-support",
+        "kind": "branch",
+        "source": "fork:t3code/inline-image-support",
+        "pin": "2944f46c085204fb42d7f049d45b6636103298a2"
+      },
+      {
+        "name": "t3code/user-input-qna-timeline",
+        "kind": "branch",
+        "source": "fork:t3code/user-input-qna-timeline",
+        "pin": "cf61aeb38823ab88ad4160ef5aefb232fee34d12"
+      },
+      {
+        "name": "fix/model-picker-shortcuts",
+        "kind": "branch",
+        "source": "fork:fix/model-picker-shortcuts",
+        "pin": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a"
+      },
+      {
+        "name": "t3code/configurable-workspace-placement",
+        "kind": "branch",
+        "source": "fork:t3code/configurable-workspace-placement",
+        "pin": "b8aa507bc229db74761453f71d01920fd4d9f6f0"
+      },
+      {
+        "name": "t3code/xdg-storage-layout",
+        "kind": "branch",
+        "source": "fork:t3code/xdg-storage-layout",
+        "pin": "8d7270e82ccb610903290cafbfd0ccd177af5a0b"
+      },
+      {
+        "name": "fix/discover-claude-models",
+        "kind": "branch",
+        "source": "fork:fix/discover-claude-models",
+        "pin": "50cdd15219ab2d41823846a1f5a728449d5c7a05"
+      },
+      {
+        "name": "fix/sidebar-resize-after-window-growth",
+        "kind": "branch",
+        "source": "fork:fix/sidebar-resize-after-window-growth",
+        "pin": "81bd69e9f8abeb9037136635c4e02464ac60c63a"
+      },
+      {
+        "name": "t3code/filter-hidden-codex-models",
+        "kind": "branch",
+        "source": "fork:t3code/filter-hidden-codex-models",
+        "pin": "c75d35701081c09d2308fb0da96f2a13eca9faf8"
+      },
+      {
+        "name": "t3code/fix-provider-settings-toggle",
+        "kind": "branch",
+        "source": "fork:t3code/fix-provider-settings-toggle",
+        "pin": "05e12e767e1206b4d115cc8ccf65306641fa251b"
+      },
+      {
+        "name": "fix/recover-bootstrap-thread-id",
+        "kind": "branch",
+        "source": "fork:fix/recover-bootstrap-thread-id",
+        "pin": "2385d73e0bfae205b090ef44cfdbde35f5ed655e"
+      },
+      {
+        "name": "t3code/local/nix-flake",
+        "kind": "branch",
+        "source": "fork:t3code/local/nix-flake",
+        "pin": "f58759e6f6be5e8e351831fe967d549c1e866110"
+      },
+      {
+        "name": "t3code/unify-environment-selection",
+        "kind": "branch",
+        "source": "fork:t3code/unify-environment-selection",
+        "pin": "74fd875c4d13773cedd1b9c1b6dea56863733f0a"
+      },
+      {
+        "name": "t3code/add-custom-snooze-time",
+        "kind": "branch",
+        "source": "fork:t3code/add-custom-snooze-time",
+        "pin": "9b728aed7d53f1c21fd1422977e4c160803baf72"
+      },
+      {
+        "name": "t3code/settle-state-reconcile",
+        "kind": "branch",
+        "source": "fork:t3code/settle-state-reconcile",
+        "pin": "5fc3aefd627cc5417544dc99c0ead5399ac6115a"
+      },
+      {
+        "name": "t3code/local/build-provenance",
+        "kind": "branch",
+        "source": "fork:t3code/local/build-provenance",
+        "pin": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f"
+      },
+      {
+        "name": "t3code/clear-unanswerable-provider-requests",
+        "kind": "branch",
+        "source": "fork:t3code/clear-unanswerable-provider-requests",
+        "pin": "495be4153ec9f9402140224e4ca2f9289a9d974a"
+      },
+      {
+        "name": "t3code/investigate-large-thread-rendering",
+        "kind": "branch",
+        "source": "fork:t3code/investigate-large-thread-rendering",
+        "pin": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127"
+      },
+      {
+        "name": "t3code/find-in-thread",
+        "kind": "branch",
+        "source": "fork:t3code/find-in-thread",
+        "pin": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75"
+      },
+      {
+        "name": "t3code/mobile-thread-replay-render-fixes",
+        "kind": "branch",
+        "source": "fork:t3code/mobile-thread-replay-render-fixes",
+        "pin": "8399d436a6bd53c3284bdb03ecca919a435e689c"
+      },
+      {
+        "name": "t3code/fix-broken-image-previews",
+        "kind": "branch",
+        "source": "fork:t3code/fix-broken-image-previews",
+        "pin": "929653023ea083b947da7d2817bbad7b7df3f3fd"
+      },
+      {
+        "name": "t3code/add-mobile-build-action",
+        "kind": "branch",
+        "source": "fork:t3code/add-mobile-build-action",
+        "pin": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4"
+      },
+      {
+        "name": "t3code-sidebar-v2-large-icons-fixture",
+        "kind": "patch",
+        "source": "patches/t3code-sidebar-v2-large-icons-fixture.patch",
+        "pin": "98abc5da3772e0754612fd80e82c6afeba651070"
+      },
+      {
+        "name": "t3code-projection-threads-snoozed-migration-compat",
+        "kind": "patch",
+        "source": "patches/t3code-projection-threads-snoozed-migration-compat.patch",
+        "pin": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d"
+      },
+      {
+        "name": "t3code-assembled-runtime-imports",
+        "kind": "patch",
+        "source": "patches/t3code-assembled-runtime-imports.patch",
+        "pin": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed"
+      },
+      {
+        "name": "t3code-chat-composer-stash-merge",
+        "kind": "patch",
+        "source": "patches/t3code-chat-composer-stash-merge.patch",
+        "pin": "32fccc63f34559ddf4dc1f218897ebe067510180"
+      },
+      {
+        "name": "t3code-refreshed-client-overlap",
+        "kind": "patch",
+        "source": "patches/t3code-refreshed-client-overlap.patch",
+        "pin": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d"
+      }
+    ],
+    "results": [
+      {
+        "name": "pr-3984",
+        "oid": "690d45fdd7a903911b5ea47c5dbce6469def10c6",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/local/artifact-safety",
+        "oid": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-local-artifact-safety.patch"
+      },
+      {
+        "name": "t3code/searchable-new-thread-projects",
+        "oid": "b3408bb2266fe1021d5e97fb984a402728c024fa",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/group/thread-picker",
+        "oid": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/composer-keyboard-shortcuts",
+        "oid": "441c87d80253d5ce887d0886ba44d5d874007286",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-composer-keyboard-shortcuts.patch"
+      },
+      {
+        "name": "t3code/fix-dropdown-keyboard-navigation",
+        "oid": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-fix-dropdown-keyboard-navigation.patch"
+      },
+      {
+        "name": "feat/settle-thread-keybinding",
+        "oid": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/feat-settle-thread-keybinding.patch"
+      },
+      {
+        "name": "fix/draft-thread-promotion-recovery",
+        "oid": "e42331268c5fae90090d0a9f14a97a0eddf11bf0",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/coalesce-assistant-streaming",
+        "oid": "8638e03b83b6936f0cfa7a6fa324dffe66565f17",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "feat/sidebar-v2-large-icons",
+        "oid": "923db8ca6a3ace6365cd9539a714e93837cc88cb",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "pr-4181",
+        "oid": "d95abc106cdd4283bfc8ccc64525e795312b8c76",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/android-adaptive-icon",
+        "oid": "97ac5cef13c647637766834c1bf3b78f7e13ec5f",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "feat/favicon-reload-on-click",
+        "oid": "37604c99b46f990e333033ec143f391719d05093",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/stuck-turn-recovery",
+        "oid": "c14c025db47501c7c2f56294091b92e993dda048",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/android-composer-keyboard-positioning",
+        "oid": "f5846bf0146be27ff54d451a1f085f9d5963aaa9",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/add-thread-forking",
+        "oid": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-add-thread-forking.patch"
+      },
+      {
+        "name": "feat/project-icons",
+        "oid": "6f052c818ab1e59ca5e1af48bbbd69db27af425a",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/feat-project-icons.patch"
+      },
+      {
+        "name": "fix/thread-detail-load-hardening",
+        "oid": "e17b96ec7ef389cdcc351113e83514612b49dc72",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/subscription-transport-recovery",
+        "oid": "b5836f14b7815f0277d04ebfa8142162647d9195",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "feat/mobile-environment-first-new-thread",
+        "oid": "49d2d83992221e083528cdf9d54eb950a0d819b7",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/inline-image-support",
+        "oid": "2944f46c085204fb42d7f049d45b6636103298a2",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-inline-image-support.patch"
+      },
+      {
+        "name": "t3code/user-input-qna-timeline",
+        "oid": "cf61aeb38823ab88ad4160ef5aefb232fee34d12",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-user-input-qna-timeline.patch"
+      },
+      {
+        "name": "fix/model-picker-shortcuts",
+        "oid": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/configurable-workspace-placement",
+        "oid": "b8aa507bc229db74761453f71d01920fd4d9f6f0",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-configurable-workspace-placement.patch"
+      },
+      {
+        "name": "t3code/xdg-storage-layout",
+        "oid": "8d7270e82ccb610903290cafbfd0ccd177af5a0b",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/discover-claude-models",
+        "oid": "50cdd15219ab2d41823846a1f5a728449d5c7a05",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/sidebar-resize-after-window-growth",
+        "oid": "81bd69e9f8abeb9037136635c4e02464ac60c63a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/filter-hidden-codex-models",
+        "oid": "c75d35701081c09d2308fb0da96f2a13eca9faf8",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/fix-provider-settings-toggle",
+        "oid": "05e12e767e1206b4d115cc8ccf65306641fa251b",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "fix/recover-bootstrap-thread-id",
+        "oid": "2385d73e0bfae205b090ef44cfdbde35f5ed655e",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/local/nix-flake",
+        "oid": "f58759e6f6be5e8e351831fe967d549c1e866110",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/unify-environment-selection",
+        "oid": "74fd875c4d13773cedd1b9c1b6dea56863733f0a",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-unify-environment-selection.patch"
+      },
+      {
+        "name": "t3code/add-custom-snooze-time",
+        "oid": "9b728aed7d53f1c21fd1422977e4c160803baf72",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-add-custom-snooze-time.patch"
+      },
+      {
+        "name": "t3code/settle-state-reconcile",
+        "oid": "5fc3aefd627cc5417544dc99c0ead5399ac6115a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/local/build-provenance",
+        "oid": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-local-build-provenance.patch"
+      },
+      {
+        "name": "t3code/clear-unanswerable-provider-requests",
+        "oid": "495be4153ec9f9402140224e4ca2f9289a9d974a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/investigate-large-thread-rendering",
+        "oid": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-investigate-large-thread-rendering.patch"
+      },
+      {
+        "name": "t3code/find-in-thread",
+        "oid": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-find-in-thread.patch"
+      },
+      {
+        "name": "t3code/mobile-thread-replay-render-fixes",
+        "oid": "8399d436a6bd53c3284bdb03ecca919a435e689c",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-mobile-thread-replay-render-fixes.patch"
+      },
+      {
+        "name": "t3code/fix-broken-image-previews",
+        "oid": "929653023ea083b947da7d2817bbad7b7df3f3fd",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "resolutions/t3code-fix-broken-image-previews.patch"
+      },
+      {
+        "name": "t3code/add-mobile-build-action",
+        "oid": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code-sidebar-v2-large-icons-fixture",
+        "oid": "98abc5da3772e0754612fd80e82c6afeba651070",
+        "status": "applied",
+        "conflicted": false
+      },
+      {
+        "name": "t3code-projection-threads-snoozed-migration-compat",
+        "oid": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d",
+        "status": "applied",
+        "conflicted": false
+      },
+      {
+        "name": "t3code-assembled-runtime-imports",
+        "oid": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed",
+        "status": "applied",
+        "conflicted": false
+      },
+      {
+        "name": "t3code-chat-composer-stash-merge",
+        "oid": "32fccc63f34559ddf4dc1f218897ebe067510180",
+        "status": "applied",
+        "conflicted": false
+      },
+      {
+        "name": "t3code-refreshed-client-overlap",
+        "oid": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d",
+        "status": "applied",
+        "conflicted": false
+      }
+    ]
+  }
+}
