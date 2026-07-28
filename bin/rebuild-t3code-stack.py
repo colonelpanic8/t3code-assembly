@@ -32,7 +32,7 @@ STACK_DIR = Path(__file__).resolve().parent.parent
 REPO_ROOT = STACK_DIR.parent
 DEFAULT_MANIFEST = STACK_DIR / "stack.toml"
 
-# Set from --manifest. A GROUP manifest (e.g. t3code-thread-picker.toml) is an
+# Set from --manifest. A GROUP manifest (e.g. thread-picker.toml) is an
 # ordinary manifest whose output branch is pinned as a single entry in the main
 # one -- the same tool, two levels, like a subsystem tree under linux-next.
 MANIFEST = DEFAULT_MANIFEST
@@ -680,7 +680,7 @@ def main() -> int:
         type=Path,
         default=DEFAULT_MANIFEST,
         help=(
-            "Manifest to build. A group manifest (e.g. t3code-thread-picker.toml) "
+            "Manifest to build. A group manifest (e.g. stack/thread-picker.toml) "
             "produces a branch that the main manifest then pins as one entry. "
             "Lock, state, and build worktree are all derived from this name."
         ),

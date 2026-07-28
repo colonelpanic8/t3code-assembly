@@ -7,7 +7,7 @@
 # re-derived against a shifting assembled stack on every refresh.
 #
 # The output branch is pinned as a single `kind = "fork"` entry in
-# t3code-stack.toml. Same tool, two levels; a subsystem tree, in linux-next
+# stack/stack.toml. Same tool, two levels; a subsystem tree, in linux-next
 # terms.
 #
 # Deliberately NOT in this group:
@@ -17,7 +17,7 @@
 #   #4401, #4474  touch CommandPalette.tsx incidentally (one file each).
 #
 # Rebuild:
-#   rebuild-t3code-stack.py --manifest nix-shared/t3code-thread-picker.toml \
+#   stack/bin/rebuild-t3code-stack.py --manifest stack/thread-picker.toml \
 #       --mode reproduce --write-lock --push
 
 upstream = "https://github.com/pingdotgg/t3code"

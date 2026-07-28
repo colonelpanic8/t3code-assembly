@@ -1,9 +1,9 @@
 # Ordered integration manifest for the personal T3 Code stack.
 #
 # This file is INTENT: which upstream PRs and fork branches are carried, and in
-# what order they are merged onto live upstream main. `scripts/rebuild-t3code-stack.sh`
-# consumes it and produces `t3code-stack.lock.json` plus a force-pushed
-# integration branch on the fork.
+# what order they are merged onto live upstream main.
+# `stack/bin/rebuild-t3code-stack.py` consumes it and produces
+# `stack/stack.lock.json` plus a force-pushed integration branch on the fork.
 #
 # The integration branch is a BUILD ARTIFACT. Never commit to it, never base
 # work on it, never merge it back. It is regenerated from scratch every refresh.

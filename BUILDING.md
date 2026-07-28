@@ -1,95 +1,135 @@
 # Building the personal T3 Code stack
 
 This branch (`t3code/stack-tooling`) owns everything needed to reproduce the
-personal integration build: the manifests, the rebuild tooling, the epilogue
-patches, and these instructions. It is a normal branch with normal history.
+personal T3 Code build: the manifests, the rebuild tooling, the epilogue
+patches, and this document. **This document is the authoritative reference for
+the whole workflow.** The skills under `dotfiles/agents/skills/` only route to
+it; if they ever disagree with it, this file wins.
 
-Downstream (NixOS dotfiles) holds exactly two things: a flake input pinned to an
-integration rev, and a small overlay that adds the Electron safeStorage wrapper.
-Everything else lives here.
+## The model in one page
 
-## The model
+The installed T3 Code is **upstream `main` plus ~35 carried changes** upstream
+has not merged: my open PRs, a few external PRs, and local-only topics. Keeping
+that installable works like a small distro:
 
-The build is an **integration branch** — `t3code/stack` — assembled by merging
-an ordered manifest of topic branches. It is a build artifact:
+- Every change lives on its own **topic branch** on the fork
+  (`fork` = `colonelpanic8/t3code`; `origin` = `pingdotgg/t3code`).
+- `stack/stack.toml` is the **intent**: which topics are carried, in what
+  merge order.
+- `stack/bin/rebuild-t3code-stack.py` merges the topics, in order, onto
+  upstream `main`, producing the integration branch **`t3code/stack`** — the
+  **artifact**.
+- `stack/stack.lock.json` records what the last rebuild actually produced.
+- NixOS pins one commit of `t3code/stack` (the `t3code-integration` flake
+  input in `/srv/dotfiles/nixos/flake.nix`) and installs the result via the
+  flake's `overlays.client`.
 
-- never commit to it
-- never base work on it
-- never merge it back
+So changing the installed app is always the same loop: change a topic branch
+or the manifest → rebuild → verify → push → repin Nix → switch.
 
-`refresh` and `reproduce` regenerate it from scratch and force-push it. `extend`
-adds a manifest suffix to the locked build. Every published build also gets a
-dated tag (`t3code-stack/<timestamp>`) so older revs stay fetchable for old
-pins.
+`t3code/stack` is a build artifact, regenerated and force-pushed on every
+rebuild: **never commit to it, never base work on it, never merge it back.**
+Dated tags (`t3code-stack/<timestamp>`) keep every published revision
+fetchable for old pins.
 
-This replaced a Nix `applyPatches` stack of raw PR diffs plus hand-written
-compatibility patches. Do not reintroduce that: `patch(1)` does fuzzy context
-matching with no ancestry, and it once silently landed a hunk on the wrong
-symbol (two byte-identical class bodies). A 3-way merge cannot do that.
+Why merges rather than patches: this replaced a Nix `applyPatches` stack of
+raw PR diffs plus hand-written compat patches. `patch(1)` matches context
+fuzzily with no ancestry, and once silently landed a hunk on the wrong one of
+two byte-identical class bodies; a 3-way merge cannot make that mistake. Do
+not reintroduce patch stacks.
 
 ## Layout
 
 ```
 stack/
-  stack.toml              main manifest (ordered topics)
-  stack.lock.json         what the last rebuild actually produced
-  thread-picker.toml      GROUP sub-manifest, pinned as one entry in stack.toml
-  thread-picker.lock.json
-  patches/                epilogues -- see below
+  stack.toml                  main manifest (ordered topics; the intent)
+  stack.lock.json             what the last rebuild actually produced
+  thread-picker.toml          GROUP sub-manifest + thread-picker.lock.json
+  audit-exceptions.toml       reviewed content-audit exceptions (digest-guarded)
+  patches/                    epilogue patches
   bin/
-    rebuild-t3code-stack.py
-    resolve-from-baseline.py
-    replay-resolutions.py
-    audit-stack-content.py
+    rebuild-t3code-stack.py   the builder (modes: extend / refresh / reproduce)
+    audit-stack-content.py    verification step 1
+    replay-resolutions.py     conflict helper
+    resolve-from-baseline.py  conflict helper (dangerous; see below)
 ```
 
-One generated file lives outside `stack/`, because it has to travel with the
-artifact rather than with the tooling: `stack-build-info.json` at the repo root
-of the integration branch. See "Build provenance" below.
+**Groups.** A group is a sub-manifest whose output branch is pinned as a
+single entry in the main manifest — a subsystem tree, like linux-next. Use one
+when several topics all edit the same files (`thread-picker.toml` holds the
+CommandPalette cluster): the combination is resolved once against stable
+upstream instead of re-derived against a shifting stack on every refresh.
+Rebuild the group first, then pin its new head in `stack.toml`.
 
-## Refreshing, reproducing, and extending
+**Epilogues** (`stack/patches/`) are patches that are functions of the
+_assembled_ tree and so cannot live on any topic branch: a migration ID that
+depends on which IDs the stack already consumed, a test fixture that must
+enumerate every settings field, glue between two topics with no single owner.
+Keep them minimal; when glue belongs to one cluster, put it on that cluster's
+group branch instead. Note: some historical compat patches carried original
+work that exists on no branch — if a build fails on a missing symbol, suspect
+that first.
 
-Groups first, then the main stack. A group is a sub-manifest whose output branch
-is pinned as a single entry in the main manifest — a subsystem tree.
+One generated file lives outside `stack/`: `stack-build-info.json` at the repo
+root **of the integration branch** — see "Build provenance".
+
+## The three modes
 
 ```sh
-stack/bin/rebuild-t3code-stack.py \
-    --manifest stack/thread-picker.toml --mode reproduce --write-lock --push
-# pin the new group head in stack.toml, then:
-stack/bin/rebuild-t3code-stack.py --mode refresh --write-lock --push
+stack/bin/rebuild-t3code-stack.py --mode <mode> --write-lock --push \
+    [--manifest stack/thread-picker.toml]
 ```
 
-- `--mode reproduce` starts from the upstream commit recorded in the lock and
-  merges at the pins recorded in the manifest (deterministic).
-- `--mode refresh` starts at current upstream `main` and follows every current
-  topic-branch head. Use it to rebase the entire assembled stack onto upstream
-  and pick up movement anywhere in the manifest.
-- `--mode extend` preserves the locked upstream and topic prefix, then merges
-  only newly appended entries:
-
-  ```sh
-  stack/bin/rebuild-t3code-stack.py --mode extend --write-lock --push
-  ```
-
-  Extend requires the prior manifest snapshot to be an exact prefix of the
-  current manifest. It refuses changed, reordered, or removed existing entries,
-  a published branch that differs from the lock, and locks created before
-  extend metadata existed. Because epilogues must remain last, it resumes at
-  the recorded pre-epilogue commit, merges the suffix, and reapplies all
-  epilogues. It is a fast path for adding PRs, not a substitute for periodic
-  refreshes.
+- **`extend`** — the routine path for adding topics. Starts at the locked
+  pre-epilogue commit, merges only entries appended to the locked manifest,
+  reapplies the epilogues. Strict by design: it refuses changed, reordered, or
+  removed existing entries and a published branch that differs from the lock.
+  If it refuses, use `refresh`.
+- **`refresh`** — full rebuild from current upstream `main` and current topic
+  heads. Use it periodically to track upstream, and whenever an existing entry
+  moved.
+- **`reproduce`** — rebuild at the recorded pins. Deterministic; proves a
+  rebuild reproduces a known tree.
 
 Lock, state file, and build worktree all derive from `--manifest`, so a group
-build and the main build can be in flight simultaneously.
+build and the main build can be in flight simultaneously. On an unrecognized
+conflict the script stops, leaving it in the build worktree; resume with
+`--continue`. It is resumable across crashes, and flags `ABSORBED` (already
+upstream) and `EMPTY` (merge changed nothing) entries as drop **candidates** —
+verify behavior before actually removing one.
 
-The rebuild stops on an unrecognized conflict and leaves it in the build
-worktree. Resume with `--continue`. It is resumable across crashes, and flags
-`ABSORBED` (already upstream) and `EMPTY` (merge changed nothing) entries as
-drop candidates.
+## Adding a topic (the routine path)
+
+1. Append a manifest entry (copy an existing one for the shape: `pr`,
+   `kind` = fork/external/local, `branch`, 12-char `pin`, `summary`, optional
+   `note`). **Placement matters:** put it next to the topics it overlaps so
+   conflict resolution stays local. If it edits the CommandPalette trio it
+   goes in the thread-picker group instead (then repin the group). If it opens
+   a new overlap cluster with two or more topics, consider a new group.
+2. Run `--mode extend --write-lock --push`; fall back to `refresh` if extend
+   refuses.
+3. Resolve conflicts (below), run the syntax gate, run the ladder.
+4. Land it (last section).
+
+Do not advance the upstream pin merely to simplify one integration.
 
 ## Resolving conflicts
 
-**The correct primitive**, and the one to reach for first:
+Resolve **semantically**. Never `-X ours` / `-X theirs`, and never a
+line-union of both sides — line-unions produce plausible-looking breakage
+(orphaned `} from "..."` lines whose `import {` opener was dropped, the same
+identifier imported twice from one module, duplicated JSX with orphaned
+ternary closes). Every syntax error in this stack's history came from one.
+
+**rerere resolves most conflicts now.** It is enabled repo-locally; its cache
+(`.git/rr-cache`, not versioned) has learned every resolution staged in past
+builds, so recurring conflicts arrive pre-resolved. `rerere.autoupdate` is
+off, so replayed paths stay unmerged: review each one, then `git add`. If a
+resolution turns out wrong, run `git rerere forget -- <path>` before
+re-resolving — otherwise the mistake replays as the silent default in every
+future rebuild.
+
+**The manual primitive**, when rerere has nothing:
 
 ```sh
 git checkout --ours -- <file> && git add <file>
@@ -97,40 +137,33 @@ git diff <upstream-main>...<branch-pin> -- <file> | git apply --3way
 ```
 
 That lands the assembled state, then replays the branch's own contribution on
-top, guaranteeing the branch's content is present. What it leaves behind are
-genuine semantic conflicts — read them.
-
-**Never resolve by taking a line-union of the two sides.** It produces
-syntactically broken output that a reviewer will not notice: dropped `import {`
-openers leaving orphaned member lines, duplicated import identifiers, and
-duplicated JSX blocks with orphaned ternary closes. Every syntax error in this
-stack's history came from that.
-
-**Never use `-X ours` / `-X theirs`.**
+top, guaranteeing the branch's content is present. Whatever stays conflicted
+is a genuine semantic conflict: read the branch's diff
+(`git diff main...<pin> -- <file>`) to see what it is trying to add, and make
+sure the result contains it.
 
 Helpers, in order of preference:
 
 1. `replay-resolutions.py --from-build fork/t3code/stack --label '#4257'` —
-   replays that entry's resolution verbatim from a previous build. Exact, but
-   only valid while entry order is unchanged up to that point. Use a remote ref;
-   the branch may not exist locally.
-2. `resolve-from-baseline.py --baseline <tree>` — copies files from a reference
-   tree. Sound only when that tree is known-correct for the file AND no later
-   entry contributes to it. When building a group, pass
+   replays that entry's resolution verbatim from a previous build (use a
+   remote ref; the branch may not exist locally). Exact, but only valid while
+   entry order is unchanged up to that entry; past any insertion or reorder
+   the merge context differs and the replay is wrong. rerere has no such
+   limitation — it keys on conflict content, not position.
+2. `resolve-from-baseline.py --baseline <tree>` — copies whole files from a
+   reference tree. Sound only when that tree is known-correct for the file
+   AND no later entry contributes to it. For a group build, pass
    `--foreign-manifest stack/stack.toml` so files touched by non-group
-   entries are refused.
+   entries are refused. **`--force` overrides that check and is lossy** — it
+   has silently dropped shipped features and a whole test. Use it only for a
+   file whose content comes from exactly one topic. `Sidebar.tsx`,
+   `SidebarV2.tsx`, `CommandPalette.tsx`, `ConnectionsSettings.tsx`, `ws.ts`,
+   and the composer files all carry multi-topic content: hand-resolve those.
 
-`--force` overrides that check. **It is lossy.** It has silently dropped shipped
-features (sidebar host names, sidebar accent colors) and a whole test. Only use
-it for a file whose content comes from exactly one topic. `Sidebar.tsx`,
-`SidebarV2.tsx`, `CommandPalette.tsx`, `ConnectionsSettings.tsx`, `ws.ts` and the
-composer files all have multi-topic content — hand-resolve those.
+## Syntax gate (before any build)
 
-## Syntax gate (run before any build)
-
-A nix build takes minutes, and Babel reports only the **first** parse error per
-file -- so one build cycle buys exactly one fix. esbuild parses TSX in seconds
-with an exact location:
+A nix build takes minutes and Babel reports only the first parse error per
+file, so one build cycle buys exactly one fix. esbuild parses TSX in seconds:
 
 ```sh
 nix shell nixpkgs#esbuild --command bash -c '
@@ -141,131 +174,115 @@ for f in $(git diff --name-only origin/main...HEAD | grep -E "\.(ts|tsx)$"); do
 done; echo done'
 ```
 
-Two more checks worth running on every file you hand-resolved, because they
-catch the damage a line-union leaves that still _looks_ plausible:
+On every hand-resolved file, also check for the two damage patterns that still
+parse in isolation but break the build: orphaned import blocks (a
+`} from "..."` with no `import {` opener; allow `import type {`) and duplicate
+imported identifiers (compare member lists, not just module specifiers). Run
+the gate across ALL changed files at once — errors surface one per file and
+hide behind each other.
 
-- **orphaned import blocks** -- a `} from "..."` whose `import {` opener was
-  dropped. (Allow `import type {`.)
-- **duplicate imported identifiers** -- parse the member lists, not just the
-  module specifiers; the same symbol imported twice from the same module is a
-  hard error and a `from "..."` comparison will not see it.
+## Verify — the ladder
 
-Run the gate across ALL changed files at once, not just the ones you touched
-last -- errors surface one per file and hide behind each other.
+Two rules drive everything here, each learned the expensive way:
 
-## Verification ladder
+1. **Never treat any reference tree as ground truth.** A previous build was
+   once used as the verification oracle; it was itself defective, and copying
+   from it shipped a build missing two features. The topic branch is the
+   authority for its own content.
+2. **Verify per entry, not per tree.** Every substantive line a branch adds
+   must be present in the result, or have a specific explanation.
 
-Run all five, in this order. Do not stop early.
+Run all five steps, in order. Do not stop early.
 
 1. **Content audit** — `stack/bin/audit-stack-content.py <rev>`. For every
-   manifest entry, checks that the substantive lines its branch adds are present
-   in the built tree. Non-zero MISSING is not automatically a bug (a later entry
-   may legitimately rewrite those lines) but **every one needs an explanation
-   before pushing**. Reviewed later rewrites live in
-   `stack/audit-exceptions.toml`; each is guarded by the exact missing-line
-   count and digest, so a newly dropped line fails the audit. This is the only
+   manifest entry, checks that the substantive lines its branch adds are
+   present in the built tree. Non-zero MISSING is not automatically a bug (a
+   later entry may legitimately rewrite those lines) but **every one needs a
+   specific explanation before pushing**. Reviewed rewrites live in
+   `stack/audit-exceptions.toml`, guarded by exact missing-line count and
+   digest so a newly dropped line fails again. A large count on an entry
+   resolved with `--force` means its content was dropped. This is the only
    step that proves features survived.
-2. **Tree diff vs the previous lock** — changes must be explainable by upstream
-   movement plus topic movement. Detects drift; does not prove completeness.
-3. **Conflict count** in the lock -- rising counts mean the stack is drifting;
-   consider a new group.
-4. **Build** -- see below.
-5. **Smoke check** -- `nix build .#checks.<system>.smoke`. Launches the packaged
-   app headlessly in client-only mode and fails if the renderer throws.
+2. **Tree diff vs the previous lock** — every change must be explainable by
+   upstream movement plus topic movement; anything else is resolution drift.
+   Detects drift; does not prove completeness (that is step 1's job).
+3. **Conflict count** in the lock — a rising count means the stack is
+   drifting; consider a new group.
+4. **Build** — from the dotfiles checkout, with the flake input pinned to the
+   candidate rev:
 
-**The build does not prove the app runs.** A dropped import is a runtime
-ReferenceError, not a bundler error: rolldown happily emits a bundle containing
-a free variable. That shipped a build whose first paint was "Something went
-wrong: useEnvironmentSettings is not defined". Two such imports were dropped by
-taking only `ours` on an import conflict whose `theirs` side carried the new
-module.
+   ```sh
+   nix build --impure --expr 'let flake = builtins.getFlake "git+file:///srv/dotfiles?dir=nixos";
+     pkgs = import flake.inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true;
+       overlays = [ flake.inputs.t3code-integration.overlays.client ]; };
+   in pkgs.t3code'
+   ```
 
-Cheap way to catch it without a build: for every changed file, collect bare
-`use[A-Z]\w+(` calls and subtract what is imported or locally declared. Exclude
-dotted calls (`vi.useFakeTimers()`), and handle `import React, { ... }`.
+   **Check the real exit code** — piping nix through `tail` returns tail's
+   status and has masked a failing build.
+
+5. **Smoke check** — `nix build .#checks.<system>.smoke` in the fork. Launches
+   the packaged app headlessly in client-only mode and fails if the renderer
+   throws.
+
+**A green build does not prove the app runs.** A dropped import is a runtime
+ReferenceError, not a bundler error — rolldown emits a bundle with a free
+variable in it, and one such build's first paint was "Something went wrong:
+useEnvironmentSettings is not defined". Cheap static catch without a build:
+for every changed file, collect bare `use[A-Z]\w+(` calls and subtract what is
+imported or locally declared (exclude dotted calls like `vi.useFakeTimers()`;
+handle `import React, { ... }`).
 
 Headless gotcha: the app defaults to the Wayland ozone backend and exits with
-"The platform failed to initialize" under Xvfb. Pass `--ozone-platform=x11
---disable-gpu`, and `--user-data-dir` to dodge the single-instance lock.
-
-Do not verify by diffing against a previous _build_ and calling a match good.
-That was done once; the reference tree was itself defective, and copying from it
-propagated its omissions into a build that passed and shipped missing features.
-
-## Building
-
-From the NixOS dotfiles checkout, with the flake input pinned to the rev:
-
-```sh
-nix build --impure --expr 'let flake = builtins.getFlake "git+file:///srv/dotfiles?dir=nixos";
-  pkgs = import flake.inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true;
-    overlays = [ (import /srv/dotfiles/nix-shared/t3code.nix { inherit (flake) inputs; }) ]; };
-in pkgs.t3code'
-```
-
-**Check the real exit code.** Piping nix through `tail` returns tail's status and
-has masked a failing build.
-
-A green build proves it compiles. It does not prove features survived — that is
-the audit's job. Note also that Babel stops at the first parse error per file, so
-syntax errors surface one at a time; fix them in a batch by scanning for the
-known damage patterns rather than one build cycle each.
-
-The build itself is defined by `flake.nix` at the repo root, carried as the
-`t3code/local/nix-flake` topic. Anything build-related belongs there, not
-downstream — when both defined the build, they drifted.
-
-## Epilogues
-
-`patches/` holds patches that are functions of the _assembled_ tree and so
-cannot live on any topic branch:
-
-- a migration ID that depends on which IDs the stack already consumed
-- a test fixture that must enumerate every settings field
-- glue between topics that has no single owner
-
-Keep them minimal. When glue belongs to a specific cluster, prefer adding it to
-that cluster's group branch instead.
-
-Some historical compatibility patches carried **original local work that exists
-in no branch**. Merging alone can never recover that. If a build fails on a
-missing export or symbol, suspect this first.
+"The platform failed to initialize" under Xvfb. Pass
+`--ozone-platform=x11 --disable-gpu`, and `--user-data-dir` to dodge the
+single-instance lock.
 
 ## Build provenance
 
 The last commit on every integration branch writes `stack-build-info.json` to
-the repo root: the upstream base commit with its subject and date, then every
-entry with its kind, resolved OID, summary, note, and status, with group members
-inlined under their group. `apps/web/vite.config.ts` embeds it, and Settings →
-Build renders it. That is the only reason it exists — the lock already records
-all of this, but the lock stays here and the app ships from there.
+the repo root: the upstream base with subject and date, then every entry with
+kind, resolved OID, summary, note, and status, group members inlined under
+their group. `apps/web/vite.config.ts` embeds it and Settings → Build renders
+it; that is its only purpose (the lock already records all of it, but the lock
+stays here and the app ships from there).
 
 Three rules keep it from breaking things:
 
-- **It is a pure function of the upstream base and the resolved entry OIDs.**
-  No timestamps, no conflict counts, nothing that varies run to run. Otherwise
-  an otherwise-identical rebuild produces a changed tree, and "tree UNCHANGED
-  from previous lock -- no flake bump needed" never fires again. The lock keeps
-  the run metadata; the artifact gets only the content description.
-- **`tree` in the lock is still the pre-provenance tree** — the topics' output.
-  `built_tree` is what was actually pushed. Compare `tree` when deciding whether
+- **It is a pure function of the upstream base and resolved entry OIDs.** No
+  timestamps, no conflict counts, nothing that varies run to run — otherwise
+  an otherwise-identical rebuild produces a changed tree and the
+  "tree UNCHANGED from previous lock — no flake bump needed" signal dies.
+- **`tree` in the lock is the pre-provenance tree** (the topics' output);
+  `built_tree` is what was pushed. Compare `tree` when deciding whether
   anything moved.
-- **Only the top-level manifest emits it.** A group branch is merged into the
-  main build, so a provenance file on it would arrive through a merge as a
-  second copy of the same path — a guaranteed conflict carrying the wrong
-  content. Group members appear on the page via their own group lock, which the
-  main build reads from `stack/*.lock.json`.
+- **Only the top-level manifest emits it.** A group branch merges into the
+  main build, so a provenance file there would arrive as a second copy of the
+  same path — a guaranteed conflict carrying the wrong content.
 
-It cannot record its own commit, which does not exist until it is written. The
-running app gets that separately: the flake passes `T3CODE_BUILD_COMMIT`,
-`T3CODE_BUILD_REPO_REMOTE`, and `T3CODE_BUILD_DATE` into the web build, which is
-also what puts the commit link next to the version in Settings → General.
+It cannot record its own commit. The running app gets that separately: the
+flake passes `T3CODE_BUILD_COMMIT`, `T3CODE_BUILD_REPO_REMOTE`, and
+`T3CODE_BUILD_DATE` into the web build, which also puts the commit link next
+to the version in Settings → General.
 
 ## Landing a rebuild
 
-1. Push the branch and a dated tag.
-2. Downstream: repin the flake input **by rev, never by branch**, then
-   `nix flake lock --update-input t3code-integration`.
-3. Build, then activate.
-4. Commit the manifest and lock together here, so the pin and lock never
-   disagree.
+1. Push the integration branch and its dated tag (`--push` does both).
+2. Downstream: repin `t3code-integration` **by rev, never by branch** in
+   `/srv/dotfiles/nixos/flake.nix`, then
+   `nix flake lock --update-input t3code-integration`. Skip the repin when the
+   rebuild reported the tree unchanged.
+3. Build the host package (ladder step 4), then `just switch` from
+   `/srv/dotfiles/nixos`. Do not claim success from a source build alone —
+   verify the installed `t3` store path.
+4. Commit coupled files together so pin and lock never disagree: manifest +
+   lock (+ any epilogues) here; flake pin + `flake.lock` in dotfiles. Use
+   **explicit paths** — a bare `git commit` after `git add` has swept
+   unrelated pre-existing staged changes into a commit before.
+
+## If you cannot finish
+
+The build worktree plus its state file is a complete resumable checkpoint.
+Park progress on a named branch so it survives worktree removal, and report
+the exact entry and conflicted files. **Never push a stack that has not passed
+the content audit.**
