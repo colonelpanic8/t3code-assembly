@@ -24,21 +24,21 @@
       "t3code/orchestration-v2-main/pr-4593": "b9fcef9c2e337d53e8992676121a451c5de08dff",
       "t3code/orchestration-v2-main/pr-4602": "acf4554ec1c70de40a80a60e3b3109ea7be61e3d",
       "t3code/orchestration-v2-main/pr-4631": "2f84c0af8abda997e5697962e2ef73b8d3b897b1",
-      "t3code/orchestration-v2-main/pr-4677": "37efe59947f74aed2c0fac2fb5a6068569bb7a6f",
+      "t3code/orchestration-v2-main/pr-4677": "116cf6a6fed7eeacb4ad8d97f627f2362ad25979",
       "t3code/orchestration-v2-main/pr-4699": "699c399eaaa44f753606e729dc4ed7d3d2111a40",
       "t3code/orchestration-v2-main/pr-4701": "233f652a0d6f114113c2de26a47aa4bcb37796e7"
     }
   },
   "build": {
-    "generated": "2026-08-10T20:10:09.951022886+00:00",
+    "generated": "2026-08-10T21:20:55.196479484+00:00",
     "base": "ff032dddd2111d99e003d4bce801123012cf0c67",
-    "commit": "29535785d33a507aa7eb1a8e433030d9505d41d4",
-    "pre_provenance_commit": "512352b926d2f688205f41071c89493ef95bf10b",
-    "tree": "9c9163cef282f697a6d73c741dd1e829c049dced",
-    "built_tree": "20de794dfab0336398d5676f9421064ca4691fdc",
-    "previous_tree": "ec018836518116f94c95065ebc0f9004de2bff1f",
+    "commit": "6bca19b89472209d41e90755f853db650b4f71e3",
+    "pre_provenance_commit": "d35654e680fdb4066b4507c66c70cbc5dbf35107",
+    "tree": "ebe4ea2a6170c2a1accb28d8f363873411356b41",
+    "built_tree": "f2cad452d2f5f69d76249e69be5bc3cdd0057a34",
+    "previous_tree": "9c9163cef282f697a6d73c741dd1e829c049dced",
     "tree_changed": true,
-    "conflicts": 0,
+    "conflicts": 2,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -159,7 +159,7 @@
         "name": "t3code/orchestration-v2-main/pr-4677",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4677",
-        "pin": "37efe59947f74aed2c0fac2fb5a6068569bb7a6f"
+        "pin": "116cf6a6fed7eeacb4ad8d97f627f2362ad25979"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4593",
@@ -305,7 +305,7 @@
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
-        "oid": "37efe59947f74aed2c0fac2fb5a6068569bb7a6f",
+        "oid": "116cf6a6fed7eeacb4ad8d97f627f2362ad25979",
         "status": "merged",
         "conflicted": false
       },
@@ -326,7 +326,7 @@
         "oid": "ee635c701c9747e6c7d7c8888bd92602dace33dc",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:69465dc1b938c3652744d25596317ac2fa648940,82d551c2a5b65f182c6badf92b14572edeb8b4fc,fc57edbb678f86560012d00b7cd90232e6ad9077"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
