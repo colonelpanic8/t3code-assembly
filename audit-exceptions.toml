@@ -22,21 +22,15 @@ reason = "Later selector and compact-composer work rewrites the shortcut-hint JS
 
 [[exception]]
 entry = "4277"
-missing_count = 2
-missing_sha256 = "16f70d3e02b97a4a49f3e198bbcc91d07c7d5724d2d5cd05cb0f2e39fa47b2e5"
-reason = "The later sidebar settle flow folds the co-parking exclusion into its coSettlingKeys eligibility check. The client-owned keybindings topic moves the thread.settle default rule from packages/shared into packages/contracts, where the refreshed-client overlap epilogue retains mod+shift+x."
-
-[[exception]]
-entry = "4394"
-missing_count = 38
-missing_sha256 = "5ded66cc3c21365b8f5d0da25d74e0f9687c388eb335244889f0b11c9c8a804d"
-reason = "Later menu and shortcut-hint work rewrites the compact composer and BranchToolbar component structure. Controlled selector state, environment-mode choices, and shortcut hints remain through ComposerControlShortcutHint and the dedicated BranchToolbar selector components."
+missing_count = 5
+missing_sha256 = "6980cb9c8398fceeac20b268a3e9f7ce8a7951e8a028e03ea5fc4a490af60b59"
+reason = "The orchestration-v2 reconciliation ports the settle shortcut from the legacy session shape to EnvironmentThreadShell.runtime and scopes capability lookup and settlement through the target thread's environment. The route guard, capability check, active-work rejection, and scoped settle call all remain in Sidebar and its tests."
 
 [[exception]]
 entry = "4324"
-missing_count = 4
-missing_sha256 = "88cb0b5f1c74b550ec8fa32495aaa71e32aeaf9d9fa0a926704f5aaf96740982"
-reason = "The generic remote icon span was replaced by EnvironmentBadge, which adds the current environment label and accent color while preserving the large-icons layout."
+missing_count = 2
+missing_sha256 = "007d13d52dad26264e5022196db871c2ed7f214468ade222fb850359ef270208"
+reason = "The environment-owned settings panel rewrites the large-project-icons reset and update expressions inside the ownership-aware restore/control structure. sidebarV2LargeIcons remains listed as a client-owned dirty setting, restores to DEFAULT_UNIFIED_SETTINGS, and is exposed by the Large project icons switch."
 
 [[exception]]
 entry = "4323"
@@ -58,15 +52,15 @@ reason = "Inline-image handling was folded into the safer ThreadArtifactResolver
 
 [[exception]]
 entry = "4437"
-missing_count = 2
-missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
-reason = "Diagnostics now reads storage from the selected environment's server config instead of the primary-server atom, while preserving the storage rows and unavailable-storage fallback."
+missing_count = 13
+missing_sha256 = "769688021872c066e9336f21848b376f61c8fc499ccf51be966e67f4876f1700"
+reason = "Diagnostics now reads storage from the selected environment's serverConfig instead of primaryServerStorageAtom. StoragePathRow remains, and the final selected-environment panel exposes configuration, data, state, cache, runtime, database, settings, keybindings, worktrees, and attachments paths with copy controls and an unavailable-storage fallback."
 
 [[exception]]
 entry = "4494"
-missing_count = 3
-missing_sha256 = "856ad175c382526366e8b151ab8b92a36a5b297517f35028c685c8fc700f131e"
-reason = "The refreshed-client overlap epilogue carries #4494's acknowledgement-aware pending patch queue and serialized writes. The three absent lines are only the older usePrimaryEnvironment/settingsValueAtom access shape, replaced by primaryEnvironmentIdAtom and configValueAtom in the final client/server ownership model."
+missing_count = 13
+missing_sha256 = "553663020ebf81c736662165829a3a5fa139e471f401d448df6dc6a3ba3ea237"
+reason = "The reconciliation retains #4494's per-environment serialized write queue, pending-patch dispatch, acknowledgement handling, and optimistic merged settings. Legacy enableAssistantStreaming test patches became enableLegacyTokenStreaming, and usePrimaryEnvironment/settingsValueAtom access became primaryEnvironmentIdAtom/configValueAtom for orchestration-v2 environment ownership."
 
 [[exception]]
 entry = "4390"
@@ -121,3 +115,33 @@ entry = "4590"
 missing_count = 5
 missing_sha256 = "9c950914f5e77a7ee8db1e04a342b91cec4f7568fcc72e088adf2d91017f533f"
 reason = "The group integration consolidates #4590's conditional empty-state JSX into resolveCommandPaletteEmptyStateMessage, so its five inline `emptyStateMessage:` lines exist under that helper instead. Verified against build 83e99218b: the browse-unavailable, choose-a-destination, relative-paths and create-this-folder messages are all present in the final Command Palette. The group was rebuilt at the current member heads in this refresh, so the earlier waiver -- which covered a 32-line unbuilt-revision gap from a stale group pin -- no longer applies and has been replaced."
+
+[[exception]]
+entry = "4257"
+missing_count = 2
+missing_sha256 = "ed9b4d193b885a5878e880d39ea3b601904bf87ade561246ab6c3d3a0acae238"
+reason = "The client-environment suite renamed the Command Palette's local browse-filter variables to browsePath.filterQuery and visibleBrowseEntries. The fixup updates #4257's tab-completion call to those current names; exact-entry completion, filtered fallback, and highlighted-item behavior are unchanged."
+
+[[exception]]
+entry = "4433"
+missing_count = 2
+missing_sha256 = "12771fe7800080bf46745390a8cc7eddf9b918940dfa2ba7b80934fe44d4daa4"
+reason = "Later collision-safe model-picker keys encode the provider length through modelPickerModelKey, and shortcut labels now use the shared platform glyph formatter. The virtual-list extra-data test still verifies both positional labels, now under the current keys and Linux labels ⌃1 and ⌃2."
+
+[[exception]]
+entry = "4439"
+missing_count = 3
+missing_sha256 = "970080f1baf6bfbd7572688882a38b1c880e39982ed02d41604a62442f638747"
+reason = "The environment-owned settings panel folds worktreePathTemplate into its ownership-aware dirty list, restore patch, and DraftInput control. The final control still restores the default, trims committed input, and ignores empty values; only the branch's older inline expressions were rewritten."
+
+[[exception]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+missing_count = 71
+missing_sha256 = "e7c1d5b27d62b5552519c901afe080481072ccd75aed0f5a9fc726997fd15aaa"
+reason = "This composite collides with earlier focused settings, diagnostics, sidebar, and optimistic-write topics. The resolved tree retains environment accent/presence handling, selected-environment diagnostics and storage, client-versus-environment ownership panels, ownership-aware restore controls, background activity and thread defaults, and environment-scoped optimistic writes. The absent set is the composite's pre-integration syntax, replaced by the combined controls and primaryEnvironmentIdAtom/configValueAtom access shape; focused tests cover the reconciled behavior."
+
+[[exception]]
+entry = "4677"
+missing_count = 8
+missing_sha256 = "785d5b9d91ecad1bb5e324cfcfb34572f69a49cf7316cffd8c52e3d72896f134"
+reason = "The custom-snooze topic was reconciled with the environment-aware Sidebar and formatted around the current dialog component shape. CustomSnoozeRequest, validation and accessibility wiring, timestamp-format wake descriptions, single and multi-thread requests, and co-snoozing exclusions all remain in the final Sidebar and pass the focused snooze tests."

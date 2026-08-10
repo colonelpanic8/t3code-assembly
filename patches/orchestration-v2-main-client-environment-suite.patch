@@ -1,0 +1,269 @@
+diff --git a/apps/desktop/src/settings/DesktopClientSettings.test.ts b/apps/desktop/src/settings/DesktopClientSettings.test.ts
+index f00d292a5..5c7257ab7 100644
+--- a/apps/desktop/src/settings/DesktopClientSettings.test.ts
++++ b/apps/desktop/src/settings/DesktopClientSettings.test.ts
+@@ -44,6 +44,7 @@ const clientSettings: ClientSettings = {
+   sidebarProjectSortOrder: "manual",
+   sidebarThreadSortOrder: "created_at",
+   sidebarThreadPreviewCount: 6,
++  sidebarV2LargeIcons: false,
+   legacySidebarEnabled: false,
+   timestampFormat: "24-hour",
+   wordWrap: true,
+diff --git a/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts b/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
+index cb0aa60e3..07224e032 100644
+--- a/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
++++ b/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
+@@ -13,7 +13,7 @@ layer("039_040_OrchestrationV2", (it) => {
+     Effect.sync(() => {
+       assert.deepStrictEqual(
+         migrationEntries.map(([id]) => id),
+-        Array.from({ length: 47 }, (_, index) => index + 1),
++        Array.from({ length: 49 }, (_, index) => index + 1),
+       );
+     }),
+   );
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index d0693f467..ca956a457 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -2047,9 +2047,9 @@ function OpenCommandPaletteDialog(props: {
+       }
+ 
+       const completion = resolveBrowseTabCompletion({
+-        allowFirstEntryFallback: browseFilterQuery.length > 0,
++        allowFirstEntryFallback: browsePath.filterQuery.length > 0,
+         exactEntry: exactBrowseEntry,
+-        filteredEntries: filteredBrowseEntries,
++        filteredEntries: visibleBrowseEntries,
+         highlightedItemValue,
+       });
+       if (completion?.kind === "up") {
+diff --git a/apps/web/src/components/Sidebar.logic.test.ts b/apps/web/src/components/Sidebar.logic.test.ts
+index 46e02b626..83891566d 100644
+--- a/apps/web/src/components/Sidebar.logic.test.ts
++++ b/apps/web/src/components/Sidebar.logic.test.ts
+@@ -1027,12 +1027,11 @@ describe("canSettleLegacySidebarRouteThread", () => {
+     expect(
+       canSettleLegacySidebarRouteThread({
+         thread: makeThreadShell({
+-          session: {
+-            threadId: ThreadId.make("thread-running"),
++          runtime: {
++            activeRunId: null,
+             status: "running",
++            providerInstanceId: ProviderInstanceId.make("codex"),
+             providerName: "Codex",
+-            runtimeMode: DEFAULT_RUNTIME_MODE,
+-            activeTurnId: "turn-running" as never,
+             lastError: null,
+             updatedAt: now,
+           },
+diff --git a/apps/web/src/components/chat/ModelPickerContent.test.tsx b/apps/web/src/components/chat/ModelPickerContent.test.tsx
+index 29b3df1f4..78f0e98d2 100644
+--- a/apps/web/src/components/chat/ModelPickerContent.test.tsx
++++ b/apps/web/src/components/chat/ModelPickerContent.test.tsx
+@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
+ import { renderToStaticMarkup } from "react-dom/server";
+ import { beforeAll, describe, expect, it, vi } from "vite-plus/test";
+ import type { ProviderInstanceEntry } from "../../providerInstances";
++import { modelPickerModelKey } from "./modelPickerKeys";
+ 
+ let capturedExtraData: unknown;
+ 
+@@ -123,8 +124,8 @@ describe("ModelPickerContent", () => {
+         activeInstanceId: instanceId,
+         activeModel: "gpt-5.6-sol",
+         modelJumpLabelByKey: new Map([
+-          [`${instanceId}:gpt-5.6-sol`, "Ctrl+1"],
+-          [`${instanceId}:gpt-5.6-luna`, "Ctrl+2"],
++          [modelPickerModelKey(instanceId, "gpt-5.6-sol"), "⌃1"],
++          [modelPickerModelKey(instanceId, "gpt-5.6-luna"), "⌃2"],
+         ]),
+       }),
+     );
+diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
+index 83a0c847c..b37f52166 100644
+--- a/apps/web/src/components/settings/settingsSearch.ts
++++ b/apps/web/src/components/settings/settingsSearch.ts
+@@ -140,6 +140,11 @@ export const SETTINGS_SEARCH_ITEMS = [
+     to: "/settings/environment",
+     targetId: "new-threads",
+   },
++  {
++    id: "worktree-path",
++    title: "Worktree path",
++    to: "/settings/environment",
++  },
+   {
+     id: "add-project-starts-in",
+     title: "Add project starts in",
+diff --git a/apps/web/src/hooks/pendingServerSettings.test.ts b/apps/web/src/hooks/pendingServerSettings.test.ts
+index 1c72494ad..2d42a47b3 100644
+--- a/apps/web/src/hooks/pendingServerSettings.test.ts
++++ b/apps/web/src/hooks/pendingServerSettings.test.ts
+@@ -180,6 +180,13 @@ describe("pendingServerSettings", () => {
+   });
+ 
+   it("rebases array deltas onto a missing authoritative array", () => {
++    const currentSettings = {
++      ...DEFAULT_SERVER_SETTINGS,
++      textGenerationModelSelection: {
++        ...DEFAULT_SERVER_SETTINGS.textGenerationModelSelection,
++        options: [],
++      },
++    };
+     const failedOptionsBase = {
+       ...DEFAULT_SERVER_SETTINGS,
+       textGenerationModelSelection: {
+@@ -195,7 +202,7 @@ describe("pendingServerSettings", () => {
+         ],
+       },
+     };
+-    const settings = applyPendingServerPatches(DEFAULT_SERVER_SETTINGS, [
++    const settings = applyPendingServerPatches(currentSettings, [
+       { id: 1, patch, baseSettings: failedOptionsBase },
+     ]);
+ 
+@@ -284,7 +291,7 @@ describe("pendingServerSettings", () => {
+   });
+ 
+   it("records an early echo while an older successful patch is still awaiting its echo", () => {
+-    const firstPatch = { enableAssistantStreaming: false };
++    const firstPatch = { enableLegacyTokenStreaming: false };
+     const firstId = retain(firstPatch);
+     const secondPatch = { enableProviderUpdateChecks: false };
+     const secondId = retain(secondPatch);
+@@ -325,10 +332,10 @@ describe("pendingServerSettings", () => {
+       notifications += 1;
+     });
+ 
+-    const id = retain({ enableAssistantStreaming: false });
++    const id = retain({ enableLegacyTokenStreaming: false });
+     settlePendingServerPatch(environmentId, id, null);
+     unsubscribe();
+-    retain({ enableAssistantStreaming: false });
++    retain({ enableLegacyTokenStreaming: false });
+ 
+     expect(notifications).toBe(2);
+   });
+diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
+index 38fa3be8b..26f9c3bac 100644
+--- a/apps/server/src/cli/pair.ts
++++ b/apps/server/src/cli/pair.ts
+@@ -271,7 +271,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
+       const derivedPaths = yield* ServerConfig.deriveServerPaths(
+         baseDir,
+         variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
+-        {},
+       );
+       const statePath = derivedPaths.serverRuntimeStatePath;
+       checkedStatePaths.push(statePath);
+@@ -319,7 +318,6 @@ const makePairServerConfig = Effect.fn(function* (input: {
+   const derivedPaths = yield* ServerConfig.deriveServerPaths(
+     baseDir,
+     variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
+-    {},
+   );
+   return ServerConfig.make({
+     logLevel: input.logLevel,
+diff --git a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
+index 16c695fe7..6ace5fb5e 100644
+--- a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
++++ b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
+@@ -9,7 +9,7 @@ import * as Path from "effect/Path";
+ import * as PlatformError from "effect/PlatformError";
+ import * as Schema from "effect/Schema";
+ 
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { layer as idAllocatorLayer } from "../IdAllocator.ts";
+ import { ProviderAdapterOpenSessionError } from "../ProviderAdapter.ts";
+ import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
+@@ -69,6 +69,7 @@ export function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-codex-${scenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -105,6 +106,7 @@ export function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],
+diff --git a/nix/package.nix b/nix/package.nix
+index 8cc4eae4b..c91d0b0b1 100644
+--- a/nix/package.nix
++++ b/nix/package.nix
+@@ -71,7 +71,7 @@
+       # Fixed-output hash over the offline dependency closure. When
+       # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
+       # .#unwrapped, and copy the reported hash here.
+-      hash = "sha256-Qiwbg1EPjcVvt8YGc0YYP+1NbgBIxMkwIyTq5f3gtl4=";
++      hash = "sha256-jXWcb9v5VxFQSiCs7B5ZQbNTKWohUhs0eoaBt/TzgxI=";
+     };
+ 
+     env.APP_VERSION = finalAttrs.version;
+diff --git a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
+index 29d210ec9..a27dbb1fe 100644
+--- a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
++++ b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
+@@ -13,7 +13,7 @@ import * as Path from "effect/Path";
+ import * as PlatformError from "effect/PlatformError";
+ import * as Schema from "effect/Schema";
+ 
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { layer as idAllocatorLayer } from "../IdAllocator.ts";
+ import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
+ import { makeDriverLayer as makeProviderAdapterRegistryDriverLayer } from "../ProviderAdapterRegistry.ts";
+@@ -532,6 +532,7 @@ function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-cursor-${scenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -566,6 +567,7 @@ function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],
+diff --git a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+index 23b740846..92da59861 100644
+--- a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
++++ b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+@@ -10,7 +10,7 @@ import type { MigrationError } from "effect/unstable/sql/Migrator";
+ import type { SqlError } from "effect/unstable/sql/SqlError";
+ 
+ import * as CheckpointStore from "../../checkpointing/CheckpointStore.ts";
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { SqlitePersistenceMemory } from "../../persistence/Layers/Sqlite.ts";
+ import { ServerSettingsService } from "../../serverSettings.ts";
+ import { layer as mcpSessionRegistryTestLayer } from "../../mcp/McpSessionRegistry.testkit.ts";
+@@ -73,6 +73,7 @@ export function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-replay-${safeScenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -109,6 +110,7 @@ export function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],

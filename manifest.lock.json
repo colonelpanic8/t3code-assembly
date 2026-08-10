@@ -1,635 +1,311 @@
 {
   "version": 1,
   "pins": {
-    "base": "476d69cd1d5d89b4aad77df8fc01c71e34af930c",
+    "base": "f7e4fdb447d3ba50a265803f09e8edee05ca3bef",
     "entries": {
-      "feat/favicon-reload-on-click": "37604c99b46f990e333033ec143f391719d05093",
-      "feat/mobile-environment-first-new-thread": "49d2d83992221e083528cdf9d54eb950a0d819b7",
-      "feat/project-icons": "6f052c818ab1e59ca5e1af48bbbd69db27af425a",
-      "feat/settle-thread-keybinding": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c",
-      "feat/sidebar-v2-large-icons": "923db8ca6a3ace6365cd9539a714e93837cc88cb",
-      "fix/android-adaptive-icon": "97ac5cef13c647637766834c1bf3b78f7e13ec5f",
-      "fix/android-composer-keyboard-positioning": "f5846bf0146be27ff54d451a1f085f9d5963aaa9",
-      "fix/coalesce-assistant-streaming": "8638e03b83b6936f0cfa7a6fa324dffe66565f17",
-      "fix/discover-claude-models": "50cdd15219ab2d41823846a1f5a728449d5c7a05",
-      "fix/draft-thread-promotion-recovery": "e42331268c5fae90090d0a9f14a97a0eddf11bf0",
-      "fix/model-picker-shortcuts": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a",
-      "fix/recover-bootstrap-thread-id": "2385d73e0bfae205b090ef44cfdbde35f5ed655e",
-      "fix/sidebar-resize-after-window-growth": "81bd69e9f8abeb9037136635c4e02464ac60c63a",
-      "fix/stuck-turn-recovery": "c14c025db47501c7c2f56294091b92e993dda048",
-      "fix/thread-detail-load-hardening": "e17b96ec7ef389cdcc351113e83514612b49dc72",
-      "pr-3984": "690d45fdd7a903911b5ea47c5dbce6469def10c6",
-      "pr-4181": "d95abc106cdd4283bfc8ccc64525e795312b8c76",
-      "t3code-assembled-runtime-imports": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed",
-      "t3code-chat-composer-stash-merge": "32fccc63f34559ddf4dc1f218897ebe067510180",
-      "t3code-projection-threads-snoozed-migration-compat": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d",
-      "t3code-refreshed-client-overlap": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d",
-      "t3code-sidebar-v2-large-icons-fixture": "98abc5da3772e0754612fd80e82c6afeba651070",
-      "t3code/add-custom-snooze-time": "9b728aed7d53f1c21fd1422977e4c160803baf72",
-      "t3code/add-mobile-build-action": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4",
-      "t3code/add-thread-forking": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51",
-      "t3code/clear-unanswerable-provider-requests": "495be4153ec9f9402140224e4ca2f9289a9d974a",
-      "t3code/composer-keyboard-shortcuts": "441c87d80253d5ce887d0886ba44d5d874007286",
-      "t3code/configurable-workspace-placement": "b8aa507bc229db74761453f71d01920fd4d9f6f0",
-      "t3code/filter-hidden-codex-models": "c75d35701081c09d2308fb0da96f2a13eca9faf8",
-      "t3code/find-in-thread": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75",
-      "t3code/fix-broken-image-previews": "929653023ea083b947da7d2817bbad7b7df3f3fd",
-      "t3code/fix-dropdown-keyboard-navigation": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059",
-      "t3code/fix-provider-settings-toggle": "05e12e767e1206b4d115cc8ccf65306641fa251b",
-      "t3code/group/thread-picker": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
-      "t3code/inline-image-support": "2944f46c085204fb42d7f049d45b6636103298a2",
-      "t3code/investigate-large-thread-rendering": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127",
-      "t3code/local/artifact-safety": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976",
-      "t3code/local/build-provenance": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f",
-      "t3code/local/nix-flake": "f58759e6f6be5e8e351831fe967d549c1e866110",
-      "t3code/mobile-thread-replay-render-fixes": "8399d436a6bd53c3284bdb03ecca919a435e689c",
-      "t3code/searchable-new-thread-projects": "b3408bb2266fe1021d5e97fb984a402728c024fa",
-      "t3code/settle-state-reconcile": "5fc3aefd627cc5417544dc99c0ead5399ac6115a",
-      "t3code/subscription-transport-recovery": "b5836f14b7815f0277d04ebfa8142162647d9195",
-      "t3code/unify-environment-selection": "74fd875c4d13773cedd1b9c1b6dea56863733f0a",
-      "t3code/user-input-qna-timeline": "cf61aeb38823ab88ad4160ef5aefb232fee34d12",
-      "t3code/xdg-storage-layout": "8d7270e82ccb610903290cafbfd0ccd177af5a0b"
+      "t3code/orchestration-v2-main/client-environment-suite": "77d4b2241585b285224c51e30f558fa059f8d91a",
+      "t3code/orchestration-v2-main/pr-4257": "2bd668035e4ba11b9ca45984d602e79096301983",
+      "t3code/orchestration-v2-main/pr-4259": "f6fb5057ddaed6f98dccc89ed90ab55e99d94897",
+      "t3code/orchestration-v2-main/pr-4277": "58d2f4c9c0035031c21257069e5c6a0ee3ccd1e2",
+      "t3code/orchestration-v2-main/pr-4324": "7e662726b605d92ec3ea59e3204cc1fe6fdbab22",
+      "t3code/orchestration-v2-main/pr-4332": "485ecbdc7818f14b9c8becc666a1d3a29ba26cd3",
+      "t3code/orchestration-v2-main/pr-4388": "9a914dadbf51a2b32cf83248131d90f1ec3b9a9a",
+      "t3code/orchestration-v2-main/pr-4394": "29cafcfd3f622211ed358e15b0cfff8952488e0d",
+      "t3code/orchestration-v2-main/pr-4405": "e74921f6cc7204c6dc53ba209510ff5881f1ff4a",
+      "t3code/orchestration-v2-main/pr-4433": "efdb587ec66fab9516a59a3066b64104ec37a89c",
+      "t3code/orchestration-v2-main/pr-4437": "ebd38bd7b34042d3f38ae64a207c9684c3661fcd",
+      "t3code/orchestration-v2-main/pr-4439": "6f999658a6c44f06161884bae5fdd6db3a0b0bf4",
+      "t3code/orchestration-v2-main/pr-4447": "b4182595635eb3a472ff1ec92d541f677660afe6",
+      "t3code/orchestration-v2-main/pr-4482": "bb3d8f3e0111c6d967852b814cdc608924fb4c54",
+      "t3code/orchestration-v2-main/pr-4487": "9d0b0527a084e1b7277d726a6a9901081b88db4b",
+      "t3code/orchestration-v2-main/pr-4494": "652f448a4f4380cae682a1f9fe6026b27c224498",
+      "t3code/orchestration-v2-main/pr-4593": "88857f13265e870ef5d02fb076e8ddb137fb45fd",
+      "t3code/orchestration-v2-main/pr-4602": "7bec1d7ea9b4ebb611918cf1cf1564c0d7ac7f45",
+      "t3code/orchestration-v2-main/pr-4631": "a0cc996d03be78e3b80385c180bc7b99bc10e24a",
+      "t3code/orchestration-v2-main/pr-4677": "35ae05453ce1ba67b8cd0f58a48b8cc7608d3495",
+      "t3code/orchestration-v2-main/pr-4699": "c652d55789b48d5c7130f4771be2de2d984420d0",
+      "t3code/orchestration-v2-main/pr-4701": "29b556e77d2318094502d83b9115bbb4612944fd"
     }
   },
   "build": {
-    "generated": "2026-07-28T10:06:27.915253055+00:00",
-    "base": "476d69cd1d5d89b4aad77df8fc01c71e34af930c",
-    "commit": "73db9af76911b636c6b33e08b69e87d2fdd2ad8c",
-    "pre_provenance_commit": "f6f4a43753d529c35e3b9c13b7f2fec6626b2867",
-    "tree": "b0309bd7e24ee83a566b50b6f00cc971d66256e4",
-    "built_tree": "7fc2b676d1c94d1579df71d4fd0158785e4253e5",
-    "previous_tree": "b0309bd7e24ee83a566b50b6f00cc971d66256e4",
-    "tree_changed": false,
-    "conflicts": 16,
+    "generated": "2026-08-10T06:22:58.185942812+00:00",
+    "base": "f7e4fdb447d3ba50a265803f09e8edee05ca3bef",
+    "commit": "125ed677a20f034a234210fb8e5be9d88d93ad53",
+    "pre_provenance_commit": "6e89efd0b631c0622b25fa8aef8f2ec4c0b985f7",
+    "tree": "d805ba64be5d7fdb585b0523fb5fb0cab749969f",
+    "built_tree": "1e680bba3a4e4a476e642ec5cb295209ef746784",
+    "previous_tree": "614fa734c561c013b7b39891ccab3f6c04ef3755",
+    "tree_changed": true,
+    "conflicts": 2,
     "manifest_entries": [
       {
-        "name": "pr-3984",
-        "kind": "pr",
-        "source": "upstream#3984",
-        "pin": "690d45fdd7a903911b5ea47c5dbce6469def10c6"
-      },
-      {
-        "name": "t3code/local/artifact-safety",
+        "name": "t3code/orchestration-v2-main/pr-4259",
         "kind": "branch",
-        "source": "fork:t3code/local/artifact-safety",
-        "pin": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976"
+        "source": "fork:t3code/orchestration-v2-main/pr-4259",
+        "pin": "f6fb5057ddaed6f98dccc89ed90ab55e99d94897"
       },
       {
-        "name": "t3code/searchable-new-thread-projects",
+        "name": "t3code/orchestration-v2-main/pr-4257",
         "kind": "branch",
-        "source": "fork:t3code/searchable-new-thread-projects",
-        "pin": "b3408bb2266fe1021d5e97fb984a402728c024fa"
+        "source": "fork:t3code/orchestration-v2-main/pr-4257",
+        "pin": "2bd668035e4ba11b9ca45984d602e79096301983"
       },
       {
-        "name": "t3code/group/thread-picker",
+        "name": "t3code/orchestration-v2-main/pr-4277",
         "kind": "branch",
-        "source": "fork:t3code/group/thread-picker",
-        "pin": "b13f2894eab7eb7ede25b68aa7ea422de3add584"
+        "source": "fork:t3code/orchestration-v2-main/pr-4277",
+        "pin": "58d2f4c9c0035031c21257069e5c6a0ee3ccd1e2"
       },
       {
-        "name": "t3code/composer-keyboard-shortcuts",
+        "name": "t3code/orchestration-v2-main/pr-4324",
         "kind": "branch",
-        "source": "fork:t3code/composer-keyboard-shortcuts",
-        "pin": "441c87d80253d5ce887d0886ba44d5d874007286"
+        "source": "fork:t3code/orchestration-v2-main/pr-4324",
+        "pin": "7e662726b605d92ec3ea59e3204cc1fe6fdbab22"
       },
       {
-        "name": "t3code/fix-dropdown-keyboard-navigation",
+        "name": "t3code/orchestration-v2-main/pr-4332",
         "kind": "branch",
-        "source": "fork:t3code/fix-dropdown-keyboard-navigation",
-        "pin": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059"
+        "source": "fork:t3code/orchestration-v2-main/pr-4332",
+        "pin": "485ecbdc7818f14b9c8becc666a1d3a29ba26cd3"
       },
       {
-        "name": "feat/settle-thread-keybinding",
+        "name": "t3code/orchestration-v2-main/pr-4388",
         "kind": "branch",
-        "source": "fork:feat/settle-thread-keybinding",
-        "pin": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c"
+        "source": "fork:t3code/orchestration-v2-main/pr-4388",
+        "pin": "9a914dadbf51a2b32cf83248131d90f1ec3b9a9a"
       },
       {
-        "name": "fix/draft-thread-promotion-recovery",
+        "name": "t3code/orchestration-v2-main/pr-4394",
         "kind": "branch",
-        "source": "fork:fix/draft-thread-promotion-recovery",
-        "pin": "e42331268c5fae90090d0a9f14a97a0eddf11bf0"
+        "source": "fork:t3code/orchestration-v2-main/pr-4394",
+        "pin": "29cafcfd3f622211ed358e15b0cfff8952488e0d"
       },
       {
-        "name": "fix/coalesce-assistant-streaming",
+        "name": "t3code/orchestration-v2-main/pr-4405",
         "kind": "branch",
-        "source": "fork:fix/coalesce-assistant-streaming",
-        "pin": "8638e03b83b6936f0cfa7a6fa324dffe66565f17"
+        "source": "fork:t3code/orchestration-v2-main/pr-4405",
+        "pin": "e74921f6cc7204c6dc53ba209510ff5881f1ff4a"
       },
       {
-        "name": "feat/sidebar-v2-large-icons",
+        "name": "t3code/orchestration-v2-main/pr-4602",
         "kind": "branch",
-        "source": "fork:feat/sidebar-v2-large-icons",
-        "pin": "923db8ca6a3ace6365cd9539a714e93837cc88cb"
+        "source": "fork:t3code/orchestration-v2-main/pr-4602",
+        "pin": "7bec1d7ea9b4ebb611918cf1cf1564c0d7ac7f45"
       },
       {
-        "name": "pr-4181",
-        "kind": "pr",
-        "source": "upstream#4181",
-        "pin": "d95abc106cdd4283bfc8ccc64525e795312b8c76"
-      },
-      {
-        "name": "fix/android-adaptive-icon",
+        "name": "t3code/orchestration-v2-main/pr-4447",
         "kind": "branch",
-        "source": "fork:fix/android-adaptive-icon",
-        "pin": "97ac5cef13c647637766834c1bf3b78f7e13ec5f"
+        "source": "fork:t3code/orchestration-v2-main/pr-4447",
+        "pin": "b4182595635eb3a472ff1ec92d541f677660afe6"
       },
       {
-        "name": "feat/favicon-reload-on-click",
+        "name": "t3code/orchestration-v2-main/pr-4433",
         "kind": "branch",
-        "source": "fork:feat/favicon-reload-on-click",
-        "pin": "37604c99b46f990e333033ec143f391719d05093"
+        "source": "fork:t3code/orchestration-v2-main/pr-4433",
+        "pin": "efdb587ec66fab9516a59a3066b64104ec37a89c"
       },
       {
-        "name": "fix/stuck-turn-recovery",
+        "name": "t3code/orchestration-v2-main/pr-4701",
         "kind": "branch",
-        "source": "fork:fix/stuck-turn-recovery",
-        "pin": "c14c025db47501c7c2f56294091b92e993dda048"
+        "source": "fork:t3code/orchestration-v2-main/pr-4701",
+        "pin": "29b556e77d2318094502d83b9115bbb4612944fd"
       },
       {
-        "name": "fix/android-composer-keyboard-positioning",
+        "name": "t3code/orchestration-v2-main/pr-4439",
         "kind": "branch",
-        "source": "fork:fix/android-composer-keyboard-positioning",
-        "pin": "f5846bf0146be27ff54d451a1f085f9d5963aaa9"
+        "source": "fork:t3code/orchestration-v2-main/pr-4439",
+        "pin": "6f999658a6c44f06161884bae5fdd6db3a0b0bf4"
       },
       {
-        "name": "t3code/add-thread-forking",
+        "name": "t3code/orchestration-v2-main/pr-4437",
         "kind": "branch",
-        "source": "fork:t3code/add-thread-forking",
-        "pin": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51"
+        "source": "fork:t3code/orchestration-v2-main/pr-4437",
+        "pin": "ebd38bd7b34042d3f38ae64a207c9684c3661fcd"
       },
       {
-        "name": "feat/project-icons",
+        "name": "t3code/orchestration-v2-main/pr-4482",
         "kind": "branch",
-        "source": "fork:feat/project-icons",
-        "pin": "6f052c818ab1e59ca5e1af48bbbd69db27af425a"
+        "source": "fork:t3code/orchestration-v2-main/pr-4482",
+        "pin": "bb3d8f3e0111c6d967852b814cdc608924fb4c54"
       },
       {
-        "name": "fix/thread-detail-load-hardening",
+        "name": "t3code/orchestration-v2-main/pr-4487",
         "kind": "branch",
-        "source": "fork:fix/thread-detail-load-hardening",
-        "pin": "e17b96ec7ef389cdcc351113e83514612b49dc72"
+        "source": "fork:t3code/orchestration-v2-main/pr-4487",
+        "pin": "9d0b0527a084e1b7277d726a6a9901081b88db4b"
       },
       {
-        "name": "t3code/subscription-transport-recovery",
+        "name": "t3code/orchestration-v2-main/pr-4494",
         "kind": "branch",
-        "source": "fork:t3code/subscription-transport-recovery",
-        "pin": "b5836f14b7815f0277d04ebfa8142162647d9195"
+        "source": "fork:t3code/orchestration-v2-main/pr-4494",
+        "pin": "652f448a4f4380cae682a1f9fe6026b27c224498"
       },
       {
-        "name": "feat/mobile-environment-first-new-thread",
+        "name": "t3code/orchestration-v2-main/pr-4699",
         "kind": "branch",
-        "source": "fork:feat/mobile-environment-first-new-thread",
-        "pin": "49d2d83992221e083528cdf9d54eb950a0d819b7"
+        "source": "fork:t3code/orchestration-v2-main/pr-4699",
+        "pin": "c652d55789b48d5c7130f4771be2de2d984420d0"
       },
       {
-        "name": "t3code/inline-image-support",
+        "name": "t3code/orchestration-v2-main/client-environment-suite",
         "kind": "branch",
-        "source": "fork:t3code/inline-image-support",
-        "pin": "2944f46c085204fb42d7f049d45b6636103298a2"
+        "source": "fork:t3code/orchestration-v2-main/client-environment-suite",
+        "pin": "77d4b2241585b285224c51e30f558fa059f8d91a",
+        "fixup": "7e1d5ed3f1ac27dbd154c7ac097074875b68951f"
       },
       {
-        "name": "t3code/user-input-qna-timeline",
+        "name": "t3code/orchestration-v2-main/pr-4677",
         "kind": "branch",
-        "source": "fork:t3code/user-input-qna-timeline",
-        "pin": "cf61aeb38823ab88ad4160ef5aefb232fee34d12"
+        "source": "fork:t3code/orchestration-v2-main/pr-4677",
+        "pin": "35ae05453ce1ba67b8cd0f58a48b8cc7608d3495"
       },
       {
-        "name": "fix/model-picker-shortcuts",
+        "name": "t3code/orchestration-v2-main/pr-4593",
         "kind": "branch",
-        "source": "fork:fix/model-picker-shortcuts",
-        "pin": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a"
+        "source": "fork:t3code/orchestration-v2-main/pr-4593",
+        "pin": "88857f13265e870ef5d02fb076e8ddb137fb45fd"
       },
       {
-        "name": "t3code/configurable-workspace-placement",
+        "name": "t3code/orchestration-v2-main/pr-4631",
         "kind": "branch",
-        "source": "fork:t3code/configurable-workspace-placement",
-        "pin": "b8aa507bc229db74761453f71d01920fd4d9f6f0"
-      },
-      {
-        "name": "t3code/xdg-storage-layout",
-        "kind": "branch",
-        "source": "fork:t3code/xdg-storage-layout",
-        "pin": "8d7270e82ccb610903290cafbfd0ccd177af5a0b"
-      },
-      {
-        "name": "fix/discover-claude-models",
-        "kind": "branch",
-        "source": "fork:fix/discover-claude-models",
-        "pin": "50cdd15219ab2d41823846a1f5a728449d5c7a05"
-      },
-      {
-        "name": "fix/sidebar-resize-after-window-growth",
-        "kind": "branch",
-        "source": "fork:fix/sidebar-resize-after-window-growth",
-        "pin": "81bd69e9f8abeb9037136635c4e02464ac60c63a"
-      },
-      {
-        "name": "t3code/filter-hidden-codex-models",
-        "kind": "branch",
-        "source": "fork:t3code/filter-hidden-codex-models",
-        "pin": "c75d35701081c09d2308fb0da96f2a13eca9faf8"
-      },
-      {
-        "name": "t3code/fix-provider-settings-toggle",
-        "kind": "branch",
-        "source": "fork:t3code/fix-provider-settings-toggle",
-        "pin": "05e12e767e1206b4d115cc8ccf65306641fa251b"
-      },
-      {
-        "name": "fix/recover-bootstrap-thread-id",
-        "kind": "branch",
-        "source": "fork:fix/recover-bootstrap-thread-id",
-        "pin": "2385d73e0bfae205b090ef44cfdbde35f5ed655e"
-      },
-      {
-        "name": "t3code/local/nix-flake",
-        "kind": "branch",
-        "source": "fork:t3code/local/nix-flake",
-        "pin": "f58759e6f6be5e8e351831fe967d549c1e866110"
-      },
-      {
-        "name": "t3code/unify-environment-selection",
-        "kind": "branch",
-        "source": "fork:t3code/unify-environment-selection",
-        "pin": "74fd875c4d13773cedd1b9c1b6dea56863733f0a"
-      },
-      {
-        "name": "t3code/add-custom-snooze-time",
-        "kind": "branch",
-        "source": "fork:t3code/add-custom-snooze-time",
-        "pin": "9b728aed7d53f1c21fd1422977e4c160803baf72"
-      },
-      {
-        "name": "t3code/settle-state-reconcile",
-        "kind": "branch",
-        "source": "fork:t3code/settle-state-reconcile",
-        "pin": "5fc3aefd627cc5417544dc99c0ead5399ac6115a"
-      },
-      {
-        "name": "t3code/local/build-provenance",
-        "kind": "branch",
-        "source": "fork:t3code/local/build-provenance",
-        "pin": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f"
-      },
-      {
-        "name": "t3code/clear-unanswerable-provider-requests",
-        "kind": "branch",
-        "source": "fork:t3code/clear-unanswerable-provider-requests",
-        "pin": "495be4153ec9f9402140224e4ca2f9289a9d974a"
-      },
-      {
-        "name": "t3code/investigate-large-thread-rendering",
-        "kind": "branch",
-        "source": "fork:t3code/investigate-large-thread-rendering",
-        "pin": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127"
-      },
-      {
-        "name": "t3code/find-in-thread",
-        "kind": "branch",
-        "source": "fork:t3code/find-in-thread",
-        "pin": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75"
-      },
-      {
-        "name": "t3code/mobile-thread-replay-render-fixes",
-        "kind": "branch",
-        "source": "fork:t3code/mobile-thread-replay-render-fixes",
-        "pin": "8399d436a6bd53c3284bdb03ecca919a435e689c"
-      },
-      {
-        "name": "t3code/fix-broken-image-previews",
-        "kind": "branch",
-        "source": "fork:t3code/fix-broken-image-previews",
-        "pin": "929653023ea083b947da7d2817bbad7b7df3f3fd"
-      },
-      {
-        "name": "t3code/add-mobile-build-action",
-        "kind": "branch",
-        "source": "fork:t3code/add-mobile-build-action",
-        "pin": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4"
-      },
-      {
-        "name": "t3code-sidebar-v2-large-icons-fixture",
-        "kind": "patch",
-        "source": "patches/t3code-sidebar-v2-large-icons-fixture.patch",
-        "pin": "98abc5da3772e0754612fd80e82c6afeba651070"
-      },
-      {
-        "name": "t3code-projection-threads-snoozed-migration-compat",
-        "kind": "patch",
-        "source": "patches/t3code-projection-threads-snoozed-migration-compat.patch",
-        "pin": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d"
-      },
-      {
-        "name": "t3code-assembled-runtime-imports",
-        "kind": "patch",
-        "source": "patches/t3code-assembled-runtime-imports.patch",
-        "pin": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed"
-      },
-      {
-        "name": "t3code-chat-composer-stash-merge",
-        "kind": "patch",
-        "source": "patches/t3code-chat-composer-stash-merge.patch",
-        "pin": "32fccc63f34559ddf4dc1f218897ebe067510180"
-      },
-      {
-        "name": "t3code-refreshed-client-overlap",
-        "kind": "patch",
-        "source": "patches/t3code-refreshed-client-overlap.patch",
-        "pin": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d"
+        "source": "fork:t3code/orchestration-v2-main/pr-4631",
+        "pin": "a0cc996d03be78e3b80385c180bc7b99bc10e24a"
       }
     ],
     "results": [
       {
-        "name": "pr-3984",
-        "oid": "690d45fdd7a903911b5ea47c5dbce6469def10c6",
+        "name": "t3code/orchestration-v2-main/pr-4259",
+        "oid": "f6fb5057ddaed6f98dccc89ed90ab55e99d94897",
         "status": "merged",
         "conflicted": false
       },
       {
-        "name": "t3code/local/artifact-safety",
-        "oid": "7893bfa9f9f9e8cad9dcd046e8b6bc3038a8c976",
+        "name": "t3code/orchestration-v2-main/pr-4257",
+        "oid": "2bd668035e4ba11b9ca45984d602e79096301983",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4277",
+        "oid": "58d2f4c9c0035031c21257069e5c6a0ee3ccd1e2",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4324",
+        "oid": "7e662726b605d92ec3ea59e3204cc1fe6fdbab22",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4332",
+        "oid": "485ecbdc7818f14b9c8becc666a1d3a29ba26cd3",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4388",
+        "oid": "9a914dadbf51a2b32cf83248131d90f1ec3b9a9a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4394",
+        "oid": "29cafcfd3f622211ed358e15b0cfff8952488e0d",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4405",
+        "oid": "e74921f6cc7204c6dc53ba209510ff5881f1ff4a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4602",
+        "oid": "7bec1d7ea9b4ebb611918cf1cf1564c0d7ac7f45",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4447",
+        "oid": "b4182595635eb3a472ff1ec92d541f677660afe6",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4433",
+        "oid": "efdb587ec66fab9516a59a3066b64104ec37a89c",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4701",
+        "oid": "29b556e77d2318094502d83b9115bbb4612944fd",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4439",
+        "oid": "6f999658a6c44f06161884bae5fdd6db3a0b0bf4",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4437",
+        "oid": "ebd38bd7b34042d3f38ae64a207c9684c3661fcd",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4482",
+        "oid": "bb3d8f3e0111c6d967852b814cdc608924fb4c54",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4487",
+        "oid": "9d0b0527a084e1b7277d726a6a9901081b88db4b",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4494",
+        "oid": "652f448a4f4380cae682a1f9fe6026b27c224498",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4699",
+        "oid": "c652d55789b48d5c7130f4771be2de2d984420d0",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/client-environment-suite",
+        "oid": "77d4b2241585b285224c51e30f558fa059f8d91a",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:1e6f69ecd2399db5edbc8df8498ed72a101a6a87,dc14236b57a1e50f710e81f327e8fea95628d08b,e09bc828e81848f6cb5c1b7fbaf4dbff666166cf"
+        "resolution": "rerere",
+        "fixup": "7e1d5ed3f1ac27dbd154c7ac097074875b68951f"
       },
       {
-        "name": "t3code/searchable-new-thread-projects",
-        "oid": "b3408bb2266fe1021d5e97fb984a402728c024fa",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/group/thread-picker",
-        "oid": "b13f2894eab7eb7ede25b68aa7ea422de3add584",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/composer-keyboard-shortcuts",
-        "oid": "441c87d80253d5ce887d0886ba44d5d874007286",
+        "name": "t3code/orchestration-v2-main/pr-4677",
+        "oid": "35ae05453ce1ba67b8cd0f58a48b8cc7608d3495",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:c5bb142d0fc81fcaf586509f4b318ceb25949f9f"
+        "resolution": "rerere"
       },
       {
-        "name": "t3code/fix-dropdown-keyboard-navigation",
-        "oid": "8f8310181b0a3dcd4f4f4b2a7a9f4e50266bd059",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:00cbb2660af0206dc25191013a25c39c50c5b3db,078a9ee92cd1f7def3d24b0ee7d9b11676593bd4,3a03492a2de1c36b5c9e27915ef4bf8de98c2837,9d810c88a591d372d3c253d47348d77528148834,b68595f02bc4dd88ab05d6c66de8a6f6b79fabe0,dfcae02c7510d19b386e0306643366300e9daa31"
-      },
-      {
-        "name": "feat/settle-thread-keybinding",
-        "oid": "0b2132142edf7b5e2ce992c0d239f5098d5cbc2c",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:e0df76859e94ed20985127c8fc0fd6d9f09fff46,e85cc77704ab177b71fc07e855ee0ddea5ef2f35"
-      },
-      {
-        "name": "fix/draft-thread-promotion-recovery",
-        "oid": "e42331268c5fae90090d0a9f14a97a0eddf11bf0",
+        "name": "t3code/orchestration-v2-main/pr-4593",
+        "oid": "88857f13265e870ef5d02fb076e8ddb137fb45fd",
         "status": "merged",
         "conflicted": false
       },
       {
-        "name": "fix/coalesce-assistant-streaming",
-        "oid": "8638e03b83b6936f0cfa7a6fa324dffe66565f17",
+        "name": "t3code/orchestration-v2-main/pr-4631",
+        "oid": "a0cc996d03be78e3b80385c180bc7b99bc10e24a",
         "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "feat/sidebar-v2-large-icons",
-        "oid": "923db8ca6a3ace6365cd9539a714e93837cc88cb",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "pr-4181",
-        "oid": "d95abc106cdd4283bfc8ccc64525e795312b8c76",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/android-adaptive-icon",
-        "oid": "97ac5cef13c647637766834c1bf3b78f7e13ec5f",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "feat/favicon-reload-on-click",
-        "oid": "37604c99b46f990e333033ec143f391719d05093",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/stuck-turn-recovery",
-        "oid": "c14c025db47501c7c2f56294091b92e993dda048",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/android-composer-keyboard-positioning",
-        "oid": "f5846bf0146be27ff54d451a1f085f9d5963aaa9",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/add-thread-forking",
-        "oid": "3fa50cc62fdddd1f5c0b2a846ef4d3fdc8b3ed51",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:254f1f2d5ed61b030ef7a37fb84a8dfc16bfe3e7"
-      },
-      {
-        "name": "feat/project-icons",
-        "oid": "6f052c818ab1e59ca5e1af48bbbd69db27af425a",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:3d122cfb2a2c8a58ae58d105be1e26652b12d15a,495df43952a13afcf367955a213a7f84d3ce3696,c040dbb16e438c0669f8b27becc28ba7405e069f,cda3892dcfbbd7a819ea52779c550fa23eb92011,e3e92a71b7f9d8c607b5e88f55efa4961da8e3ee"
-      },
-      {
-        "name": "fix/thread-detail-load-hardening",
-        "oid": "e17b96ec7ef389cdcc351113e83514612b49dc72",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/subscription-transport-recovery",
-        "oid": "b5836f14b7815f0277d04ebfa8142162647d9195",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "feat/mobile-environment-first-new-thread",
-        "oid": "49d2d83992221e083528cdf9d54eb950a0d819b7",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/inline-image-support",
-        "oid": "2944f46c085204fb42d7f049d45b6636103298a2",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:0039bae6aba6574bcf25673d53d13069e73d44a3,520a3f435d262fcf1463157d47429eb1add4dfa7,f765c84f61debeb802a519e24ba02e52ee15fe48"
-      },
-      {
-        "name": "t3code/user-input-qna-timeline",
-        "oid": "cf61aeb38823ab88ad4160ef5aefb232fee34d12",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:2179ae868451f5d7b8e6a17b06ea133f87b1569b,a25ea03aaefe3ee6edfc9908a1bfbb5d48f81089"
-      },
-      {
-        "name": "fix/model-picker-shortcuts",
-        "oid": "c7ac18dd530bac6858bc0ba1be0b4f16e2e25b0a",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/configurable-workspace-placement",
-        "oid": "b8aa507bc229db74761453f71d01920fd4d9f6f0",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:bc78aafab9031bb3446f2f936964668c22c4e8b5"
-      },
-      {
-        "name": "t3code/xdg-storage-layout",
-        "oid": "8d7270e82ccb610903290cafbfd0ccd177af5a0b",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/discover-claude-models",
-        "oid": "50cdd15219ab2d41823846a1f5a728449d5c7a05",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/sidebar-resize-after-window-growth",
-        "oid": "81bd69e9f8abeb9037136635c4e02464ac60c63a",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/filter-hidden-codex-models",
-        "oid": "c75d35701081c09d2308fb0da96f2a13eca9faf8",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/fix-provider-settings-toggle",
-        "oid": "05e12e767e1206b4d115cc8ccf65306641fa251b",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "fix/recover-bootstrap-thread-id",
-        "oid": "2385d73e0bfae205b090ef44cfdbde35f5ed655e",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/local/nix-flake",
-        "oid": "f58759e6f6be5e8e351831fe967d549c1e866110",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/unify-environment-selection",
-        "oid": "74fd875c4d13773cedd1b9c1b6dea56863733f0a",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:2df109d3d250996871831c4bba8b14abd4607a87,35ed25430a6d03620c9210b501a4f5fe509ae0aa,4c79a5cb9abe7b882667e1adf40235c65615c7a7,64a256e918f10a9a6059507c4df291f2d389c816,97403f1a8ed1fe65479df36b150f658cfa115751,9c7e708c8b5b8b1733ca141f2444de0da2787ea9,a0bcb3b36cfdbb8766c0f6f14069179441abd65f,b03cb7730200714a87de3d8327249f141686f3e5,b9d85e2df4d85f0fe8b69f8e56b8f510f591bb70,cf5b007f1ce02ad07af40e030ee7267cacb5e00d,d055f8f4650d3a24f831b8018e28eed642260311,d5fbe9e6e14d684ce892c741e2d1dea4c12d1ad1,dda04b3b1cf01ea984447ebdaac9cb1f3cb52990"
-      },
-      {
-        "name": "t3code/add-custom-snooze-time",
-        "oid": "9b728aed7d53f1c21fd1422977e4c160803baf72",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:036e3687dc3e06e726f3cba381234544f1a92a22"
-      },
-      {
-        "name": "t3code/settle-state-reconcile",
-        "oid": "5fc3aefd627cc5417544dc99c0ead5399ac6115a",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/local/build-provenance",
-        "oid": "482ab626122dd63dfe28fbbd83f4fa60186b6b0f",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:d6d50d994c56bb6dceef034d17a7724d3708c73a,e65eb31f7ebce82743ac085b6e0bcdf34dd63554"
-      },
-      {
-        "name": "t3code/clear-unanswerable-provider-requests",
-        "oid": "495be4153ec9f9402140224e4ca2f9289a9d974a",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code/investigate-large-thread-rendering",
-        "oid": "5eaec3ebefd170d8f7b4e6b5187b2fbb54187127",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:97d641655f8e761629f5f9781c0adeee6a932e93"
-      },
-      {
-        "name": "t3code/find-in-thread",
-        "oid": "ba5a3b3ea57c94a2887cdae1a5b9608eda5adc75",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:98a14990a5c2978a8806fcfbf06552fa6a13c5cb,a12d7625b093cd710c119f1e270c30f460e7ff47,ec7c641718811a3c7708eb8700c3b0b7799e35a9,fd00f9299e789561a02dbcd46459d201e201f20d"
-      },
-      {
-        "name": "t3code/mobile-thread-replay-render-fixes",
-        "oid": "8399d436a6bd53c3284bdb03ecca919a435e689c",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:634e5e6a263c45f07b2bf6ae3627d81923144133"
-      },
-      {
-        "name": "t3code/fix-broken-image-previews",
-        "oid": "929653023ea083b947da7d2817bbad7b7df3f3fd",
-        "status": "merged",
-        "conflicted": true,
-        "resolution": "rerere:a85d5be76b24b4f9d55745de6c7624e9a1ebedbf"
-      },
-      {
-        "name": "t3code/add-mobile-build-action",
-        "oid": "3b82cbbac20f7cb4c6d11c0db6a0310e848079f4",
-        "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "t3code-sidebar-v2-large-icons-fixture",
-        "oid": "98abc5da3772e0754612fd80e82c6afeba651070",
-        "status": "applied",
-        "conflicted": false
-      },
-      {
-        "name": "t3code-projection-threads-snoozed-migration-compat",
-        "oid": "f6e3c5a5fe3bbcf29f48444b8e7ad06681ee003d",
-        "status": "applied",
-        "conflicted": false
-      },
-      {
-        "name": "t3code-assembled-runtime-imports",
-        "oid": "084f54bc2a98d8c94d39283fa9f18d53c9b8f1ed",
-        "status": "applied",
-        "conflicted": false
-      },
-      {
-        "name": "t3code-chat-composer-stash-merge",
-        "oid": "32fccc63f34559ddf4dc1f218897ebe067510180",
-        "status": "applied",
-        "conflicted": false
-      },
-      {
-        "name": "t3code-refreshed-client-overlap",
-        "oid": "fa07ec0c76a108e2e74c9808dfab076cd50d2d9d",
-        "status": "applied",
         "conflicted": false
       }
     ]

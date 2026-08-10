@@ -1,6 +1,6 @@
 # T3 Code assembly architecture
 
-This repository is a fork-fold maintenance stack: upstream T3 Code plus an
+This repository is a fork-assembler maintenance stack: upstream T3 Code plus an
 ordered set of topic branches and explicit patch entries.
 
 ## Sources of truth
@@ -21,12 +21,12 @@ it, base a topic on it, or merge it back into a topic branch.
 ## Conflict model
 
 Every build clears the source repository’s rr-cache and seeds it exclusively
-from the tracked pairs. Fork-fold enables rerere only on its merge/continue
+from the tracked pairs. Fork Assembler enables rerere only on its merge/continue
 commands, so no ambient cache can influence the result.
 
 Git rerere keys on normalized conflict hunks. The same hunks therefore replay
 even when unrelated content elsewhere in a file or tree has moved. A changed
-or unknown hunk stops for manual resolution; `fork-fold continue` harvests
+or unknown hunk stops for manual resolution; `fork-assembler continue` harvests
 the new pair into the repository.
 
 Rerere intentionally captures only conflicted hunks. Edits outside them and
@@ -34,10 +34,10 @@ conflict types Git cannot record belong in tracked patches. A locked rebuild
 must reproduce the lock’s tree hash exactly, which exposes any missing
 out-of-hunk change.
 
-Fork-fold now offers two homes for such a patch. A **coherence fixup**
+Fork Assembler now offers two homes for such a patch. A **coherence fixup**
 (`fixup = "..."` on a branch or pr entry) applies inside that entry’s own
 step, right after its merge, so the entry boundary is never an invalid tree;
-attach one with `fork-fold fixup ENTRY FILE --capture`. A standalone **patch
+attach one with `fork-assembler fixup ENTRY FILE --capture`. A standalone **patch
 entry** applies at its own position. Prefer a fixup for anything that repairs
 what admitting a specific entry broke — which is what every assembly-emergent
 patch here does.
@@ -55,7 +55,7 @@ deliberate rebuild with possible re-resolution, not a mechanical edit.
 ## Repository layout
 
 ```text
-manifest.toml                 fork-fold intent
+manifest.toml                 fork-assembler intent
 manifest.lock.json            pinned inputs and last build result
 resolutions/rerere/           tracked preimage/postimage pairs and audit index
 patches/                      ordered semantic patch entries
@@ -65,7 +65,7 @@ justfile                      common build and verification commands
 ```
 
 The `thread-picker.toml` files and legacy Python builder remain temporarily
-because fork-fold does not yet implement nested groups. They maintain only the
+because fork-assembler does not yet implement nested groups. They maintain only the
 thread-picker group branch. `assembly.toml`, `assembly.lock.json`, the old
 resolution manifests, and `sources/topics.bundle` are retained as migration
 history and must not be used for the primary assembly.
@@ -76,11 +76,11 @@ not the name of this repository or workflow.
 
 ## Agent skill
 
-The Fork Fold skill is discovered through `.agents/skills/fork-fold/`;
+The Fork Assembler skill is discovered through `.agents/skills/fork-assembler/`;
 `.claude/skills/` and `.codex/skills/` point to the same entry. The
 checked-in skill is deliberately only a stable discovery stub. It evaluates
 `lib.forkFoldAgentGuide`, which this repository's flake re-exports directly
-from its pinned `fork-fold` input.
+from its pinned `fork-assembler` input.
 
 The full operating instructions therefore change with `flake.lock`. Do not
 copy their output into this repository. Repository-specific architecture and

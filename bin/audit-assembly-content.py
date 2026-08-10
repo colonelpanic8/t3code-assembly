@@ -40,22 +40,18 @@ def sh(*a):
     return subprocess.run(["git","-C",REPO,*a],capture_output=True,text=True).stdout
 
 entries=[]
-for manifest_path, lock_path in [
-    (ASSEMBLY_ROOT / "assembly.toml", ASSEMBLY_ROOT / "assembly.lock.json"),
-    (ASSEMBLY_ROOT / "thread-picker.toml", ASSEMBLY_ROOT / "thread-picker.lock.json"),
-]:
-    lock=json.loads(lock_path.read_text())
-    main=lock["upstream_main"]
-    locks={
-        result["entry"]: result["oid"]
-        for result in lock.get("entries", [])
-        if result.get("oid")
-    }
-    d=tomllib.load(open(manifest_path,"rb"))
-    for e in d["entry"]:
-        label=str(e.get("pr") or e.get("branch"))
-        if e.get("pin"):
-            entries.append((label, locks.get(label, e["pin"]), main))
+manifest=tomllib.load(open(ASSEMBLY_ROOT / "manifest.toml", "rb"))
+lock=json.loads((ASSEMBLY_ROOT / "manifest.lock.json").read_text())
+main=lock["pins"]["base"]
+locks=lock["pins"]["entries"]
+for entry in manifest["entry"]:
+    if "branch" not in entry:
+        continue
+    name=entry["branch"].split(":", 1)[-1]
+    label=str(entry.get("pr") or name)
+    oid=locks.get(name)
+    if oid:
+        entries.append((label, oid, main))
 
 def significant(line):
     s=line[1:].strip()
@@ -65,6 +61,7 @@ print(f"{'entry':<34} {'files':>5} {'addlines':>8} {'MISSING':>8}")
 bad=[]
 explained=[]
 used_exceptions=set()
+audited_labels={label for label, _, _ in entries}
 for label,pin,main in entries:
     oid=sh("rev-parse",f"{pin}^{{commit}}").strip()
     if not oid: print(f"{label:<34}  UNRESOLVED"); continue
@@ -113,7 +110,7 @@ if explained:
     for label, reason in explained:
         print(f"\n{label}: {reason}")
 
-stale_exceptions=sorted(set(EXCEPTIONS) - used_exceptions)
+stale_exceptions=sorted((set(EXCEPTIONS) & audited_labels) - used_exceptions)
 if stale_exceptions:
     print("\n=== stale audit exceptions ===")
     for label in stale_exceptions:

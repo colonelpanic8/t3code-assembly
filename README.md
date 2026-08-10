@@ -1,6 +1,6 @@
 # t3code-assembly
 
-Ivan’s reproducible [fork-fold](https://github.com/colonelpanic8/fork-fold)
+Ivan’s reproducible [fork-assembler](https://github.com/colonelpanic8/fork-assembler)
 stack for T3 Code.
 
 The repository pins upstream T3 Code as `t3code/`, records the ordered topics

@@ -1,16 +1,16 @@
 {
-  description = "T3 Code fork-fold assembly tooling";
+  description = "T3 Code fork-assembler assembly tooling";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    fork-fold.url = "github:colonelpanic8/fork-fold";
-    fork-fold.inputs.nixpkgs.follows = "nixpkgs";
+    fork-assembler.url = "github:colonelpanic8/fork-assembler";
+    fork-assembler.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
     {
       nixpkgs,
-      fork-fold,
+      fork-assembler,
       ...
     }:
     let
@@ -29,7 +29,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          default = fork-fold.lib.mkMaintenanceShell {
+          default = fork-assembler.lib.mkMaintenanceShell {
             inherit pkgs;
             extraPackages = with pkgs; [
               jq
@@ -41,6 +41,6 @@
 
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
-      lib.forkFoldAgentGuide = fork-fold.lib.agentGuide;
+      lib.forkFoldAgentGuide = fork-assembler.lib.agentGuide;
     };
 }

@@ -4,19 +4,19 @@ default:
   @just --list
 
 build:
-  fork-fold build
+  fork-assembler build
 
 locked:
-  fork-fold build --locked
+  fork-assembler build --locked
 
 status:
-  fork-fold status
+  fork-assembler status
 
 continue:
-  fork-fold continue
+  fork-assembler continue
 
 update *entries:
-  fork-fold update {{entries}}
+  fork-assembler update {{entries}}
 
 group-reproduce:
   bin/rebuild-t3code-assembly.py --manifest thread-picker.toml --mode reproduce --write-lock

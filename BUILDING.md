@@ -11,7 +11,7 @@ the legacy `assembly.toml` path for the main build.
   `/srv/dotfiles`.
 - Never develop on, base work on, or merge back the generated
   `t3code/assembled` branch.
-- `fork-fold build` consumes existing pins. Only `fork-fold update` moves
+- `fork-assembler build` consumes existing pins. Only `fork-assembler update` moves
   them.
 - Builds may use only the tracked pairs under `resolutions/rerere/`; never
   enable persistent rerere or seed a build from ambient state.
@@ -28,17 +28,17 @@ git submodule status
 just status
 ```
 
-Append a topic with `fork-fold add REMOTE:BRANCH` or `fork-fold add --pr N`.
-Append semantic glue with `fork-fold add --patch FILE`. Appends build
+Append a topic with `fork-assembler add REMOTE:BRANCH` or `fork-assembler add --pr N`.
+Append semantic glue with `fork-assembler add --patch FILE`. Appends build
 incrementally; reordering or removal invalidates the suffix from the first
 changed entry.
 
 To refresh existing pins:
 
 ```sh
-fork-fold update                 # base and all live entries
-fork-fold update ENTRY...        # selected entries
-fork-fold build
+fork-assembler update                 # base and all live entries
+fork-assembler update ENTRY...        # selected entries
+fork-assembler build
 ```
 
 Before a mutation phase, fetch the live upstream head and record it in the
@@ -54,14 +54,14 @@ If it moves before publishing, reassess the affected updates and rebuild.
 ## Resolving conflicts
 
 Recognized conflict hunks resolve automatically from the tracked rerere pairs.
-For an unknown conflict, fork-fold exits with status 2 and names the build
+For an unknown conflict, fork-assembler exits with status 2 and names the build
 worktree and files:
 
 1. Resolve files in `.worktrees/build`.
 2. Stage only the intended resolution with `git add`.
-3. Run `fork-fold continue`.
+3. Run `fork-assembler continue`.
 4. Repeat until the build completes.
-5. Run `fork-fold build --locked` from scratch.
+5. Run `fork-assembler build --locked` from scratch.
 
 `continue` harvests Git’s preimage/postimage pair under
 `resolutions/rerere/` and updates the informational `INDEX.toml`. If the
@@ -74,7 +74,7 @@ Do not discard the worktree or pretend the build is complete.
 
 ## Thread-picker group
 
-Fork-fold groups are not implemented yet. Only this nested group still uses
+Fork Assembler groups are not implemented yet. Only this nested group still uses
 the legacy Python builder:
 
 ```sh
@@ -87,7 +87,7 @@ just group-reproduce
 ```
 
 Push the resulting group commit to `fork:t3code/group/thread-picker`, then run
-`fork-fold update t3code/group/thread-picker` and rebuild the primary stack.
+`fork-assembler update t3code/group/thread-picker` and rebuild the primary stack.
 Do not run the legacy builder against `assembly.toml`.
 
 ## Syntax gate
@@ -95,7 +95,7 @@ Do not run the legacy builder against `assembly.toml`.
 Before the verification ladder:
 
 ```sh
-nix develop -c fork-fold status
+nix develop -c fork-assembler status
 nix fmt -- --ci
 python3 -m py_compile bin/audit-assembly-content.py
 git diff --check
