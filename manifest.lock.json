@@ -4,6 +4,8 @@
     "base": "ff032dddd2111d99e003d4bce801123012cf0c67",
     "entries": {
       "t3code/orchestration-v2-main/client-environment-suite": "f87a5fb839f0504a2df8d1a54ef9cdc99f6598f9",
+      "t3code/orchestration-v2-main/desktop-clerk-startup": "35c97ac35a0e7d6949b381d9e726bd152d955e8f",
+      "t3code/orchestration-v2-main/managed-fleet": "ee635c701c9747e6c7d7c8888bd92602dace33dc",
       "t3code/orchestration-v2-main/pr-4257": "531d54a2594e8f49f9a3f9493cd2964c8e6a9f5c",
       "t3code/orchestration-v2-main/pr-4259": "8cd189d749025a13888e0de4dda4ad4306e43d96",
       "t3code/orchestration-v2-main/pr-4277": "0ebf7de177627f5cb4efda4fd93c3b1a5446f7ed",
@@ -28,15 +30,15 @@
     }
   },
   "build": {
-    "generated": "2026-08-10T19:10:54.150962410+00:00",
+    "generated": "2026-08-10T20:10:09.951022886+00:00",
     "base": "ff032dddd2111d99e003d4bce801123012cf0c67",
-    "commit": "0b908f386ccd764d9aa9dc985fa4308e85665462",
-    "pre_provenance_commit": "190a10247f8574995c359b20a9f56c494ca5229e",
-    "tree": "38ce53364039f789ce038a6fe9232ff771f040d5",
-    "built_tree": "69c60c258e30c00d725f80865c6f63cb7c1a6a9b",
-    "previous_tree": "6ed6720f8bb2292d3c88fed1bd44c4cb96764d74",
+    "commit": "29535785d33a507aa7eb1a8e433030d9505d41d4",
+    "pre_provenance_commit": "512352b926d2f688205f41071c89493ef95bf10b",
+    "tree": "9c9163cef282f697a6d73c741dd1e829c049dced",
+    "built_tree": "20de794dfab0336398d5676f9421064ca4691fdc",
+    "previous_tree": "ec018836518116f94c95065ebc0f9004de2bff1f",
     "tree_changed": true,
-    "conflicts": 1,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -170,6 +172,18 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4631",
         "pin": "2f84c0af8abda997e5697962e2ef73b8d3b897b1"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/managed-fleet",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/managed-fleet",
+        "pin": "ee635c701c9747e6c7d7c8888bd92602dace33dc"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/desktop-clerk-startup",
+        "pin": "35c97ac35a0e7d6949b381d9e726bd152d955e8f"
       }
     ],
     "results": [
@@ -304,6 +318,19 @@
       {
         "name": "t3code/orchestration-v2-main/pr-4631",
         "oid": "2f84c0af8abda997e5697962e2ef73b8d3b897b1",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/managed-fleet",
+        "oid": "ee635c701c9747e6c7d7c8888bd92602dace33dc",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "rerere:69465dc1b938c3652744d25596317ac2fa648940,82d551c2a5b65f182c6badf92b14572edeb8b4fc,fc57edbb678f86560012d00b7cd90232e6ad9077"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
+        "oid": "35c97ac35a0e7d6949b381d9e726bd152d955e8f",
         "status": "merged",
         "conflicted": false
       }

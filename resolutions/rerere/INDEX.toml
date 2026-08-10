@@ -218,6 +218,24 @@ paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
 recorded = "2026-08-10T18:34:24.392731801+00:00"
 
 [[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "69465dc1b938c3652744d25596317ac2fa648940"
+paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
+recorded = "2026-08-10T19:29:24.703362093+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "82d551c2a5b65f182c6badf92b14572edeb8b4fc"
+paths = ["apps/desktop/src/app/DesktopConfig.ts"]
+recorded = "2026-08-10T19:29:24.703363827+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "fc57edbb678f86560012d00b7cd90232e6ad9077"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-08-10T19:29:24.703364217+00:00"
+
+[[resolution]]
 entry = "t3code/orchestration-v2-main/pr-4677"
 hash = "dd19ad9cb947b3f3411853110494dd387f144eff"
 paths = ["apps/web/src/components/Sidebar.tsx"]

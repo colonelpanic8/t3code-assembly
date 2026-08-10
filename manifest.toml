@@ -127,6 +127,12 @@ branch = "fork:t3code/orchestration-v2-main/pr-4631"
 pr = 4631
 summary = "Render markdown images from workspace files"
 
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/managed-fleet"
+
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/desktop-clerk-startup"
+
 [[exclude]]
 pr = 4258
 reason = "Obviated by the orchestration-v2 client/environment suite and current v2 picker flow."
