@@ -5,8 +5,8 @@ upstream = "https://github.com/pingdotgg/t3code"
 fork = "https://github.com/colonelpanic8/t3code"
 
 [base]
-remote = "fork"
-ref = "t3code/orchestration-v2-main/base"
+remote = "upstream"
+ref = "t3code/codex-turn-mapping"
 submodule = "t3code"
 
 [publish]

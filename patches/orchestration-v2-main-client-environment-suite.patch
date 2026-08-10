@@ -10,24 +10,118 @@ index f00d292a5..5c7257ab7 100644
    legacySidebarEnabled: false,
    timestampFormat: "24-hour",
    wordWrap: true,
-diff --git a/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts b/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
-index cb0aa60e3..07224e032 100644
---- a/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
-+++ b/apps/server/src/persistence/Migrations/039_040_OrchestrationV2.test.ts
-@@ -13,7 +13,7 @@ layer("039_040_OrchestrationV2", (it) => {
-     Effect.sync(() => {
-       assert.deepStrictEqual(
-         migrationEntries.map(([id]) => id),
--        Array.from({ length: 47 }, (_, index) => index + 1),
-+        Array.from({ length: 49 }, (_, index) => index + 1),
+diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
+index 38fa3be8b..26f9c3bac 100644
+--- a/apps/server/src/cli/pair.ts
++++ b/apps/server/src/cli/pair.ts
+@@ -271,7 +271,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
+       const derivedPaths = yield* ServerConfig.deriveServerPaths(
+         baseDir,
+         variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
+-        {},
        );
-     }),
+       const statePath = derivedPaths.serverRuntimeStatePath;
+       checkedStatePaths.push(statePath);
+@@ -319,7 +318,6 @@ const makePairServerConfig = Effect.fn(function* (input: {
+   const derivedPaths = yield* ServerConfig.deriveServerPaths(
+     baseDir,
+     variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
+-    {},
    );
+   return ServerConfig.make({
+     logLevel: input.logLevel,
+diff --git a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
+index 16c695fe7..6ace5fb5e 100644
+--- a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
++++ b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
+@@ -9,7 +9,7 @@ import * as Path from "effect/Path";
+ import * as PlatformError from "effect/PlatformError";
+ import * as Schema from "effect/Schema";
+ 
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { layer as idAllocatorLayer } from "../IdAllocator.ts";
+ import { ProviderAdapterOpenSessionError } from "../ProviderAdapter.ts";
+ import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
+@@ -69,6 +69,7 @@ export function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-codex-${scenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -105,6 +106,7 @@ export function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],
+diff --git a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
+index 29d210ec9..a27dbb1fe 100644
+--- a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
++++ b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
+@@ -13,7 +13,7 @@ import * as Path from "effect/Path";
+ import * as PlatformError from "effect/PlatformError";
+ import * as Schema from "effect/Schema";
+ 
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { layer as idAllocatorLayer } from "../IdAllocator.ts";
+ import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
+ import { makeDriverLayer as makeProviderAdapterRegistryDriverLayer } from "../ProviderAdapterRegistry.ts";
+@@ -532,6 +532,7 @@ function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-cursor-${scenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -566,6 +567,7 @@ function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],
+diff --git a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+index cefed6438..f747de9e0 100644
+--- a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
++++ b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+@@ -10,7 +10,7 @@ import type { MigrationError } from "effect/unstable/sql/Migrator";
+ import type { SqlError } from "effect/unstable/sql/SqlError";
+ 
+ import * as CheckpointStore from "../../checkpointing/CheckpointStore.ts";
+-import { ServerConfig } from "../../config.ts";
++import { deriveServerPaths, ServerConfig } from "../../config.ts";
+ import { SqlitePersistenceMemory } from "../../persistence/Layers/Sqlite.ts";
+ import { ServerSettingsService } from "../../serverSettings.ts";
+ import { layer as mcpSessionRegistryTestLayer } from "../../mcp/McpSessionRegistry.testkit.ts";
+@@ -73,6 +73,7 @@ export function makeReplayServerConfig(
+     const baseDir = yield* fs.makeTempDirectory({
+       prefix: `t3-orchestration-v2-replay-${safeScenario}-`,
+     });
++    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
+     const stateDir = path.join(baseDir, "userdata");
+     const logsDir = path.join(stateDir, "logs");
+     const providerLogsDir = path.join(logsDir, "provider");
+@@ -109,6 +110,7 @@ export function makeReplayServerConfig(
+       host: undefined,
+       cwd: process.cwd(),
+       baseDir,
++      ...derivedPaths,
+       staticDir: undefined,
+       devUrl: undefined,
+       devAllowedOrigins: [],
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index d0693f467..ca956a457 100644
+index 8696b8f6c..e5b72e431 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
-@@ -2047,9 +2047,9 @@ function OpenCommandPaletteDialog(props: {
+@@ -2048,9 +2048,9 @@ function OpenCommandPaletteDialog(props: {
        }
  
        const completion = resolveBrowseTabCompletion({
@@ -40,10 +134,10 @@ index d0693f467..ca956a457 100644
        });
        if (completion?.kind === "up") {
 diff --git a/apps/web/src/components/Sidebar.logic.test.ts b/apps/web/src/components/Sidebar.logic.test.ts
-index 46e02b626..83891566d 100644
+index 7dbc321af..d89367814 100644
 --- a/apps/web/src/components/Sidebar.logic.test.ts
 +++ b/apps/web/src/components/Sidebar.logic.test.ts
-@@ -1027,12 +1027,11 @@ describe("canSettleLegacySidebarRouteThread", () => {
+@@ -1032,12 +1032,11 @@ describe("canSettleLegacySidebarRouteThread", () => {
      expect(
        canSettleLegacySidebarRouteThread({
          thread: makeThreadShell({
@@ -147,55 +241,6 @@ index 1c72494ad..2d42a47b3 100644
  
      expect(notifications).toBe(2);
    });
-diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
-index 38fa3be8b..26f9c3bac 100644
---- a/apps/server/src/cli/pair.ts
-+++ b/apps/server/src/cli/pair.ts
-@@ -271,7 +271,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
-       const derivedPaths = yield* ServerConfig.deriveServerPaths(
-         baseDir,
-         variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
--        {},
-       );
-       const statePath = derivedPaths.serverRuntimeStatePath;
-       checkedStatePaths.push(statePath);
-@@ -319,7 +318,6 @@ const makePairServerConfig = Effect.fn(function* (input: {
-   const derivedPaths = yield* ServerConfig.deriveServerPaths(
-     baseDir,
-     variant === "dev" ? DEV_VARIANT_PLACEHOLDER_URL : undefined,
--    {},
-   );
-   return ServerConfig.make({
-     logLevel: input.logLevel,
-diff --git a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
-index 16c695fe7..6ace5fb5e 100644
---- a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
-+++ b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
-@@ -9,7 +9,7 @@ import * as Path from "effect/Path";
- import * as PlatformError from "effect/PlatformError";
- import * as Schema from "effect/Schema";
- 
--import { ServerConfig } from "../../config.ts";
-+import { deriveServerPaths, ServerConfig } from "../../config.ts";
- import { layer as idAllocatorLayer } from "../IdAllocator.ts";
- import { ProviderAdapterOpenSessionError } from "../ProviderAdapter.ts";
- import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
-@@ -69,6 +69,7 @@ export function makeReplayServerConfig(
-     const baseDir = yield* fs.makeTempDirectory({
-       prefix: `t3-orchestration-v2-codex-${scenario}-`,
-     });
-+    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
-     const stateDir = path.join(baseDir, "userdata");
-     const logsDir = path.join(stateDir, "logs");
-     const providerLogsDir = path.join(logsDir, "provider");
-@@ -105,6 +106,7 @@ export function makeReplayServerConfig(
-       host: undefined,
-       cwd: process.cwd(),
-       baseDir,
-+      ...derivedPaths,
-       staticDir: undefined,
-       devUrl: undefined,
-       devAllowedOrigins: [],
 diff --git a/nix/package.nix b/nix/package.nix
 index 8cc4eae4b..c91d0b0b1 100644
 --- a/nix/package.nix
@@ -209,61 +254,3 @@ index 8cc4eae4b..c91d0b0b1 100644
      };
  
      env.APP_VERSION = finalAttrs.version;
-diff --git a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
-index 29d210ec9..a27dbb1fe 100644
---- a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
-+++ b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
-@@ -13,7 +13,7 @@ import * as Path from "effect/Path";
- import * as PlatformError from "effect/PlatformError";
- import * as Schema from "effect/Schema";
- 
--import { ServerConfig } from "../../config.ts";
-+import { deriveServerPaths, ServerConfig } from "../../config.ts";
- import { layer as idAllocatorLayer } from "../IdAllocator.ts";
- import { ProviderAdapterDriverCreateError } from "../ProviderAdapterDriver.ts";
- import { makeDriverLayer as makeProviderAdapterRegistryDriverLayer } from "../ProviderAdapterRegistry.ts";
-@@ -532,6 +532,7 @@ function makeReplayServerConfig(
-     const baseDir = yield* fs.makeTempDirectory({
-       prefix: `t3-orchestration-v2-cursor-${scenario}-`,
-     });
-+    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
-     const stateDir = path.join(baseDir, "userdata");
-     const logsDir = path.join(stateDir, "logs");
-     const providerLogsDir = path.join(logsDir, "provider");
-@@ -566,6 +567,7 @@ function makeReplayServerConfig(
-       host: undefined,
-       cwd: process.cwd(),
-       baseDir,
-+      ...derivedPaths,
-       staticDir: undefined,
-       devUrl: undefined,
-       devAllowedOrigins: [],
-diff --git a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
-index 23b740846..92da59861 100644
---- a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
-+++ b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
-@@ -10,7 +10,7 @@ import type { MigrationError } from "effect/unstable/sql/Migrator";
- import type { SqlError } from "effect/unstable/sql/SqlError";
- 
- import * as CheckpointStore from "../../checkpointing/CheckpointStore.ts";
--import { ServerConfig } from "../../config.ts";
-+import { deriveServerPaths, ServerConfig } from "../../config.ts";
- import { SqlitePersistenceMemory } from "../../persistence/Layers/Sqlite.ts";
- import { ServerSettingsService } from "../../serverSettings.ts";
- import { layer as mcpSessionRegistryTestLayer } from "../../mcp/McpSessionRegistry.testkit.ts";
-@@ -73,6 +73,7 @@ export function makeReplayServerConfig(
-     const baseDir = yield* fs.makeTempDirectory({
-       prefix: `t3-orchestration-v2-replay-${safeScenario}-`,
-     });
-+    const derivedPaths = yield* deriveServerPaths(baseDir, undefined);
-     const stateDir = path.join(baseDir, "userdata");
-     const logsDir = path.join(stateDir, "logs");
-     const providerLogsDir = path.join(logsDir, "provider");
-@@ -109,6 +110,7 @@ export function makeReplayServerConfig(
-       host: undefined,
-       cwd: process.cwd(),
-       baseDir,
-+      ...derivedPaths,
-       staticDir: undefined,
-       devUrl: undefined,
-       devAllowedOrigins: [],

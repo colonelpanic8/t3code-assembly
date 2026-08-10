@@ -22,14 +22,14 @@ reason = "Later selector and compact-composer work rewrites the shortcut-hint JS
 
 [[exception]]
 entry = "4277"
-missing_count = 5
-missing_sha256 = "6980cb9c8398fceeac20b268a3e9f7ce8a7951e8a028e03ea5fc4a490af60b59"
+missing_count = 2
+missing_sha256 = "55ba3af8d8481a3d8ea5a4cd4b6ad20ba4bc4b56c2765b0b0d7b4b4e707abbe3"
 reason = "The orchestration-v2 reconciliation ports the settle shortcut from the legacy session shape to EnvironmentThreadShell.runtime and scopes capability lookup and settlement through the target thread's environment. The route guard, capability check, active-work rejection, and scoped settle call all remain in Sidebar and its tests."
 
 [[exception]]
 entry = "4324"
-missing_count = 2
-missing_sha256 = "007d13d52dad26264e5022196db871c2ed7f214468ade222fb850359ef270208"
+missing_count = 1
+missing_sha256 = "31403db878273793fcd639aef7f402f4b215423e6996f6c95945ca72f0077d25"
 reason = "The environment-owned settings panel rewrites the large-project-icons reset and update expressions inside the ownership-aware restore/control structure. sidebarV2LargeIcons remains listed as a client-owned dirty setting, restores to DEFAULT_UNIFIED_SETTINGS, and is exposed by the Large project icons switch."
 
 [[exception]]
@@ -52,8 +52,8 @@ reason = "Inline-image handling was folded into the safer ThreadArtifactResolver
 
 [[exception]]
 entry = "4437"
-missing_count = 13
-missing_sha256 = "769688021872c066e9336f21848b376f61c8fc499ccf51be966e67f4876f1700"
+missing_count = 2
+missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
 reason = "Diagnostics now reads storage from the selected environment's serverConfig instead of primaryServerStorageAtom. StoragePathRow remains, and the final selected-environment panel exposes configuration, data, state, cache, runtime, database, settings, keybindings, worktrees, and attachments paths with copy controls and an unavailable-storage fallback."
 
 [[exception]]
@@ -136,12 +136,6 @@ reason = "The environment-owned settings panel folds worktreePathTemplate into i
 
 [[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
-missing_count = 71
-missing_sha256 = "e7c1d5b27d62b5552519c901afe080481072ccd75aed0f5a9fc726997fd15aaa"
-reason = "This composite collides with earlier focused settings, diagnostics, sidebar, and optimistic-write topics. The resolved tree retains environment accent/presence handling, selected-environment diagnostics and storage, client-versus-environment ownership panels, ownership-aware restore controls, background activity and thread defaults, and environment-scoped optimistic writes. The absent set is the composite's pre-integration syntax, replaced by the combined controls and primaryEnvironmentIdAtom/configValueAtom access shape; focused tests cover the reconciled behavior."
-
-[[exception]]
-entry = "4677"
-missing_count = 8
-missing_sha256 = "785d5b9d91ecad1bb5e324cfcfb34572f69a49cf7316cffd8c52e3d72896f134"
-reason = "The custom-snooze topic was reconciled with the environment-aware Sidebar and formatted around the current dialog component shape. CustomSnoozeRequest, validation and accessibility wiring, timestamp-format wake descriptions, single and multi-thread requests, and co-snoozing exclusions all remain in the final Sidebar and pass the focused snooze tests."
+missing_count = 5
+missing_sha256 = "5d23d1299388d4abc78be59bb439cb6a06a7660a05cc09f3d0b8bfbb6a7a46af"
+reason = "The five absent lines are superseded signatures or access expressions in useSettings. The final tree retains hydration-safe derived client updates, nullable environment-scoped settings through configValueAtom, useUpdateEnvironmentSettings, and primary-environment updates through primaryEnvironmentIdAtom; only their formatting and consolidated helper shape differ."
