@@ -11,8 +11,8 @@ submodule = "t3code"
 
 [publish]
 remote = "fork"
-branch = "orchestrator-assembled"
-tag_prefix = "orchestrator-assembled"
+branch = "t3code/assembled"
+tag_prefix = "t3code-assembled"
 
 [[entry]]
 branch = "fork:t3code/orchestration-v2-main/pr-4259"

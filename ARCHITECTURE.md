@@ -18,24 +18,20 @@ ordered set of topic branches and explicit patch entries.
 The generated `t3code/assembled` branch is compiled output. Never develop on
 it, base a topic on it, or merge it back into a topic branch.
 
-## Orchestration-v2 maintenance line
+## Orchestration-v2 base
 
-The `orchestrator-v2` branch is a parallel assembly for the orchestration-v2
-cutover, not a replacement for this repository's `main` branch. Its manifest
-starts directly from upstream PR #2829's head,
-`upstream:t3code/codex-turn-mapping`, carries the topics that have been ported
-to or remain compatible with that base, and publishes its generated result
-separately as `fork:orchestrator-assembled`. All carried v2 topic refs must be
-based on that exact upstream head; do not recreate the former synthetic base by
-merging `main` into a fork ref.
+The canonical assembly is based directly on upstream PR #2829's head,
+`upstream:t3code/codex-turn-mapping`, and carries the topics that have been
+ported to or remain compatible with that base. All carried v2 topic refs must
+be based on that exact upstream head; do not recreate the former synthetic base
+by merging upstream `main` into a fork ref.
 
 Several overlapping client, environment, discovery, and pairing topics are
-consolidated there into
+consolidated into
 `fork:t3code/orchestration-v2-main/client-environment-suite`; the corresponding
 individual PR branches are deliberately excluded rather than replayed twice.
-Keep ordinary assembly maintenance on `main`, make v2-specific stack changes on
-`orchestrator-v2`, and never merge either generated assembly branch back into a
-maintenance branch.
+Maintain this stack on `main`, and never merge the generated assembly branch
+back into a maintenance branch.
 
 ## Conflict model
 
