@@ -6,6 +6,7 @@
       "t3code/orchestration-v2-main/client-environment-suite": "f87a5fb839f0504a2df8d1a54ef9cdc99f6598f9",
       "t3code/orchestration-v2-main/desktop-clerk-startup": "35c97ac35a0e7d6949b381d9e726bd152d955e8f",
       "t3code/orchestration-v2-main/managed-fleet": "ee635c701c9747e6c7d7c8888bd92602dace33dc",
+      "t3code/orchestration-v2-main/migration-schema-repair": "87f04a0cfeb273fda44faa097cca8f81c1a7a7d9",
       "t3code/orchestration-v2-main/pr-4257": "531d54a2594e8f49f9a3f9493cd2964c8e6a9f5c",
       "t3code/orchestration-v2-main/pr-4259": "8cd189d749025a13888e0de4dda4ad4306e43d96",
       "t3code/orchestration-v2-main/pr-4277": "0ebf7de177627f5cb4efda4fd93c3b1a5446f7ed",
@@ -30,15 +31,15 @@
     }
   },
   "build": {
-    "generated": "2026-08-11T19:13:33+00:00",
+    "generated": "2026-08-11T22:43:52.611567174+00:00",
     "base": "ff032dddd2111d99e003d4bce801123012cf0c67",
-    "commit": "be830d1657874e8752ddfb181b864bedd6cbcd9b",
-    "pre_provenance_commit": "6b740d40879e5f9dc62f75d76360efb6dfc4714d",
-    "tree": "ebe4ea2a6170c2a1accb28d8f363873411356b41",
-    "built_tree": "8192a649b76cc067fc6c96f59de9b0cc3f3ebc53",
+    "commit": "822fa9f213d13029dc3395f82292b421e590282f",
+    "pre_provenance_commit": "d2c77a5eafe907613a00e6b437ec097272af8815",
+    "tree": "50fb3e4b31c2a4b729401ad8007d7328f4112977",
+    "built_tree": "2e52241de6919b9915957ef6cd15e995197d3c1c",
     "previous_tree": "ebe4ea2a6170c2a1accb28d8f363873411356b41",
-    "tree_changed": false,
-    "conflicts": 2,
+    "tree_changed": true,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -184,6 +185,12 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/desktop-clerk-startup",
         "pin": "35c97ac35a0e7d6949b381d9e726bd152d955e8f"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/migration-schema-repair",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/migration-schema-repair",
+        "pin": "87f04a0cfeb273fda44faa097cca8f81c1a7a7d9"
       }
     ],
     "results": [
@@ -331,6 +338,12 @@
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
         "oid": "35c97ac35a0e7d6949b381d9e726bd152d955e8f",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/migration-schema-repair",
+        "oid": "87f04a0cfeb273fda44faa097cca8f81c1a7a7d9",
         "status": "merged",
         "conflicted": false
       }

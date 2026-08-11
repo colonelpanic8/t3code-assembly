@@ -133,6 +133,9 @@ branch = "fork:t3code/orchestration-v2-main/managed-fleet"
 [[entry]]
 branch = "fork:t3code/orchestration-v2-main/desktop-clerk-startup"
 
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/migration-schema-repair"
+
 [[exclude]]
 pr = 4258
 reason = "Obviated by the orchestration-v2 client/environment suite and current v2 picker flow."
