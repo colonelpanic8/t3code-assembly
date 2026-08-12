@@ -40,11 +40,6 @@ pr = 4332
 summary = "Android adaptive launcher icon"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4388"
-pr = 4388
-summary = "Keep the Android new-task composer above the keyboard"
-
-[[entry]]
 branch = "fork:t3code/orchestration-v2-main/pr-4394"
 pr = 4394
 summary = "Navigate open selections with Ctrl-N and Ctrl-P"
@@ -135,6 +130,15 @@ branch = "fork:t3code/orchestration-v2-main/desktop-clerk-startup"
 
 [[entry]]
 branch = "fork:t3code/orchestration-v2-main/migration-schema-repair"
+
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/live-voice"
+summary = "Cross-host live voice calls over Codex realtime"
+fixup = "patches/live-voice-pnpm-deps-hash.patch"
+
+[[exclude]]
+pr = 4388
+reason = "Absorbed by the upstream v2 base's composer stabilization port (rebase onto a186d644b393 yields an empty commit)."
 
 [[exclude]]
 pr = 4258
