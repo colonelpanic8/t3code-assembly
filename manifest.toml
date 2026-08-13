@@ -136,6 +136,9 @@ branch = "fork:t3code/orchestration-v2-main/live-voice"
 summary = "Cross-host live voice calls over Codex realtime"
 fixup = "patches/live-voice-pnpm-deps-hash.patch"
 
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/fdroid-distribution"
+
 [[exclude]]
 pr = 4388
 reason = "Absorbed by the upstream v2 base's composer stabilization port (rebase onto a186d644b393 yields an empty commit)."
