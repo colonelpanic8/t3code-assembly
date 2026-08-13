@@ -142,6 +142,12 @@ branch = "fork:t3code/orchestration-v2-main/fdroid-distribution"
 [[entry]]
 patch = "patches/managed-fleet-settings-controls.patch"
 
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/pr-6507"
+pr = 6507
+summary = "Direct model and reasoning keybindings"
+note = "Rebased port of the upstream PR onto the orchestration-v2 base."
+
 [[exclude]]
 pr = 4388
 reason = "Absorbed by the upstream v2 base's composer stabilization port (rebase onto a186d644b393 yields an empty commit)."

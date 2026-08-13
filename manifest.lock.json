@@ -29,18 +29,19 @@
       "t3code/orchestration-v2-main/pr-4631": "d2a449fff18ab5888661c78c451e9e251e1d1622",
       "t3code/orchestration-v2-main/pr-4677": "3ae227f3d711b4efc93f00193b3f9e089fb9939f",
       "t3code/orchestration-v2-main/pr-4699": "264e07cda2746784ee7228512a1d8e2566080376",
-      "t3code/orchestration-v2-main/pr-4701": "6d188a8762c612159d8a15398da263bcebd2893c"
+      "t3code/orchestration-v2-main/pr-4701": "6d188a8762c612159d8a15398da263bcebd2893c",
+      "t3code/orchestration-v2-main/pr-6507": "584a1e81f28c6d6f1d649d26edf62ba0a78b6b01"
     }
   },
   "build": {
-    "generated": "2026-08-13T17:40:44.676375402+00:00",
+    "generated": "2026-08-13T18:48:16.095982047+00:00",
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
-    "commit": "5a4927f359faa415c011a1971d5f7772cbec62f8",
-    "pre_provenance_commit": "dea5b669bf21a4b479ab53314b3eedb8f98dc241",
-    "tree": "62f83da5626b3b36bb8af4ac27a918b5234272a6",
-    "built_tree": "ab658e369750ff430859a5bbd55fe69632b55d78",
-    "previous_tree": "62f83da5626b3b36bb8af4ac27a918b5234272a6",
-    "tree_changed": false,
+    "commit": "89232e507a9f632c45de425fbcefd0a8d408e069",
+    "pre_provenance_commit": "81b035e5d3ef5ea413ac5645bce36d062afec299",
+    "tree": "04b9d4a62f69d5f6e6044accdfb21d16cb5b0767",
+    "built_tree": "4ed9fc0a3db39e2e45df96af7424a4f2f5cee339",
+    "previous_tree": "1e1152127f4dc8d6179809e93d5da2da6ed0b729",
+    "tree_changed": true,
     "conflicts": 2,
     "manifest_entries": [
       {
@@ -206,6 +207,12 @@
         "kind": "patch",
         "source": "patches/managed-fleet-settings-controls.patch",
         "pin": "c82af6a4a18e0b2b26e976fa7718e112b79853a9"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-6507",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/pr-6507",
+        "pin": "584a1e81f28c6d6f1d649d26edf62ba0a78b6b01"
       }
     ],
     "results": [
@@ -373,6 +380,12 @@
         "name": "managed-fleet-settings-controls",
         "oid": "c82af6a4a18e0b2b26e976fa7718e112b79853a9",
         "status": "applied",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-6507",
+        "oid": "584a1e81f28c6d6f1d649d26edf62ba0a78b6b01",
+        "status": "merged",
         "conflicted": false
       }
     ]
