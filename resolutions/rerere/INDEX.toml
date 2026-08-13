@@ -231,6 +231,12 @@ recorded = "2026-08-10T19:29:24.703363827+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
+paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
+recorded = "2026-08-13T06:18:31.890904525+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "fc57edbb678f86560012d00b7cd90232e6ad9077"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-08-10T19:29:24.703364217+00:00"

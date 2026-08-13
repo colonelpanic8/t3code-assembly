@@ -139,3 +139,9 @@ entry = "t3code/orchestration-v2-main/client-environment-suite"
 missing_count = 1
 missing_sha256 = "f664c516e5b9aa462a88734fc31824a11f213ef3ea4b3743b047b51945b2f1bc"
 reason = "The single absent line is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). The count fell from 5 to 1 because the rebased suite carries the rest verbatim against the rewritten upstream base."
+
+[[exception]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+missing_count = 1
+missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
+reason = "The topic's legacy serverSettingsPath assignment is superseded by the client-environment suite's split storage layout, which correctly stores settings under configDir. The managedConnectionsPath assignment and automatic ~/.config/t3code catalog discovery are both retained in the reconciled DesktopEnvironment."

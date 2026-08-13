@@ -7,7 +7,7 @@
       "t3code/orchestration-v2-main/desktop-clerk-startup": "1494e32f030448e41305386b5c54ed7bbeeaf9c3",
       "t3code/orchestration-v2-main/fdroid-distribution": "f28141fd05d2f0db510d922001207f528e0aa1e4",
       "t3code/orchestration-v2-main/live-voice": "f94c6e16b63b197578c98d843fb144f8bd130fa7",
-      "t3code/orchestration-v2-main/managed-fleet": "52834669c0ae36d38769d9e73c54ccb61da9c152",
+      "t3code/orchestration-v2-main/managed-fleet": "fe01279312b2b57ac9d5da1e0de37facb36a7659",
       "t3code/orchestration-v2-main/migration-schema-repair": "a03ae03801f9013e3ac2d896a084ebd466abf12f",
       "t3code/orchestration-v2-main/pr-4257": "9ea639b2c247beddcf8c2d983c7573f6f8857397",
       "t3code/orchestration-v2-main/pr-4259": "995e6f8dfd2e652c3916c5ce3d268b635b03eba6",
@@ -32,13 +32,13 @@
     }
   },
   "build": {
-    "generated": "2026-08-13T03:06:20.099561585+00:00",
+    "generated": "2026-08-13T06:18:32.528628933+00:00",
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
-    "commit": "aac5763ecd1c4a34f08414761c1d7bf6c706759e",
-    "pre_provenance_commit": "ac7e6f8781a5b5a5b1d64f05bddcb9b8295ff560",
-    "tree": "ca9f04d0c6c072e10b5335e3b7cdfb18a3a175e5",
-    "built_tree": "3dad9ac5a788d74d59ee19370bde11776d69cfc8",
-    "previous_tree": "0102d55094ff3dcbef4fe0f251eef56f5f531a71",
+    "commit": "59dba05b29334e85a2a7134c3081d34b19e4d4ed",
+    "pre_provenance_commit": "f0ed7bc03926f5984d8a4ebe4f244adc906d9494",
+    "tree": "a8e00daf08307de88ede5edcba2e127d86c3c1ca",
+    "built_tree": "13d7e73b5a19b282aee0c7ba6ab02ef7dfd4d818",
+    "previous_tree": "ca9f04d0c6c072e10b5335e3b7cdfb18a3a175e5",
     "tree_changed": true,
     "conflicts": 2,
     "manifest_entries": [
@@ -173,7 +173,7 @@
         "name": "t3code/orchestration-v2-main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/managed-fleet",
-        "pin": "52834669c0ae36d38769d9e73c54ccb61da9c152"
+        "pin": "fe01279312b2b57ac9d5da1e0de37facb36a7659"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
@@ -332,10 +332,10 @@
       },
       {
         "name": "t3code/orchestration-v2-main/managed-fleet",
-        "oid": "52834669c0ae36d38769d9e73c54ccb61da9c152",
+        "oid": "fe01279312b2b57ac9d5da1e0de37facb36a7659",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere"
+        "resolution": "rerere:c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
