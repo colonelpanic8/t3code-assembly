@@ -5,7 +5,7 @@
     "entries": {
       "t3code/orchestration-v2-main/client-environment-suite": "3a099add18376424da152bee2dbad68f891b3513",
       "t3code/orchestration-v2-main/desktop-clerk-startup": "1494e32f030448e41305386b5c54ed7bbeeaf9c3",
-      "t3code/orchestration-v2-main/live-voice": "584946f968d07ca8edf2615a2052e24c622c4d32",
+      "t3code/orchestration-v2-main/live-voice": "f94c6e16b63b197578c98d843fb144f8bd130fa7",
       "t3code/orchestration-v2-main/managed-fleet": "52834669c0ae36d38769d9e73c54ccb61da9c152",
       "t3code/orchestration-v2-main/migration-schema-repair": "a03ae03801f9013e3ac2d896a084ebd466abf12f",
       "t3code/orchestration-v2-main/pr-4257": "9ea639b2c247beddcf8c2d983c7573f6f8857397",
@@ -31,13 +31,13 @@
     }
   },
   "build": {
-    "generated": "2026-08-12T23:34:21.926929161+00:00",
+    "generated": "2026-08-13T02:33:36.354503308+00:00",
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
-    "commit": "11df9cb87fc93c518c0a7503c065a03652c55247",
-    "pre_provenance_commit": "173085a508354c87be46e518de7accef7846ca52",
-    "tree": "c33bebb1aa86144c1ceca22c179d135de3eb321f",
-    "built_tree": "d81f62e1ee3e41f7933f2558bc8336e3b4110129",
-    "previous_tree": "80fcb3f2fbdc0777caf34a7b995f98a48d67b374",
+    "commit": "15bb954ff01e9d2354f2555f0a386b125c364f95",
+    "pre_provenance_commit": "c59ca8d4c62d6e54b020a37cb2786864816cd4e9",
+    "tree": "74b64b218b43a562ded2eefec676f6ae339a0377",
+    "built_tree": "275007ef4910ed3b5edf437e96778e09da73cb7e",
+    "previous_tree": "c33bebb1aa86144c1ceca22c179d135de3eb321f",
     "tree_changed": true,
     "conflicts": 2,
     "manifest_entries": [
@@ -190,7 +190,7 @@
         "name": "t3code/orchestration-v2-main/live-voice",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/live-voice",
-        "pin": "584946f968d07ca8edf2615a2052e24c622c4d32",
+        "pin": "f94c6e16b63b197578c98d843fb144f8bd130fa7",
         "fixup": "dd537ff88ca1f0f65fe940657dc4bbf9e3ae06b2"
       }
     ],
@@ -344,7 +344,7 @@
       },
       {
         "name": "t3code/orchestration-v2-main/live-voice",
-        "oid": "584946f968d07ca8edf2615a2052e24c622c4d32",
+        "oid": "f94c6e16b63b197578c98d843fb144f8bd130fa7",
         "status": "merged",
         "conflicted": false,
         "fixup": "dd537ff88ca1f0f65fe940657dc4bbf9e3ae06b2"
