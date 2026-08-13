@@ -231,9 +231,21 @@ recorded = "2026-08-10T19:29:24.703363827+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "b1e5ba28353987fedadd5d397f149a7c0f966f54"
+paths = ["apps/web/src/components/settings/ConnectionsSettings.tsx"]
+recorded = "2026-08-13T17:39:55.771812411+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-08-13T06:18:31.890904525+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+hash = "cd0976361510b9db2fcf3725b85f7ca66006838d"
+paths = ["apps/web/src/components/settings/ConnectionsSettings.tsx"]
+recorded = "2026-08-13T17:14:24.856687923+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/managed-fleet"

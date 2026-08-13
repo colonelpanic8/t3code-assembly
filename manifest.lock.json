@@ -3,11 +3,12 @@
   "pins": {
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
     "entries": {
+      "managed-fleet-settings-controls": "c82af6a4a18e0b2b26e976fa7718e112b79853a9",
       "t3code/orchestration-v2-main/client-environment-suite": "3a099add18376424da152bee2dbad68f891b3513",
       "t3code/orchestration-v2-main/desktop-clerk-startup": "1494e32f030448e41305386b5c54ed7bbeeaf9c3",
       "t3code/orchestration-v2-main/fdroid-distribution": "f28141fd05d2f0db510d922001207f528e0aa1e4",
       "t3code/orchestration-v2-main/live-voice": "f94c6e16b63b197578c98d843fb144f8bd130fa7",
-      "t3code/orchestration-v2-main/managed-fleet": "fe01279312b2b57ac9d5da1e0de37facb36a7659",
+      "t3code/orchestration-v2-main/managed-fleet": "5ab68672c19b5129038d622dc1dfb15491a8c8b3",
       "t3code/orchestration-v2-main/migration-schema-repair": "a03ae03801f9013e3ac2d896a084ebd466abf12f",
       "t3code/orchestration-v2-main/pr-4257": "9ea639b2c247beddcf8c2d983c7573f6f8857397",
       "t3code/orchestration-v2-main/pr-4259": "995e6f8dfd2e652c3916c5ce3d268b635b03eba6",
@@ -32,14 +33,14 @@
     }
   },
   "build": {
-    "generated": "2026-08-13T07:03:16.075564101+00:00",
+    "generated": "2026-08-13T17:40:44.676375402+00:00",
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
-    "commit": "9e7dd8db8e8fb360fe811c19075b90add04d4004",
-    "pre_provenance_commit": "f2145a85e47004226a46317fc1c67fc3b59b10cc",
-    "tree": "4e66bf7f4febe62d5d14a04518681bc92c49d486",
-    "built_tree": "8480a3844b8056387b21e750c77e856868ffca25",
-    "previous_tree": "a8e00daf08307de88ede5edcba2e127d86c3c1ca",
-    "tree_changed": true,
+    "commit": "5a4927f359faa415c011a1971d5f7772cbec62f8",
+    "pre_provenance_commit": "dea5b669bf21a4b479ab53314b3eedb8f98dc241",
+    "tree": "62f83da5626b3b36bb8af4ac27a918b5234272a6",
+    "built_tree": "ab658e369750ff430859a5bbd55fe69632b55d78",
+    "previous_tree": "62f83da5626b3b36bb8af4ac27a918b5234272a6",
+    "tree_changed": false,
     "conflicts": 2,
     "manifest_entries": [
       {
@@ -173,7 +174,7 @@
         "name": "t3code/orchestration-v2-main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/managed-fleet",
-        "pin": "fe01279312b2b57ac9d5da1e0de37facb36a7659"
+        "pin": "5ab68672c19b5129038d622dc1dfb15491a8c8b3"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
@@ -199,6 +200,12 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/fdroid-distribution",
         "pin": "f28141fd05d2f0db510d922001207f528e0aa1e4"
+      },
+      {
+        "name": "managed-fleet-settings-controls",
+        "kind": "patch",
+        "source": "patches/managed-fleet-settings-controls.patch",
+        "pin": "c82af6a4a18e0b2b26e976fa7718e112b79853a9"
       }
     ],
     "results": [
@@ -332,7 +339,7 @@
       },
       {
         "name": "t3code/orchestration-v2-main/managed-fleet",
-        "oid": "fe01279312b2b57ac9d5da1e0de37facb36a7659",
+        "oid": "5ab68672c19b5129038d622dc1dfb15491a8c8b3",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
@@ -360,6 +367,12 @@
         "name": "t3code/orchestration-v2-main/fdroid-distribution",
         "oid": "f28141fd05d2f0db510d922001207f528e0aa1e4",
         "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "managed-fleet-settings-controls",
+        "oid": "c82af6a4a18e0b2b26e976fa7718e112b79853a9",
+        "status": "applied",
         "conflicted": false
       }
     ]
