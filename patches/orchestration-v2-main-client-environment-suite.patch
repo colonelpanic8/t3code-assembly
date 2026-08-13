@@ -242,14 +242,14 @@ index 1c72494ad..2d42a47b3 100644
      expect(notifications).toBe(2);
    });
 diff --git a/nix/package.nix b/nix/package.nix
-index 8cc4eae4b..c91d0b0b1 100644
+index 9b5aee2e4..2bbcff27a 100644
 --- a/nix/package.nix
 +++ b/nix/package.nix
 @@ -71,7 +71,7 @@
        # Fixed-output hash over the offline dependency closure. When
        # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
        # .#unwrapped, and copy the reported hash here.
--      hash = "sha256-Qiwbg1EPjcVvt8YGc0YYP+1NbgBIxMkwIyTq5f3gtl4=";
+-      hash = "sha256-0bZuGGii7xjFvg5a0yxXt3pfdfB2csWiIEEJcSSLPjQ=";
 +      hash = "sha256-jXWcb9v5VxFQSiCs7B5ZQbNTKWohUhs0eoaBt/TzgxI=";
      };
  

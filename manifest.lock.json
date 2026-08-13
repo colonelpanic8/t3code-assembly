@@ -27,18 +27,18 @@
       "t3code/orchestration-v2-main/pr-4602": "b207e42262e8022ce180f54f136877b05dd60cc6",
       "t3code/orchestration-v2-main/pr-4631": "d2a449fff18ab5888661c78c451e9e251e1d1622",
       "t3code/orchestration-v2-main/pr-4677": "3ae227f3d711b4efc93f00193b3f9e089fb9939f",
-      "t3code/orchestration-v2-main/pr-4699": "929d93227659e2f19a2ec740cbb457ddb897fad2",
+      "t3code/orchestration-v2-main/pr-4699": "264e07cda2746784ee7228512a1d8e2566080376",
       "t3code/orchestration-v2-main/pr-4701": "6d188a8762c612159d8a15398da263bcebd2893c"
     }
   },
   "build": {
-    "generated": "2026-08-13T06:18:32.528628933+00:00",
+    "generated": "2026-08-13T07:03:16.075564101+00:00",
     "base": "a186d644b393e158bda34b11520ec85c1475c24f",
-    "commit": "59dba05b29334e85a2a7134c3081d34b19e4d4ed",
-    "pre_provenance_commit": "f0ed7bc03926f5984d8a4ebe4f244adc906d9494",
-    "tree": "a8e00daf08307de88ede5edcba2e127d86c3c1ca",
-    "built_tree": "13d7e73b5a19b282aee0c7ba6ab02ef7dfd4d818",
-    "previous_tree": "ca9f04d0c6c072e10b5335e3b7cdfb18a3a175e5",
+    "commit": "9e7dd8db8e8fb360fe811c19075b90add04d4004",
+    "pre_provenance_commit": "f2145a85e47004226a46317fc1c67fc3b59b10cc",
+    "tree": "4e66bf7f4febe62d5d14a04518681bc92c49d486",
+    "built_tree": "8480a3844b8056387b21e750c77e856868ffca25",
+    "previous_tree": "a8e00daf08307de88ede5edcba2e127d86c3c1ca",
     "tree_changed": true,
     "conflicts": 2,
     "manifest_entries": [
@@ -142,14 +142,14 @@
         "name": "t3code/orchestration-v2-main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4699",
-        "pin": "929d93227659e2f19a2ec740cbb457ddb897fad2"
+        "pin": "264e07cda2746784ee7228512a1d8e2566080376"
       },
       {
         "name": "t3code/orchestration-v2-main/client-environment-suite",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/client-environment-suite",
         "pin": "3a099add18376424da152bee2dbad68f891b3513",
-        "fixup": "dc5376c9b3c8e64a2565698ac9f4d7e4288d19e8"
+        "fixup": "33b37a1e484112823191082c022ebff3646d2d7d"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
@@ -300,7 +300,7 @@
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4699",
-        "oid": "929d93227659e2f19a2ec740cbb457ddb897fad2",
+        "oid": "264e07cda2746784ee7228512a1d8e2566080376",
         "status": "merged",
         "conflicted": false
       },
@@ -310,7 +310,7 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
-        "fixup": "dc5376c9b3c8e64a2565698ac9f4d7e4288d19e8"
+        "fixup": "33b37a1e484112823191082c022ebff3646d2d7d"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
@@ -335,7 +335,7 @@
         "oid": "fe01279312b2b57ac9d5da1e0de37facb36a7659",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
