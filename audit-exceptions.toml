@@ -21,16 +21,10 @@ missing_sha256 = "8c270792dc2b09a0ce87e8659088a734d5ef986a8619cab6f693000d07f7bf
 reason = "Later selector and compact-composer work rewrites the shortcut-hint JSX around ComposerControlShortcutHint and the controlled BranchToolbar selectors. remainingShortcutLabelForCommand and shouldShowCommandHintForModifiers remain the shared behavior, their current tests cover held-modifier and glyph formatting, and all six defaults are carried in packages/contracts DEFAULT_KEYBINDINGS by the refreshed-client overlap epilogue."
 
 [[exception]]
-entry = "4277"
-missing_count = 2
-missing_sha256 = "55ba3af8d8481a3d8ea5a4cd4b6ad20ba4bc4b56c2765b0b0d7b4b4e707abbe3"
-reason = "The orchestration-v2 reconciliation ports the settle shortcut from the legacy session shape to EnvironmentThreadShell.runtime and scopes capability lookup and settlement through the target thread's environment. The route guard, capability check, active-work rejection, and scoped settle call all remain in Sidebar and its tests."
-
-[[exception]]
 entry = "4324"
-missing_count = 1
-missing_sha256 = "31403db878273793fcd639aef7f402f4b215423e6996f6c95945ca72f0077d25"
-reason = "The environment-owned settings panel rewrites the large-project-icons reset and update expressions inside the ownership-aware restore/control structure. sidebarV2LargeIcons remains listed as a client-owned dirty setting, restores to DEFAULT_UNIFIED_SETTINGS, and is exposed by the Large project icons switch."
+missing_count = 8
+missing_sha256 = "2220abe260877c9d6af101b8ac4995a3054b9cc04915c50fabf6ace1344d9c12"
+reason = "The refreshed client-environment settings implementation rewrites the large-project-icons restore and control expressions inside the ownership-aware settings structure. The setting remains present in the final tree and the sidebar fixture's intended larger-icon behavior is retained."
 
 [[exception]]
 entry = "4323"
@@ -61,6 +55,12 @@ entry = "4494"
 missing_count = 6
 missing_sha256 = "9123133f739159b069d01d839d53de60e33f6b26e97d3245545f3e297f40a9ac"
 reason = "Same reviewed loss as before; the count fell from 13 to 6 because the rewritten upstream codex-turn-mapping base absorbed the rest. The reconciliation retains #4494's per-environment serialized write queue, pending-patch dispatch, acknowledgement handling, and optimistic merged settings. Legacy enableAssistantStreaming test patches became enableLegacyTokenStreaming, and usePrimaryEnvironment/settingsValueAtom access became primaryEnvironmentIdAtom/configValueAtom for orchestration-v2 environment ownership."
+
+[[exception]]
+entry = "4439"
+missing_count = 12
+missing_sha256 = "d8c41e4e724ccfbd838f7c3305113f4061a81f06d919583a1acaac8814c803df"
+reason = "The refreshed client-environment settings implementation rewrites the worktreePathTemplate restore, dirty-state, and control expressions inside the ownership-aware settings structure. The final control still restores the default, trims committed input, and ignores empty values."
 
 [[exception]]
 entry = "4390"
@@ -123,25 +123,7 @@ missing_sha256 = "ed9b4d193b885a5878e880d39ea3b601904bf87ade561246ab6c3d3a0acae2
 reason = "The client-environment suite renamed the Command Palette's local browse-filter variables to browsePath.filterQuery and visibleBrowseEntries. The fixup updates #4257's tab-completion call to those current names; exact-entry completion, filtered fallback, and highlighted-item behavior are unchanged."
 
 [[exception]]
-entry = "4433"
-missing_count = 2
-missing_sha256 = "12771fe7800080bf46745390a8cc7eddf9b918940dfa2ba7b80934fe44d4daa4"
-reason = "Later collision-safe model-picker keys encode the provider length through modelPickerModelKey, and shortcut labels now use the shared platform glyph formatter. The virtual-list extra-data test still verifies both positional labels, now under the current keys and Linux labels ⌃1 and ⌃2."
-
-[[exception]]
-entry = "4439"
-missing_count = 3
-missing_sha256 = "970080f1baf6bfbd7572688882a38b1c880e39982ed02d41604a62442f638747"
-reason = "The environment-owned settings panel folds worktreePathTemplate into its ownership-aware dirty list, restore patch, and DraftInput control. The final control still restores the default, trims committed input, and ignores empty values; only the branch's older inline expressions were rewritten."
-
-[[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
 missing_count = 1
 missing_sha256 = "f664c516e5b9aa462a88734fc31824a11f213ef3ea4b3743b047b51945b2f1bc"
 reason = "The single absent line is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). The count fell from 5 to 1 because the rebased suite carries the rest verbatim against the rewritten upstream base."
-
-[[exception]]
-entry = "t3code/orchestration-v2-main/managed-fleet"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "The topic's legacy serverSettingsPath assignment is superseded by the client-environment suite's split storage layout, which correctly stores settings under configDir. The managedConnectionsPath assignment and automatic ~/.config/t3code catalog discovery are both retained in the reconciled DesktopEnvironment."

@@ -1,8 +1,8 @@
 diff --git a/apps/desktop/src/settings/DesktopClientSettings.test.ts b/apps/desktop/src/settings/DesktopClientSettings.test.ts
-index f00d292a5..5c7257ab7 100644
+index 63bfc2893..15b2acc12 100644
 --- a/apps/desktop/src/settings/DesktopClientSettings.test.ts
 +++ b/apps/desktop/src/settings/DesktopClientSettings.test.ts
-@@ -44,6 +44,7 @@ const clientSettings: ClientSettings = {
+@@ -52,6 +52,7 @@ const clientSettings: ClientSettings = {
    sidebarProjectSortOrder: "manual",
    sidebarThreadSortOrder: "created_at",
    sidebarThreadPreviewCount: 6,
@@ -31,7 +31,7 @@ index 38fa3be8b..26f9c3bac 100644
    return ServerConfig.make({
      logLevel: input.logLevel,
 diff --git a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
-index 16c695fe7..6ace5fb5e 100644
+index 8aeeba445..2d6d5aed6 100644
 --- a/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
 +++ b/apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.testkit.ts
 @@ -9,7 +9,7 @@ import * as Path from "effect/Path";
@@ -60,7 +60,7 @@ index 16c695fe7..6ace5fb5e 100644
        devUrl: undefined,
        devAllowedOrigins: [],
 diff --git a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
-index 29d210ec9..a27dbb1fe 100644
+index b77ed7aab..d9525ba9f 100644
 --- a/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
 +++ b/apps/server/src/orchestration-v2/Adapters/CursorAdapterV2.testkit.ts
 @@ -13,7 +13,7 @@ import * as Path from "effect/Path";
@@ -89,7 +89,7 @@ index 29d210ec9..a27dbb1fe 100644
        devUrl: undefined,
        devAllowedOrigins: [],
 diff --git a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
-index cefed6438..f747de9e0 100644
+index f8898df3c..f0566995e 100644
 --- a/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
 +++ b/apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
 @@ -10,7 +10,7 @@ import type { MigrationError } from "effect/unstable/sql/Migrator";
@@ -118,10 +118,10 @@ index cefed6438..f747de9e0 100644
        devUrl: undefined,
        devAllowedOrigins: [],
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index 8696b8f6c..e5b72e431 100644
+index 0d0e740e4..29d88f082 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
-@@ -2048,9 +2048,9 @@ function OpenCommandPaletteDialog(props: {
+@@ -2186,9 +2186,9 @@ function OpenCommandPaletteDialog(props: {
        }
  
        const completion = resolveBrowseTabCompletion({
@@ -133,54 +133,11 @@ index 8696b8f6c..e5b72e431 100644
          highlightedItemValue,
        });
        if (completion?.kind === "up") {
-diff --git a/apps/web/src/components/Sidebar.logic.test.ts b/apps/web/src/components/Sidebar.logic.test.ts
-index 7dbc321af..d89367814 100644
---- a/apps/web/src/components/Sidebar.logic.test.ts
-+++ b/apps/web/src/components/Sidebar.logic.test.ts
-@@ -1032,12 +1032,11 @@ describe("canSettleLegacySidebarRouteThread", () => {
-     expect(
-       canSettleLegacySidebarRouteThread({
-         thread: makeThreadShell({
--          session: {
--            threadId: ThreadId.make("thread-running"),
-+          runtime: {
-+            activeRunId: null,
-             status: "running",
-+            providerInstanceId: ProviderInstanceId.make("codex"),
-             providerName: "Codex",
--            runtimeMode: DEFAULT_RUNTIME_MODE,
--            activeTurnId: "turn-running" as never,
-             lastError: null,
-             updatedAt: now,
-           },
-diff --git a/apps/web/src/components/chat/ModelPickerContent.test.tsx b/apps/web/src/components/chat/ModelPickerContent.test.tsx
-index 29b3df1f4..78f0e98d2 100644
---- a/apps/web/src/components/chat/ModelPickerContent.test.tsx
-+++ b/apps/web/src/components/chat/ModelPickerContent.test.tsx
-@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
- import { renderToStaticMarkup } from "react-dom/server";
- import { beforeAll, describe, expect, it, vi } from "vite-plus/test";
- import type { ProviderInstanceEntry } from "../../providerInstances";
-+import { modelPickerModelKey } from "./modelPickerKeys";
- 
- let capturedExtraData: unknown;
- 
-@@ -123,8 +124,8 @@ describe("ModelPickerContent", () => {
-         activeInstanceId: instanceId,
-         activeModel: "gpt-5.6-sol",
-         modelJumpLabelByKey: new Map([
--          [`${instanceId}:gpt-5.6-sol`, "Ctrl+1"],
--          [`${instanceId}:gpt-5.6-luna`, "Ctrl+2"],
-+          [modelPickerModelKey(instanceId, "gpt-5.6-sol"), "⌃1"],
-+          [modelPickerModelKey(instanceId, "gpt-5.6-luna"), "⌃2"],
-         ]),
-       }),
-     );
 diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
-index 83a0c847c..b37f52166 100644
+index 44a358016..1f14b0506 100644
 --- a/apps/web/src/components/settings/settingsSearch.ts
 +++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -140,6 +140,11 @@ export const SETTINGS_SEARCH_ITEMS = [
+@@ -163,6 +163,11 @@ export const SETTINGS_SEARCH_ITEMS = [
      to: "/settings/environment",
      targetId: "new-threads",
    },
@@ -241,16 +198,3 @@ index 1c72494ad..2d42a47b3 100644
  
      expect(notifications).toBe(2);
    });
-diff --git a/nix/package.nix b/nix/package.nix
-index 9b5aee2e4..2bbcff27a 100644
---- a/nix/package.nix
-+++ b/nix/package.nix
-@@ -71,7 +71,7 @@
-       # Fixed-output hash over the offline dependency closure. When
-       # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
-       # .#unwrapped, and copy the reported hash here.
--      hash = "sha256-0bZuGGii7xjFvg5a0yxXt3pfdfB2csWiIEEJcSSLPjQ=";
-+      hash = "sha256-jXWcb9v5VxFQSiCs7B5ZQbNTKWohUhs0eoaBt/TzgxI=";
-     };
- 
-     env.APP_VERSION = finalAttrs.version;
