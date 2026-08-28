@@ -12,12 +12,15 @@
       "t3code/orchestration-v2-main/migration-schema-repair": "995768bdb26c374c272cfeb707bb9a66195b5082",
       "t3code/orchestration-v2-main/pr-4257": "904ff9763951f3931ab3049ee3161ac8902028ec",
       "t3code/orchestration-v2-main/pr-4259": "565234098b3acfb7af803db8825367ac436c8364",
+      "t3code/orchestration-v2-main/pr-4318": "92b09ca2727ecac01c45a905a090c40fb34f8d39",
       "t3code/orchestration-v2-main/pr-4324": "c4a2eec8cdad8fdf04dd20e349c546efe4c1c80e",
       "t3code/orchestration-v2-main/pr-4394": "3f4851d975f1fd04fa2a6ae68b57421cd29f5978",
       "t3code/orchestration-v2-main/pr-4405": "0d6c2ae4807399a58ec28e5705e9cb501aa87e2f",
+      "t3code/orchestration-v2-main/pr-4420": "3d009426105a9aab76b06e992af694c74665b2c8",
       "t3code/orchestration-v2-main/pr-4437": "b1089993f173527dd11c6a8099b7bb43d515721a",
       "t3code/orchestration-v2-main/pr-4439": "8659dcac88db71181fd913b645035add7584cd30",
       "t3code/orchestration-v2-main/pr-4447": "02382d6cc233d73458de3071c08811851ea461b9",
+      "t3code/orchestration-v2-main/pr-4484": "a0df23db239e6b7333087ebfbe31cc73ca57ccc5",
       "t3code/orchestration-v2-main/pr-4487": "7e6af3d159881529fe1dfe4349b6863abb6fb9d4",
       "t3code/orchestration-v2-main/pr-4494": "f0a6bba607838228338dc57b58693c5842707c3e",
       "t3code/orchestration-v2-main/pr-4593": "0974262742750c46384ed05d7088e164dd463766",
@@ -29,13 +32,13 @@
     }
   },
   "build": {
-    "generated": "2026-08-28T02:40:15.110360119+00:00",
+    "generated": "2026-08-28T06:56:55.881584684+00:00",
     "base": "2c3a3a913f744bc414313e2e757d977833143b6a",
-    "commit": "18638c5669beddbba41eb671be960be0186761b9",
-    "pre_provenance_commit": "f21e629e6d5af34ba78aa8fabffa7b43dd59fb71",
-    "tree": "33d221440b3382e3aea75c97158eec19d78adf39",
-    "built_tree": "d67442c637ca138e5d1b8996b677bf0090f9d1d0",
-    "previous_tree": "34e40ffb4d0ff7271e1c6c7c37196da655c1d28c",
+    "commit": "a24dd39650b86afaa69b1d9b62042a83118510cc",
+    "pre_provenance_commit": "4df170165f24ccb8edf33f79c274d5446e869794",
+    "tree": "7f14aa4ee800fc6a7962f7a194d1eb43fa409d9a",
+    "built_tree": "22ef1336eaef6977cca071e9cf674afe0c0b1fd3",
+    "previous_tree": "33d221440b3382e3aea75c97158eec19d78adf39",
     "tree_changed": true,
     "conflicts": 2,
     "manifest_entries": [
@@ -166,6 +169,24 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/fdroid-distribution",
         "pin": "cfd6fd063d9444ff316cdfe4b585f44bafd6ed8a"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4318",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/pr-4318",
+        "pin": "92b09ca2727ecac01c45a905a090c40fb34f8d39"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4420",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/pr-4420",
+        "pin": "3d009426105a9aab76b06e992af694c74665b2c8"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4484",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/pr-4484",
+        "pin": "a0df23db239e6b7333087ebfbe31cc73ca57ccc5"
       },
       {
         "name": "managed-fleet-settings-controls",
@@ -308,6 +329,24 @@
       {
         "name": "t3code/orchestration-v2-main/fdroid-distribution",
         "oid": "cfd6fd063d9444ff316cdfe4b585f44bafd6ed8a",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4318",
+        "oid": "92b09ca2727ecac01c45a905a090c40fb34f8d39",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4420",
+        "oid": "3d009426105a9aab76b06e992af694c74665b2c8",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/pr-4484",
+        "oid": "a0df23db239e6b7333087ebfbe31cc73ca57ccc5",
         "status": "merged",
         "conflicted": false
       },

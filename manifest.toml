@@ -118,6 +118,24 @@ fixup = "patches/live-voice-pnpm-deps-hash.patch"
 branch = "fork:t3code/orchestration-v2-main/fdroid-distribution"
 
 [[entry]]
+branch = "fork:t3code/orchestration-v2-main/pr-4318"
+pr = 4318
+summary = "Recover stalled draft thread promotion"
+note = "Closed because the v2 rewrite moved the files, not on merit. Re-expressed against v2: subscribes to the ref the draft reserved instead of inferring from the shell list."
+
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/pr-4420"
+pr = 4420
+summary = "Refuse startup when another server owns the state dir"
+note = "Closed without comment. Re-ported; the PR's busy_timeout half already reached the base through upstream main and is not duplicated."
+
+[[entry]]
+branch = "fork:t3code/orchestration-v2-main/pr-4484"
+pr = 4484
+summary = "Recover draft thread IDs after failed bootstrap"
+note = "The base already carried the client half, but dead: nothing set bootstrapThreadDisposition and launch failures arrive as OrchestrationV2ThreadLaunchError. Deletes the provisional thread on a failed owned launch and propagates the disposition."
+
+[[entry]]
 patch = "patches/managed-fleet-settings-controls.patch"
 
 [[entry]]

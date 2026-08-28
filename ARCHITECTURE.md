@@ -20,11 +20,32 @@ it, base a topic on it, or merge it back into a topic branch.
 
 ## Orchestration-v2 base
 
-The canonical assembly is based directly on upstream PR #2829's head,
-`upstream:t3code/codex-turn-mapping`, and carries the topics that have been
-ported to or remain compatible with that base. All carried v2 topic refs must
-be based on that exact upstream head; do not recreate the former synthetic base
-by merging upstream `main` into a fork ref.
+The canonical assembly is based on `fork:t3code/orchestration-v2-main/base`, a
+synthetic merge of upstream PR #2829's head
+(`upstream:t3code/codex-turn-mapping`) with `upstream/main`. All carried v2
+topic refs must be based on that exact merge commit.
+
+The base is synthetic because #2829 is a long-lived branch that upstream
+rebases onto `main` only periodically. Between those reconciliations it falls
+hundreds of commits behind, and anything that lands on `main` in the meantime
+cannot reach the assembly -- including Ivan's own merged PRs. Basing directly
+on the PR head is therefore only correct immediately after upstream rebases it.
+
+Rebuilding the base is a deliberate operation, not a mechanical one. Upstream's
+rebases orphan the previous head, so the merge cannot be advanced incrementally
+and must be redone from scratch each time. Resolve it with the v2 architecture
+winning structurally: the rewrite's deletions of the v1 orchestration,
+provider-adapter, and client-state modules stand, and `main`-side changes that
+target deleted machinery are dropped for upstream to re-port rather than
+half-wired.
+
+Two failure modes are specific to this merge and are not caught by typecheck.
+Cleanly auto-merged files can carry silent semantic inversions -- `main` once
+reversed a scan direction in `packages/shared/src/chatList.ts` that broke
+timeline anchoring in both clients -- so run the test suites, not just
+typecheck. And coherence fixups are assembly-emergent: they can reference files
+that exist only because of some other carried entry, so they need re-deriving
+whenever the entry set changes.
 
 Several overlapping client, environment, discovery, and pairing topics are
 consolidated into
