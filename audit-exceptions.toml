@@ -124,6 +124,6 @@ reason = "The client-environment suite renamed the Command Palette's local brows
 
 [[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
-missing_count = 1
-missing_sha256 = "f664c516e5b9aa462a88734fc31824a11f213ef3ea4b3743b047b51945b2f1bc"
-reason = "The single absent line is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). The count fell from 5 to 1 because the rebased suite carries the rest verbatim against the rewritten upstream base."
+missing_count = 2
+missing_sha256 = "20bf6c0ca06aa6477f38c42788b7aa76e9baa6d616b3a00fe123be3cb12823ed"
+reason = "Both absent lines are present in the built tree, just not byte-identical. useSettings.ts is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). ConnectionsSettings.tsx is the suite's EnvironmentAccentColorControl element, which the managed-fleet settings-controls patch re-indents into a conditional branch; the formatter then wraps it across four lines, so the suite's single-line form no longer matches verbatim. Same element, same props."

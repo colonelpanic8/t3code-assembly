@@ -195,6 +195,12 @@ recorded = "2026-07-28T10:06:27.027599779+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "311c0f9476d090f19a219a26d766991174f675e3"
+paths = ["apps/web/src/hooks/useSettings.ts"]
+recorded = "2026-08-28T07:26:08.981199998+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "78505ab54bc76f5d4c232521d8aec6f5b3985960"
 paths = ["apps/web/src/hooks/useSettings.ts"]
 recorded = "2026-08-11T23:09:45.927452512+00:00"
