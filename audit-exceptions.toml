@@ -22,9 +22,9 @@ reason = "Later selector and compact-composer work rewrites the shortcut-hint JS
 
 [[exception]]
 entry = "4324"
-missing_count = 8
-missing_sha256 = "2220abe260877c9d6af101b8ac4995a3054b9cc04915c50fabf6ace1344d9c12"
-reason = "The refreshed client-environment settings implementation rewrites the large-project-icons restore and control expressions inside the ownership-aware settings structure. The setting remains present in the final tree and the sidebar fixture's intended larger-icon behavior is retained."
+missing_count = 1
+missing_sha256 = "31403db878273793fcd639aef7f402f4b215423e6996f6c95945ca72f0077d25"
+reason = "The suite's fixup re-adds the large-project-icons row inside the client-owned settings group, so the toggle itself is carried verbatim. Only the dirty-summary spread differs: it is now gated on ownership === \"client\", matching every other client-owned entry in that list."
 
 [[exception]]
 entry = "4323"
@@ -58,9 +58,9 @@ reason = "Same reviewed loss as before; the count fell from 13 to 6 because the 
 
 [[exception]]
 entry = "4439"
-missing_count = 12
-missing_sha256 = "d8c41e4e724ccfbd838f7c3305113f4061a81f06d919583a1acaac8814c803df"
-reason = "The refreshed client-environment settings implementation rewrites the worktreePathTemplate restore, dirty-state, and control expressions inside the ownership-aware settings structure. The final control still restores the default, trims committed input, and ignores empty values."
+missing_count = 1
+missing_sha256 = "e6496f7888723a13f8ed43b1da718aca93bd290125f930d27dec71c0ac565318"
+reason = "The suite's fixup re-adds the worktree-path row inside the environment-owned settings group, disabled while the environment is unreachable. Only the dirty-summary spread differs: it is now gated on ownership === \"environment\", matching the add-project-starts-in entry beside it."
 
 [[exception]]
 entry = "4390"

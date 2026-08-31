@@ -225,6 +225,12 @@ recorded = "2026-08-10T18:34:24.392730969+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "d195f33ed2196daee72b28008f8f8201ef12b311"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-08-31T05:09:03.404100640+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "ecc94c289bba7c99a609ddac4eddc53e9fba5059"
 paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
 recorded = "2026-08-10T18:34:24.392731801+00:00"
