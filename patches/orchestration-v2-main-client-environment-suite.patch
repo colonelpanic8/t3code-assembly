@@ -1,15 +1,3 @@
-diff --git a/apps/desktop/src/settings/DesktopClientSettings.test.ts b/apps/desktop/src/settings/DesktopClientSettings.test.ts
-index eec70e6c8..59abe0193 100644
---- a/apps/desktop/src/settings/DesktopClientSettings.test.ts
-+++ b/apps/desktop/src/settings/DesktopClientSettings.test.ts
-@@ -53,6 +53,7 @@ const clientSettings: ClientSettings = {
-   sidebarProjectSortOrder: "manual",
-   sidebarThreadSortOrder: "created_at",
-   sidebarThreadPreviewCount: 6,
-+  sidebarV2LargeIcons: false,
-   legacySidebarEnabled: false,
-   timestampFormat: "24-hour",
-   wordWrap: true,
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
 index 38fa3be8b..26f9c3bac 100644
 --- a/apps/server/src/cli/pair.ts
@@ -117,27 +105,27 @@ index 607088b88..d26ce0ee3 100644
        staticDir: undefined,
        devUrl: undefined,
        devAllowedOrigins: [],
-diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index 927d02189..1bbd4e2fc 100644
---- a/apps/web/src/components/CommandPalette.tsx
-+++ b/apps/web/src/components/CommandPalette.tsx
-@@ -2197,9 +2197,9 @@ function OpenCommandPaletteDialog(props: {
-       }
- 
-       const completion = resolveBrowseTabCompletion({
--        allowFirstEntryFallback: browseFilterQuery.length > 0,
-+        allowFirstEntryFallback: browsePath.filterQuery.length > 0,
-         exactEntry: exactBrowseEntry,
--        filteredEntries: filteredBrowseEntries,
-+        filteredEntries: visibleBrowseEntries,
-         highlightedItemValue,
-       });
-       if (completion?.kind === "up") {
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index d16ffd2e4..d5655e021 100644
+index 48467191f..a456af6d1 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -2063,6 +2063,28 @@ function OwnershipSettingsPanel({ ownership }: { ownership: SettingsOwnership })
+@@ -635,6 +635,7 @@ export function useSettingsRestore(ownership: SettingsOwnership, onRestored?: ()
+       settings.sidebarAutoSettleOnMerge,
+       settings.sidebarProjectGroupingMode,
+       settings.sidebarThreadPreviewCount,
++      settings.sidebarV2LargeIcons,
+       settings.showSkillsInSlashMenu,
+       settings.timestampFormat,
+       settings.wordWrap,
+@@ -667,6 +668,7 @@ export function useSettingsRestore(ownership: SettingsOwnership, onRestored?: ()
+         providerHealthRefreshInterval: DEFAULT_UNIFIED_SETTINGS.providerHealthRefreshInterval,
+         defaultThreadEnvMode: DEFAULT_UNIFIED_SETTINGS.defaultThreadEnvMode,
+         newWorktreesStartFromOrigin: DEFAULT_UNIFIED_SETTINGS.newWorktreesStartFromOrigin,
++        worktreePathTemplate: DEFAULT_UNIFIED_SETTINGS.worktreePathTemplate,
+         addProjectBaseDirectory: DEFAULT_UNIFIED_SETTINGS.addProjectBaseDirectory,
+         textGenerationModelSelection: DEFAULT_UNIFIED_SETTINGS.textGenerationModelSelection,
+       });
+@@ -2071,6 +2073,28 @@ function OwnershipSettingsPanel({ ownership }: { ownership: SettingsOwnership })
                }
              />
  
@@ -164,9 +152,9 @@ index d16ffd2e4..d5655e021 100644
 +            />
 +
              <SettingsRow
-               {...searchableSetting("auto-settle-inactive-threads")}
-               description="Sidebar threads with no activity for this long settle automatically. Threads on merged or closed PRs always settle."
-@@ -2438,6 +2460,40 @@ function OwnershipSettingsPanel({ ownership }: { ownership: SettingsOwnership })
+               {...searchableSetting("time-format")}
+               description="System default follows your browser or OS clock preference."
+@@ -2484,6 +2508,40 @@ function OwnershipSettingsPanel({ ownership }: { ownership: SettingsOwnership })
                />
              ) : null}
  
@@ -208,12 +196,12 @@ index d16ffd2e4..d5655e021 100644
                {...searchableSetting("add-project-starts-in")}
                description='Leave empty to use "~/" when the Add Project browser opens.'
 diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
-index afb705d2d..d0b6df980 100644
+index 07c7f07f0..c7873a1e5 100644
 --- a/apps/web/src/components/settings/settingsSearch.ts
 +++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -163,6 +163,11 @@ export const SETTINGS_SEARCH_ITEMS = [
-     to: "/settings/environment",
+@@ -223,6 +223,11 @@ export const SETTINGS_SEARCH_ITEMS = [
      targetId: "new-threads",
+     searchTerms: ["new worktrees latest matching remote branch local"],
    },
 +  {
 +    id: "worktree-path",

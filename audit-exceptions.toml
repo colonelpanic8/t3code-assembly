@@ -117,13 +117,13 @@ missing_sha256 = "9c950914f5e77a7ee8db1e04a342b91cec4f7568fcc72e088adf2d91017f53
 reason = "The group integration consolidates #4590's conditional empty-state JSX into resolveCommandPaletteEmptyStateMessage, so its five inline `emptyStateMessage:` lines exist under that helper instead. Verified against build 83e99218b: the browse-unavailable, choose-a-destination, relative-paths and create-this-folder messages are all present in the final Command Palette. The group was rebuilt at the current member heads in this refresh, so the earlier waiver -- which covered a 32-line unbuilt-revision gap from a stale group pin -- no longer applies and has been replaced."
 
 [[exception]]
-entry = "4257"
-missing_count = 2
-missing_sha256 = "ed9b4d193b885a5878e880d39ea3b601904bf87ade561246ab6c3d3a0acae238"
-reason = "The client-environment suite renamed the Command Palette's local browse-filter variables to browsePath.filterQuery and visibleBrowseEntries. The fixup updates #4257's tab-completion call to those current names; exact-entry completion, filtered fallback, and highlighted-item behavior are unchanged."
-
-[[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
 missing_count = 2
 missing_sha256 = "20bf6c0ca06aa6477f38c42788b7aa76e9baa6d616b3a00fe123be3cb12823ed"
 reason = "Both absent lines are present in the built tree, just not byte-identical. useSettings.ts is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). ConnectionsSettings.tsx is the suite's EnvironmentAccentColorControl element, which the managed-fleet settings-controls patch re-indents into a conditional branch; the formatter then wraps it across four lines, so the suite's single-line form no longer matches verbatim. Same element, same props."
+
+[[exception]]
+entry = "t3code/orchestration-v2-main/managed-fleet"
+missing_count = 1
+missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
+reason = "The one absent line is the `Config.ConfigError,` error-channel line of DesktopEnvironment.make's Effect.fn.Return signature. The built tree carries the same signature with the error widened into a union (`| Config.ConfigError | DesktopStorageDirectoryConfigurationConflictError | PlatformError.PlatformError`) by #4437's XDG storage layout, so the line is present with a leading `|`. The topic's FileSystem requirement, managedConnectionsPath field, and default-path discovery are all carried verbatim."
