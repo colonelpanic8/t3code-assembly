@@ -33,7 +33,10 @@ on the PR head is therefore only correct immediately after upstream rebases it.
 
 Rebuilding the base is a deliberate operation, not a mechanical one. Upstream's
 rebases orphan the previous head, so the merge cannot be advanced incrementally
-and must be redone from scratch each time. Resolve it with the v2 architecture
+and must be redone from scratch each time. Immediately after an upstream rebase
+the base may simply be #2829's head itself (as on 2026-09-03, d2f1f511f), which
+keeps it byte-identical to what PRs against that branch are reviewed on; every
+carried topic is then rebased onto that commit. Resolve it with the v2 architecture
 winning structurally: the rewrite's deletions of the v1 orchestration,
 provider-adapter, and client-state modules stand, and `main`-side changes that
 target deleted machinery are dropped for upstream to re-port rather than

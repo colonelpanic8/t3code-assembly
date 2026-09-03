@@ -80,8 +80,8 @@ note = "Still open upstream; neither main nor the v2 branch filters these models
 
 [[entry]]
 branch = "fork:t3code/orchestration-v2-main/client-environment-suite"
-summary = "Client-only desktop, local server discovery and pairing, environment-scoped settings (#9361)"
-note = "v2 integration of fork:t3code/client-environment-suite, the branch behind upstream PR #9361, which superseded #4444 and folded in #4496 and #4559 (and earlier #4474, #4486, #4548, #4567). Discovery reads server-runtime.json and pairs through the bundled `t3 pair --json`; a packaged desktop attaches to a running server instead of spawning a second backend. Per-environment accent colors and display names (#4505, #4538) were dropped from the suite on 2026-09-02 and live on fork:t3code/environment-accent-and-names, which is not carried. Split-layout (XDG) runtime state is not yet discovered: both the desktop and `t3 pair` derive legacy paths, which is fine for this install's legacy layout."
+summary = "Client-only desktop, local server discovery and pairing, environment-scoped settings (#9376)"
+note = "This branch IS the head of upstream PR #9376 (against #2829's branch t3code/codex-turn-mapping; #9361 was the same change before its head branch was renamed). It superseded #4444 and folded in #4496 and #4559 (and earlier #4474, #4486, #4548, #4567). Discovery reads server-runtime.json and pairs through the bundled `t3 pair --json`; a packaged desktop attaches to a running server instead of spawning a second backend. Per-environment accent colors and display names (#4505, #4538) were dropped from the suite on 2026-09-02 and live on fork:t3code/environment-accent-and-names, which is not carried. Split-layout (XDG) runtime state is not yet discovered: both the desktop and `t3 pair` derive legacy paths, which is fine for this install's legacy layout."
 fixup = "patches/orchestration-v2-main-client-environment-suite.patch"
 
 [[entry]]
@@ -171,19 +171,19 @@ reason = "Superseded by the current upstream project-icon implementation on main
 
 [[exclude]]
 pr = 4444
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4474
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4486
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4496
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4505
@@ -195,15 +195,15 @@ reason = "Dropped from the client suite on 2026-09-02; the feature lives on fork
 
 [[exclude]]
 pr = 4548
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4559
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4567
-reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4277
@@ -227,4 +227,8 @@ reason = "Merged upstream as 348367dcc and contained in the merged base; rebasin
 
 [[exclude]]
 pr = 9361
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite, its rebase onto the orchestration-v2 base."
+reason = "Closed by GitHub when its head branch was renamed; continued as #9376."
+
+[[exclude]]
+pr = 9376
+reason = "Carried by t3code/orchestration-v2-main/client-environment-suite, which is this PR's head branch."

@@ -195,6 +195,12 @@ recorded = "2026-07-28T10:06:27.027599779+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "277dacb742dad143f4885daf10976f77161a9283"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-09-03T07:30:05.707232068+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "311c0f9476d090f19a219a26d766991174f675e3"
 paths = ["apps/web/src/hooks/useSettings.ts"]
 recorded = "2026-08-28T07:26:08.981199998+00:00"
@@ -203,7 +209,7 @@ recorded = "2026-08-28T07:26:08.981199998+00:00"
 entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "6b3c9ef064cac6a8df3ff12093b64a23f581d501"
 paths = ["apps/web/src/hooks/useSettings.ts"]
-recorded = "2026-09-03T06:17:27.665621474+00:00"
+recorded = "2026-09-03T07:30:05.707234633+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
@@ -300,6 +306,12 @@ entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "fc57edbb678f86560012d00b7cd90232e6ad9077"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-08-10T19:29:24.703364217+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/pr-4420"
+hash = "1025de14754df505cdf30e86803136f715e7241a"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-09-03T07:35:37.732895013+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/pr-4420"
