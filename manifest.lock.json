@@ -4,7 +4,7 @@
     "base": "e2ea4a1dcc577dc73ec579a165efbd29b0888c70",
     "entries": {
       "managed-fleet-settings-controls": "fc164f702ad2f285e3637c98db6da9581d192451",
-      "t3code/orchestration-v2-main/client-environment-suite": "08d526d36644f173d36eb6596bc64393bb607de0",
+      "t3code/orchestration-v2-main/client-environment-suite": "5c9394b7d04f1ae2985b35c9b57240aca3cf706f",
       "t3code/orchestration-v2-main/desktop-clerk-startup": "7a9fe2293235e3c4f36d26a99bf7e122d46867b1",
       "t3code/orchestration-v2-main/fdroid-distribution": "98481f5c7d436fd688aa37da4034e4389db2c6f0",
       "t3code/orchestration-v2-main/live-voice": "b5fa1208f0947b71fdbc383ed91fd2577be214f4",
@@ -32,15 +32,15 @@
     }
   },
   "build": {
-    "generated": "2026-09-02T01:43:40.508852128+00:00",
+    "generated": "2026-09-03T06:22:00.291885661+00:00",
     "base": "e2ea4a1dcc577dc73ec579a165efbd29b0888c70",
-    "commit": "2de57dff9209d3111cd90b1d6d0a9f889c7fb5c3",
-    "pre_provenance_commit": "e84ef4eb428a746597c4dbe6b037a8d45ff878e4",
-    "tree": "19d5cb79a00978f449760a4329ee7bf3a14f60d8",
-    "built_tree": "8b3e02778e070c6a1989caab9b929d6d2c25ddd8",
-    "previous_tree": "9fcfbd8e66e60b883880466972ad58b5ff7e35c2",
+    "commit": "fbdd4fa49b838a490c02a374f8259a4e857206c9",
+    "pre_provenance_commit": "ec5e0f25237f2125bc572605fa293fd886a4373a",
+    "tree": "2f0c8926868f6eb567dcc184637d1961b510aeb3",
+    "built_tree": "d8d1ee3ef0b9e4dabed0f32074a7b7495d4db5de",
+    "previous_tree": "19d5cb79a00978f449760a4329ee7bf3a14f60d8",
     "tree_changed": true,
-    "conflicts": 2,
+    "conflicts": 3,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -118,8 +118,8 @@
         "name": "t3code/orchestration-v2-main/client-environment-suite",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/client-environment-suite",
-        "pin": "08d526d36644f173d36eb6596bc64393bb607de0",
-        "fixup": "2f0f827bcee70845b7b4439c82f8c073d050181c"
+        "pin": "5c9394b7d04f1ae2985b35c9b57240aca3cf706f",
+        "fixup": "285ad2e0f3ffb531a1f0fbc2f563f64485305052"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
@@ -187,12 +187,6 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4484",
         "pin": "3cad77feea9d9053abaf5a4c8ffd7bb1fcdde872"
-      },
-      {
-        "name": "managed-fleet-settings-controls",
-        "kind": "patch",
-        "source": "patches/managed-fleet-settings-controls.patch",
-        "pin": "fc164f702ad2f285e3637c98db6da9581d192451"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-6507",
@@ -276,11 +270,11 @@
       },
       {
         "name": "t3code/orchestration-v2-main/client-environment-suite",
-        "oid": "08d526d36644f173d36eb6596bc64393bb607de0",
+        "oid": "5c9394b7d04f1ae2985b35c9b57240aca3cf706f",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
-        "fixup": "2f0f827bcee70845b7b4439c82f8c073d050181c"
+        "fixup": "285ad2e0f3ffb531a1f0fbc2f563f64485305052"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
@@ -342,18 +336,13 @@
         "name": "t3code/orchestration-v2-main/pr-4420",
         "oid": "7f90e4c8f31936e31c59e86662cdde35e5f7be24",
         "status": "merged",
-        "conflicted": false
+        "conflicted": true,
+        "resolution": "rerere:74d274a7e88fb87d1d622addc78abdc5fd7b135b"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4484",
         "oid": "3cad77feea9d9053abaf5a4c8ffd7bb1fcdde872",
         "status": "merged",
-        "conflicted": false
-      },
-      {
-        "name": "managed-fleet-settings-controls",
-        "oid": "fc164f702ad2f285e3637c98db6da9581d192451",
-        "status": "applied",
         "conflicted": false
       },
       {

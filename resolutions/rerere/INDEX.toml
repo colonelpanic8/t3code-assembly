@@ -201,6 +201,12 @@ recorded = "2026-08-28T07:26:08.981199998+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "6b3c9ef064cac6a8df3ff12093b64a23f581d501"
+paths = ["apps/web/src/hooks/useSettings.ts"]
+recorded = "2026-09-03T06:17:27.665621474+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "78505ab54bc76f5d4c232521d8aec6f5b3985960"
 paths = ["apps/web/src/hooks/useSettings.ts"]
 recorded = "2026-08-11T23:09:45.927452512+00:00"
@@ -242,6 +248,24 @@ paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
 recorded = "2026-08-10T18:34:24.392731801+00:00"
 
 [[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "f20417249f08e11be7e846a7aab2074748fd9bef"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-09-03T06:17:27.665624029+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "f464b4923a1c85a96a9f7c588baebbb3b46300ec"
+paths = ["apps/web/src/components/settings/DiagnosticsSettings.tsx"]
+recorded = "2026-09-03T06:17:27.665624369+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "fdbb360e5022e173e62b39af47cfe57650be6685"
+paths = ["apps/server/src/config.ts"]
+recorded = "2026-09-03T06:17:27.665624970+00:00"
+
+[[resolution]]
 entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "69465dc1b938c3652744d25596317ac2fa648940"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
@@ -276,6 +300,12 @@ entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "fc57edbb678f86560012d00b7cd90232e6ad9077"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-08-10T19:29:24.703364217+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/pr-4420"
+hash = "74d274a7e88fb87d1d622addc78abdc5fd7b135b"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-09-03T06:20:59.146805717+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/pr-4677"

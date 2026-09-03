@@ -80,8 +80,8 @@ note = "Still open upstream; neither main nor the v2 branch filters these models
 
 [[entry]]
 branch = "fork:t3code/orchestration-v2-main/client-environment-suite"
-summary = "Orchestration-v2 client, environment, discovery, and pairing suite"
-note = "Canonical v2-native replacement for the overlapping #4444, #4474, #4486, #4496, #4505, #4538, #4548, #4559, and #4567 branches. Their individual shadow refs remain available but are not replayed twice."
+summary = "Client-only desktop, local server discovery and pairing, environment-scoped settings (#9361)"
+note = "v2 integration of fork:t3code/client-environment-suite, the branch behind upstream PR #9361, which superseded #4444 and folded in #4496 and #4559 (and earlier #4474, #4486, #4548, #4567). Discovery reads server-runtime.json and pairs through the bundled `t3 pair --json`; a packaged desktop attaches to a running server instead of spawning a second backend. Per-environment accent colors and display names (#4505, #4538) were dropped from the suite on 2026-09-02 and live on fork:t3code/environment-accent-and-names, which is not carried. Split-layout (XDG) runtime state is not yet discovered: both the desktop and `t3 pair` derive legacy paths, which is fine for this install's legacy layout."
 fixup = "patches/orchestration-v2-main-client-environment-suite.patch"
 
 [[entry]]
@@ -136,9 +136,6 @@ summary = "Recover draft thread IDs after failed bootstrap"
 note = "The base already carried the client half, but dead: nothing set bootstrapThreadDisposition and launch failures arrive as OrchestrationV2ThreadLaunchError. Deletes the provisional thread on a failed owned launch and propagates the disposition."
 
 [[entry]]
-patch = "patches/managed-fleet-settings-controls.patch"
-
-[[entry]]
 branch = "fork:t3code/orchestration-v2-main/pr-6507"
 pr = 6507
 summary = "Direct model and reasoning keybindings"
@@ -174,39 +171,39 @@ reason = "Superseded by the current upstream project-icon implementation on main
 
 [[exclude]]
 pr = 4444
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4474
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4486
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4496
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4505
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Dropped from the client suite on 2026-09-02; the feature lives on fork:t3code/environment-accent-and-names and is not carried."
 
 [[exclude]]
 pr = 4538
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Dropped from the client suite on 2026-09-02; the feature lives on fork:t3code/environment-accent-and-names and is not carried."
 
 [[exclude]]
 pr = 4548
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4559
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4567
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9361; carried by t3code/orchestration-v2-main/client-environment-suite."
 
 [[exclude]]
 pr = 4277
@@ -227,3 +224,7 @@ reason = "Core stale-label fix landed upstream as #5400 (37d3667de4e4); only ext
 [[exclude]]
 pr = 4332
 reason = "Merged upstream as 348367dcc and contained in the merged base; rebasing the topic yields an empty commit."
+
+[[exclude]]
+pr = 9361
+reason = "Carried by t3code/orchestration-v2-main/client-environment-suite, its rebase onto the orchestration-v2 base."

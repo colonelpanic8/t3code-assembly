@@ -20,11 +20,6 @@ missing_count = 85
 missing_sha256 = "8c270792dc2b09a0ce87e8659088a734d5ef986a8619cab6f693000d07f7bf9f"
 reason = "Later selector and compact-composer work rewrites the shortcut-hint JSX around ComposerControlShortcutHint and the controlled BranchToolbar selectors. remainingShortcutLabelForCommand and shouldShowCommandHintForModifiers remain the shared behavior, their current tests cover held-modifier and glyph formatting, and all six defaults are carried in packages/contracts DEFAULT_KEYBINDINGS by the refreshed-client overlap epilogue."
 
-[[exception]]
-entry = "4324"
-missing_count = 1
-missing_sha256 = "31403db878273793fcd639aef7f402f4b215423e6996f6c95945ca72f0077d25"
-reason = "The suite's fixup re-adds the large-project-icons row inside the client-owned settings group, so the toggle itself is carried verbatim. Only the dirty-summary spread differs: it is now gated on ownership === \"client\", matching every other client-owned entry in that list."
 
 [[exception]]
 entry = "4323"
@@ -50,17 +45,6 @@ missing_count = 2
 missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
 reason = "Diagnostics now reads storage from the selected environment's serverConfig instead of primaryServerStorageAtom. StoragePathRow remains, and the final selected-environment panel exposes configuration, data, state, cache, runtime, database, settings, keybindings, worktrees, and attachments paths with copy controls and an unavailable-storage fallback."
 
-[[exception]]
-entry = "4494"
-missing_count = 6
-missing_sha256 = "9123133f739159b069d01d839d53de60e33f6b26e97d3245545f3e297f40a9ac"
-reason = "Same reviewed loss as before; the count fell from 13 to 6 because the rewritten upstream codex-turn-mapping base absorbed the rest. The reconciliation retains #4494's per-environment serialized write queue, pending-patch dispatch, acknowledgement handling, and optimistic merged settings. Legacy enableAssistantStreaming test patches became enableLegacyTokenStreaming, and usePrimaryEnvironment/settingsValueAtom access became primaryEnvironmentIdAtom/configValueAtom for orchestration-v2 environment ownership."
-
-[[exception]]
-entry = "4439"
-missing_count = 1
-missing_sha256 = "e6496f7888723a13f8ed43b1da718aca93bd290125f930d27dec71c0ac565318"
-reason = "The suite's fixup re-adds the worktree-path row inside the environment-owned settings group, disabled while the environment is unreachable. Only the dirty-summary spread differs: it is now gated on ownership === \"environment\", matching the add-project-starts-in entry beside it."
 
 [[exception]]
 entry = "4390"
@@ -116,14 +100,33 @@ missing_count = 5
 missing_sha256 = "9c950914f5e77a7ee8db1e04a342b91cec4f7568fcc72e088adf2d91017f533f"
 reason = "The group integration consolidates #4590's conditional empty-state JSX into resolveCommandPaletteEmptyStateMessage, so its five inline `emptyStateMessage:` lines exist under that helper instead. Verified against build 83e99218b: the browse-unavailable, choose-a-destination, relative-paths and create-this-folder messages are all present in the final Command Palette. The group was rebuilt at the current member heads in this refresh, so the earlier waiver -- which covered a 32-line unbuilt-revision gap from a stale group pin -- no longer applies and has been replaced."
 
-[[exception]]
-entry = "t3code/orchestration-v2-main/client-environment-suite"
-missing_count = 2
-missing_sha256 = "20bf6c0ca06aa6477f38c42788b7aa76e9baa6d616b3a00fe123be3cb12823ed"
-reason = "Both absent lines are present in the built tree, just not byte-identical. useSettings.ts is the suite's one-argument useUpdateSettingsTarget call in useUpdatePrimarySettings, superseded by #4494's two-argument serialized-write form (primaryEnvironmentIdAtom plus primaryServerSettingsAtom). ConnectionsSettings.tsx is the suite's EnvironmentAccentColorControl element, which the managed-fleet settings-controls patch re-indents into a conditional branch; the formatter then wraps it across four lines, so the suite's single-line form no longer matches verbatim. Same element, same props."
 
 [[exception]]
 entry = "t3code/orchestration-v2-main/managed-fleet"
 missing_count = 1
 missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
 reason = "The one absent line is the `Config.ConfigError,` error-channel line of DesktopEnvironment.make's Effect.fn.Return signature. The built tree carries the same signature with the error widened into a union (`| Config.ConfigError | DesktopStorageDirectoryConfigurationConflictError | PlatformError.PlatformError`) by #4437's XDG storage layout, so the line is present with a leading `|`. The topic's FileSystem requirement, managedConnectionsPath field, and default-path discovery are all carried verbatim."
+
+[[exception]]
+entry = "4439"
+missing_count = 1
+missing_sha256 = "267b3f7a711a85e8fcb50ec07c6f07a8bbfb854686d9693c6e41a5a489df62a9"
+reason = "The one absent line is the `settings.worktreePathTemplate,` memo dependency in the old combined restore hook. The client suite's useEnvironmentSettingsRestore depends on the whole `settings` object, so a per-key entry is redundant. The template's dirty label, reset, and the worktree-path row are all carried (the row and its search item through the suite's fixup)."
+
+[[exception]]
+entry = "4494"
+missing_count = 4
+missing_sha256 = "b86fbe84b320943aa61ef48fcc683f853017f13ad22ffb6898ea2e98aff70491"
+reason = "Three lines are pendingServerSettings.test.ts fixtures that patch `enableAssistantStreaming`; the suite's fixup renames them to `enableLegacyTokenStreaming`, the key the built tree's settings schema actually serializes, and the test passes on the built tree. The fourth is useUpdateEnvironmentSettings reading settingsValueAtom; the suite reads `configValueAtom(environmentId)?.settings` so the hook accepts a null environment id, and still hands the loaded server settings to #4494's two-argument serialized-write useUpdateSettingsTarget."
+
+[[exception]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+missing_count = 4
+missing_sha256 = "c58a9ba4b07cd08b10601a97ac710ae03460e9f3a05206525bb836eebe29836f"
+reason = "Three lines are config.ts deriving serverRuntimeStatePath through the shared deriveServerRuntimeStatePath helper; on this stack #4437's storage roots win and the path is `join(runtimeDir, \"server-runtime.json\")`, which is the same location in the legacy layout this install uses (the desktop discovery still reads the legacy path; split-layout discovery is noted on the entry). The fourth is a type-only import of PersistedServerRuntimeState that became a value import because #4420's strict startup reader decodes with the shared schema."
+
+[[exception]]
+entry = "4420"
+missing_count = 3
+missing_sha256 = "bd73142b1aa58611d2a6633cb3365ce2381ca8c9930f3fa8e0f87df748cbc3f5"
+reason = "The three lines are #4420's re-export of readPersistedServerRuntimeState as a log-and-swallow wrapper around its strict startup reader. The client suite already re-exports the shared reader with identical semantics (every ServerRuntimeStateError logged and mapped to none), so the duplicate definition was dropped to avoid a conflicting export. The strict readPersistedServerRuntimeStateForStartup, decideServerRuntimeStartup, ensureExclusiveStateDir, and ServerStateDirConflictError are carried verbatim."
