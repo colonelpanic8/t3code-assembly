@@ -27,19 +27,20 @@
       "t3code/orchestration-v2-main/pr-4677": "b6af31a8e25d07cb9d0b241ae3495937c1368ea2",
       "t3code/orchestration-v2-main/pr-4699": "c989b2f580e568a79a1615077f5299fc38f4598e",
       "t3code/orchestration-v2-main/pr-4701": "656bf9b9f50ea600622d69360b217bf2ae4ae986",
-      "t3code/orchestration-v2-main/pr-6507": "438be45d3ad1b588c2200a3cccf8d969b6e0d8f4"
+      "t3code/orchestration-v2-main/pr-6507": "438be45d3ad1b588c2200a3cccf8d969b6e0d8f4",
+      "t3code/orchestration-v2-main/sidebar-provider-fallback": "4e70a077efc01e4f847004185df07bdfefc2909c"
     }
   },
   "build": {
-    "generated": "2026-09-03T07:54:07.441079540+00:00",
+    "generated": "2026-09-06T08:06:11.736657080+00:00",
     "base": "d2f1f511f4cc833bc930d6c355cd0f9b61e835a0",
-    "commit": "59299bc2900264cff333dd93a0156804c89b824e",
-    "pre_provenance_commit": "36876842e9241500a87340432c2d5fe8b860af8d",
-    "tree": "1d0bd4df9597062b7e096a73108120e6079c459c",
-    "built_tree": "4a38af1b72102d58bd818be13921e1f4770b7aa1",
-    "previous_tree": "1c236cd2558db7ba259fee3730ebee80e5fade8b",
+    "commit": "c6afcb7ec1df5589f2aa026ff8efdaeb47dfc5c0",
+    "pre_provenance_commit": "e0237c2d833266d46549e7930c25203980c15785",
+    "tree": "c7aaa456d1730a6bcef5a5bb848c27305e5f79d4",
+    "built_tree": "ff19cebad4a9e86bb67d2f607483698d747fee7c",
+    "previous_tree": "1d0bd4df9597062b7e096a73108120e6079c459c",
     "tree_changed": true,
-    "conflicts": 3,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -192,6 +193,12 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-6507",
         "pin": "438be45d3ad1b588c2200a3cccf8d969b6e0d8f4"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/sidebar-provider-fallback",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/sidebar-provider-fallback",
+        "pin": "4e70a077efc01e4f847004185df07bdfefc2909c"
       }
     ],
     "results": [
@@ -347,6 +354,12 @@
       {
         "name": "t3code/orchestration-v2-main/pr-6507",
         "oid": "438be45d3ad1b588c2200a3cccf8d969b6e0d8f4",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/sidebar-provider-fallback",
+        "oid": "4e70a077efc01e4f847004185df07bdfefc2909c",
         "status": "merged",
         "conflicted": false
       }
