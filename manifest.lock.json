@@ -27,19 +27,20 @@
       "t3code/orchestration-v2-main/pr-4677": "32cb93f0e97506cc5c6f6e2c990f1a5b2fedf655",
       "t3code/orchestration-v2-main/pr-4699": "b5bc71222440ea8d30b69feb56e8f47fd2f555db",
       "t3code/orchestration-v2-main/pr-4701": "d2e0d98893e4359c48b3e1c7e908259fe39423ed",
-      "t3code/orchestration-v2-main/pr-6507": "b38123d869bff3fed5c8a20581de4a9a7c79815d"
+      "t3code/orchestration-v2-main/pr-6507": "b38123d869bff3fed5c8a20581de4a9a7c79815d",
+      "t3code/orchestration-v2-main/usage-host-resilience": "6196e9cc22bf20ae25748cba6b20849dda0653d6"
     }
   },
   "build": {
-    "generated": "2026-09-06T10:05:02.558350797+00:00",
+    "generated": "2026-09-06T14:33:18.068834277+00:00",
     "base": "b6ee6fe20349c2a572cc08f4695b0f28ad517c68",
-    "commit": "3bcd8953b42a814c2495009596e792fcc25b954d",
-    "pre_provenance_commit": "dfaa427c0e8c9a22b79e404145b8781966fbacfb",
-    "tree": "215c399b56205ecb5af6c14cf1a18d672851e371",
-    "built_tree": "1d74d035fbafb00185d517f95e9001dad243f5d6",
-    "previous_tree": "60a8b2a32ee6d29562e91458c48c4a4b0ac8c13c",
+    "commit": "9911c970a725bf0c55fda3859b4970779bb677c8",
+    "pre_provenance_commit": "45b709d203910cc98fb459978076e37819e146ad",
+    "tree": "99bc901e21e348cb9cd36337bb96454335da1ba1",
+    "built_tree": "6dacc1f241e9a00889edb265a1b49865d48099dc",
+    "previous_tree": "215c399b56205ecb5af6c14cf1a18d672851e371",
     "tree_changed": true,
-    "conflicts": 3,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
@@ -192,6 +193,12 @@
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-6507",
         "pin": "b38123d869bff3fed5c8a20581de4a9a7c79815d"
+      },
+      {
+        "name": "t3code/orchestration-v2-main/usage-host-resilience",
+        "kind": "branch",
+        "source": "fork:t3code/orchestration-v2-main/usage-host-resilience",
+        "pin": "6196e9cc22bf20ae25748cba6b20849dda0653d6"
       }
     ],
     "results": [
@@ -347,6 +354,12 @@
       {
         "name": "t3code/orchestration-v2-main/pr-6507",
         "oid": "b38123d869bff3fed5c8a20581de4a9a7c79815d",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/orchestration-v2-main/usage-host-resilience",
+        "oid": "6196e9cc22bf20ae25748cba6b20849dda0653d6",
         "status": "merged",
         "conflicted": false
       }
