@@ -6,7 +6,7 @@ diff --git a/nix/package.nix b/nix/package.nix
        # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
        # .#unwrapped, and copy the reported hash here.
 -      hash = "sha256-0bZuGGii7xjFvg5a0yxXt3pfdfB2csWiIEEJcSSLPjQ=";
-+      hash = "sha256-PsvzAhCmPxxG/L77er9YC3fotkcGmAyfv2XmpUM1PSQ=";
++      hash = "sha256-yse+silX+cMeV4kk/ZeE3Jl/28TXQMl38jqBZ0NohAs=";
      };
  
      env.APP_VERSION = finalAttrs.version;

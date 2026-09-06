@@ -115,9 +115,9 @@ reason = "The one absent line is the `settings.worktreePathTemplate,` memo depen
 
 [[exception]]
 entry = "4494"
-missing_count = 4
-missing_sha256 = "b86fbe84b320943aa61ef48fcc683f853017f13ad22ffb6898ea2e98aff70491"
-reason = "Three lines are pendingServerSettings.test.ts fixtures that patch `enableAssistantStreaming`; the suite's fixup renames them to `enableLegacyTokenStreaming`, the key the built tree's settings schema actually serializes, and the test passes on the built tree. The fourth is useUpdateEnvironmentSettings reading settingsValueAtom; the suite reads `configValueAtom(environmentId)?.settings` so the hook accepts a null environment id, and still hands the loaded server settings to #4494's two-argument serialized-write useUpdateSettingsTarget."
+missing_count = 1
+missing_sha256 = "3bca6be31e54df7b2c20de7abc4c972d8792706244c0024ee091b1a4cbfc57d3"
+reason = "The one absent line is useUpdateEnvironmentSettings reading settingsValueAtom; the client suite reads `configValueAtom(environmentId)?.settings` so the hook accepts a null environment id, and still hands the loaded server settings to #4494's two-argument serialized-write useUpdateSettingsTarget. The pendingServerSettings.test.ts fixture renames that used to be in this exception now live in the topic itself."
 
 [[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"

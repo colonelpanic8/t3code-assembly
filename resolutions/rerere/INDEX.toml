@@ -225,6 +225,12 @@ recorded = "2026-08-18T21:39:34.494347680+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "97b4fb991ae06c4f520f994277e9db1979c54ce4"
+paths = ["apps/web/src/hooks/useSettings.ts"]
+recorded = "2026-09-06T09:59:58.949549410+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "b1f86de59475ef4066c6dff4f5129b456e53503c"
 paths = ["apps/web/src/components/Sidebar.tsx"]
 recorded = "2026-08-10T18:34:24.392728965+00:00"
@@ -252,6 +258,12 @@ entry = "t3code/orchestration-v2-main/client-environment-suite"
 hash = "ecc94c289bba7c99a609ddac4eddc53e9fba5059"
 paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
 recorded = "2026-08-10T18:34:24.392731801+00:00"
+
+[[resolution]]
+entry = "t3code/orchestration-v2-main/client-environment-suite"
+hash = "ed07ec35cce617ea8974ea6233dffb78e3ada533"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-09-06T09:59:58.949551233+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"

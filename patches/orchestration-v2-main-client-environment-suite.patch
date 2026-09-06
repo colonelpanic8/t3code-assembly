@@ -1,8 +1,8 @@
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 0325dc805..037c15ceb 100644
+index f634e3f09e..50256eb435 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -717,6 +717,9 @@ function useEnvironmentSettingsRestore(onRestored?: () => void): SettingsRestore
+@@ -764,6 +764,9 @@ function useEnvironmentSettingsRestore(onRestored?: () => void): SettingsRestore
        DEFAULT_UNIFIED_SETTINGS.newWorktreesStartFromOrigin
          ? ["New worktrees start from origin"]
          : []),
@@ -12,18 +12,18 @@ index 0325dc805..037c15ceb 100644
        ...(settings.addProjectBaseDirectory !== DEFAULT_UNIFIED_SETTINGS.addProjectBaseDirectory
          ? ["Add project base directory"]
          : []),
-@@ -750,6 +753,7 @@ function useEnvironmentSettingsRestore(onRestored?: () => void): SettingsRestore
+@@ -794,6 +797,7 @@ function useEnvironmentSettingsRestore(onRestored?: () => void): SettingsRestore
+       automaticGitFetchInterval: DEFAULT_UNIFIED_SETTINGS.automaticGitFetchInterval,
        providerHealthRefreshInterval: DEFAULT_UNIFIED_SETTINGS.providerHealthRefreshInterval,
-       defaultThreadEnvMode: DEFAULT_UNIFIED_SETTINGS.defaultThreadEnvMode,
        newWorktreesStartFromOrigin: DEFAULT_UNIFIED_SETTINGS.newWorktreesStartFromOrigin,
 +      worktreePathTemplate: DEFAULT_UNIFIED_SETTINGS.worktreePathTemplate,
        addProjectBaseDirectory: DEFAULT_UNIFIED_SETTINGS.addProjectBaseDirectory,
        textGenerationModelSelection: DEFAULT_UNIFIED_SETTINGS.textGenerationModelSelection,
-       // Re-granted like any other default. The confirmation dialog lists it by
-@@ -2002,6 +2006,28 @@ export function GeneralSettingsPanel() {
-           }
-         />
+     });
+@@ -2140,6 +2144,28 @@ export function GeneralSettingsPanel() {
+       </SettingsSection>
  
+       <SettingsSection id="behavior" title="Behavior">
 +        <SettingsRow
 +          title="Large project icons"
 +          description="Show larger project icons in sidebar thread rows."
@@ -50,67 +50,15 @@ index 0325dc805..037c15ceb 100644
            {...searchableSetting("time-format")}
            description="System default follows your browser or OS clock preference."
 diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
-index 07c7f07f0..c7873a1e5 100644
+index 9d3d142321..76a0ca3054 100644
 --- a/apps/web/src/components/settings/settingsSearch.ts
 +++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -223,6 +223,11 @@ export const SETTINGS_SEARCH_ITEMS = [
-     targetId: "new-threads",
-     searchTerms: ["new worktrees latest matching remote branch local"],
-   },
-+  {
-+    id: "worktree-path",
-+    title: "Worktree path",
-+    to: "/settings/environment",
-+  },
+@@ -268,7 +268,7 @@ export const SETTINGS_SEARCH_ITEMS = [
    {
-     id: "add-project-starts-in",
-     title: "Add project starts in",
-diff --git a/apps/web/src/hooks/pendingServerSettings.test.ts b/apps/web/src/hooks/pendingServerSettings.test.ts
-index 1c72494ad..2d42a47b3 100644
---- a/apps/web/src/hooks/pendingServerSettings.test.ts
-+++ b/apps/web/src/hooks/pendingServerSettings.test.ts
-@@ -180,6 +180,13 @@ describe("pendingServerSettings", () => {
-   });
- 
-   it("rebases array deltas onto a missing authoritative array", () => {
-+    const currentSettings = {
-+      ...DEFAULT_SERVER_SETTINGS,
-+      textGenerationModelSelection: {
-+        ...DEFAULT_SERVER_SETTINGS.textGenerationModelSelection,
-+        options: [],
-+      },
-+    };
-     const failedOptionsBase = {
-       ...DEFAULT_SERVER_SETTINGS,
-       textGenerationModelSelection: {
-@@ -195,7 +202,7 @@ describe("pendingServerSettings", () => {
-         ],
-       },
-     };
--    const settings = applyPendingServerPatches(DEFAULT_SERVER_SETTINGS, [
-+    const settings = applyPendingServerPatches(currentSettings, [
-       { id: 1, patch, baseSettings: failedOptionsBase },
-     ]);
- 
-@@ -284,7 +291,7 @@ describe("pendingServerSettings", () => {
-   });
- 
-   it("records an early echo while an older successful patch is still awaiting its echo", () => {
--    const firstPatch = { enableAssistantStreaming: false };
-+    const firstPatch = { enableLegacyTokenStreaming: false };
-     const firstId = retain(firstPatch);
-     const secondPatch = { enableProviderUpdateChecks: false };
-     const secondId = retain(secondPatch);
-@@ -325,10 +332,10 @@ describe("pendingServerSettings", () => {
-       notifications += 1;
-     });
- 
--    const id = retain({ enableAssistantStreaming: false });
-+    const id = retain({ enableLegacyTokenStreaming: false });
-     settlePendingServerPatch(environmentId, id, null);
-     unsubscribe();
--    retain({ enableAssistantStreaming: false });
-+    retain({ enableLegacyTokenStreaming: false });
- 
-     expect(notifications).toBe(2);
-   });
+     id: "worktree-path",
+     title: "Worktree path",
+-    to: "/settings/general",
++    to: "/settings/environment",
+     searchTerms: ["template location directory repository branch"],
+   },
+   {
