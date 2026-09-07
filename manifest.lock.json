@@ -1,45 +1,45 @@
 {
   "version": 1,
   "pins": {
-    "base": "57a74894e48869fa35a84016b633b20e8c334790",
+    "base": "81be36e6af10535f936c0ff122146702e55fa92f",
     "entries": {
-      "t3code/orchestration-v2-main/client-environment-suite": "0e9820e4df32054986e861d5258c9c33497708e3",
-      "t3code/orchestration-v2-main/desktop-clerk-startup": "b5d398c05dd96ebaebfea6826a7a83917f5f8186",
-      "t3code/orchestration-v2-main/fdroid-distribution": "b44369802e1d30142271587625c0d0f4f000439a",
-      "t3code/orchestration-v2-main/live-voice": "c683fe9dc8fdbda19cac8f44a2ad545c67aa8c3f",
-      "t3code/orchestration-v2-main/managed-fleet": "19c9552514b2682c621b1b923d577ab4ea82e4e3",
-      "t3code/orchestration-v2-main/migration-schema-repair": "d13c6f84d4ddceae0cc3c542cec66fb6f647c7cb",
-      "t3code/orchestration-v2-main/pr-4257": "2914046ae472544cbfb7ee1ebe8e84f79e3f5b79",
-      "t3code/orchestration-v2-main/pr-4259": "3182eb3dc934adefee2c8a55b3b23aca1eb04c85",
-      "t3code/orchestration-v2-main/pr-4318": "c401902ceb888be2a69c04b270cccb1448559694",
-      "t3code/orchestration-v2-main/pr-4324": "e4b4bb17a72c4b76c6473f13f1449af8d4513086",
-      "t3code/orchestration-v2-main/pr-4394": "62fd345564f5b8c36c70642a96e5a81528a6e28e",
-      "t3code/orchestration-v2-main/pr-4405": "0afb106466ec91ad4194f844ed3695b67e4b398f",
-      "t3code/orchestration-v2-main/pr-4420": "1fc826c24c31d72104a63398f2c58d7704519a85",
-      "t3code/orchestration-v2-main/pr-4437": "b044ddd6deebe1e4e5ba0c9d8f89f60454ae0dd2",
-      "t3code/orchestration-v2-main/pr-4439": "a43362b505331970b0a3a808c4b21a74950a32bd",
-      "t3code/orchestration-v2-main/pr-4447": "f884af789385555dec9fda9aae461f802666538a",
-      "t3code/orchestration-v2-main/pr-4484": "a1e122f69e28a01c237c54dd15d7c4bff3ae3a3f",
-      "t3code/orchestration-v2-main/pr-4487": "5816b01c7dcad6b1b15eb8863f6bf1f00908b7b8",
-      "t3code/orchestration-v2-main/pr-4494": "c29e6143e56fe9d2e1c27840c396826e3960dea0",
-      "t3code/orchestration-v2-main/pr-4593": "1aeb8fcfdf2ced1928b9e2ebad00e19deface1fe",
-      "t3code/orchestration-v2-main/pr-4602": "8a70ea1cc69ba77db995852aac883d67d47a5182",
-      "t3code/orchestration-v2-main/pr-4677": "0140361925688fdd71d66eae0dd4ba670bdc872d",
-      "t3code/orchestration-v2-main/pr-4699": "b226bb3b06c244c5d85b404d34fdf3448101f736",
-      "t3code/orchestration-v2-main/pr-4701": "d8f6ca7ff4cded9693495bdcd37e51a1d9347dfc",
-      "t3code/orchestration-v2-main/pr-6507": "9bf0ed9f0b0bb159e663a47d23a8e7504f780877",
-      "t3code/orchestration-v2-main/typecheck-fixes": "d662d8c80f5f1a61b88011d5a42f1823cd1081a6",
-      "t3code/orchestration-v2-main/usage-host-resilience": "21ecb9418bde832bd36d6ed3dc66228ba06baeda"
+      "t3code/orchestration-v2-main/client-environment-suite": "979ed09a4a21914594aa512a1d706508b6b8e68a",
+      "t3code/orchestration-v2-main/desktop-clerk-startup": "6e337292b985dca3cdef6f1a371c086b209d77a6",
+      "t3code/orchestration-v2-main/fdroid-distribution": "34d4fce554b99500fe9d3ba35182a8a11482e389",
+      "t3code/orchestration-v2-main/live-voice": "5520527eb4097f2f79bed1d622b7d2f6c6d0e28d",
+      "t3code/orchestration-v2-main/managed-fleet": "82eed1a868b5df192ed35adf660ba03f6076ea85",
+      "t3code/orchestration-v2-main/migration-schema-repair": "c496dffce7eced266cd82a6b4a172239b2464816",
+      "t3code/orchestration-v2-main/pr-4257": "1f400da0f3515d21c3aea09052879f74c5ab9477",
+      "t3code/orchestration-v2-main/pr-4259": "7b427717ea22888c3f62852f0349f8e373a456ee",
+      "t3code/orchestration-v2-main/pr-4318": "37646d902f25985c57ca910c9f6c6f8508ef6588",
+      "t3code/orchestration-v2-main/pr-4324": "da07a1fe2bd338ec3ecd4db08ce64c7e99a3c2ac",
+      "t3code/orchestration-v2-main/pr-4394": "851639e1120fefdb164cd15cadf8be20f8b8a696",
+      "t3code/orchestration-v2-main/pr-4405": "27cc469cf25768bb46d278569f2c0b31c3a1e6c2",
+      "t3code/orchestration-v2-main/pr-4420": "68b8461dabf41360f4efe081f19e5364b8f5636c",
+      "t3code/orchestration-v2-main/pr-4437": "1cf48270131fe2a378444b4cb110cb0f54808c1f",
+      "t3code/orchestration-v2-main/pr-4439": "97a552ee16c78d6b7826f5e43cec0597af44fa46",
+      "t3code/orchestration-v2-main/pr-4447": "ceb4e715f5f4a30b6a6f9ce7e8cde124d7bf8b87",
+      "t3code/orchestration-v2-main/pr-4484": "cd1247e9340fee17a2035c732f24b2cec860803a",
+      "t3code/orchestration-v2-main/pr-4487": "93b7a6689ee398db5cead9b94faccfc429553902",
+      "t3code/orchestration-v2-main/pr-4494": "bdffa30c281c69e01cb0d11b06d54b3386bcf3f5",
+      "t3code/orchestration-v2-main/pr-4593": "0074c873fd0d3d71011ba516416a895abffb3875",
+      "t3code/orchestration-v2-main/pr-4602": "b590b6adc12496bf036719661d0fc91f3e8b7ac6",
+      "t3code/orchestration-v2-main/pr-4677": "ad34dcd3fe96db243286fc6ebb0fb777153f5105",
+      "t3code/orchestration-v2-main/pr-4699": "9d07cfa9e3b3a23d23d69d09e2b5b19c7f824ae9",
+      "t3code/orchestration-v2-main/pr-4701": "977335e45821a055b1a05058896458d256cd8982",
+      "t3code/orchestration-v2-main/pr-6507": "11df3d034a087f282cea4998e6d8ad6bc9014aab",
+      "t3code/orchestration-v2-main/typecheck-fixes": "66327ecbfe90e9932eed98cb815573226160d2d8",
+      "t3code/orchestration-v2-main/usage-host-resilience": "4fceb53ebd41c639fb17e37778a57ee53bfc22a5"
     }
   },
   "build": {
-    "generated": "2026-09-07T19:47:04.536407832+00:00",
-    "base": "57a74894e48869fa35a84016b633b20e8c334790",
-    "commit": "78faaf345f2136f373f0b2e2a65c928a0318b6b6",
-    "pre_provenance_commit": "b84cb221cb7c817c881966d6cd5dcebfd0e025eb",
-    "tree": "85086042f726b1bc398da3f19d3b718ff0944667",
-    "built_tree": "81fd728b3e768724ea7d90aa9d2070f166805f08",
-    "previous_tree": "f1d390899a93c3b7c1fb73c601b4bb6472f3f1bd",
+    "generated": "2026-09-07T22:12:35.247105192+00:00",
+    "base": "81be36e6af10535f936c0ff122146702e55fa92f",
+    "commit": "e542bc839fb331fcd08c3c1e3122539c46c0dc6e",
+    "pre_provenance_commit": "bd589a401b230840f01c9e44f7b56d53affffc1e",
+    "tree": "5cc2e4c5c8b1f5c374a8cd88f46f820bf222a746",
+    "built_tree": "08daf4fe0ab09c3abc558acca2ea3a8c68d91f20",
+    "previous_tree": "448467645c2be01470be8e3c4e6f7e253c6185c8",
     "tree_changed": true,
     "conflicts": 3,
     "manifest_entries": [
@@ -47,243 +47,243 @@
         "name": "t3code/orchestration-v2-main/pr-4259",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4259",
-        "pin": "3182eb3dc934adefee2c8a55b3b23aca1eb04c85"
+        "pin": "7b427717ea22888c3f62852f0349f8e373a456ee"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4257",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4257",
-        "pin": "2914046ae472544cbfb7ee1ebe8e84f79e3f5b79"
+        "pin": "1f400da0f3515d21c3aea09052879f74c5ab9477"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4324",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4324",
-        "pin": "e4b4bb17a72c4b76c6473f13f1449af8d4513086"
+        "pin": "da07a1fe2bd338ec3ecd4db08ce64c7e99a3c2ac"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4394",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4394",
-        "pin": "62fd345564f5b8c36c70642a96e5a81528a6e28e"
+        "pin": "851639e1120fefdb164cd15cadf8be20f8b8a696"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4405",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4405",
-        "pin": "0afb106466ec91ad4194f844ed3695b67e4b398f"
+        "pin": "27cc469cf25768bb46d278569f2c0b31c3a1e6c2"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4602",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4602",
-        "pin": "8a70ea1cc69ba77db995852aac883d67d47a5182"
+        "pin": "b590b6adc12496bf036719661d0fc91f3e8b7ac6"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4447",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4447",
-        "pin": "f884af789385555dec9fda9aae461f802666538a"
+        "pin": "ceb4e715f5f4a30b6a6f9ce7e8cde124d7bf8b87"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4701",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4701",
-        "pin": "d8f6ca7ff4cded9693495bdcd37e51a1d9347dfc"
+        "pin": "977335e45821a055b1a05058896458d256cd8982"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4439",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4439",
-        "pin": "a43362b505331970b0a3a808c4b21a74950a32bd"
+        "pin": "97a552ee16c78d6b7826f5e43cec0597af44fa46"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4437",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4437",
-        "pin": "b044ddd6deebe1e4e5ba0c9d8f89f60454ae0dd2"
+        "pin": "1cf48270131fe2a378444b4cb110cb0f54808c1f"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4494",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4494",
-        "pin": "c29e6143e56fe9d2e1c27840c396826e3960dea0"
+        "pin": "bdffa30c281c69e01cb0d11b06d54b3386bcf3f5"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4487",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4487",
-        "pin": "5816b01c7dcad6b1b15eb8863f6bf1f00908b7b8"
+        "pin": "93b7a6689ee398db5cead9b94faccfc429553902"
       },
       {
         "name": "t3code/orchestration-v2-main/client-environment-suite",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/client-environment-suite",
-        "pin": "0e9820e4df32054986e861d5258c9c33497708e3",
+        "pin": "979ed09a4a21914594aa512a1d706508b6b8e68a",
         "fixup": "242483d0b941d9ea132b6543b4be5d5336c3c38c"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4677",
-        "pin": "0140361925688fdd71d66eae0dd4ba670bdc872d"
+        "pin": "ad34dcd3fe96db243286fc6ebb0fb777153f5105"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4593",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4593",
-        "pin": "1aeb8fcfdf2ced1928b9e2ebad00e19deface1fe"
+        "pin": "0074c873fd0d3d71011ba516416a895abffb3875"
       },
       {
         "name": "t3code/orchestration-v2-main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/managed-fleet",
-        "pin": "19c9552514b2682c621b1b923d577ab4ea82e4e3"
+        "pin": "82eed1a868b5df192ed35adf660ba03f6076ea85"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/desktop-clerk-startup",
-        "pin": "b5d398c05dd96ebaebfea6826a7a83917f5f8186"
+        "pin": "6e337292b985dca3cdef6f1a371c086b209d77a6"
       },
       {
         "name": "t3code/orchestration-v2-main/migration-schema-repair",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/migration-schema-repair",
-        "pin": "d13c6f84d4ddceae0cc3c542cec66fb6f647c7cb"
+        "pin": "c496dffce7eced266cd82a6b4a172239b2464816"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4699",
-        "pin": "b226bb3b06c244c5d85b404d34fdf3448101f736"
+        "pin": "9d07cfa9e3b3a23d23d69d09e2b5b19c7f824ae9"
       },
       {
         "name": "t3code/orchestration-v2-main/live-voice",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/live-voice",
-        "pin": "c683fe9dc8fdbda19cac8f44a2ad545c67aa8c3f",
+        "pin": "5520527eb4097f2f79bed1d622b7d2f6c6d0e28d",
         "fixup": "0e98ecb54915ce5eb16659bc953178789fb9438d"
       },
       {
         "name": "t3code/orchestration-v2-main/fdroid-distribution",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/fdroid-distribution",
-        "pin": "b44369802e1d30142271587625c0d0f4f000439a"
+        "pin": "34d4fce554b99500fe9d3ba35182a8a11482e389"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4318",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4318",
-        "pin": "c401902ceb888be2a69c04b270cccb1448559694"
+        "pin": "37646d902f25985c57ca910c9f6c6f8508ef6588"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4420",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4420",
-        "pin": "1fc826c24c31d72104a63398f2c58d7704519a85"
+        "pin": "68b8461dabf41360f4efe081f19e5364b8f5636c"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4484",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-4484",
-        "pin": "a1e122f69e28a01c237c54dd15d7c4bff3ae3a3f"
+        "pin": "cd1247e9340fee17a2035c732f24b2cec860803a"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-6507",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/pr-6507",
-        "pin": "9bf0ed9f0b0bb159e663a47d23a8e7504f780877"
+        "pin": "11df3d034a087f282cea4998e6d8ad6bc9014aab"
       },
       {
         "name": "t3code/orchestration-v2-main/usage-host-resilience",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/usage-host-resilience",
-        "pin": "21ecb9418bde832bd36d6ed3dc66228ba06baeda"
+        "pin": "4fceb53ebd41c639fb17e37778a57ee53bfc22a5"
       },
       {
         "name": "t3code/orchestration-v2-main/typecheck-fixes",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/typecheck-fixes",
-        "pin": "d662d8c80f5f1a61b88011d5a42f1823cd1081a6"
+        "pin": "66327ecbfe90e9932eed98cb815573226160d2d8"
       }
     ],
     "results": [
       {
         "name": "t3code/orchestration-v2-main/pr-4259",
-        "oid": "3182eb3dc934adefee2c8a55b3b23aca1eb04c85",
+        "oid": "7b427717ea22888c3f62852f0349f8e373a456ee",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4257",
-        "oid": "2914046ae472544cbfb7ee1ebe8e84f79e3f5b79",
+        "oid": "1f400da0f3515d21c3aea09052879f74c5ab9477",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4324",
-        "oid": "e4b4bb17a72c4b76c6473f13f1449af8d4513086",
+        "oid": "da07a1fe2bd338ec3ecd4db08ce64c7e99a3c2ac",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4394",
-        "oid": "62fd345564f5b8c36c70642a96e5a81528a6e28e",
+        "oid": "851639e1120fefdb164cd15cadf8be20f8b8a696",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4405",
-        "oid": "0afb106466ec91ad4194f844ed3695b67e4b398f",
+        "oid": "27cc469cf25768bb46d278569f2c0b31c3a1e6c2",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4602",
-        "oid": "8a70ea1cc69ba77db995852aac883d67d47a5182",
+        "oid": "b590b6adc12496bf036719661d0fc91f3e8b7ac6",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4447",
-        "oid": "f884af789385555dec9fda9aae461f802666538a",
+        "oid": "ceb4e715f5f4a30b6a6f9ce7e8cde124d7bf8b87",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4701",
-        "oid": "d8f6ca7ff4cded9693495bdcd37e51a1d9347dfc",
+        "oid": "977335e45821a055b1a05058896458d256cd8982",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4439",
-        "oid": "a43362b505331970b0a3a808c4b21a74950a32bd",
+        "oid": "97a552ee16c78d6b7826f5e43cec0597af44fa46",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4437",
-        "oid": "b044ddd6deebe1e4e5ba0c9d8f89f60454ae0dd2",
+        "oid": "1cf48270131fe2a378444b4cb110cb0f54808c1f",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4494",
-        "oid": "c29e6143e56fe9d2e1c27840c396826e3960dea0",
+        "oid": "bdffa30c281c69e01cb0d11b06d54b3386bcf3f5",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4487",
-        "oid": "5816b01c7dcad6b1b15eb8863f6bf1f00908b7b8",
+        "oid": "93b7a6689ee398db5cead9b94faccfc429553902",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/client-environment-suite",
-        "oid": "0e9820e4df32054986e861d5258c9c33497708e3",
+        "oid": "979ed09a4a21914594aa512a1d706508b6b8e68a",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
@@ -291,88 +291,88 @@
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4677",
-        "oid": "0140361925688fdd71d66eae0dd4ba670bdc872d",
+        "oid": "ad34dcd3fe96db243286fc6ebb0fb777153f5105",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4593",
-        "oid": "1aeb8fcfdf2ced1928b9e2ebad00e19deface1fe",
+        "oid": "0074c873fd0d3d71011ba516416a895abffb3875",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/managed-fleet",
-        "oid": "19c9552514b2682c621b1b923d577ab4ea82e4e3",
+        "oid": "82eed1a868b5df192ed35adf660ba03f6076ea85",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
       },
       {
         "name": "t3code/orchestration-v2-main/desktop-clerk-startup",
-        "oid": "b5d398c05dd96ebaebfea6826a7a83917f5f8186",
+        "oid": "6e337292b985dca3cdef6f1a371c086b209d77a6",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/migration-schema-repair",
-        "oid": "d13c6f84d4ddceae0cc3c542cec66fb6f647c7cb",
+        "oid": "c496dffce7eced266cd82a6b4a172239b2464816",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4699",
-        "oid": "b226bb3b06c244c5d85b404d34fdf3448101f736",
+        "oid": "9d07cfa9e3b3a23d23d69d09e2b5b19c7f824ae9",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/live-voice",
-        "oid": "c683fe9dc8fdbda19cac8f44a2ad545c67aa8c3f",
+        "oid": "5520527eb4097f2f79bed1d622b7d2f6c6d0e28d",
         "status": "merged",
         "conflicted": false,
         "fixup": "0e98ecb54915ce5eb16659bc953178789fb9438d"
       },
       {
         "name": "t3code/orchestration-v2-main/fdroid-distribution",
-        "oid": "b44369802e1d30142271587625c0d0f4f000439a",
+        "oid": "34d4fce554b99500fe9d3ba35182a8a11482e389",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4318",
-        "oid": "c401902ceb888be2a69c04b270cccb1448559694",
+        "oid": "37646d902f25985c57ca910c9f6c6f8508ef6588",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4420",
-        "oid": "1fc826c24c31d72104a63398f2c58d7704519a85",
+        "oid": "68b8461dabf41360f4efe081f19e5364b8f5636c",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4484",
-        "oid": "a1e122f69e28a01c237c54dd15d7c4bff3ae3a3f",
+        "oid": "cd1247e9340fee17a2035c732f24b2cec860803a",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/pr-6507",
-        "oid": "9bf0ed9f0b0bb159e663a47d23a8e7504f780877",
+        "oid": "11df3d034a087f282cea4998e6d8ad6bc9014aab",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/usage-host-resilience",
-        "oid": "21ecb9418bde832bd36d6ed3dc66228ba06baeda",
+        "oid": "4fceb53ebd41c639fb17e37778a57ee53bfc22a5",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/orchestration-v2-main/typecheck-fixes",
-        "oid": "d662d8c80f5f1a61b88011d5a42f1823cd1081a6",
+        "oid": "66327ecbfe90e9932eed98cb815573226160d2d8",
         "status": "merged",
         "conflicted": false
       }
