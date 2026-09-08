@@ -8,7 +8,7 @@
       "t3code/orchestration-v2-main/fdroid-distribution": "34d4fce554b99500fe9d3ba35182a8a11482e389",
       "t3code/orchestration-v2-main/live-voice": "5520527eb4097f2f79bed1d622b7d2f6c6d0e28d",
       "t3code/orchestration-v2-main/managed-fleet": "82eed1a868b5df192ed35adf660ba03f6076ea85",
-      "t3code/orchestration-v2-main/migration-schema-repair": "c496dffce7eced266cd82a6b4a172239b2464816",
+      "t3code/orchestration-v2-main/migration-schema-repair": "e6478fbdf025263c4d91b5313625e79d47ef30ab",
       "t3code/orchestration-v2-main/pr-4257": "1f400da0f3515d21c3aea09052879f74c5ab9477",
       "t3code/orchestration-v2-main/pr-4259": "7b427717ea22888c3f62852f0349f8e373a456ee",
       "t3code/orchestration-v2-main/pr-4318": "37646d902f25985c57ca910c9f6c6f8508ef6588",
@@ -33,13 +33,13 @@
     }
   },
   "build": {
-    "generated": "2026-09-07T22:12:35.247105192+00:00",
+    "generated": "2026-09-08T03:38:22.434173135+00:00",
     "base": "81be36e6af10535f936c0ff122146702e55fa92f",
-    "commit": "e542bc839fb331fcd08c3c1e3122539c46c0dc6e",
-    "pre_provenance_commit": "bd589a401b230840f01c9e44f7b56d53affffc1e",
-    "tree": "5cc2e4c5c8b1f5c374a8cd88f46f820bf222a746",
-    "built_tree": "08daf4fe0ab09c3abc558acca2ea3a8c68d91f20",
-    "previous_tree": "448467645c2be01470be8e3c4e6f7e253c6185c8",
+    "commit": "1bc4e9a6506222372975326b2411663be08b510c",
+    "pre_provenance_commit": "3758e4dbf26b740c305fa02494999c3501f007e2",
+    "tree": "e05bdfa6f643fb963fa1278caf984bc0292ea104",
+    "built_tree": "551041ccfaf28b56df4d06190a18564d6f1b8a65",
+    "previous_tree": "5cc2e4c5c8b1f5c374a8cd88f46f820bf222a746",
     "tree_changed": true,
     "conflicts": 3,
     "manifest_entries": [
@@ -150,7 +150,7 @@
         "name": "t3code/orchestration-v2-main/migration-schema-repair",
         "kind": "branch",
         "source": "fork:t3code/orchestration-v2-main/migration-schema-repair",
-        "pin": "c496dffce7eced266cd82a6b4a172239b2464816"
+        "pin": "e6478fbdf025263c4d91b5313625e79d47ef30ab"
       },
       {
         "name": "t3code/orchestration-v2-main/pr-4699",
@@ -316,7 +316,7 @@
       },
       {
         "name": "t3code/orchestration-v2-main/migration-schema-repair",
-        "oid": "c496dffce7eced266cd82a6b4a172239b2464816",
+        "oid": "e6478fbdf025263c4d91b5313625e79d47ef30ab",
         "status": "merged",
         "conflicted": false
       },
