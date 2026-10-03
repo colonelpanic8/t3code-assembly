@@ -24,7 +24,7 @@
       "t3code/main/pr-4494": "c5c552ebae3fe8ce341c80341257ca2829b89973",
       "t3code/main/pr-4593": "937e61a55ce6330ba2bff9c9a01d5b5e1f804bc2",
       "t3code/main/pr-4602": "3626da5587ada754ed5149af90c3f64bf5fcadfa",
-      "t3code/main/pr-4699": "e5483e12bddbfa70a34d6773e293f1f9d82fc454",
+      "t3code/main/pr-4699": "63ff23fca4ca196bebcd7e357704a32b1d26a521",
       "t3code/main/pr-4701": "cc4e6060c3c4261473efabc8e9b9aa106ab3ff6b",
       "t3code/main/pr-6507": "482a553bf7c416cbc39730ccdbea0b08f851b879",
       "t3code/main/typecheck-fixes": "0892b4f7c3ec8010a256feb115b3bfbd4d346c3f",
@@ -32,13 +32,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-03T02:12:16.418026485+00:00",
+    "generated": "2026-10-03T02:35:30.877245709+00:00",
     "base": "8ed276c246b624631e7d39241ebfd22d8314cb68",
-    "commit": "61c32848483e7c41975a16727fc394c6d10008cf",
-    "pre_provenance_commit": "cb71e1793198c3b6803d7a414456734aac8b90a7",
-    "tree": "36ea8646f1d72d1b0211560e7fbd47d43095db0c",
-    "built_tree": "f8930fc0660f43b2079abbee8d132af5aecb10d1",
-    "previous_tree": "2a902c2727852e6c999dfb620bea1aa7120ae3f1",
+    "commit": "a26459768241a06e3ca35b5bd392169ee5fee847",
+    "pre_provenance_commit": "93c54d30cf328c805b888134a9f4fa1c73d8dcde",
+    "tree": "a8616fb54211bfb8aae13c1ffeba2f36c7906223",
+    "built_tree": "b484a15279e15533b3ac0e42360187147b8e140b",
+    "previous_tree": "36ea8646f1d72d1b0211560e7fbd47d43095db0c",
     "tree_changed": true,
     "conflicts": 3,
     "manifest_entries": [
@@ -148,7 +148,7 @@
         "name": "t3code/main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4699",
-        "pin": "e5483e12bddbfa70a34d6773e293f1f9d82fc454"
+        "pin": "63ff23fca4ca196bebcd7e357704a32b1d26a521"
       },
       {
         "name": "t3code/main/live-voice",
@@ -306,7 +306,7 @@
       },
       {
         "name": "t3code/main/pr-4699",
-        "oid": "e5483e12bddbfa70a34d6773e293f1f9d82fc454",
+        "oid": "63ff23fca4ca196bebcd7e357704a32b1d26a521",
         "status": "merged",
         "conflicted": false
       },
