@@ -40,13 +40,6 @@ missing_sha256 = "b42af86e8d50a6111f952480dc3aa2f3e4e2524b1182cb022fd188c12a8608
 reason = "Inline-image handling was folded into the safer ThreadArtifactResolver lookup and #4506's later timeline grouping. Generated-image work entries are still kept outside collapsed terminal groups, render through GeneratedImageWorkEntryLink, and expose the current expanded-row accessibility state."
 
 [[exception]]
-entry = "4437"
-missing_count = 2
-missing_sha256 = "7ecd88db4d7944e3e8a823b84856de7b7209f3fac6023f4129cc14d35a363673"
-reason = "Diagnostics now reads storage from the selected environment's serverConfig instead of primaryServerStorageAtom. StoragePathRow remains, and the final selected-environment panel exposes configuration, data, state, cache, runtime, database, settings, keybindings, worktrees, and attachments paths with copy controls and an unavailable-storage fallback."
-
-
-[[exception]]
 entry = "4390"
 missing_count = 1
 missing_sha256 = "24f3654a881718c27f62c5df5f456eb06b2c04dc305e08b48fb2fd677bb2d53b"
@@ -108,18 +101,6 @@ missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00
 reason = "The one absent line is the `Config.ConfigError,` error-channel line of DesktopEnvironment.make's Effect.fn.Return signature. The built tree carries the same signature with the error widened into a union (`| Config.ConfigError | DesktopStorageDirectoryConfigurationConflictError | PlatformError.PlatformError`) by #4437's XDG storage layout, so the line is present with a leading `|`. The topic's FileSystem requirement, managedConnectionsPath field, and default-path discovery are all carried verbatim."
 
 [[exception]]
-entry = "4439"
-missing_count = 1
-missing_sha256 = "267b3f7a711a85e8fcb50ec07c6f07a8bbfb854686d9693c6e41a5a489df62a9"
-reason = "The one absent line is the `settings.worktreePathTemplate,` memo dependency in the old combined restore hook. The client suite's useEnvironmentSettingsRestore depends on the whole `settings` object, so a per-key entry is redundant. The template's dirty label, reset, and the worktree-path row are all carried (the row and its search item through the suite's fixup)."
-
-[[exception]]
-entry = "4494"
-missing_count = 1
-missing_sha256 = "3bca6be31e54df7b2c20de7abc4c972d8792706244c0024ee091b1a4cbfc57d3"
-reason = "The one absent line is useUpdateEnvironmentSettings reading settingsValueAtom; the client suite reads `configValueAtom(environmentId)?.settings` so the hook accepts a null environment id, and still hands the loaded server settings to #4494's two-argument serialized-write useUpdateSettingsTarget. The pendingServerSettings.test.ts fixture renames that used to be in this exception now live in the topic itself."
-
-[[exception]]
 entry = "t3code/orchestration-v2-main/client-environment-suite"
 missing_count = 4
 missing_sha256 = "c58a9ba4b07cd08b10601a97ac710ae03460e9f3a05206525bb836eebe29836f"
@@ -130,3 +111,15 @@ entry = "4420"
 missing_count = 3
 missing_sha256 = "bd73142b1aa58611d2a6633cb3365ce2381ca8c9930f3fa8e0f87df748cbc3f5"
 reason = "The three lines are #4420's re-export of readPersistedServerRuntimeState as a log-and-swallow wrapper around its strict startup reader. The client suite already re-exports the shared reader with identical semantics (every ServerRuntimeStateError logged and mapped to none), so the duplicate definition was dropped to avoid a conflicting export. The strict readPersistedServerRuntimeStateForStartup, decideServerRuntimeStartup, ensureExclusiveStateDir, and ServerStateDirConflictError are carried verbatim."
+
+[[exception]]
+entry = "t3code/main/client-environment-suite"
+missing_count = 4
+missing_sha256 = "c58a9ba4b07cd08b10601a97ac710ae03460e9f3a05206525bb836eebe29836f"
+reason = "Three lines in apps/server/src/config.ts are the suite's deriveServerRuntimeStatePath import and call; #4437 replaces them with join(runtimeDir, \"server-runtime.json\"), and resolveLegacyT3StorageRoots sets runtimeDir to the userdata/dev state dir, so the legacy-layout path is identical. The fourth is the type-only PersistedServerRuntimeState import in serverRuntimeState.ts, which became a value import because #4420's startup reader decodes with it."
+
+[[exception]]
+entry = "t3code/main/managed-fleet"
+missing_count = 1
+missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
+reason = "The absent line is `Config.ConfigError,` in makeDesktopEnvironment's return type; #4437 widens that error channel to a union that still includes Config.ConfigError. The managed-connections path resolution is carried verbatim."

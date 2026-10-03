@@ -18,42 +18,30 @@ ordered set of topic branches and explicit patch entries.
 The generated `t3code/assembled` branch is compiled output. Never develop on
 it, base a topic on it, or merge it back into a topic branch.
 
-## Orchestration-v2 base
+## Base
 
-The canonical assembly is based on `fork:t3code/orchestration-v2-main/base`, a
-synthetic merge of upstream PR #2829's head
-(`upstream:t3code/codex-turn-mapping`) with `upstream/main`. All carried v2
-topic refs must be based on that exact merge commit.
+The assembly is based on `upstream:main`, and carried topics live as
+`fork:t3code/main/*` branches based directly on it. From 2026-08 until upstream
+squash-merged the new orchestrator (#2829, `de34391427`) on 2026-10-02, the
+base was a synthetic merge of #2829's head with `main`; the
+`fork:t3code/orchestration-v2-main/*` branches are that era's topics, kept only
+as history.
 
-The base is synthetic because #2829 is a long-lived branch that upstream
-rebases onto `main` only periodically. Between those reconciliations it falls
-hundreds of commits behind, and anything that lands on `main` in the meantime
-cannot reach the assembly -- including Ivan's own merged PRs. Basing directly
-on the PR head is therefore only correct immediately after upstream rebases it.
+Builds from that era wrote pre-merge v2 migration IDs into the user's
+database. `t3code/main/migration-schema-repair` re-files that ledger onto
+`main`'s IDs on first start; keep it while such databases may still be opened.
 
-Rebuilding the base is a deliberate operation, not a mechanical one. Upstream's
-rebases orphan the previous head, so the merge cannot be advanced incrementally
-and must be redone from scratch each time. Immediately after an upstream rebase
-the base may simply be #2829's head itself (as on 2026-09-03, d2f1f511f), which
-keeps it byte-identical to what PRs against that branch are reviewed on; every
-carried topic is then rebased onto that commit. Resolve it with the v2 architecture
-winning structurally: the rewrite's deletions of the v1 orchestration,
-provider-adapter, and client-state modules stand, and `main`-side changes that
-target deleted machinery are dropped for upstream to re-port rather than
-half-wired.
-
-Two failure modes are specific to this merge and are not caught by typecheck.
 Cleanly auto-merged files can carry silent semantic inversions -- `main` once
 reversed a scan direction in `packages/shared/src/chatList.ts` that broke
 timeline anchoring in both clients -- so run the test suites, not just
-typecheck. And coherence fixups are assembly-emergent: they can reference files
+typecheck. Coherence fixups are assembly-emergent: they can reference files
 that exist only because of some other carried entry, so they need re-deriving
 whenever the entry set changes.
 
 Several overlapping client, environment, discovery, and pairing topics are
-consolidated into
-`fork:t3code/orchestration-v2-main/client-environment-suite`; the corresponding
-individual PR branches are deliberately excluded rather than replayed twice.
+consolidated into `fork:t3code/main/client-environment-suite`; the
+corresponding individual PR branches are deliberately excluded rather than
+replayed twice.
 Maintain this stack on `main`, and never merge the generated assembly branch
 back into a maintenance branch.
 
@@ -80,16 +68,6 @@ attach one with `fork-assembler fixup ENTRY FILE --capture`. A standalone **patc
 entry** applies at its own position. Prefer a fixup for anything that repairs
 what admitting a specific entry broke — which is what every assembly-emergent
 patch here does.
-
-The five existing patch entries predate fixups and still run as trailing
-entries. Migrating them would move each into its owning entry’s step — well
-defined for the sidebar fixture (#4324), the composer stash merge (#4394, the
-later of #4271/#4394), the refreshed-client overlap
-(`t3code/unify-environment-selection`), and the runtime imports; genuinely
-ambiguous for the migration-ID compat patch, whose collision is between the
-base and a local topic rather than between two entries. Because the ~35 later
-entries would then merge against already-patched content, treat that as a
-deliberate rebuild with possible re-resolution, not a mechanical edit.
 
 ## Repository layout
 

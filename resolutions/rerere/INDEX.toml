@@ -188,6 +188,24 @@ paths = ["apps/web/src/components/settings/SettingsSidebarNav.tsx"]
 recorded = "2026-07-28T10:06:26.153386302+00:00"
 
 [[resolution]]
+entry = "t3code/main/managed-fleet"
+hash = "82d551c2a5b65f182c6badf92b14572edeb8b4fc"
+paths = ["apps/desktop/src/app/DesktopConfig.ts"]
+recorded = "2026-10-03T02:04:17.700507588+00:00"
+
+[[resolution]]
+entry = "t3code/main/managed-fleet"
+hash = "ffc768d82bf2b94c925bc1d4d18b7b92321a0cb4"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-03T02:04:17.700509322+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "9c7e1ec72f6188a585e418953af4281cab3c7f83"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-10-03T02:04:49.862883572+00:00"
+
+[[resolution]]
 entry = "t3code/mobile-thread-replay-render-fixes"
 hash = "634e5e6a263c45f07b2bf6ae3627d81923144133"
 paths = ["apps/mobile/src/features/threads/ThreadDetailScreen.tsx"]
@@ -288,12 +306,6 @@ entry = "t3code/orchestration-v2-main/managed-fleet"
 hash = "69465dc1b938c3652744d25596317ac2fa648940"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-08-10T19:29:24.703362093+00:00"
-
-[[resolution]]
-entry = "t3code/orchestration-v2-main/managed-fleet"
-hash = "82d551c2a5b65f182c6badf92b14572edeb8b4fc"
-paths = ["apps/desktop/src/app/DesktopConfig.ts"]
-recorded = "2026-08-10T19:29:24.703363827+00:00"
 
 [[resolution]]
 entry = "t3code/orchestration-v2-main/managed-fleet"

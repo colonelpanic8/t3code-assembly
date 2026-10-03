@@ -5,8 +5,8 @@ upstream = "https://github.com/pingdotgg/t3code"
 fork = "https://github.com/colonelpanic8/t3code"
 
 [base]
-remote = "fork"
-ref = "t3code/orchestration-v2-main/base"
+remote = "upstream"
+ref = "main"
 submodule = "t3code"
 
 [publish]
@@ -15,139 +15,136 @@ branch = "t3code/assembled"
 tag_prefix = "t3code-assembled"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4259"
+branch = "fork:t3code/main/pr-4259"
 pr = 4259
 summary = "Searchable new-thread project picker"
-note = "Picker commit only. The branch's four stale Codex app-server commits were dropped: they revert the toolchain to bun/tsdown, leave Layers/CodexProvider.ts syntactically invalid, and add ~163 typecheck errors on this base. They were never in a published assembly."
+note = "Re-expressed on main's rewritten DraftHeroHeadline using its ComboboxSearchInput; \"No project\" is searchable too."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4257"
+branch = "fork:t3code/main/pr-4257"
 pr = 4257
 summary = "Directory-path Tab completion"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4324"
+branch = "fork:t3code/main/pr-4324"
 pr = 4324
 summary = "Optional larger sidebar-v2 project icons"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4394"
+branch = "fork:t3code/main/pr-4394"
 pr = 4394
 summary = "Navigate open selections with Ctrl-N and Ctrl-P"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4405"
+branch = "fork:t3code/main/pr-4405"
 pr = 4405
 summary = "Harden thread-detail loading and subscriptions"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4602"
+branch = "fork:t3code/main/pr-4602"
 pr = 4602
 summary = "Recover subscriptions that lose their transport"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4447"
+branch = "fork:t3code/main/pr-4447"
 pr = 4447
 summary = "Environment-first new task flow on mobile"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4701"
+branch = "fork:t3code/main/pr-4701"
 pr = 4701
 summary = "Render shortcuts with Apple glyphs"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4439"
+branch = "fork:t3code/main/pr-4439"
 pr = 4439
 summary = "Configurable worktree placement"
-note = "Rebased port with obsolete orchestration-v1 files removed."
+note = "GitWorkflowService fills the configured template whenever no explicit worktree path is given; review path checks read v2 thread worktrees."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4437"
+branch = "fork:t3code/main/pr-4437"
 pr = 4437
 summary = "XDG storage layout"
-note = "Rebased port with the obsolete orchestration-v1 documentation removed."
+note = "Split layout uses main's statev2.sqlite name; legacy detection accepts either database file."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4494"
+branch = "fork:t3code/main/pr-4494"
 pr = 4494
 summary = "Keep rapid provider-settings edits from reverting"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4487"
+branch = "fork:t3code/main/pr-4487"
 pr = 4487
 summary = "Filter non-interactive Codex models"
-note = "Still open upstream; neither main nor the v2 branch filters these models. Patches parseCodexModelListResponse in provider/Layers/CodexProvider.ts."
+note = "Neither main nor the closed PR filters these models. Patches parseCodexModelListResponse in provider/Layers/CodexProvider.ts."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/client-environment-suite"
-summary = "Client-only desktop, local server discovery and pairing, environment-scoped settings (#9376)"
-note = "This branch IS the head of upstream PR #9376 (against #2829's branch t3code/codex-turn-mapping; #9361 was the same change before its head branch was renamed). It superseded #4444 and folded in #4496 and #4559 (and earlier #4474, #4486, #4548, #4567). Discovery reads server-runtime.json and pairs through the bundled `t3 pair --json`; a packaged desktop attaches to a running server instead of spawning a second backend. Per-environment accent colors and display names (#4505, #4538) were dropped from the suite on 2026-09-02 and live on fork:t3code/environment-accent-and-names, which is not carried. Split-layout (XDG) runtime state is not yet discovered: both the desktop and `t3 pair` derive legacy paths, which is fine for this install's legacy layout."
-fixup = "patches/orchestration-v2-main-client-environment-suite.patch"
+branch = "fork:t3code/main/client-environment-suite"
+summary = "Client-only desktop, local server discovery and pairing"
+note = "Continuation of the closed #9376 (and #4444, #4474, #4486, #4496, #4548, #4559, #4567). Builds on main's Local environment setting (#9194): an existing local server or --backend-mode overrides it for one launch so the desktop attaches instead of spawning a second backend. Discovery reads server-runtime.json and pairs through `t3 pair --json`. Environment-scoped settings were dropped when main shipped its settings scopes. Per-environment accent colors and display names (#4505, #4538) live on fork:t3code/environment-accent-and-names, which is not carried."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4677"
-pr = 4677
-summary = "Custom snooze times"
-
-[[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4593"
+branch = "fork:t3code/main/pr-4593"
 pr = 4593
 summary = "Reconcile client state after a settle does not land"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/managed-fleet"
+branch = "fork:t3code/main/managed-fleet"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/desktop-clerk-startup"
+branch = "fork:t3code/main/desktop-clerk-startup"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/migration-schema-repair"
+branch = "fork:t3code/main/migration-schema-repair"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4699"
+branch = "fork:t3code/main/pr-4699"
 pr = 4699
 summary = "Self-contained Nix flake"
 note = "Closed upstream as an unsupported distribution system. Load-bearing: this is how NixOS builds the assembly."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/live-voice"
+branch = "fork:t3code/main/live-voice"
 summary = "Cross-host live voice calls over Codex realtime"
-fixup = "patches/live-voice-pnpm-deps-hash.patch"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/fdroid-distribution"
+branch = "fork:t3code/main/fdroid-distribution"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4318"
+branch = "fork:t3code/main/pr-4318"
 pr = 4318
 summary = "Recover stalled draft thread promotion"
-note = "Closed because the v2 rewrite moved the files, not on merit. Re-expressed against v2: subscribes to the ref the draft reserved instead of inferring from the shell list."
+note = "Closed because the v2 rewrite moved the files, not on merit. Re-applied in ThreadRouteView: subscribes to the ref the draft reserved instead of inferring from the shell list."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4420"
+branch = "fork:t3code/main/pr-4420"
 pr = 4420
 summary = "Refuse startup when another server owns the state dir"
 note = "Closed without comment. Re-ported; the PR's busy_timeout half already reached the base through upstream main and is not duplicated."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-4484"
+branch = "fork:t3code/main/pr-4484"
 pr = 4484
 summary = "Recover draft thread IDs after failed bootstrap"
-note = "The base already carried the client half, but dead: nothing set bootstrapThreadDisposition and launch failures arrive as OrchestrationV2ThreadLaunchError. Deletes the provisional thread on a failed owned launch and propagates the disposition."
+note = "Nothing upstream sets bootstrapThreadDisposition for v2 launches. Deletes the provisional thread on a failed owned launch and propagates the disposition."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/pr-6507"
+branch = "fork:t3code/main/pr-6507"
 pr = 6507
 summary = "Direct model and reasoning keybindings"
-note = "Rebased port of the upstream PR onto the orchestration-v2 base."
+note = "Rebased port of the upstream PR onto main."
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/usage-host-resilience"
+branch = "fork:t3code/main/usage-host-resilience"
 summary = "Keep usage available when hosts disconnect or reconnect"
 
 [[entry]]
-branch = "fork:t3code/orchestration-v2-main/typecheck-fixes"
+branch = "fork:t3code/main/typecheck-fixes"
 summary = "Resolve transitive type declarations through workspace-local dependencies"
+
+[[exclude]]
+pr = 4677
+reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
 
 [[exclude]]
 pr = 4388
@@ -179,19 +176,19 @@ reason = "Superseded by the current upstream project-icon implementation on main
 
 [[exclude]]
 pr = 4444
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4474
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4486
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4496
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4505
@@ -203,15 +200,15 @@ reason = "Dropped from the client suite on 2026-09-02; the feature lives on fork
 
 [[exclude]]
 pr = 4548
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4559
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4567
-reason = "Superseded by #9376; carried by t3code/orchestration-v2-main/client-environment-suite."
+reason = "Superseded by #9376; carried by t3code/main/client-environment-suite."
 
 [[exclude]]
 pr = 4277
@@ -239,4 +236,4 @@ reason = "Closed by GitHub when its head branch was renamed; continued as #9376.
 
 [[exclude]]
 pr = 9376
-reason = "Carried by t3code/orchestration-v2-main/client-environment-suite, which is this PR's head branch."
+reason = "Closed after #2829 merged; continued without a PR as t3code/main/client-environment-suite."
