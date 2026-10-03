@@ -24,7 +24,7 @@
       "t3code/main/pr-4494": "c5c552ebae3fe8ce341c80341257ca2829b89973",
       "t3code/main/pr-4593": "937e61a55ce6330ba2bff9c9a01d5b5e1f804bc2",
       "t3code/main/pr-4602": "3626da5587ada754ed5149af90c3f64bf5fcadfa",
-      "t3code/main/pr-4699": "63ff23fca4ca196bebcd7e357704a32b1d26a521",
+      "t3code/main/pr-4699": "47caab932ad7b7f882c9c58f86709439d33fe353",
       "t3code/main/pr-4701": "cc4e6060c3c4261473efabc8e9b9aa106ab3ff6b",
       "t3code/main/pr-6507": "482a553bf7c416cbc39730ccdbea0b08f851b879",
       "t3code/main/typecheck-fixes": "0892b4f7c3ec8010a256feb115b3bfbd4d346c3f",
@@ -32,13 +32,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-03T02:35:30.877245709+00:00",
+    "generated": "2026-10-03T02:51:45.980116961+00:00",
     "base": "8ed276c246b624631e7d39241ebfd22d8314cb68",
-    "commit": "a26459768241a06e3ca35b5bd392169ee5fee847",
-    "pre_provenance_commit": "93c54d30cf328c805b888134a9f4fa1c73d8dcde",
-    "tree": "a8616fb54211bfb8aae13c1ffeba2f36c7906223",
-    "built_tree": "b484a15279e15533b3ac0e42360187147b8e140b",
-    "previous_tree": "36ea8646f1d72d1b0211560e7fbd47d43095db0c",
+    "commit": "f572d36f7362e7b26cdb7af4354d42bcf6a4989c",
+    "pre_provenance_commit": "cb93b7a4be020f618897f8c4552d222df47dc8da",
+    "tree": "8970b4b3cbd7b281659587515153f3cc3ef6e0ec",
+    "built_tree": "f7a81163921b25981c9fd0ac56fba10bd30ef6b4",
+    "previous_tree": "a8616fb54211bfb8aae13c1ffeba2f36c7906223",
     "tree_changed": true,
     "conflicts": 3,
     "manifest_entries": [
@@ -148,7 +148,7 @@
         "name": "t3code/main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4699",
-        "pin": "63ff23fca4ca196bebcd7e357704a32b1d26a521"
+        "pin": "47caab932ad7b7f882c9c58f86709439d33fe353"
       },
       {
         "name": "t3code/main/live-voice",
@@ -306,7 +306,7 @@
       },
       {
         "name": "t3code/main/pr-4699",
-        "oid": "63ff23fca4ca196bebcd7e357704a32b1d26a521",
+        "oid": "47caab932ad7b7f882c9c58f86709439d33fe353",
         "status": "merged",
         "conflicted": false
       },
