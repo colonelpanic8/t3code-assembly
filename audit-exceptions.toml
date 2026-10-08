@@ -114,9 +114,9 @@ reason = "The three lines are #4420's re-export of readPersistedServerRuntimeSta
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
-missing_count = 4
-missing_sha256 = "c58a9ba4b07cd08b10601a97ac710ae03460e9f3a05206525bb836eebe29836f"
-reason = "Three lines in apps/server/src/config.ts are the suite's deriveServerRuntimeStatePath import and call; #4437 replaces them with join(runtimeDir, \"server-runtime.json\"), and resolveLegacyT3StorageRoots sets runtimeDir to the userdata/dev state dir, so the legacy-layout path is identical. The fourth is the type-only PersistedServerRuntimeState import in serverRuntimeState.ts, which became a value import because #4420's startup reader decodes with it."
+missing_count = 1
+missing_sha256 = "214c418f87ba987a5c4e7ee1a58412178a94f62c88046907b4bdca636f19474c"
+reason = "The type-only PersistedServerRuntimeState import in apps/server/src/serverRuntimeState.ts became a value import because #4420's startup reader decodes with it. The three config.ts serverRuntimeStatePath lines previously waived here now survive in the built tree."
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
