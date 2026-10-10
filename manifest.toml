@@ -68,20 +68,10 @@ summary = "XDG storage layout"
 note = "Split layout uses main's statev2.sqlite name; legacy detection accepts either database file."
 
 [[entry]]
-branch = "fork:t3code/main/pr-4494"
-pr = 4494
-summary = "Keep rapid provider-settings edits from reverting"
-
-[[entry]]
-branch = "fork:t3code/main/pr-4487"
-pr = 4487
-summary = "Filter non-interactive Codex models"
-note = "Neither main nor the closed PR filters these models. Patches parseCodexModelListResponse in provider/Layers/CodexProvider.ts."
-
-[[entry]]
 branch = "fork:t3code/main/client-environment-suite"
 summary = "Client-only desktop, local server discovery and pairing"
 note = "Continuation of the closed #9376 (and #4444, #4474, #4486, #4496, #4548, #4559, #4567). Builds on main's Local environment setting (#9194): an existing local server or --backend-mode overrides it for one launch so the desktop attaches instead of spawning a second backend. Discovery reads server-runtime.json and pairs through `t3 pair --json`. Environment-scoped settings were dropped when main shipped its settings scopes. Per-environment accent colors and display names (#4505, #4538) live on fork:t3code/environment-accent-and-names, which is not carried."
+fixup = "patches/t3code-client-suite-storage-roots.patch"
 
 [[entry]]
 branch = "fork:t3code/main/pr-4593"
@@ -141,6 +131,21 @@ summary = "Keep usage available when hosts disconnect or reconnect"
 [[entry]]
 branch = "fork:t3code/main/typecheck-fixes"
 summary = "Resolve transitive type declarations through workspace-local dependencies"
+
+[[entry]]
+branch = "fork:t3code/main/client-storage-separation"
+summary = "Client storage separate from the server's T3 home, plus `t3 storage migrate`"
+note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots."
+
+[[entry]]
+branch = "fork:t3code/main/declarative-settings"
+summary = "Nix-managed read-only settings, keybindings, and client settings layers"
+note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user values, render as managed in the UI, and reject writes. The Home Manager options live in the pr-4699 entry."
+
+[[entry]]
+branch = "fork:t3code/main/mobile-tailscale-fleet"
+summary = "Pair once, join the Nix-declared fleet over Tailscale"
+note = "One commit on managed-fleet: T3CODE_FLEET_MANIFEST_FILE and server.issueFleetHandoff let a client paired with one member redeem single-use handoffs at the others; clients follow the manifest. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
 [[exclude]]
 pr = 4677
@@ -237,3 +242,11 @@ reason = "Closed by GitHub when its head branch was renamed; continued as #9376.
 [[exclude]]
 pr = 9376
 reason = "Closed after #2829 merged; continued without a PR as t3code/main/client-environment-suite."
+
+[[exclude]]
+pr = 4494
+reason = "Upstream now serializes settings writes per environment and provider-instance updates server-side (the smaller fix the maintainer asked for); the branch test fails on main since per-driver provider settings were removed."
+
+[[exclude]]
+pr = 4487
+reason = "codex app-server 0.159 already marks codex-auto-review hidden=true and T3 requests model/list without includeHidden, so the model no longer appears; only affected codex <= 0.152."

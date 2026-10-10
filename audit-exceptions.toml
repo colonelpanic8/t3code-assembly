@@ -107,19 +107,31 @@ missing_sha256 = "c58a9ba4b07cd08b10601a97ac710ae03460e9f3a05206525bb836eebe2983
 reason = "Three lines are config.ts deriving serverRuntimeStatePath through the shared deriveServerRuntimeStatePath helper; on this stack #4437's storage roots win and the path is `join(runtimeDir, \"server-runtime.json\")`, which is the same location in the legacy layout this install uses (the desktop discovery still reads the legacy path; split-layout discovery is noted on the entry). The fourth is a type-only import of PersistedServerRuntimeState that became a value import because #4420's strict startup reader decodes with the shared schema."
 
 [[exception]]
-entry = "4420"
-missing_count = 3
-missing_sha256 = "bd73142b1aa58611d2a6633cb3365ce2381ca8c9930f3fa8e0f87df748cbc3f5"
-reason = "The three lines are #4420's re-export of readPersistedServerRuntimeState as a log-and-swallow wrapper around its strict startup reader. The client suite already re-exports the shared reader with identical semantics (every ServerRuntimeStateError logged and mapped to none), so the duplicate definition was dropped to avoid a conflicting export. The strict readPersistedServerRuntimeStateForStartup, decideServerRuntimeStartup, ensureExclusiveStateDir, and ServerStateDirConflictError are carried verbatim."
+entry = "4437"
+missing_count = 35
+missing_sha256 = "f2481bdf12c7ae68e118b179afccd8a8468bdec17864e9fef4d311b09f3a1d9f"
+reason = "34 lines are rewritten by t3code/main/client-storage-separation, which is stacked directly on this pin and lacks them in its own tree: early desktop-settings lookup, desktop settings/log/electron/browser-artifact paths, app.ts and config.ts root resolution, resolveDefaultT3StorageRoots' destructuring, and the matching tests now go through the separate t3code-client roots. The last is pair.ts's `variant: PairStateVariant`, typed as the shared ServerRuntimeStateVariant (the same \"userdata\" | \"dev\" union) because the client suite moved that type into packages/shared."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
+missing_count = 18
+missing_sha256 = "4a950a69277265daca2a5bf750fb522f85d74dcd644f22ee6f9453ac540268ea"
+reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. pair.ts discovery keeps #4437's resolveStorageRoots/deriveServerPathsFromRoots candidates (legacy and split layouts) instead of deriveServerRuntimeStatePath, while `--json`, asJsonCommand and the shared reader are carried. The patches/t3code-client-suite-storage-roots.patch fixup makes DesktopRunningLocalServers read server-runtime.json from environment.runtimeDir and environment-id from environment.stateDir (the userdata dir in the legacy layout, so the legacy path is unchanged) and pass --base-dir to `t3 pair` only in the legacy layout; its tests are updated to match and cover the split layout."
+
+[[exception]]
+entry = "t3code/main/client-storage-separation"
 missing_count = 1
-missing_sha256 = "214c418f87ba987a5c4e7ee1a58412178a94f62c88046907b4bdca636f19474c"
-reason = "The type-only PersistedServerRuntimeState import in apps/server/src/serverRuntimeState.ts became a value import because #4420's startup reader decodes with it. The three config.ts serverRuntimeStatePath lines previously waived here now survive in the built tree."
+missing_sha256 = "862a8caaad5148b1dabc92d617b285f7b3a407f240d9a9a301a2ec0598695068"
+reason = "The line is #4437's pair.ts `variant: PairStateVariant`, inherited through this stacked branch; it is typed as the shared ServerRuntimeStateVariant (same union) because the client suite moved that type into packages/shared."
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
+missing_count = 4
+missing_sha256 = "101712218d6a34e636d192f05be503c9dd26087f6dd43d8dd9e231517e1bc892"
+reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union. The other three lines are rewritten by t3code/main/mobile-tailscale-fleet, which is stacked on this pin and lacks them in its own tree: DesktopConnectionCatalogStore's managed-entry filter and ConnectionsSettings now use isManagedConnectionEntry so fleet-joined members also count as managed. The managed-connections path resolution is carried verbatim."
+
+[[exception]]
+entry = "t3code/main/mobile-tailscale-fleet"
 missing_count = 1
 missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "The absent line is `Config.ConfigError,` in makeDesktopEnvironment's return type; #4437 widens that error channel to a union that still includes Config.ConfigError. The managed-connections path resolution is carried verbatim."
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
