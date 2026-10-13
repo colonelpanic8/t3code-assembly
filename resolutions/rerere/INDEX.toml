@@ -239,7 +239,7 @@ recorded = "2026-10-10T02:55:19.592971319+00:00"
 entry = "t3code/main/declarative-settings"
 hash = "e14059f8a591aaaf3543fad363b36029ce300b60"
 paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-10-10T02:55:19.592971539+00:00"
+recorded = "2026-10-13T17:55:30.472307149+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"

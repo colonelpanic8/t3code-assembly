@@ -15,12 +15,6 @@ branch = "t3code/assembled"
 tag_prefix = "t3code-assembled"
 
 [[entry]]
-branch = "fork:t3code/main/pr-4259"
-pr = 4259
-summary = "Searchable new-thread project picker"
-note = "Re-expressed on main's rewritten DraftHeroHeadline using its ComboboxSearchInput; \"No project\" is searchable too."
-
-[[entry]]
 branch = "fork:t3code/main/pr-4257"
 pr = 4257
 summary = "Directory-path Tab completion"
@@ -250,3 +244,7 @@ reason = "Upstream now serializes settings writes per environment and provider-i
 [[exclude]]
 pr = 4487
 reason = "codex app-server 0.159 already marks codex-auto-review hidden=true and T3 requests model/list without includeHidden, so the model no longer appears; only affected codex <= 0.152."
+
+[[exclude]]
+pr = 4259
+reason = "Landed upstream as #17664 (b744bded01): the draft project picker is a searchable combobox. Only the topic's token matching over workspace paths and its No project row are not carried; upstream deliberately dropped that row."
