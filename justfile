@@ -18,15 +18,6 @@ continue:
 update *entries:
   fork-assembler update {{entries}}
 
-group-reproduce:
-  bin/rebuild-t3code-assembly.py --manifest thread-picker.toml --mode reproduce --write-lock
-
-group-refresh:
-  bin/rebuild-t3code-assembly.py --manifest thread-picker.toml --mode refresh --write-lock
-
-group-record:
-  bin/record-hermetic-inputs.py thread-picker.toml
-
 audit:
   bin/audit-assembly-content.py "$(jq -r .build.commit manifest.lock.json)"
 

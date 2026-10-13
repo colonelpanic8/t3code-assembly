@@ -61,7 +61,6 @@ print(f"{'entry':<34} {'files':>5} {'addlines':>8} {'MISSING':>8}")
 bad=[]
 explained=[]
 used_exceptions=set()
-audited_labels={label for label, _, _ in entries}
 for label,pin,main in entries:
     oid=sh("rev-parse",f"{pin}^{{commit}}").strip()
     if not oid: print(f"{label:<34}  UNRESOLVED"); continue
@@ -110,7 +109,7 @@ if explained:
     for label, reason in explained:
         print(f"\n{label}: {reason}")
 
-stale_exceptions=sorted((set(EXCEPTIONS) & audited_labels) - used_exceptions)
+stale_exceptions=sorted(set(EXCEPTIONS) - used_exceptions)
 if stale_exceptions:
     print("\n=== stale audit exceptions ===")
     for label in stale_exceptions:

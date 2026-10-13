@@ -151,15 +151,15 @@ reason = "Absorbed by the upstream v2 base's composer stabilization port (rebase
 
 [[exclude]]
 pr = 4258
-reason = "Obviated by the orchestration-v2 client/environment suite and current v2 picker flow."
+reason = "Obviated by the client/environment suite and main's picker flow."
 
 [[exclude]]
 pr = 4263
-reason = "Obviated by the orchestration-v2 client/environment suite and current v2 command-palette flow."
+reason = "Obviated by the client/environment suite and main's command-palette flow."
 
 [[exclude]]
 pr = 4426
-reason = "Obviated by orchestration-v2 keybinding ownership and the client/environment suite."
+reason = "Obviated by main's keybinding ownership and the client/environment suite."
 
 [[exclude]]
 pr = 4590

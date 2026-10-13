@@ -1,8 +1,7 @@
 # Building and landing the T3 Code assembly
 
-This is the authoritative procedure for the personal T3 Code assembly.
-`manifest.toml` and `manifest.lock.json` are the primary workflow. Do not use
-the legacy `assembly.toml` path for the main build.
+This is the authoritative procedure for the personal T3 Code assembly,
+driven by `manifest.toml` and `manifest.lock.json`.
 
 ## Safety invariants
 
@@ -72,24 +71,6 @@ If you cannot finish, preserve the stopped worktree by creating a named branch
 at its current `HEAD`, then report the manifest entry and unresolved paths.
 Do not discard the worktree or pretend the build is complete.
 
-## Thread-picker group
-
-Fork Assembler groups are not implemented yet. Only this nested group still uses
-the legacy Python builder:
-
-```sh
-just group-refresh
-# resolve in .worktrees/thread-picker-build, stage, then:
-bin/rebuild-t3code-assembly.py \
-  --manifest thread-picker.toml --continue --write-lock
-just group-record
-just group-reproduce
-```
-
-Push the resulting group commit to `fork:t3code/group/thread-picker`, then run
-`fork-assembler update t3code/group/thread-picker` and rebuild the primary stack.
-Do not run the legacy builder against `assembly.toml`.
-
 ## Syntax gate
 
 Before the verification ladder:
@@ -100,9 +81,6 @@ nix fmt -- --ci
 python3 -m py_compile bin/audit-assembly-content.py
 git diff --check
 ```
-
-If a legacy group file or script changed, also compile the affected Python
-scripts and run `just group-reproduce`.
 
 ## Five-step verification ladder
 

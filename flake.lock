@@ -26,11 +26,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785742310,
-        "narHash": "sha256-e+Eu/ddLbhwpQ+/E2VCXOP9RwH6GsANmr/VfM/d2TfA=",
+        "lastModified": 1791598338,
+        "narHash": "sha256-ocM7e9/OMgHOzxuAyWxeymQ2eqI4RFuhwOuEZl0lM/s=",
         "owner": "colonelpanic8",
         "repo": "fork-assembler",
-        "rev": "9519c9cd532fe342b9edfcb1ce1cd423edec987a",
+        "rev": "cc0ab7b4356d7c53c4f63d46a42e2cbb72126819",
         "type": "github"
       },
       "original": {
