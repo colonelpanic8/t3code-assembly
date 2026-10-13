@@ -5,6 +5,7 @@
     "entries": {
       "t3code/main/client-environment-suite": "f6a3bc38ded4bb018232e62866280868c99a797e",
       "t3code/main/client-storage-separation": "48c9f6cbd18b3bd55f4cf416421014ee550a5f52",
+      "t3code/main/composer-control-shortcuts": "5b3a3e818955037c4ffb76c1f15f507e094e804b",
       "t3code/main/declarative-settings": "54f388c1adb806aee74961c141968dc9457eeda2",
       "t3code/main/desktop-clerk-startup": "d1fbe1e7cfa7c14fdd2309e9329d64ca4807e853",
       "t3code/main/fdroid-distribution": "751904a07e603030b0006f5eaa942433e34164fa",
@@ -32,13 +33,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-13T18:15:14.941543991+00:00",
+    "generated": "2026-10-13T19:29:05.870925704+00:00",
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
-    "commit": "224e9d48151fc18b0bcd695f8b7e3f5606c52df2",
-    "pre_provenance_commit": "8005adc254f5aa9adc998fa80da99683377ac0e1",
-    "tree": "f1a16a9ea5affad037718a888d09ade6d561731c",
-    "built_tree": "6c1ac8e3a6630cc94c349a051852639c3dc849fe",
-    "previous_tree": "492d03621f63aac09c9bb3520daf6e9bd0293719",
+    "commit": "61ddea4718ec1c71e8153b53b059d9fee2e3cffd",
+    "pre_provenance_commit": "718baff6ce5079facfe32d44f5b93990da1296ab",
+    "tree": "d3d730dc2b2f9bbf188779a871b6c798d6cf09ac",
+    "built_tree": "042529fdbc63677a76ea7e4899982d0f1eeab1ae",
+    "previous_tree": "da66cc775dcf5466bde46f17fe7bf4283bdcf55f",
     "tree_changed": true,
     "conflicts": 6,
     "manifest_entries": [
@@ -198,6 +199,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "a5d6fb28b38bca42ebbfecb380cc1dacb4b5c53d"
+      },
+      {
+        "name": "t3code/main/composer-control-shortcuts",
+        "kind": "branch",
+        "source": "fork:t3code/main/composer-control-shortcuts",
+        "pin": "5b3a3e818955037c4ffb76c1f15f507e094e804b"
       }
     ],
     "results": [
@@ -363,6 +370,12 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
+      },
+      {
+        "name": "t3code/main/composer-control-shortcuts",
+        "oid": "5b3a3e818955037c4ffb76c1f15f507e094e804b",
+        "status": "merged",
+        "conflicted": false
       }
     ]
   }

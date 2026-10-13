@@ -141,6 +141,9 @@ branch = "fork:t3code/main/mobile-tailscale-fleet"
 summary = "Pair once, join the Nix-declared fleet over Tailscale"
 note = "One commit on managed-fleet: T3CODE_FLEET_MANIFEST_FILE and server.issueFleetHandoff let a client paired with one member redeem single-use handoffs at the others; clients follow the manifest. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
+[[entry]]
+branch = "fork:t3code/main/composer-control-shortcuts"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
