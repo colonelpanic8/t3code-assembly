@@ -144,6 +144,12 @@ note = "One commit on managed-fleet: T3CODE_FLEET_MANIFEST_FILE and server.issue
 [[entry]]
 branch = "fork:t3code/main/composer-control-shortcuts"
 
+[[entry]]
+branch = "fork:t3code/main/pr-4425"
+pr = 4425
+summary = "Show the environment name on remote thread rows"
+note = "Closed upstream. Re-ported onto the merged sidebar: the name sits beside the machine glyph, so with a client-only desktop every row names its host."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
