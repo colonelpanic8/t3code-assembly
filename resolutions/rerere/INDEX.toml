@@ -26,6 +26,12 @@ paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-10T02:54:48.840715910+00:00"
 
 [[resolution]]
+entry = "t3code/main/composer-control-shortcuts"
+hash = "4077a7f21dc925fc043fbf01569e7a1a6bc2a114"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-10-14T19:29:12.098284153+00:00"
+
+[[resolution]]
 entry = "t3code/main/declarative-settings"
 hash = "26aa57990246fbdd0e4c95c5d83c02780064bb9d"
 paths = ["apps/server/src/serverSettings.ts"]
@@ -69,6 +75,12 @@ recorded = "2026-10-03T02:04:17.700507588+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
+hash = "c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
+paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
+recorded = "2026-08-13T06:18:31.890904525+00:00"
+
+[[resolution]]
+entry = "t3code/main/managed-fleet"
 hash = "ffc768d82bf2b94c925bc1d4d18b7b92321a0cb4"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-03T02:04:17.700509322+00:00"
@@ -102,9 +114,3 @@ entry = "t3code/main/pr-4420"
 hash = "9c7e1ec72f6188a585e418953af4281cab3c7f83"
 paths = ["apps/server/src/serverRuntimeState.ts"]
 recorded = "2026-10-03T02:04:49.862883572+00:00"
-
-[[resolution]]
-entry = "t3code/main/managed-fleet"
-hash = "c0c1a6dbf174b381ce3c3483bc86e9180718e7a4"
-paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
-recorded = "2026-08-13T06:18:31.890904525+00:00"
