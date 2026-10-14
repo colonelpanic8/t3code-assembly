@@ -51,6 +51,24 @@ recorded = "2026-10-10T02:55:19.592971099+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "702bccdd3230dfe604d1fa0fed3983e210e7d1ab"
+paths = ["packages/contracts/src/ipc.ts"]
+recorded = "2026-10-14T22:48:48.567429053+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "712ef77d4b281514aa7e6168a801add3d2730221"
+paths = ["apps/desktop/src/ipc/DesktopIpcHandlers.ts"]
+recorded = "2026-10-14T22:48:48.567434143+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "8a2da3ee0a1a08e74e5df7c46d6c5b01c356752b"
+paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
+recorded = "2026-10-14T22:48:48.567434774+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "911c084ea4bd7f9b9da9d29b3ec3e21b1c7c7bc9"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-10T02:55:19.592971319+00:00"
@@ -60,6 +78,12 @@ entry = "t3code/main/declarative-settings"
 hash = "e14059f8a591aaaf3543fad363b36029ce300b60"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-13T17:55:30.472307149+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "ebe29a97b16ebdae2823a5d8336587471f97d47a"
+paths = ["apps/desktop/src/app/DesktopConfig.ts"]
+recorded = "2026-10-14T22:48:48.567435255+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
