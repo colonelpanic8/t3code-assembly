@@ -9,7 +9,7 @@
       "t3code/main/declarative-settings": "53bbba8efc2872f52a2ac023386a58b60949f638",
       "t3code/main/desktop-clerk-startup": "d1fbe1e7cfa7c14fdd2309e9329d64ca4807e853",
       "t3code/main/fdroid-distribution": "751904a07e603030b0006f5eaa942433e34164fa",
-      "t3code/main/live-voice": "a6a402df74cacd14f3789c725376f7cbc07f35fc",
+      "t3code/main/live-voice": "2c8e8e5e752d690848ce074690975076c21b4e3c",
       "t3code/main/managed-fleet": "e074c1bbed2964dbfd963e369038ead9c6b79535",
       "t3code/main/migration-schema-repair": "0cc8da2b702d5d4274c1c0a987e7cf2ad5074441",
       "t3code/main/mobile-tailscale-fleet": "a5d6fb28b38bca42ebbfecb380cc1dacb4b5c53d",
@@ -34,13 +34,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-14T22:48:49.712165934+00:00",
+    "generated": "2026-10-14T23:27:50.252754905+00:00",
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
-    "commit": "ed2f73da2bdaabad0cd630809411943b1ce7fe41",
-    "pre_provenance_commit": "aca24fcf7ceb84f6b7f88c8c681e476ad3c72841",
-    "tree": "eb020aeccc9f983ba42afdb981559c887dd39445",
-    "built_tree": "6b1112ae6fcf3d8c785d4a1993b1af626888a104",
-    "previous_tree": "548f18127b2bbae7f8ede99d6cf23b1391fe082a",
+    "commit": "f2699c86f13e70b26d5299f66ba24352dec13db5",
+    "pre_provenance_commit": "448028503dfb1074288febaa720681abee9c2524",
+    "tree": "f3ac488abd4e28324d568d16850434ac2a48df36",
+    "built_tree": "9c2e739be05b5339e5ba15bbfbb728b6a2e71fa3",
+    "previous_tree": "eb020aeccc9f983ba42afdb981559c887dd39445",
     "tree_changed": true,
     "conflicts": 7,
     "manifest_entries": [
@@ -139,7 +139,7 @@
         "name": "t3code/main/live-voice",
         "kind": "branch",
         "source": "fork:t3code/main/live-voice",
-        "pin": "a6a402df74cacd14f3789c725376f7cbc07f35fc"
+        "pin": "2c8e8e5e752d690848ce074690975076c21b4e3c"
       },
       {
         "name": "t3code/main/fdroid-distribution",
@@ -310,7 +310,7 @@
       },
       {
         "name": "t3code/main/live-voice",
-        "oid": "a6a402df74cacd14f3789c725376f7cbc07f35fc",
+        "oid": "2c8e8e5e752d690848ce074690975076c21b4e3c",
         "status": "merged",
         "conflicted": false
       },
@@ -369,7 +369,7 @@
         "oid": "53bbba8efc2872f52a2ac023386a58b60949f638",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:702bccdd3230dfe604d1fa0fed3983e210e7d1ab,712ef77d4b281514aa7e6168a801add3d2730221,8a2da3ee0a1a08e74e5df7c46d6c5b01c356752b,ebe29a97b16ebdae2823a5d8336587471f97d47a"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
