@@ -3,6 +3,7 @@
   "pins": {
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
     "entries": {
+      "t3code/main/blank-slate-assembly": "97e1173af73d4fccc2c719472aca03427c63d2bd",
       "t3code/main/claude-subagent-output-tokens": "62a06e5c691aa63609339b725966eb78e12857b1",
       "t3code/main/client-environment-suite": "f6a3bc38ded4bb018232e62866280868c99a797e",
       "t3code/main/client-storage-separation": "311cf3ca441cd721975d573ecf6dd9e1ee57b48a",
@@ -44,15 +45,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-15T06:17:00.172515098+00:00",
+    "generated": "2026-10-15T06:21:49.488409432+00:00",
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
-    "commit": "b46d5c4124198c452e307ba978a5f430a1494862",
-    "pre_provenance_commit": "25c8f15bb30307c8ed7d53ac83c1215be03915f2",
-    "tree": "81af464d298fad8653318d6c8dc84b60fadfdd65",
-    "built_tree": "e5e9b15f812810d12a0d2b70d54e94f9ac9f804e",
-    "previous_tree": "9d10683f0b4b8af8723d4d41d13388a808ec7044",
+    "commit": "ab4896270f9e946a1dc8c58be96b1a548f04e40f",
+    "pre_provenance_commit": "20b8109332fe0b6035969a326cd11ed618d104de",
+    "tree": "15a76ee25c9b498359dea5dc85846717c9ded5c0",
+    "built_tree": "b07bb8f93ecc6e380bf15ecdd8950f4aa4faa2cd",
+    "previous_tree": "81af464d298fad8653318d6c8dc84b60fadfdd65",
     "tree_changed": true,
-    "conflicts": 11,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -284,6 +285,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/usage-scan-backoff",
         "pin": "2deecaf7b4ee63d3137beeb31df6835398c972f3"
+      },
+      {
+        "name": "t3code/main/blank-slate-assembly",
+        "kind": "branch",
+        "source": "fork:t3code/main/blank-slate-assembly",
+        "pin": "97e1173af73d4fccc2c719472aca03427c63d2bd"
       }
     ],
     "results": [
@@ -526,6 +533,12 @@
       {
         "name": "t3code/main/usage-scan-backoff",
         "oid": "2deecaf7b4ee63d3137beeb31df6835398c972f3",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/blank-slate-assembly",
+        "oid": "97e1173af73d4fccc2c719472aca03427c63d2bd",
         "status": "merged",
         "conflicted": false
       }
