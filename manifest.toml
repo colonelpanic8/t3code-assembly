@@ -14,136 +14,257 @@ remote = "fork"
 branch = "t3code/assembled"
 tag_prefix = "t3code-assembled"
 
+# In the project path browser, Tab completes the typed directory name the way a
+# shell does.
 [[entry]]
 branch = "fork:t3code/main/pr-4257"
 pr = 4257
 summary = "Directory-path Tab completion"
 
+# Adds a setting that draws larger project icons in sidebar-v2 rows.
 [[entry]]
 branch = "fork:t3code/main/pr-4324"
 pr = 4324
 summary = "Optional larger sidebar-v2 project icons"
 
+# Readline-style Ctrl-N/Ctrl-P move through any open picker (command palette,
+# comboboxes, menus, composer suggestions). Ctrl-N no longer falls through to
+# opening a new thread while a picker is open.
 [[entry]]
 branch = "fork:t3code/main/pr-4394"
 pr = 4394
 summary = "Navigate open selections with Ctrl-N and Ctrl-P"
 
+# The client runtime reloads a disk-cached thread detail that has no messages
+# from the HTTP snapshot instead of resuming on top of it. Per-thread
+# subscription retry backoff is capped at 2s (no data yet) or 10s (has data)
+# instead of the generic 30s.
 [[entry]]
 branch = "fork:t3code/main/pr-4405"
 pr = 4405
 summary = "Harden thread-detail loading and subscriptions"
 
+# A durable subscription that hits a transport error asks the connection
+# supervisor to probe and reconnect. Without this, a socket that dies with no
+# close event leaves the subscription silent forever.
 [[entry]]
 branch = "fork:t3code/main/pr-4602"
 pr = 4602
 summary = "Recover subscriptions that lose their transport"
 
+# On mobile, a new task picks the environment first, then that environment's
+# projects. A recent project on another machine can no longer stand in for the
+# intended target.
 [[entry]]
 branch = "fork:t3code/main/pr-4447"
 pr = 4447
 summary = "Environment-first new task flow on mobile"
 
+# Shortcut labels use Apple modifier glyphs (⌃⌥⇧⌘, ⏎, ⎋, ...) on every platform,
+# and the keybindings settings table shares the same formatter.
 [[entry]]
 branch = "fork:t3code/main/pr-4701"
 pr = 4701
 summary = "Render shortcuts with Apple glyphs"
 
+# Adds a worktreePathTemplate server setting ({worktreesDir}, {repoRoot},
+# {repoName}, {branch}) used whenever no explicit path is given, so worktrees
+# can live at {repoRoot}/.worktrees/{branch}.
 [[entry]]
 branch = "fork:t3code/main/pr-4439"
 pr = 4439
 summary = "Configurable worktree placement"
 note = "GitWorkflowService fills the configured template whenever no explicit worktree path is given; review path checks read v2 thread worktrees."
 
+# Window bounds move to desktop-window-state.json, so a symlinked
+# desktop-settings.json is no longer rewritten when the window moves.
+[[entry]]
+branch = "fork:t3code/main/desktop-window-state"
+summary = "Keep desktop window bounds out of desktop-settings.json"
+note = "Fix for pingdotgg/t3code#19595; fork PR colonelpanic8/t3code#2. Bounds already in desktop-settings.json are read as a fallback and never stripped."
+
+# --client-dir / T3CODE_CLIENT_DIR relocates the desktop app's own settings and
+# small state files.
+[[entry]]
+branch = "fork:t3code/main/desktop-client-location"
+summary = "Optional directory for the desktop app's own files"
+note = "Stacked on desktop-window-state. Discussion pingdotgg/t3code#19591; fork PR colonelpanic8/t3code#3."
+
+# --server-config-dir, --server-data-dir and --server-cache-dir (and
+# T3CODE_SERVER_*_DIR) each move one category. Install commands ignore them.
+[[entry]]
+branch = "fork:t3code/main/server-location-overrides"
+summary = "Optional server config, data, and cache locations"
+note = "Discussion pingdotgg/t3code#19591; fork PR colonelpanic8/t3code#4. dev-runner and the SSH launcher scrub the overrides; the service unit unsets them."
+
+# Daemon options from <configDir>/server.json (or --server-config-file).
+# Precedence is flag > env > desktop bootstrap > file > default.
+[[entry]]
+branch = "fork:t3code/main/server-config-file"
+summary = "Read daemon options from server.json"
+note = "Stacked on server-location-overrides. Discussion pingdotgg/t3code#19592; fork PR colonelpanic8/t3code#6. The file has no location keys."
+
+# A read-only shared settings file layered beneath settings.json:
+# defaults < shared < settings.json. Writes save only the difference.
+[[entry]]
+branch = "fork:t3code/main/shared-server-settings"
+summary = "Optional read-only shared settings file beneath settings.json"
+note = "Discussion pingdotgg/t3code#19594; fork PR colonelpanic8/t3code#5. declarative-settings is stacked on it."
+
+# Splits the server's single ~/.t3 tree into XDG config/data/state/cache/runtime
+# roots for new installs, while existing ~/.t3 installs keep the legacy layout.
+# Settings > Diagnostics lists the effective paths.
 [[entry]]
 branch = "fork:t3code/main/pr-4437"
 pr = 4437
 summary = "XDG storage layout"
-note = "Split layout uses main's statev2.sqlite name; legacy detection accepts either database file."
+note = "Stacked on a merge of server-config-file and desktop-client-location, sharing their path code. Split layout uses main's statev2.sqlite name; legacy detection accepts either database file, and an initialized split install wins over a later ~/.t3."
+fixup = "patches/t3code-4437-shared-settings-flag.patch"
 
+# The desktop can run client-only. It attaches to a T3 server already running on
+# this machine (or follows --backend-mode) instead of spawning a second backend,
+# and discovers and pairs that server through `t3 pair --json`. It can also
+# manage authorized clients and pairing links on any connected environment.
 [[entry]]
 branch = "fork:t3code/main/client-environment-suite"
 summary = "Client-only desktop, local server discovery and pairing"
 note = "Continuation of the closed #9376 (and #4444, #4474, #4486, #4496, #4548, #4559, #4567). Builds on main's Local environment setting (#9194): an existing local server or --backend-mode overrides it for one launch so the desktop attaches instead of spawning a second backend. Discovery reads server-runtime.json and pairs through `t3 pair --json`. Environment-scoped settings were dropped when main shipped its settings scopes. Per-environment accent colors and display names (#4505, #4538) live on fork:t3code/environment-accent-and-names, which is not carried."
 fixup = "patches/t3code-client-suite-storage-roots.patch"
 
+# After an accepted thread.settle, the web client re-reads the thread a few
+# times and forces a snapshot resync if it still is not settled, so the settle
+# control can no longer look dead until restart.
 [[entry]]
 branch = "fork:t3code/main/pr-4593"
 pr = 4593
 summary = "Reconcile client state after a settle does not land"
 
+# Declarative fleets. Servers accept a provisioned shared bearer token
+# (T3CODE_MANAGED_ACCESS_TOKEN) and a fixed environment id
+# (T3CODE_ENVIRONMENT_ID), and the desktop overlays read-only connections from
+# managed-connections.json. mobile-tailscale-fleet is stacked on this branch.
 [[entry]]
 branch = "fork:t3code/main/managed-fleet"
 
+# Despite the name, this now only hardens the desktop smoke test: Electron
+# exiting before the 8s window counts as a failure. The original @clerk/electron
+# startup patch was dropped once upstream #13204 fixed the ordering.
 [[entry]]
 branch = "fork:t3code/main/desktop-clerk-startup"
 
+# On first start, re-keys a database written by pre-merge assembly builds (V2
+# migrations under fork-only ids) onto main's migration ids, so main's
+# migrations 50-56 actually run.
 [[entry]]
 branch = "fork:t3code/main/migration-schema-repair"
 
+# The Nix flake: packages, the NixOS server module and Home Manager client
+# module (managed settings, keybindings, fleet manifest), and the Android
+# toolchain.
 [[entry]]
 branch = "fork:t3code/main/pr-4699"
 pr = 4699
 summary = "Self-contained Nix flake"
 note = "Closed upstream as an unsupported distribution system. Load-bearing: this is how NixOS builds the assembly."
 
+# Live voice calls. The client streams WebRTC audio to a hidden Codex app-server
+# realtime session, whose model routes requests to T3 on any connected host
+# through the /mcp/voice toolkit. That transport has its own MCP registry, and
+# the voice Codex thread runs without the user's own MCP servers, plugins, or
+# connectors.
 [[entry]]
 branch = "fork:t3code/main/live-voice"
 summary = "Cross-host live voice calls over Codex realtime"
 
+# CI: each push to t3code/assembled builds the `assembly` Android variant
+# (com.t3tools.t3code.assembly, installable beside the official app), signs and
+# releases it, and redeploys an F-Droid repository on GitHub Pages.
 [[entry]]
 branch = "fork:t3code/main/fdroid-distribution"
 
+# A draft route watches the thread ref the draft reserved instead of searching
+# the shell list, and restarts only that thread's detail stream if nothing
+# hydrates within 1s, so a missed shell upsert can no longer strand the draft.
 [[entry]]
 branch = "fork:t3code/main/pr-4318"
 pr = 4318
 summary = "Recover stalled draft thread promotion"
 note = "Closed because the v2 rewrite moved the files, not on merit. Re-applied in ThreadRouteView: subscribes to the ref the draft reserved instead of inferring from the shell list."
 
+# `t3 serve` and desktop-spawned backends refuse to start over a T3 home that
+# another live T3 server owns, so two servers never write one database. A stale
+# record whose pid was reused does not block a restart.
 [[entry]]
 branch = "fork:t3code/main/pr-4420"
 pr = 4420
 summary = "Refuse startup when another server owns the state dir"
 note = "Closed without comment. Re-ported; the PR's busy_timeout half already reached the base through upstream main and is not duplicated."
 
+# A bootstrap launch that fails after creating its provisional thread deletes
+# that thread and reports it, and the client then mints a fresh draft thread id,
+# so a retry never re-creates a consumed id.
 [[entry]]
 branch = "fork:t3code/main/pr-4484"
 pr = 4484
 summary = "Recover draft thread IDs after failed bootstrap"
 note = "Nothing upstream sets bootstrapThreadDisposition for v2 launches. Deletes the provisional thread on a failed owned launch and propagates the disposition."
 
+# Adds bindable model.select.<instance>.<model> and reasoning.select.<effort>
+# commands, so model and effort switch without opening the picker.
 [[entry]]
 branch = "fork:t3code/main/pr-6507"
 pr = 6507
 summary = "Direct model and reasoning keybindings"
 note = "Rebased port of the upstream PR onto main."
 
+# The Usage page reports a disconnected host as failed instead of still
+# scanning, keeps its last numbers in the totals, and says usage is unavailable
+# rather than showing zeros.
 [[entry]]
 branch = "fork:t3code/main/usage-host-resilience"
 summary = "Keep usage available when hosts disconnect or reconnect"
 
+# Despite the name, this is one line: enableGlobalVirtualStore=false in pnpm-
+# workspace.yaml. A user-level pnpm global virtual store otherwise breaks web
+# and mobile typecheck with duplicate or missing React types.
 [[entry]]
 branch = "fork:t3code/main/typecheck-fixes"
 summary = "Resolve transitive type declarations through workspace-local dependencies"
 
+# In the split layout, desktop client files get their own XDG roots (t3code-
+# client). `t3 storage migrate` copies a legacy ~/.t3 install into the split
+# layout and verifies the copy. This branch contains pr-4437's commits.
 [[entry]]
 branch = "fork:t3code/main/client-storage-separation"
 summary = "Client storage separate from the server's T3 home, plus `t3 storage migrate`"
-note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots."
+note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots. --client-dir still relocates the desktop's own files in either layout."
 
+# Nix-provided settings, keybindings, and client settings files layer over user
+# values as read-only. A client-only desktop also applies the managed
+# keybindings over every environment.
 [[entry]]
 branch = "fork:t3code/main/declarative-settings"
 summary = "Nix-managed read-only settings, keybindings, and client settings layers"
-note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user values, render as managed in the UI, and reject writes. The Home Manager options live in the pr-4699 entry."
+note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user values, render as managed in the UI, and reject writes. Stacked on shared-server-settings: defaults < shared < settings.json < managed. The Home Manager options live in the pr-4699 entry."
 
+# Pairing one fleet member pairs them all: a member issues single-use handoffs
+# that the client redeems at each other member over Tailscale, so the shared
+# token never reaches the device. Clients add, update, and drop members as the
+# manifest changes.
 [[entry]]
 branch = "fork:t3code/main/mobile-tailscale-fleet"
 summary = "Pair once, join the Nix-declared fleet over Tailscale"
 note = "One commit on managed-fleet: T3CODE_FLEET_MANIFEST_FILE and server.issueFleetHandoff let a client paired with one member redeem single-use handoffs at the others; clients follow the manifest. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
+# Holding mod+shift pins keycap hints to each composer control (model, effort,
+# access, plan/build, host, workspace, branch). A Shortcut hints setting can
+# show them on a lone Alt hold instead, or turn them off. Also adds a
+# composer.interactionMode Plan/Build toggle.
 [[entry]]
 branch = "fork:t3code/main/composer-control-shortcuts"
 
+# Remote thread rows in the sidebar show the environment name beside the machine
+# glyph.
 [[entry]]
 branch = "fork:t3code/main/pr-4425"
 pr = 4425

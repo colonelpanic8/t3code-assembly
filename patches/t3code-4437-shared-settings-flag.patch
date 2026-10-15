@@ -1,0 +1,11 @@
+diff --git a/apps/server/src/cli/config.test.ts b/apps/server/src/cli/config.test.ts
+--- a/apps/server/src/cli/config.test.ts
++++ b/apps/server/src/cli/config.test.ts
+@@ -1759,6 +1759,7 @@
+   logWebSocketEvents: Option.none(),
+   tailscaleServeEnabled: Option.none(),
+   tailscaleServePort: Option.none(),
++  sharedSettingsFile: Option.none(),
+   ...overrides,
+ });
+ 

@@ -1,5 +1,5 @@
 diff --git a/apps/desktop/src/app/DesktopRunningLocalServers.test.ts b/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
-index 8e1dc51786..0ea1f80682 100644
+index 8e1dc51786..9d721ad14d 100644
 --- a/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
 +++ b/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
 @@ -1,6 +1,5 @@
@@ -54,7 +54,7 @@ index 8e1dc51786..0ea1f80682 100644
  ]);
  
  const fakeFileSystemLayer = (files: ReadonlyMap<string, string>) =>
-@@ -96,9 +103,12 @@ const makeTestService = (input: {
+@@ -96,9 +103,20 @@ const makeTestService = (input: {
    readonly processIsAlive?: (pid: number) => boolean;
    readonly runsOwnBackend?: boolean;
    readonly spawner?: ChildProcessSpawner.ChildProcessSpawner["Service"];
@@ -63,12 +63,20 @@ index 8e1dc51786..0ea1f80682 100644
    make({
 -    baseDir,
 +    ...(input.splitLayout
-+      ? { runtimeDir: splitRuntimeDir, stateDir: splitStateDir }
-+      : { runtimeDir: legacyStateDir, stateDir: legacyStateDir, pairBaseDir: baseDir }),
++      ? {
++          runtimeDir: splitRuntimeDir,
++          stateDir: splitStateDir,
++          pairStorageArgs: ["--storage-layout", "xdg"],
++        }
++      : {
++          runtimeDir: legacyStateDir,
++          stateDir: legacyStateDir,
++          pairStorageArgs: ["--base-dir", baseDir],
++        }),
      backendEntryPath: "/bundle/apps/server/dist/bin.mjs",
      backendCwd: "/home/user",
      executablePath: "/bundle/electron",
-@@ -110,7 +120,7 @@ const makeTestService = (input: {
+@@ -110,7 +128,7 @@ const makeTestService = (input: {
    }).pipe(
      Effect.provide(
        Layer.mergeAll(
@@ -77,11 +85,11 @@ index 8e1dc51786..0ea1f80682 100644
          NodePath.layer,
          Layer.succeed(
            ChildProcessSpawner.ChildProcessSpawner,
-@@ -197,6 +207,29 @@ describe("DesktopRunningLocalServers", () => {
+@@ -197,6 +215,31 @@ describe("DesktopRunningLocalServers", () => {
      });
    });
  
-+  it.effect("reads split-layout runtime state and lets `t3 pair` resolve the same roots", () => {
++  it.effect("reads split-layout runtime state and pins `t3 pair` to the split layout", () => {
 +    let command: ChildProcess.StandardCommand | null = null;
 +    const spawner = ChildProcessSpawner.make((candidate) => {
 +      if (candidate._tag === "StandardCommand") command = candidate;
@@ -100,6 +108,8 @@ index 8e1dc51786..0ea1f80682 100644
 +        "--json",
 +        "--label",
 +        "T3 Code Desktop",
++        "--storage-layout",
++        "xdg",
 +      ]);
 +    });
 +  });
@@ -108,10 +118,10 @@ index 8e1dc51786..0ea1f80682 100644
      Effect.gen(function* () {
        const service = yield* makeTestService({
 diff --git a/apps/desktop/src/app/DesktopRunningLocalServers.ts b/apps/desktop/src/app/DesktopRunningLocalServers.ts
-index ec73e8f700..20f9034766 100644
+index ec73e8f700..fc0c419df2 100644
 --- a/apps/desktop/src/app/DesktopRunningLocalServers.ts
 +++ b/apps/desktop/src/app/DesktopRunningLocalServers.ts
-@@ -8,7 +8,6 @@ import {
+@@ -8,10 +8,10 @@ import {
  } from "@t3tools/contracts";
  import { setPairingTokenOnUrl } from "@t3tools/shared/remote";
  import {
@@ -119,7 +129,19 @@ index ec73e8f700..20f9034766 100644
    isProcessAlive,
    readPersistedServerRuntimeState,
  } from "@t3tools/shared/serverRuntimeState";
-@@ -53,7 +52,11 @@ type ProbeEnvironment = (
++import { expandT3HomePath } from "@t3tools/shared/storagePaths";
+ import * as Context from "effect/Context";
+ import * as Duration from "effect/Duration";
+ import * as Effect from "effect/Effect";
+@@ -26,6 +26,7 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
+ 
+ import serverPackageJson from "../../../server/package.json" with { type: "json" };
+ import * as DesktopBackendMode from "./DesktopBackendMode.ts";
++import * as DesktopConfig from "./DesktopConfig.ts";
+ import * as DesktopEnvironment from "./DesktopEnvironment.ts";
+ 
+ const LOCAL_SERVER_PAIRING_TIMEOUT = Duration.seconds(10);
+@@ -53,7 +54,11 @@ type ProbeEnvironment = (
  ) => Effect.Effect<ExecutionEnvironmentDescriptor | null>;
  
  export interface DesktopRunningLocalServersOptions {
@@ -127,22 +149,22 @@ index ec73e8f700..20f9034766 100644
 +  // Where the home server writes server-runtime.json and environment-id.
 +  readonly runtimeDir: string;
 +  readonly stateDir: string;
-+  // Legacy layout only; in the split layout `t3 pair` resolves the same roots itself.
-+  readonly pairBaseDir?: string;
++  // Pins `t3 pair` to the storage layout this desktop selected.
++  readonly pairStorageArgs: ReadonlyArray<string>;
    readonly backendEntryPath: string;
    readonly backendCwd: string;
    readonly executablePath: string;
-@@ -86,8 +89,7 @@ const makePairCommand = (options: DesktopRunningLocalServersOptions) =>
+@@ -86,8 +91,7 @@ const makePairCommand = (options: DesktopRunningLocalServersOptions) =>
        "--json",
        "--label",
        "T3 Code Desktop",
 -      "--base-dir",
 -      options.baseDir,
-+      ...(options.pairBaseDir === undefined ? [] : ["--base-dir", options.pairBaseDir]),
++      ...options.pairStorageArgs,
      ],
      {
        cwd: options.backendCwd,
-@@ -109,13 +111,8 @@ export const make = Effect.fn("desktop.runningLocalServers.make")(function* (
+@@ -109,13 +113,8 @@ export const make = Effect.fn("desktop.runningLocalServers.make")(function* (
    const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
    const processIsAlive = options.processIsAlive ?? isProcessAlive;
  
@@ -157,7 +179,7 @@ index ec73e8f700..20f9034766 100644
      const state = yield* readPersistedServerRuntimeState(statePath).pipe(
        Effect.provideService(FileSystem.FileSystem, fileSystem),
      );
-@@ -124,7 +121,7 @@ export const make = Effect.fn("desktop.runningLocalServers.make")(function* (
+@@ -124,7 +123,7 @@ export const make = Effect.fn("desktop.runningLocalServers.make")(function* (
      }
  
      const persistedEnvironmentId = yield* fileSystem
@@ -166,23 +188,35 @@ index ec73e8f700..20f9034766 100644
        .pipe(
          Effect.map((value) => value.trim()),
          Effect.option,
-@@ -246,7 +243,9 @@ export const layer = Layer.effect(
+@@ -243,10 +242,21 @@ export const layer = Layer.effect(
+   DesktopRunningLocalServers,
+   Effect.gen(function* () {
+     const environment = yield* DesktopEnvironment.DesktopEnvironment;
++    const config = yield* DesktopConfig.DesktopConfig;
      const backendMode = yield* DesktopBackendMode.DesktopBackendMode;
      const httpClient = yield* HttpClient.HttpClient;
++    const { path, storageRoots: roots } = environment;
++    // A server data dir override holds the runtime file and identity in either layout.
++    const serverDataDir = Option.map(config.serverDataDir, (dir) =>
++      path.resolve(environment.backendCwd, expandT3HomePath(dir, environment.homeDirectory, path)),
++    );
      return yield* make({
 -      baseDir: environment.baseDir,
-+      runtimeDir: environment.runtimeDir,
-+      stateDir: environment.stateDir,
-+      ...(environment.storageLayout === "legacy" ? { pairBaseDir: environment.baseDir } : {}),
++      runtimeDir: Option.getOrElse(serverDataDir, () => roots.runtimeDir),
++      stateDir: Option.getOrElse(serverDataDir, () => roots.stateDir),
++      pairStorageArgs:
++        roots.layout === "legacy"
++          ? ["--base-dir", roots.legacyBaseDir]
++          : ["--storage-layout", "xdg"],
        backendEntryPath: environment.backendEntryPath,
        backendCwd: environment.backendCwd,
        executablePath: process.execPath,
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
-index dfc16877fd..89178673c8 100644
+index e3e89fa66c..f54dbfff48 100644
 --- a/apps/server/src/cli/pair.ts
 +++ b/apps/server/src/cli/pair.ts
 @@ -20,10 +20,7 @@ import { resolveWorktreeT3Home } from "@t3tools/shared/devHome";
- import { resolveLegacyT3StorageRoots, type T3StorageRoots } from "@t3tools/shared/storagePaths";
+ import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
  import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
  import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 -import {
@@ -193,20 +227,39 @@ index dfc16877fd..89178673c8 100644
  import {
    buildTailscaleHttpsBaseUrl,
    DEFAULT_TAILSCALE_SERVE_PORT,
-@@ -301,7 +298,7 @@ interface DiscoveredPairTarget {
- 
- interface PairCandidate {
-   readonly roots: T3StorageRoots;
--  readonly variant: PairStateVariant;
-+  readonly variant: ServerRuntimeStateVariant;
- }
- 
- const legacyCandidates = (baseDir: string, path: Path.Path): ReadonlyArray<PairCandidate> =>
-@@ -341,7 +338,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
-     }
+@@ -360,7 +357,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
+     );
    }
  
 -  const path = yield* Path.Path;
    const checkedStatePaths: Array<string> = [];
    for (const candidate of candidates) {
-     const statePath = (yield* ServerConfig.deriveServerPathsFromRoots(candidate.roots))
+     const statePath = (yield* candidatePaths(candidate, overrides)).derivedPaths
+@@ -606,7 +602,7 @@ export const pairCommand = Command.make("pair", {
+           return yield* new JsonTailscaleUnsupportedError();
+         }
+ 
+-        const target = yield* discoverPairTarget(Option.getOrUndefined(flags.baseDir));
++        const target = yield* discoverPairTarget(flags);
+ 
+         const notes: Array<string> = [];
+         let pairingBaseUrl: string;
+diff --git a/packages/shared/src/serverRuntimeState.ts b/packages/shared/src/serverRuntimeState.ts
+index 6806e9fa40..c3b3a4570d 100644
+--- a/packages/shared/src/serverRuntimeState.ts
++++ b/packages/shared/src/serverRuntimeState.ts
+@@ -41,14 +41,6 @@ const decodePersistedServerRuntimeState = Schema.decodeUnknownEffect(
+   Schema.fromJsonString(PersistedServerRuntimeState),
+ );
+ 
+-export function deriveServerRuntimeStatePath(input: {
+-  readonly baseDir: string;
+-  readonly variant: ServerRuntimeStateVariant;
+-  readonly joinPath: (first: string, ...segments: ReadonlyArray<string>) => string;
+-}): string {
+-  return input.joinPath(input.baseDir, input.variant, "server-runtime.json");
+-}
+-
+ /**
+  * Signal 0 does not deliver a signal; it only reports whether the process
+  * exists. EPERM still means the process is alive but belongs to another user.
