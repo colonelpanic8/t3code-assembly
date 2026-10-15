@@ -271,6 +271,22 @@ pr = 4425
 summary = "Show the environment name on remote thread rows"
 note = "Closed upstream. Re-ported onto the merged sidebar: the name sits beside the machine glyph, so with a client-only desktop every row names its host."
 
+[[entry]]
+branch = "fork:t3code/main/usage-breakdowns"
+
+[[entry]]
+branch = "fork:t3code/main/usage-summary-cache"
+fixup = "patches/usage-cache-host-resilience.patch"
+
+[[entry]]
+branch = "fork:t3code/main/codex-archived-sessions"
+
+[[entry]]
+branch = "fork:t3code/main/claude-subagent-output-tokens"
+
+[[entry]]
+branch = "fork:t3code/main/usage-scan-backoff"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

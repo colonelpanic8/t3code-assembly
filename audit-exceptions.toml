@@ -67,3 +67,9 @@ entry = "t3code/main/mobile-tailscale-fleet"
 missing_count = 1
 missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
 reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
+
+[[exception]]
+entry = "t3code/main/usage-host-resilience"
+missing_count = 4
+missing_sha256 = "4730a8602868a04021b6c288dbcc1671a1d9938bbddd82e052b36044e9e97d66"
+reason = "usage-summary-cache's coherence fixup narrows the disconnected error to hosts without a summary and uses the existing phase local instead of presentation.connection.phase. Hosts with cached totals remain stale while connecting/reconnecting and report last-reported usage once offline; unanswered disconnected hosts still report unavailable. The cached-reconnect test is renamed and its assertion now requires error: null alongside the preserved summary; all other resilience behavior remains carried."

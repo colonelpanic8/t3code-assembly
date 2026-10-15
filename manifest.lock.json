@@ -3,8 +3,10 @@
   "pins": {
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
     "entries": {
+      "t3code/main/claude-subagent-output-tokens": "62a06e5c691aa63609339b725966eb78e12857b1",
       "t3code/main/client-environment-suite": "f6a3bc38ded4bb018232e62866280868c99a797e",
       "t3code/main/client-storage-separation": "311cf3ca441cd721975d573ecf6dd9e1ee57b48a",
+      "t3code/main/codex-archived-sessions": "1a56d30deae486d5ddb33a2ea50e6f04b4ee2ada",
       "t3code/main/composer-control-shortcuts": "7a54faf9636ebc78266dd55d1d57808feb083e42",
       "t3code/main/declarative-settings": "fa0e81249b1a4e361f5064be61ff77a82feb443d",
       "t3code/main/desktop-clerk-startup": "d1fbe1e7cfa7c14fdd2309e9329d64ca4807e853",
@@ -35,19 +37,22 @@
       "t3code/main/server-location-overrides": "f46b681313e482551528ae224c1d2a9043556ab5",
       "t3code/main/shared-server-settings": "a8c43f95dc563cf854ee0b8f005de8250fc2ce4d",
       "t3code/main/typecheck-fixes": "fe0d87b298849f3ddfcaea40834340cac7db01c8",
-      "t3code/main/usage-host-resilience": "384c7c4c0c366817dda484b1c5799c19fd435aaa"
+      "t3code/main/usage-breakdowns": "bcd2f036a109a83a5235ff994c01e6cbe52043f7",
+      "t3code/main/usage-host-resilience": "384c7c4c0c366817dda484b1c5799c19fd435aaa",
+      "t3code/main/usage-scan-backoff": "2deecaf7b4ee63d3137beeb31df6835398c972f3",
+      "t3code/main/usage-summary-cache": "b1c1e9e02aa69d1c896ae7024efb2a948c2b1e97"
     }
   },
   "build": {
-    "generated": "2026-10-15T05:28:16.441249144+00:00",
+    "generated": "2026-10-15T06:17:00.172515098+00:00",
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
-    "commit": "b72c7fe314a66eba5f8abcfb717e0b1ee8fee850",
-    "pre_provenance_commit": "14a5566afa5ba7a52565cc081721e82c6f503ff8",
-    "tree": "e31636be62687cc5b03e8998fff21c7047073c77",
-    "built_tree": "b0798cd24309b1dcce58416693fd7959a2360fc3",
-    "previous_tree": "0cf94523713d30a0d5ec14003b92cfd5794e7b0c",
+    "commit": "b46d5c4124198c452e307ba978a5f430a1494862",
+    "pre_provenance_commit": "25c8f15bb30307c8ed7d53ac83c1215be03915f2",
+    "tree": "81af464d298fad8653318d6c8dc84b60fadfdd65",
+    "built_tree": "e5e9b15f812810d12a0d2b70d54e94f9ac9f804e",
+    "previous_tree": "9d10683f0b4b8af8723d4d41d13388a808ec7044",
     "tree_changed": true,
-    "conflicts": 10,
+    "conflicts": 11,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -248,6 +253,37 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-4425",
         "pin": "4825115ee0a1720b73c797181783ccadaea23736"
+      },
+      {
+        "name": "t3code/main/usage-breakdowns",
+        "kind": "branch",
+        "source": "fork:t3code/main/usage-breakdowns",
+        "pin": "bcd2f036a109a83a5235ff994c01e6cbe52043f7"
+      },
+      {
+        "name": "t3code/main/usage-summary-cache",
+        "kind": "branch",
+        "source": "fork:t3code/main/usage-summary-cache",
+        "pin": "b1c1e9e02aa69d1c896ae7024efb2a948c2b1e97",
+        "fixup": "10dc59f88610c3406de8839ccb2d2e63056395ef"
+      },
+      {
+        "name": "t3code/main/codex-archived-sessions",
+        "kind": "branch",
+        "source": "fork:t3code/main/codex-archived-sessions",
+        "pin": "1a56d30deae486d5ddb33a2ea50e6f04b4ee2ada"
+      },
+      {
+        "name": "t3code/main/claude-subagent-output-tokens",
+        "kind": "branch",
+        "source": "fork:t3code/main/claude-subagent-output-tokens",
+        "pin": "62a06e5c691aa63609339b725966eb78e12857b1"
+      },
+      {
+        "name": "t3code/main/usage-scan-backoff",
+        "kind": "branch",
+        "source": "fork:t3code/main/usage-scan-backoff",
+        "pin": "2deecaf7b4ee63d3137beeb31df6835398c972f3"
       }
     ],
     "results": [
@@ -432,7 +468,7 @@
         "oid": "311cf3ca441cd721975d573ecf6dd9e1ee57b48a",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:4d5573c7da364934395a448e579d240c918e87e6"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/declarative-settings",
@@ -458,6 +494,38 @@
       {
         "name": "t3code/main/pr-4425",
         "oid": "4825115ee0a1720b73c797181783ccadaea23736",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/usage-breakdowns",
+        "oid": "bcd2f036a109a83a5235ff994c01e6cbe52043f7",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/usage-summary-cache",
+        "oid": "b1c1e9e02aa69d1c896ae7024efb2a948c2b1e97",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "rerere",
+        "fixup": "10dc59f88610c3406de8839ccb2d2e63056395ef"
+      },
+      {
+        "name": "t3code/main/codex-archived-sessions",
+        "oid": "1a56d30deae486d5ddb33a2ea50e6f04b4ee2ada",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/claude-subagent-output-tokens",
+        "oid": "62a06e5c691aa63609339b725966eb78e12857b1",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/usage-scan-backoff",
+        "oid": "2deecaf7b4ee63d3137beeb31df6835398c972f3",
         "status": "merged",
         "conflicted": false
       }

@@ -1,0 +1,47 @@
+diff --git a/apps/web/src/state/usage.ts b/apps/web/src/state/usage.ts
+index d2b757ae30..64662ce8fa 100644
+--- a/apps/web/src/state/usage.ts
++++ b/apps/web/src/state/usage.ts
+@@ -85,13 +85,16 @@ export const usageByWindowAtom = Atom.family((windowKey: string) =>
+         canReadDiagnostics: true,
+         isConnected,
+         isConnecting,
+-        error: !isConnected
+-          ? presentation.connection.phase === "available"
+-            ? "This environment is not connected."
+-            : connectionStatusTitle(presentation.connection)
+-          : result._tag === "Failure"
+-            ? "This environment could not report usage."
+-            : null,
++        error:
++          !isConnected && summary === null
++            ? phase === "available"
++              ? "This environment is not connected."
++              : connectionStatusTitle(presentation.connection)
++            : result._tag === "Failure"
++              ? "This environment could not report usage."
++              : !isConnected && !isConnecting && phase !== "reconnecting" && summary !== null
++                ? "This environment is not connected. Totals include its last reported usage."
++                : null,
+         summary,
+         needsCursorKeychainAccess: needsCursorKeychainAccess(
+           summary,
+diff --git a/apps/web/src/state/usageConnection.test.ts b/apps/web/src/state/usageConnection.test.ts
+index efa18e7415..51b7311e42 100644
+--- a/apps/web/src/state/usageConnection.test.ts
++++ b/apps/web/src/state/usageConnection.test.ts
+@@ -130,12 +130,11 @@ describe("usage connection state", () => {
+     expect(registry.get(atom)[0]).toMatchObject({ isPending: false, error: null, summary });
+   });
+ 
+-  it("keeps cached usage with an unavailable status through disconnection and recovery", () => {
++  it("keeps cached usage while reconnecting and resumes scanning on recovery", () => {
+     const { registry, atom, query, setPhase } = setup("connected");
+     registry.set(query, AsyncResult.waiting(AsyncResult.success(summary)));
+     setPhase("reconnecting");
+-    expect(registry.get(atom)[0]).toMatchObject({ isPending: false, summary });
+-    expect(registry.get(atom)[0]?.error).not.toBeNull();
++    expect(registry.get(atom)[0]).toMatchObject({ isPending: false, error: null, summary });
+     setPhase("connected");
+     expect(registry.get(atom)[0]).toMatchObject({ isPending: true, error: null, summary });
+   });

@@ -294,3 +294,15 @@ entry = "t3code/main/shared-server-settings"
 hash = "fc90c77b2b97bd1be0711c1e4f7a6ac4fd2eff6c"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-15T04:12:11.648445406+00:00"
+
+[[resolution]]
+entry = "t3code/main/usage-summary-cache"
+hash = "37837ef8eb588bf27b4dac02b85833f9bb838396"
+paths = ["docs/user/usage.md"]
+recorded = "2026-10-15T06:12:04.052215356+00:00"
+
+[[resolution]]
+entry = "t3code/main/usage-summary-cache"
+hash = "8c97e8d6e7b611c203b28764142d30a3828d84f0"
+paths = ["apps/web/src/state/usage.ts"]
+recorded = "2026-10-15T06:12:04.052217590+00:00"
