@@ -140,7 +140,7 @@ pr = 4593
 summary = "Reconcile client state after a settle does not land"
 
 # Declarative fleets. Servers accept a provisioned shared bearer token
-# (T3CODE_MANAGED_ACCESS_TOKEN) and a fixed environment id
+# (T3CODE_MANAGED_ACCESS_TOKEN_FILE) and a fixed environment id
 # (T3CODE_ENVIRONMENT_ID), and the desktop overlays read-only connections from
 # managed-connections.json. mobile-tailscale-fleet is stacked on this branch.
 [[entry]]
@@ -254,7 +254,7 @@ note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user
 [[entry]]
 branch = "fork:t3code/main/mobile-tailscale-fleet"
 summary = "Pair once, join the Nix-declared fleet over Tailscale"
-note = "One commit on managed-fleet: T3CODE_FLEET_MANIFEST_FILE and server.issueFleetHandoff let a client paired with one member redeem single-use handoffs at the others; clients follow the manifest. The Home Manager fleetManifest option lives in the pr-4699 entry."
+note = "Stacked on managed-fleet: Nix exports a secret-free mobile import; pairing one member enables single-use handoffs to the rest, with pending-member retries and fresh credentials after address changes. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
 # Holding mod+shift pins keycap hints to each composer control (model, effort,
 # access, plan/build, host, workspace, branch). A Shortcut hints setting can

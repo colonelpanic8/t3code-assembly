@@ -87,6 +87,12 @@ recorded = "2026-10-10T02:55:19.592968885+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "4259134df5342da540e3d0ea356bb490c03eca02"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-15T08:31:23.633997300+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "5e0fb1a8e95ef6946f880633af466a1e591c2a1e"
 paths = ["apps/desktop/src/ipc/DesktopIpcHandlers.ts"]
 recorded = "2026-10-10T02:55:19.592970648+00:00"
@@ -156,6 +162,12 @@ entry = "t3code/main/managed-fleet"
 hash = "6478c43ce0a336aed0b319dafb2398f780e26863"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-10T02:53:49.874997384+00:00"
+
+[[resolution]]
+entry = "t3code/main/managed-fleet"
+hash = "82ad4fdc4d96c4b4bdf2339edb9ff6c4cc5bf758"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-15T08:30:52.953696763+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"

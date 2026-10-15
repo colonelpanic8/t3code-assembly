@@ -15,9 +15,9 @@
       "t3code/main/desktop-window-state": "37bf6c85a8da2dc735041de0781a64a64b1ce423",
       "t3code/main/fdroid-distribution": "751904a07e603030b0006f5eaa942433e34164fa",
       "t3code/main/live-voice": "2c8e8e5e752d690848ce074690975076c21b4e3c",
-      "t3code/main/managed-fleet": "e074c1bbed2964dbfd963e369038ead9c6b79535",
+      "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
       "t3code/main/migration-schema-repair": "0cc8da2b702d5d4274c1c0a987e7cf2ad5074441",
-      "t3code/main/mobile-tailscale-fleet": "a5d6fb28b38bca42ebbfecb380cc1dacb4b5c53d",
+      "t3code/main/mobile-tailscale-fleet": "b4b965cab687cea1cf78ccfadc2815a898699ee7",
       "t3code/main/pr-4257": "7a49887c56738d7e20b1851f65e23c553788543e",
       "t3code/main/pr-4318": "4c46a510fca50631906b49c9b10b2372e8212a5e",
       "t3code/main/pr-4324": "98a15e54874677cc20898b8846a1a58b3b98d204",
@@ -45,15 +45,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-15T06:21:49.488409432+00:00",
+    "generated": "2026-10-15T08:31:25.386035377+00:00",
     "base": "8ac4b97dae6bff7258fa5091a908116902fbd635",
-    "commit": "ab4896270f9e946a1dc8c58be96b1a548f04e40f",
-    "pre_provenance_commit": "20b8109332fe0b6035969a326cd11ed618d104de",
-    "tree": "15a76ee25c9b498359dea5dc85846717c9ded5c0",
-    "built_tree": "b07bb8f93ecc6e380bf15ecdd8950f4aa4faa2cd",
-    "previous_tree": "81af464d298fad8653318d6c8dc84b60fadfdd65",
+    "commit": "42c5bdeec379ff31cc06a93225bd14ae6a079c83",
+    "pre_provenance_commit": "da1d23058349bf706e4dc3f0a844d5c3b527a655",
+    "tree": "c46f53f2c229f2d80553bc68d81472ba17d7043c",
+    "built_tree": "dd013c94efec28f8bf947d5300f7bae4c4f86381",
+    "previous_tree": "15a76ee25c9b498359dea5dc85846717c9ded5c0",
     "tree_changed": true,
-    "conflicts": 0,
+    "conflicts": 11,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -157,7 +157,7 @@
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "e074c1bbed2964dbfd963e369038ead9c6b79535"
+        "pin": "7aa191b951c94cd490b706e6158b2db263defa15"
       },
       {
         "name": "t3code/main/desktop-clerk-startup",
@@ -241,7 +241,7 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "a5d6fb28b38bca42ebbfecb380cc1dacb4b5c53d"
+        "pin": "b4b965cab687cea1cf78ccfadc2815a898699ee7"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -398,10 +398,10 @@
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "e074c1bbed2964dbfd963e369038ead9c6b79535",
+        "oid": "7aa191b951c94cd490b706e6158b2db263defa15",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere"
+        "resolution": "rerere:82ad4fdc4d96c4b4bdf2339edb9ff6c4cc5bf758"
       },
       {
         "name": "t3code/main/desktop-clerk-startup",
@@ -482,11 +482,11 @@
         "oid": "fa0e81249b1a4e361f5064be61ff77a82feb443d",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere"
+        "resolution": "rerere:4259134df5342da540e3d0ea356bb490c03eca02"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "a5d6fb28b38bca42ebbfecb380cc1dacb4b5c53d",
+        "oid": "b4b965cab687cea1cf78ccfadc2815a898699ee7",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
