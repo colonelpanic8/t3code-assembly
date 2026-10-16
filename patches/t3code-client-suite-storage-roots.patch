@@ -263,3 +263,15 @@ index 6806e9fa40..c3b3a4570d 100644
  /**
   * Signal 0 does not deliver a signal; it only reports whether the process
   * exists. EPERM still means the process is alive but belongs to another user.
+diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
+--- a/apps/server/src/cli/pair.ts
++++ b/apps/server/src/cli/pair.ts
+@@ -268,7 +268,7 @@
+ 
+ interface PairCandidate {
+   readonly storage: ServerStorage;
+-  readonly variant: PairStateVariant;
++  readonly variant: ServerRuntimeStateVariant;
+ }
+ 
+ interface DiscoveredPairTarget extends PairCandidate {

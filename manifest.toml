@@ -236,6 +236,7 @@ summary = "Resolve transitive type declarations through workspace-local dependen
 # layout and verifies the copy. This branch contains pr-4437's commits.
 [[entry]]
 branch = "fork:t3code/main/client-storage-separation"
+fixup = "patches/client-storage-separation-cli.patch"
 summary = "Client storage separate from the server's T3 home, plus `t3 storage migrate`"
 note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots. --client-dir still relocates the desktop's own files in either layout."
 
@@ -244,6 +245,7 @@ note = "Built on #4437's split layout and must stay after it. In the legacy layo
 # keybindings over every environment.
 [[entry]]
 branch = "fork:t3code/main/declarative-settings"
+fixup = "patches/declarative-shared-settings-tests.patch"
 summary = "Nix-managed read-only settings, keybindings, and client settings layers"
 note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user values, render as managed in the UI, and reject writes. Stacked on shared-server-settings: defaults < shared < settings.json < managed. The Home Manager options live in the pr-4699 entry."
 
@@ -253,6 +255,7 @@ note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user
 # manifest changes.
 [[entry]]
 branch = "fork:t3code/main/mobile-tailscale-fleet"
+fixup = "patches/mobile-fleet-token-resolution.patch"
 summary = "Pair once, join the Nix-declared fleet over Tailscale"
 note = "Stacked on managed-fleet: Nix exports a secret-free mobile import; pairing one member enables single-use handoffs to the rest, with pending-member retries and fresh credentials after address changes. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
