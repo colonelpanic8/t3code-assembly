@@ -273,12 +273,6 @@ recorded = "2026-10-15T04:33:57.078321787+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "26aa57990246fbdd0e4c95c5d83c02780064bb9d"
-paths = ["apps/server/src/serverSettings.ts"]
-recorded = "2026-10-10T02:55:19.592968885+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
 hash = "4259134df5342da540e3d0ea356bb490c03eca02"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-15T08:31:23.633997300+00:00"
@@ -300,12 +294,6 @@ entry = "t3code/main/declarative-settings"
 hash = "5e0fb1a8e95ef6946f880633af466a1e591c2a1e"
 paths = ["apps/desktop/src/ipc/DesktopIpcHandlers.ts"]
 recorded = "2026-10-10T02:55:19.592970648+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "65235982ebb8f790a4324b1613f12841c402c7a1"
-paths = ["apps/server/src/serverSettings.ts"]
-recorded = "2026-10-16T18:08:21.177925240+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -366,6 +354,12 @@ entry = "t3code/main/declarative-settings"
 hash = "e14059f8a591aaaf3543fad363b36029ce300b60"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-13T17:55:30.472307149+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "e9c162f1a5751df73110315c898bc7718e31128d"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-10-16T20:38:14.264844891+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -894,6 +888,12 @@ entry = "t3code/main/shared-server-settings"
 hash = "b7afa263e48b577e6d110a967fcc78097d0661f7"
 paths = ["apps/server/src/cli/project.ts"]
 recorded = "2026-10-15T04:12:11.648444925+00:00"
+
+[[resolution]]
+entry = "t3code/main/shared-server-settings"
+hash = "c1258d6b9d1579fb2f5c641f7f117fdab2325211"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-10-16T20:37:36.161454096+00:00"
 
 [[resolution]]
 entry = "t3code/main/shared-server-settings"
