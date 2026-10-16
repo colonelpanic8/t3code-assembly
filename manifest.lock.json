@@ -1,7 +1,7 @@
 {
   "version": 1,
   "pins": {
-    "base": "e58a4857130a93cc58b45dd6ebee14cf08df04ec",
+    "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
     "entries": {
       "t3code/main/blank-slate-assembly": "25511420023174502dcdba1041d9cdb3e7b51327",
       "t3code/main/claude-subagent-output-tokens": "a7061db4a5c90b20a412eec301fd7e159617bc96",
@@ -17,13 +17,13 @@
       "t3code/main/live-voice": "15d98a91564181dea6abcef03b9be2fc2b412d7a",
       "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
-      "t3code/main/mobile-tailscale-fleet": "2e4946eb08dba1ba02e3c6350766c540a011b4ba",
+      "t3code/main/mobile-tailscale-fleet": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
       "t3code/main/pr-4257": "7a49887c56738d7e20b1851f65e23c553788543e",
       "t3code/main/pr-4318": "65222808ec85cb0b6002b298d0c35eca24b648c3",
       "t3code/main/pr-4324": "98a15e54874677cc20898b8846a1a58b3b98d204",
       "t3code/main/pr-4394": "9a8954832acfdcff483a4506a711eda16713fd9c",
       "t3code/main/pr-4405": "896b922a957c52b23a02b526218e4db5d6340158",
-      "t3code/main/pr-4420": "6fa7b437a60e66c7c051e1f25f3e717404069eca",
+      "t3code/main/pr-4420": "20587f975bd54a0b9e95e3d9acab2166949d7914",
       "t3code/main/pr-4425": "4825115ee0a1720b73c797181783ccadaea23736",
       "t3code/main/pr-4437": "d0c1632674157f068f670251ebfd9c5cc3a19572",
       "t3code/main/pr-4439": "dcfd7852a200f6b8c6a50d242d309184176db273",
@@ -45,13 +45,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-16T18:13:57.581821470+00:00",
-    "base": "e58a4857130a93cc58b45dd6ebee14cf08df04ec",
-    "commit": "34c9d36b2edfdf0ffdf7310fb519f38eb6cab93f",
-    "pre_provenance_commit": "890c91ae88b3fc53667c686bd03c1c60ac398004",
-    "tree": "b44d7795598a23983808c3b81abee12ff934ad5f",
-    "built_tree": "9191c565070b97341c5fb7961e2c7627a70d86e9",
-    "previous_tree": "c8a113dd24bc314a040edc2b3a3600d147983552",
+    "generated": "2026-10-16T20:00:10.134966527+00:00",
+    "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
+    "commit": "2494c5af1f631f366112ef1ae277017ab223e4df",
+    "pre_provenance_commit": "ad32bfdc99af954cb9af6da2b46f71eb7e59dab9",
+    "tree": "2f4d6a8c223ef724c605b6c82f879b18f197768e",
+    "built_tree": "a7ae22e93af318b979df1ef924b41fc2bf966949",
+    "previous_tree": "5e7d6b24f03dd020b69a652fa61ba44335e71f9f",
     "tree_changed": true,
     "conflicts": 13,
     "manifest_entries": [
@@ -199,7 +199,7 @@
         "name": "t3code/main/pr-4420",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4420",
-        "pin": "6fa7b437a60e66c7c051e1f25f3e717404069eca"
+        "pin": "20587f975bd54a0b9e95e3d9acab2166949d7914"
       },
       {
         "name": "t3code/main/pr-4484",
@@ -243,8 +243,8 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "2e4946eb08dba1ba02e3c6350766c540a011b4ba",
-        "fixup": "a7a6cef9e5515b95c6644a43deccb630caf5ece5"
+        "pin": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
+        "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -446,7 +446,7 @@
       },
       {
         "name": "t3code/main/pr-4420",
-        "oid": "6fa7b437a60e66c7c051e1f25f3e717404069eca",
+        "oid": "20587f975bd54a0b9e95e3d9acab2166949d7914",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
@@ -480,7 +480,7 @@
         "oid": "4a71991f507bc9a209d407c646179ffe59441abd",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:c7584774f7a723216e3d965cafcae3c5be176375",
+        "resolution": "rerere",
         "fixup": "40e427e669ec36d549dd5df775de9bc93180f061"
       },
       {
@@ -493,11 +493,11 @@
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "2e4946eb08dba1ba02e3c6350766c540a011b4ba",
+        "oid": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
-        "fixup": "a7a6cef9e5515b95c6644a43deccb630caf5ece5"
+        "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",

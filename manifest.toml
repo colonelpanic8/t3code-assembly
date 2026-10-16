@@ -256,8 +256,8 @@ note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user
 [[entry]]
 branch = "fork:t3code/main/mobile-tailscale-fleet"
 fixup = "patches/mobile-fleet-token-resolution.patch"
-summary = "Pair once, join the Nix-declared fleet over Tailscale"
-note = "Stacked on managed-fleet: Nix exports a secret-free mobile import; pairing one member enables single-use handoffs to the rest, with pending-member retries and fresh credentials after address changes. The Home Manager fleetManifest option lives in the pr-4699 entry."
+summary = "Enroll once, join the Nix-declared fleet over Tailscale"
+note = "Stacked on managed-fleet: import a public inventory or a reusable age-encrypted enrollment on mobile. Pairing one member enables single-use handoffs to the rest, with pending-member retries and fresh credentials after address changes or session rejection. The Home Manager fleetManifest option lives in the pr-4699 entry."
 
 # Holding mod+shift pins keycap hints to each composer control (model, effort,
 # access, plan/build, host, workspace, branch). A Shortcut hints setting can

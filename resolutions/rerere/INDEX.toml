@@ -99,6 +99,12 @@ recorded = "2026-10-15T05:28:15.310282414+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
+hash = "4e66cd220d51067c7ac016d7c208e52a121920de"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-16T19:55:29.926912404+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-storage-separation"
 hash = "50bc16e425a8111e09ddbb2b21c9af6e7c3d164c"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-10T02:54:48.840713907+00:00"
@@ -471,6 +477,12 @@ recorded = "2026-10-16T18:09:10.756167488+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "9868e755946d3cb8e54db798754d81c1a37a0a9e"
+paths = ["docs/user/remote-access.md"]
+recorded = "2026-10-16T19:37:15.944707848+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "afeb55f13926a1fe6785cdfa9aa1bffa7457cb47"
 paths = ["docs/user/remote-access.md"]
 recorded = "2026-10-16T18:09:10.756167798+00:00"
@@ -486,6 +498,12 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "d4e01ba7855a2eb63e672ff5aa5a828b199aa511"
 paths = ["apps/server/src/config.ts"]
 recorded = "2026-10-16T18:09:10.756168610+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "4c369c7bb4af7e5b6fa6a35c48302b6514ebfb7a"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-10-16T19:54:44.187983666+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -510,6 +528,12 @@ entry = "t3code/main/pr-4420"
 hash = "9c7e1ec72f6188a585e418953af4281cab3c7f83"
 paths = ["apps/server/src/serverRuntimeState.ts"]
 recorded = "2026-10-03T02:04:49.862883572+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "d545545eceef6f1448e135c5aeaab8c6f17fea2e"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-16T19:54:44.187985610+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
