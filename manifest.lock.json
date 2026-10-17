@@ -18,6 +18,7 @@
       "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
       "t3code/main/mobile-tailscale-fleet": "c1dc6283eac9223846a03091db26d97c305023ea",
+      "t3code/main/pr-14101": "7a3ef543efd7758f5115542d075d657fdad4dbe4",
       "t3code/main/pr-4257": "7a49887c56738d7e20b1851f65e23c553788543e",
       "t3code/main/pr-4318": "65222808ec85cb0b6002b298d0c35eca24b648c3",
       "t3code/main/pr-4324": "98a15e54874677cc20898b8846a1a58b3b98d204",
@@ -46,15 +47,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-17T01:51:33.626993150+00:00",
+    "generated": "2026-10-17T01:58:04.394494255+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "7f6a1ea0f63837a372da242996561f95b1667ed9",
-    "pre_provenance_commit": "3f16cd89b826cfef7d0c382b3cb4f778961a2a2d",
-    "tree": "3a606147ed5b190c7c62e2e7c50ba818cb4e2ff0",
-    "built_tree": "4c98a343aa5bea8104e9db3cbc2adfc7339a7556",
-    "previous_tree": "5c2f8b0b1f49ecb8ad5b69fa5ef4c3dc525b4fa4",
+    "commit": "5e52e8e6d0bb4a38f078fcff7577f00fa637dc50",
+    "pre_provenance_commit": "624dbdc46cf10322088c0ab72ea1ea31c2f9ec19",
+    "tree": "af8f694dd23b10f855d49c97e321ab861473439c",
+    "built_tree": "869a469687b23cff677ccb9f0e144a5452277df4",
+    "previous_tree": "3a606147ed5b190c7c62e2e7c50ba818cb4e2ff0",
     "tree_changed": true,
-    "conflicts": 13,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -301,6 +302,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/usage-host-accounts",
         "pin": "135a7aa6498e2f03e9c7a2829a7c80502f5fd771"
+      },
+      {
+        "name": "t3code/main/pr-14101",
+        "kind": "branch",
+        "source": "fork:t3code/main/pr-14101",
+        "pin": "7a3ef543efd7758f5115542d075d657fdad4dbe4"
       }
     ],
     "results": [
@@ -560,6 +567,12 @@
       {
         "name": "t3code/main/usage-host-accounts",
         "oid": "135a7aa6498e2f03e9c7a2829a7c80502f5fd771",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/pr-14101",
+        "oid": "7a3ef543efd7758f5115542d075d657fdad4dbe4",
         "status": "merged",
         "conflicted": false
       }

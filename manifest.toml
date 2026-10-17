@@ -298,6 +298,14 @@ note = "PR pingdotgg/t3code#19793, adapted to the pinned upstream base. Disables
 [[entry]]
 branch = "fork:t3code/main/usage-host-accounts"
 
+# Settings shows Back at the top of its sidebar, above search and the section
+# list, instead of in the footer.
+[[entry]]
+branch = "fork:t3code/main/pr-14101"
+pr = 14101
+summary = "Settings Back button at the top of the sidebar"
+note = "Upstream PR by rubnogueira, rebased onto the pinned base, plus a test mock for usePullRequestsSupported."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
