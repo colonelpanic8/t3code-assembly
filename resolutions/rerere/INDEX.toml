@@ -459,6 +459,12 @@ recorded = "2026-10-16T18:09:10.756166906+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "67aaed29af7801323b0bfdb68c8533adf9834b63"
+paths = ["docs/user/remote-access.md"]
+recorded = "2026-10-17T01:51:31.395731545+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "70e10d8dbd416577d8bcf6f89ddaaf9b6379542a"
 paths = ["packages/client-runtime/src/connection/model.ts"]
 recorded = "2026-10-16T18:09:10.756167127+00:00"
@@ -468,18 +474,6 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "8ddf75ad4c4fef4b9c9d8322e3be92193560eb54"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-16T18:09:10.756167488+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-tailscale-fleet"
-hash = "9868e755946d3cb8e54db798754d81c1a37a0a9e"
-paths = ["docs/user/remote-access.md"]
-recorded = "2026-10-16T19:37:15.944707848+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-tailscale-fleet"
-hash = "afeb55f13926a1fe6785cdfa9aa1bffa7457cb47"
-paths = ["docs/user/remote-access.md"]
-recorded = "2026-10-16T18:09:10.756167798+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"

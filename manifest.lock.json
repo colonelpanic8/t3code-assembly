@@ -17,7 +17,7 @@
       "t3code/main/live-voice": "15d98a91564181dea6abcef03b9be2fc2b412d7a",
       "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
-      "t3code/main/mobile-tailscale-fleet": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
+      "t3code/main/mobile-tailscale-fleet": "c1dc6283eac9223846a03091db26d97c305023ea",
       "t3code/main/pr-4257": "7a49887c56738d7e20b1851f65e23c553788543e",
       "t3code/main/pr-4318": "65222808ec85cb0b6002b298d0c35eca24b648c3",
       "t3code/main/pr-4324": "98a15e54874677cc20898b8846a1a58b3b98d204",
@@ -46,15 +46,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-17T01:31:28.672404141+00:00",
+    "generated": "2026-10-17T01:51:33.626993150+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "b5932b880224b52595aebeee62475f7f5d078054",
-    "pre_provenance_commit": "48a0445c46d4f82102818be254744045670797d2",
-    "tree": "5c2f8b0b1f49ecb8ad5b69fa5ef4c3dc525b4fa4",
-    "built_tree": "0345842f5efc946235dc75f5d0e245cb82d112b4",
-    "previous_tree": "0e56873b1b26c6195a4808935c6f6c00b7774cac",
+    "commit": "7f6a1ea0f63837a372da242996561f95b1667ed9",
+    "pre_provenance_commit": "3f16cd89b826cfef7d0c382b3cb4f778961a2a2d",
+    "tree": "3a606147ed5b190c7c62e2e7c50ba818cb4e2ff0",
+    "built_tree": "4c98a343aa5bea8104e9db3cbc2adfc7339a7556",
+    "previous_tree": "5c2f8b0b1f49ecb8ad5b69fa5ef4c3dc525b4fa4",
     "tree_changed": true,
-    "conflicts": 0,
+    "conflicts": 13,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -244,7 +244,7 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
+        "pin": "c1dc6283eac9223846a03091db26d97c305023ea",
         "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {
@@ -384,7 +384,7 @@
         "oid": "6891e06188e9acf00f0c1ea7c991cffd3f92897c",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:c1258d6b9d1579fb2f5c641f7f117fdab2325211"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/pr-4437",
@@ -495,15 +495,15 @@
         "oid": "fb052b5eb1d3b8d151c838d62d157afa37c02cc4",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:e9c162f1a5751df73110315c898bc7718e31128d",
+        "resolution": "rerere",
         "fixup": "c457c10d282fa6fb6770cfbdccd5f5db733117cf"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "8c38dbcf8baa86dc1f78ee8a8c77183d7444d153",
+        "oid": "c1dc6283eac9223846a03091db26d97c305023ea",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere",
+        "resolution": "rerere:67aaed29af7801323b0bfdb68c8533adf9834b63",
         "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {
