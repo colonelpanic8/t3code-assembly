@@ -58,9 +58,9 @@ reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopW
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
-missing_count = 4
-missing_sha256 = "101712218d6a34e636d192f05be503c9dd26087f6dd43d8dd9e231517e1bc892"
-reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union. The other three lines are rewritten by t3code/main/mobile-tailscale-fleet, which is stacked on this pin and lacks them in its own tree: DesktopConnectionCatalogStore's managed-entry filter and ConnectionsSettings now use isManagedConnectionEntry so fleet-joined members also count as managed. The managed-connections path resolution is carried verbatim."
+missing_count = 1
+missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
+reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union."
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"

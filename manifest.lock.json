@@ -17,7 +17,7 @@
       "t3code/main/live-voice": "15d98a91564181dea6abcef03b9be2fc2b412d7a",
       "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
-      "t3code/main/mobile-tailscale-fleet": "c1dc6283eac9223846a03091db26d97c305023ea",
+      "t3code/main/mobile-tailscale-fleet": "b3668e484b2575493840f96422a2250cc970ea6e",
       "t3code/main/pr-14101": "7a3ef543efd7758f5115542d075d657fdad4dbe4",
       "t3code/main/pr-4257": "7a49887c56738d7e20b1851f65e23c553788543e",
       "t3code/main/pr-4318": "65222808ec85cb0b6002b298d0c35eca24b648c3",
@@ -47,15 +47,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-17T01:58:04.394494255+00:00",
+    "generated": "2026-10-17T09:15:07.106800236+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "5e52e8e6d0bb4a38f078fcff7577f00fa637dc50",
-    "pre_provenance_commit": "624dbdc46cf10322088c0ab72ea1ea31c2f9ec19",
-    "tree": "af8f694dd23b10f855d49c97e321ab861473439c",
-    "built_tree": "869a469687b23cff677ccb9f0e144a5452277df4",
-    "previous_tree": "3a606147ed5b190c7c62e2e7c50ba818cb4e2ff0",
+    "commit": "d141d2c6297c7689508da496ef5e50b1667d2a0e",
+    "pre_provenance_commit": "4d0c7d915ef7d9644b82ca2955e5544b190ea18b",
+    "tree": "6f50f7c5fdadaac5f1a29038551e57740d668c81",
+    "built_tree": "76c6fd1ef19f22cc9689c414cb59e741efe21e64",
+    "previous_tree": "af8f694dd23b10f855d49c97e321ab861473439c",
     "tree_changed": true,
-    "conflicts": 0,
+    "conflicts": 13,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -245,7 +245,7 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "c1dc6283eac9223846a03091db26d97c305023ea",
+        "pin": "b3668e484b2575493840f96422a2250cc970ea6e",
         "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {
@@ -507,10 +507,10 @@
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "c1dc6283eac9223846a03091db26d97c305023ea",
+        "oid": "b3668e484b2575493840f96422a2250cc970ea6e",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:67aaed29af7801323b0bfdb68c8533adf9834b63",
+        "resolution": "rerere:763f88b3849eb541dbf260adefc5de3bfdb9df8b,b238a6fe1795015669d1010ed54aea9fb53613f8",
         "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {

@@ -249,15 +249,14 @@ fixup = "patches/declarative-shared-settings-tests.patch"
 summary = "Nix-managed read-only settings, keybindings, and client settings layers"
 note = "T3CODE_MANAGED_{SETTINGS,KEYBINDINGS,CLIENT_SETTINGS}_FILE override user values, render as managed in the UI, and reject writes. Stacked on shared-server-settings: defaults < shared < settings.json < managed. The Home Manager options live in the pr-4699 entry."
 
-# Pairing one fleet member pairs them all: a member issues single-use handoffs
-# that the client redeems at each other member over Tailscale, so the shared
-# token never reaches the device. Clients add, update, and drop members as the
-# manifest changes.
+# One age-encrypted bundle carries a reusable enrollment credential for each
+# fleet host; the phone redeems each at its own host, so no host depends on
+# another and the bundle is the membership.
 [[entry]]
 branch = "fork:t3code/main/mobile-tailscale-fleet"
 fixup = "patches/mobile-fleet-token-resolution.patch"
-summary = "Enroll once, join the Nix-declared fleet over Tailscale"
-note = "Stacked on managed-fleet: import a public inventory or a reusable age-encrypted enrollment on mobile. Pairing one member enables single-use handoffs to the rest, with pending-member retries and fresh credentials after address changes or session rejection. The Home Manager fleetManifest option lives in the pr-4699 entry."
+summary = "Enroll a phone in every fleet host from one encrypted bundle"
+note = "Stacked on managed-fleet. `t3 auth enrollment export` writes one host's entry; a coordinator (dotfiles gen-gh-pages/t3code/mint-enrollment.sh) combines them. Mobile pairs every host concurrently with per-host results and retry. Fleet handoffs and server-advertised membership were removed. The Home Manager fleetManifest option (pr-4699) now only feeds the export."
 
 # Holding mod+shift pins keycap hints to each composer control (model, effort,
 # access, plan/build, host, workspace, branch). A Shortcut hints setting can

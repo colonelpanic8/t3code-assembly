@@ -471,9 +471,21 @@ recorded = "2026-10-16T18:09:10.756167127+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "763f88b3849eb541dbf260adefc5de3bfdb9df8b"
+paths = ["apps/server/src/config.ts"]
+recorded = "2026-10-17T09:15:05.171266409+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "8ddf75ad4c4fef4b9c9d8322e3be92193560eb54"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-16T18:09:10.756167488+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
+hash = "b238a6fe1795015669d1010ed54aea9fb53613f8"
+paths = ["docs/user/remote-access.md"]
+recorded = "2026-10-17T09:15:05.171268553+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
