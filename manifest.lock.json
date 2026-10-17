@@ -39,21 +39,22 @@
       "t3code/main/shared-server-settings": "6891e06188e9acf00f0c1ea7c991cffd3f92897c",
       "t3code/main/typecheck-fixes": "fe0d87b298849f3ddfcaea40834340cac7db01c8",
       "t3code/main/usage-breakdowns": "3e481e1b26c87324387b21fbd1574832b597ad74",
+      "t3code/main/usage-host-accounts": "135a7aa6498e2f03e9c7a2829a7c80502f5fd771",
       "t3code/main/usage-host-resilience": "88dfd1bba05492a200b7d385290532f4096d3716",
       "t3code/main/usage-scan-backoff": "d14885b844e56800201bc56259bb5789c3b70b6f",
       "t3code/main/usage-summary-cache": "69c54ec1119f54aee6fcbba27558ea734409a889"
     }
   },
   "build": {
-    "generated": "2026-10-16T20:38:16.748942497+00:00",
+    "generated": "2026-10-17T01:31:28.672404141+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "a3439fa874d068f938d85eb916c49baaae77d73f",
-    "pre_provenance_commit": "6e61a5636ba7dcf66e4b9e815960386bde9dc97c",
-    "tree": "0e56873b1b26c6195a4808935c6f6c00b7774cac",
-    "built_tree": "e720be1e795ce89ba07c8084a9262a7b2928e751",
-    "previous_tree": "2f4d6a8c223ef724c605b6c82f879b18f197768e",
+    "commit": "b5932b880224b52595aebeee62475f7f5d078054",
+    "pre_provenance_commit": "48a0445c46d4f82102818be254744045670797d2",
+    "tree": "5c2f8b0b1f49ecb8ad5b69fa5ef4c3dc525b4fa4",
+    "built_tree": "0345842f5efc946235dc75f5d0e245cb82d112b4",
+    "previous_tree": "0e56873b1b26c6195a4808935c6f6c00b7774cac",
     "tree_changed": true,
-    "conflicts": 13,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -294,6 +295,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/blank-slate-assembly",
         "pin": "25511420023174502dcdba1041d9cdb3e7b51327"
+      },
+      {
+        "name": "t3code/main/usage-host-accounts",
+        "kind": "branch",
+        "source": "fork:t3code/main/usage-host-accounts",
+        "pin": "135a7aa6498e2f03e9c7a2829a7c80502f5fd771"
       }
     ],
     "results": [
@@ -547,6 +554,12 @@
       {
         "name": "t3code/main/blank-slate-assembly",
         "oid": "25511420023174502dcdba1041d9cdb3e7b51327",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/usage-host-accounts",
+        "oid": "135a7aa6498e2f03e9c7a2829a7c80502f5fd771",
         "status": "merged",
         "conflicted": false
       }

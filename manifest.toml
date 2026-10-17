@@ -295,6 +295,9 @@ branch = "fork:t3code/main/blank-slate-assembly"
 summary = "Optional blank-slate threads without T3 runtime context"
 note = "PR pingdotgg/t3code#19793, adapted to the pinned upstream base. Disables user/project context where supported; Codex global instructions and user MCP remain. The upstream PR stays on t3code/main/blank-slate-threads."
 
+[[entry]]
+branch = "fork:t3code/main/usage-host-accounts"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

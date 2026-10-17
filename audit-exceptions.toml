@@ -73,3 +73,9 @@ entry = "t3code/main/usage-host-resilience"
 missing_count = 4
 missing_sha256 = "4730a8602868a04021b6c288dbcc1671a1d9938bbddd82e052b36044e9e97d66"
 reason = "usage-summary-cache's coherence fixup narrows the disconnected error to hosts without a summary and uses the existing phase local instead of presentation.connection.phase. Hosts with cached totals remain stale while connecting/reconnecting and report last-reported usage once offline; unanswered disconnected hosts still report unavailable. The cached-reconnect test is renamed and its assertion now requires error: null alongside the preserved summary; all other resilience behavior remains carried."
+
+[[exception]]
+entry = "t3code/main/usage-breakdowns"
+missing_count = 6
+missing_sha256 = "351b2cda8b9dc9490fe0432b008a7e8d7203fc69092e01dfc998a90d8816126c"
+reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/account, expands merged entries to retain source attribution, and extends duplicate series-name disambiguation from models to accounts. The saved-view test now round-trips host/account alongside existing dimensions. These replace six original lines while retaining the original dimensions, contribution buckets, label behavior, and preference persistence."
