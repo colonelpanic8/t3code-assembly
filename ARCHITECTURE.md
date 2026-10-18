@@ -80,9 +80,11 @@ BUILDING.md                   authoritative maintenance and landing procedure
 justfile                      common build and verification commands
 ```
 
-The assembled tree contains the legacy-named `stack-build-info.json` because
-the carried application code consumes that filename. It is build provenance,
-not the name of this repository or workflow.
+The assembled tree contains the legacy-named `stack-build-info.json` as build
+provenance; it is not the name of this repository or workflow. No carried
+application code reads it since the move to `main` dropped the
+`local/build-provenance` topic; the app's version string carries the build
+commit through the Nix packaging instead.
 
 ## Agent skill
 

@@ -305,6 +305,28 @@ pr = 14101
 summary = "Settings Back button at the top of the sidebar"
 note = "Upstream PR by rubnogueira, rebased onto the pinned base, plus a test mock for usePullRequestsSupported."
 
+# Clicking a project icon, or its placeholder, revalidates the server's cached
+# favicon lookup and refreshes the icon everywhere it is shown, so a newly
+# added or replaced icon file appears without reloading.
+[[entry]]
+branch = "fork:t3code/main/favicon-refresh-on-click"
+summary = "Refresh a project icon when it is clicked"
+note = "Re-port of the closed #4337 onto main's rewritten ProjectFavicon; upstream declined it as undiscoverable, so it is carried without a PR."
+
+# Answered questions stay visible as their own timeline rows instead of being
+# folded into "Worked for" or merged into tool groups once a turn settles.
+[[entry]]
+branch = "fork:t3code/main/keep-answered-questions-visible"
+pr = 21086
+summary = "Keep answered questions visible after a turn settles"
+
+# Codex image generations append their saved images to the turn's final reply,
+# so generated images show in chat.
+[[entry]]
+pr = 19066
+summary = "Codex generated images show in chat"
+note = "External (shivamhwp)."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
@@ -331,7 +353,7 @@ reason = "Its command-palette empty-state behavior is already present in the cli
 
 [[exclude]]
 pr = 4337
-reason = "Superseded by the current upstream project-icon implementation on main."
+reason = "Closed upstream; re-ported onto main's ProjectFavicon as fork:t3code/main/favicon-refresh-on-click."
 
 [[exclude]]
 pr = 4401

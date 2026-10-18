@@ -3,6 +3,7 @@
   "pins": {
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
     "entries": {
+      "pr-19066": "fce32b652e97edb517687a093a401d08e542a619",
       "t3code/main/blank-slate-assembly": "25511420023174502dcdba1041d9cdb3e7b51327",
       "t3code/main/claude-subagent-output-tokens": "a7061db4a5c90b20a412eec301fd7e159617bc96",
       "t3code/main/client-environment-suite": "1157a38ed281250ca5d557c2c35cd125e15a2b6b",
@@ -13,7 +14,9 @@
       "t3code/main/desktop-clerk-startup": "d1fbe1e7cfa7c14fdd2309e9329d64ca4807e853",
       "t3code/main/desktop-client-location": "a3333355c64c858bad82463869bbfc6d3854d47d",
       "t3code/main/desktop-window-state": "e50ec6d356f594404bd9167c2dd3f710fae06304",
+      "t3code/main/favicon-refresh-on-click": "9caecc7e7b2bd3ec65a02a83ecdee99ed7f6789e",
       "t3code/main/fdroid-distribution": "751904a07e603030b0006f5eaa942433e34164fa",
+      "t3code/main/keep-answered-questions-visible": "61ae430e7626ec244692a19b90d234329b942958",
       "t3code/main/live-voice": "15d98a91564181dea6abcef03b9be2fc2b412d7a",
       "t3code/main/managed-fleet": "337d83e41419b81fef78dad8b5db441a196fe1fd",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
@@ -47,15 +50,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-17T21:29:47.594122799+00:00",
+    "generated": "2026-10-18T04:09:54.477745817+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "f107d5caf12d26f42dc34181d8aee742e7cdf5b1",
-    "pre_provenance_commit": "6684de464ca5d58bd0efb2d8737a22c7ff9cdf7c",
-    "tree": "5886b7a9e4f2c26d904f4173b4c1272f1c40245f",
-    "built_tree": "64007aac6b00edb30fb1aa059b4e787fd2c79281",
-    "previous_tree": "6f50f7c5fdadaac5f1a29038551e57740d668c81",
+    "commit": "155b1b1076ab5805b76ed00d7291b5d12663ec5b",
+    "pre_provenance_commit": "12321ef1ea48cd07fc77f94e6d4b26e1933da023",
+    "tree": "779b8cf1843b0ec922464a7b233c3e928baf3f3b",
+    "built_tree": "654b5b3f2a347ab9f02c35e257d11bef1447b177",
+    "previous_tree": "5886b7a9e4f2c26d904f4173b4c1272f1c40245f",
     "tree_changed": true,
-    "conflicts": 13,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -308,6 +311,24 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-14101",
         "pin": "7a3ef543efd7758f5115542d075d657fdad4dbe4"
+      },
+      {
+        "name": "t3code/main/favicon-refresh-on-click",
+        "kind": "branch",
+        "source": "fork:t3code/main/favicon-refresh-on-click",
+        "pin": "9caecc7e7b2bd3ec65a02a83ecdee99ed7f6789e"
+      },
+      {
+        "name": "t3code/main/keep-answered-questions-visible",
+        "kind": "branch",
+        "source": "fork:t3code/main/keep-answered-questions-visible",
+        "pin": "61ae430e7626ec244692a19b90d234329b942958"
+      },
+      {
+        "name": "pr-19066",
+        "kind": "pr",
+        "source": "upstream#19066",
+        "pin": "fce32b652e97edb517687a093a401d08e542a619"
       }
     ],
     "results": [
@@ -573,6 +594,24 @@
       {
         "name": "t3code/main/pr-14101",
         "oid": "7a3ef543efd7758f5115542d075d657fdad4dbe4",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/favicon-refresh-on-click",
+        "oid": "9caecc7e7b2bd3ec65a02a83ecdee99ed7f6789e",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/keep-answered-questions-visible",
+        "oid": "61ae430e7626ec244692a19b90d234329b942958",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "pr-19066",
+        "oid": "fce32b652e97edb517687a093a401d08e542a619",
         "status": "merged",
         "conflicted": false
       }
