@@ -15,7 +15,7 @@
       "t3code/main/desktop-window-state": "e50ec6d356f594404bd9167c2dd3f710fae06304",
       "t3code/main/fdroid-distribution": "751904a07e603030b0006f5eaa942433e34164fa",
       "t3code/main/live-voice": "15d98a91564181dea6abcef03b9be2fc2b412d7a",
-      "t3code/main/managed-fleet": "7aa191b951c94cd490b706e6158b2db263defa15",
+      "t3code/main/managed-fleet": "337d83e41419b81fef78dad8b5db441a196fe1fd",
       "t3code/main/migration-schema-repair": "ef14408f31730e00b27703dac0f8112c9eaf9137",
       "t3code/main/mobile-tailscale-fleet": "b3668e484b2575493840f96422a2250cc970ea6e",
       "t3code/main/pr-14101": "7a3ef543efd7758f5115542d075d657fdad4dbe4",
@@ -47,13 +47,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-17T09:15:07.106800236+00:00",
+    "generated": "2026-10-17T21:29:47.594122799+00:00",
     "base": "3b99fb2d2114f57c96bf92e4ed1c7ce5eaa67b1e",
-    "commit": "d141d2c6297c7689508da496ef5e50b1667d2a0e",
-    "pre_provenance_commit": "4d0c7d915ef7d9644b82ca2955e5544b190ea18b",
-    "tree": "6f50f7c5fdadaac5f1a29038551e57740d668c81",
-    "built_tree": "76c6fd1ef19f22cc9689c414cb59e741efe21e64",
-    "previous_tree": "af8f694dd23b10f855d49c97e321ab861473439c",
+    "commit": "f107d5caf12d26f42dc34181d8aee742e7cdf5b1",
+    "pre_provenance_commit": "6684de464ca5d58bd0efb2d8737a22c7ff9cdf7c",
+    "tree": "5886b7a9e4f2c26d904f4173b4c1272f1c40245f",
+    "built_tree": "64007aac6b00edb30fb1aa059b4e787fd2c79281",
+    "previous_tree": "6f50f7c5fdadaac5f1a29038551e57740d668c81",
     "tree_changed": true,
     "conflicts": 13,
     "manifest_entries": [
@@ -159,7 +159,7 @@
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "7aa191b951c94cd490b706e6158b2db263defa15"
+        "pin": "337d83e41419b81fef78dad8b5db441a196fe1fd"
       },
       {
         "name": "t3code/main/desktop-clerk-startup",
@@ -417,7 +417,7 @@
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "7aa191b951c94cd490b706e6158b2db263defa15",
+        "oid": "337d83e41419b81fef78dad8b5db441a196fe1fd",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
@@ -510,7 +510,7 @@
         "oid": "b3668e484b2575493840f96422a2250cc970ea6e",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:763f88b3849eb541dbf260adefc5de3bfdb9df8b,b238a6fe1795015669d1010ed54aea9fb53613f8",
+        "resolution": "rerere:0e71a562f9486dcf0d6b48faa7771ba5ecdf65ec,7bc123a69fc6a3d42fb7465120cdb6710b9450f3,d01f4c886ad2905f07c241405e79dfe16eedfdb0",
         "fixup": "77b2b04ec5e82be47f1bc54a6d163b13d52dca0f"
       },
       {

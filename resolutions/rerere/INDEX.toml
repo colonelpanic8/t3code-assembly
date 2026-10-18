@@ -429,6 +429,12 @@ recorded = "2026-10-10T03:20:50.331445048+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "0e71a562f9486dcf0d6b48faa7771ba5ecdf65ec"
+paths = ["apps/desktop/src/app/DesktopConnectionCatalogStore.ts"]
+recorded = "2026-10-17T21:29:45.386983097+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "1c07a529325527291029c4ff17a379946b81b329"
 paths = ["apps/desktop/src/app/DesktopConnectionCatalogStore.ts"]
 recorded = "2026-10-16T18:09:10.756164091+00:00"
@@ -477,6 +483,12 @@ recorded = "2026-10-17T09:15:05.171266409+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "7bc123a69fc6a3d42fb7465120cdb6710b9450f3"
+paths = ["docs/user/remote-access.md"]
+recorded = "2026-10-17T21:29:45.386985271+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "8ddf75ad4c4fef4b9c9d8322e3be92193560eb54"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-16T18:09:10.756167488+00:00"
@@ -492,6 +504,12 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "c8ffac71bc681b053ed5fc99f48c3770fbc3840c"
 paths = ["apps/web/src/components/settings/ConnectionsSettings.tsx"]
 recorded = "2026-10-16T18:09:10.756168309+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
+hash = "d01f4c886ad2905f07c241405e79dfe16eedfdb0"
+paths = ["apps/desktop/src/app/DesktopConnectionCatalogStore.test.ts"]
+recorded = "2026-10-17T21:29:45.386985722+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"

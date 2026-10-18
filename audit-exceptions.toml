@@ -64,9 +64,9 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
+missing_count = 2
+missing_sha256 = "a6080009e5688333819469f1eb5bbf2b10f986e3dc72c125620588e8456ba864"
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union; and registerManagedConnections' `return registerConnectionInCatalog(`, which managed-fleet's current pin binds to `registered` so the declared enabled state can be applied on top."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
