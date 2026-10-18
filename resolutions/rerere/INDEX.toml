@@ -273,6 +273,12 @@ recorded = "2026-10-15T04:33:57.078321787+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "26aa57990246fbdd0e4c95c5d83c02780064bb9d"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-10-18T17:28:18.076906160+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "4259134df5342da540e3d0ea356bb490c03eca02"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-15T08:31:23.633997300+00:00"
