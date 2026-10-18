@@ -325,6 +325,13 @@ pr = 19066
 summary = "Codex generated images show in chat"
 note = "External (shivamhwp)."
 
+# Semver comparisons ignore build metadata. The Nix flake versions assembled
+# builds as an upstream nightly plus "+<distance>.g<upstream>.assembly.<commit>",
+# and the client's version-skew check would otherwise order hosts by commit hash.
+[[entry]]
+branch = "fork:t3code/main/semver-build-metadata"
+summary = "Ignore build metadata when comparing versions"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

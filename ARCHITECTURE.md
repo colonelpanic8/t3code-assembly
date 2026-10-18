@@ -83,8 +83,11 @@ justfile                      common build and verification commands
 The assembled tree contains the legacy-named `stack-build-info.json` as build
 provenance; it is not the name of this repository or workflow. No carried
 application code reads it since the move to `main` dropped the
-`local/build-provenance` topic; the app's version string carries the build
-commit through the Nix packaging instead.
+`local/build-provenance` topic. The Nix packaging reads its upstream `tag` and
+`distance` to version the build as
+`<upstream nightly>+<distance>.g<upstream commit>.assembly.<assembled commit>`;
+`t3code/main/semver-build-metadata` keeps that metadata out of version
+comparisons.
 
 ## Agent skill
 
