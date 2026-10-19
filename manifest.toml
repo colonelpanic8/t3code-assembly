@@ -343,6 +343,14 @@ branch = "fork:t3code/main/pr-list-hidden-repositories"
 pr = 21601
 summary = "Hide chosen repositories from the pull request list"
 
+# The phone tracks a settings feed: an https file, plain or age-encrypted to
+# the fleet enrollment key, whose preferences override the phone's own and
+# lock their rows. Dotfiles publishes settings.age next to fleet.age.
+[[entry]]
+branch = "fork:t3code/main/mobile-settings-feed"
+summary = "Phone settings from an external settings feed"
+note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

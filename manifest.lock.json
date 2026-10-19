@@ -21,6 +21,7 @@
       "t3code/main/live-voice": "cad97ba20c8996ff3cbf23a23a7ca3bfb9da03b3",
       "t3code/main/managed-fleet": "67b02870d93fbf49526b03701b72ef55570f7241",
       "t3code/main/migration-schema-repair": "e091a517b81f6172b2076de64a35c627b58b3f7a",
+      "t3code/main/mobile-settings-feed": "ec6bb097497e4e12370a9f673018de73a03b000f",
       "t3code/main/mobile-tailscale-fleet": "15ccfa252d9f01a0d35bfae258ee44c482e7f978",
       "t3code/main/pr-14101": "e694d6280193d9c2f451e32d7c87b5b17373b659",
       "t3code/main/pr-4257": "c4ae45c8ec9b664a904a026531dcd4ce756b8217",
@@ -53,15 +54,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T10:26:19.180518818+00:00",
+    "generated": "2026-10-19T11:05:18.489498484+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "1e5d528c7775955262b9f5e357b19d6ac2428bb0",
-    "pre_provenance_commit": "1ef6976efb4f0dad30c5387e7631f4f5a7a90e8c",
-    "tree": "686403b6c5ef3daebc35f1dbf6b0f95a1ac5de8e",
-    "built_tree": "cdc141069d55c19e19c5bf434ba1049f7fd55e16",
-    "previous_tree": "8ef75fcc4d3377399aab787bf4d815ed50c6082d",
+    "commit": "f99f7b480270f853da604c39100f7e11366e8603",
+    "pre_provenance_commit": "5496ef39a900603cfd3db2bfe94900ae3b2ebb79",
+    "tree": "b8f20052a7de51211354557ce881b3aee7919338",
+    "built_tree": "530038beabc687a15066a16723fd2ab9ef3067a6",
+    "previous_tree": "686403b6c5ef3daebc35f1dbf6b0f95a1ac5de8e",
     "tree_changed": true,
-    "conflicts": 11,
+    "conflicts": 12,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -348,6 +349,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-list-hidden-repositories",
         "pin": "baab3c5032923a8fad588b7fefdec4af36931359"
+      },
+      {
+        "name": "t3code/main/mobile-settings-feed",
+        "kind": "branch",
+        "source": "fork:t3code/main/mobile-settings-feed",
+        "pin": "ec6bb097497e4e12370a9f673018de73a03b000f"
       }
     ],
     "results": [
@@ -647,6 +654,13 @@
         "oid": "baab3c5032923a8fad588b7fefdec4af36931359",
         "status": "merged",
         "conflicted": false
+      },
+      {
+        "name": "t3code/main/mobile-settings-feed",
+        "oid": "ec6bb097497e4e12370a9f673018de73a03b000f",
+        "status": "merged",
+        "conflicted": true,
+        "resolution": "rerere:c4ccce86e9d8879f20906d75ebb9960e69be3280"
       }
     ]
   }

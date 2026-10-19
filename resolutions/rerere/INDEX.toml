@@ -428,6 +428,12 @@ paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-03T02:04:17.700509322+00:00"
 
 [[resolution]]
+entry = "t3code/main/mobile-settings-feed"
+hash = "c4ccce86e9d8879f20906d75ebb9960e69be3280"
+paths = ["apps/mobile/src/App.tsx"]
+recorded = "2026-10-19T11:05:18.377740670+00:00"
+
+[[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
 hash = "0d3bbe2e287914fcf5d0aac93124b83d7f9d8318"
 paths = ["packages/contracts/src/server.ts"]
