@@ -1,11 +1,11 @@
 {
   "version": 1,
   "pins": {
-    "base": "ab6be13d438abeace7617e8d789d59cf2e880f42",
+    "base": "1451e7cb23034d29774338608368a15d8845df36",
     "entries": {
       "pr-19066": "fce32b652e97edb517687a093a401d08e542a619",
       "t3code/main/android-intents": "4fb95550b087a56aaedaba57f65dd0b783dde1ec",
-      "t3code/main/blank-slate-assembly": "8197a59bdb4bcfdfdc884314fafbe7eef38bbd54",
+      "t3code/main/blank-slate-assembly": "55d853831edbb31cfbe18176f48ab36e750af31b",
       "t3code/main/claude-subagent-output-tokens": "f633b7edc6e17304869593b3e843cdac2552f524",
       "t3code/main/client-environment-suite": "c0de03ed45fa9964085646899f3bd4e778e3095a",
       "t3code/main/client-storage-separation": "f51b6ecc17cc0e21ee2ccbe4af7d99264f039a5a",
@@ -52,13 +52,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T03:59:45.282247533+00:00",
-    "base": "ab6be13d438abeace7617e8d789d59cf2e880f42",
-    "commit": "83237280d10a3bebaa3aa1d2bc4b7e685db430cb",
-    "pre_provenance_commit": "4e16cc8c9a8363a3b3a1f6e89f152504d8638c2a",
-    "tree": "ea06af22be45d1f08f55463b3367ce5d4b556cbe",
-    "built_tree": "dd3ddf3f3472acda487d5a15f2ad4a1d9de1f4e0",
-    "previous_tree": "943dec28a9972291028e01d9e1ae9b2a5dfac34a",
+    "generated": "2026-10-19T08:38:18.555340045+00:00",
+    "base": "1451e7cb23034d29774338608368a15d8845df36",
+    "commit": "e7f79b5b407954ac02985fa1a63fc9aaf8be5dd0",
+    "pre_provenance_commit": "fb3cbfb303e2da81618490f3188ebc53f3257208",
+    "tree": "e760fa6539e8640ae121bfe3fc8a0c29aef07488",
+    "built_tree": "10e9c37e91c3c4e30cab095845200691d4695401",
+    "previous_tree": "ea06af22be45d1f08f55463b3367ce5d4b556cbe",
     "tree_changed": true,
     "conflicts": 11,
     "manifest_entries": [
@@ -298,7 +298,7 @@
         "name": "t3code/main/blank-slate-assembly",
         "kind": "branch",
         "source": "fork:t3code/main/blank-slate-assembly",
-        "pin": "8197a59bdb4bcfdfdc884314fafbe7eef38bbd54"
+        "pin": "55d853831edbb31cfbe18176f48ab36e750af31b"
       },
       {
         "name": "t3code/main/usage-host-accounts",
@@ -589,7 +589,7 @@
       },
       {
         "name": "t3code/main/blank-slate-assembly",
-        "oid": "8197a59bdb4bcfdfdc884314fafbe7eef38bbd54",
+        "oid": "55d853831edbb31cfbe18176f48ab36e750af31b",
         "status": "merged",
         "conflicted": false
       },
