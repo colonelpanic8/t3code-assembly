@@ -41,6 +41,7 @@
       "t3code/main/pr-4701": "ab59f97e5cd8326b91bcece9025d274860b06137",
       "t3code/main/pr-6507": "1498c5fdb238153a8ec0578416b21ebc7c5ee6a4",
       "t3code/main/pr-list-hidden-repositories": "baab3c5032923a8fad588b7fefdec4af36931359",
+      "t3code/main/scoped-environment-keys-integration": "d94ea73eab2ea6d52fe371de66224cabeb997c09",
       "t3code/main/semver-build-metadata": "3b429cb9527dfb6eeb6e83421629f175b746280a",
       "t3code/main/server-config-file": "010dfee40596a7a51f26c90501cf0c802737e5e2",
       "t3code/main/server-location-overrides": "c76c184e21d72d6ef84f1d9d1ec10e665aa0dfa2",
@@ -54,15 +55,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T11:05:18.489498484+00:00",
+    "generated": "2026-10-19T19:57:07.141792324+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "f99f7b480270f853da604c39100f7e11366e8603",
-    "pre_provenance_commit": "5496ef39a900603cfd3db2bfe94900ae3b2ebb79",
-    "tree": "b8f20052a7de51211354557ce881b3aee7919338",
-    "built_tree": "530038beabc687a15066a16723fd2ab9ef3067a6",
-    "previous_tree": "686403b6c5ef3daebc35f1dbf6b0f95a1ac5de8e",
+    "commit": "36d5830a0389d65e4f98c678673b445bce28959b",
+    "pre_provenance_commit": "108f30e0ff2edd4a1aac2e91cb82032319dd3ffa",
+    "tree": "e3b8effd842dd88d84d42068aab7a8791a03bd21",
+    "built_tree": "c41c08beaf66fd9c9f60a8bd18937b21c7a38d84",
+    "previous_tree": "b8f20052a7de51211354557ce881b3aee7919338",
     "tree_changed": true,
-    "conflicts": 12,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -355,6 +356,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-settings-feed",
         "pin": "ec6bb097497e4e12370a9f673018de73a03b000f"
+      },
+      {
+        "name": "t3code/main/scoped-environment-keys-integration",
+        "kind": "branch",
+        "source": "fork:t3code/main/scoped-environment-keys-integration",
+        "pin": "d94ea73eab2ea6d52fe371de66224cabeb997c09"
       }
     ],
     "results": [
@@ -661,6 +668,12 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere:c4ccce86e9d8879f20906d75ebb9960e69be3280"
+      },
+      {
+        "name": "t3code/main/scoped-environment-keys-integration",
+        "oid": "d94ea73eab2ea6d52fe371de66224cabeb997c09",
+        "status": "merged",
+        "conflicted": false
       }
     ]
   }
