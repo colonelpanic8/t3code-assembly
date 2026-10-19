@@ -14,8 +14,18 @@ driven by `manifest.toml` and `manifest.lock.json`.
   them.
 - Builds may use only the tracked pairs under `resolutions/rerere/`; never
   enable persistent rerere or seed a build from ambient state.
-- Never publish a build that has not passed the five-step verification ladder
-  below.
+- Release eagerly. This assembly serves only its owner, who prefers a fast
+  release over a fully validated one and tolerates the occasional bad build.
+  Once `fork-assembler build` completes, land it, then run the verification
+  ladder and test suites and fix anything they find in a follow-up rebuild.
+
+## Order of work
+
+1. Update and build; resolve any conflicts.
+2. Run the syntax gate.
+3. Land the build (below).
+4. Run the five-step verification ladder and the test suites.
+5. If anything fails, fix it where it lives and land a fresh rebuild.
 
 ## Inspecting and changing the stack
 
@@ -73,7 +83,7 @@ Do not discard the worktree or pretend the build is complete.
 
 ## Syntax gate
 
-Before the verification ladder:
+Before landing:
 
 ```sh
 nix develop -c fork-assembler status
@@ -84,7 +94,7 @@ git diff --check
 
 ## Five-step verification ladder
 
-Run these in order and stop on the first failure:
+Run these in order after landing; stop at the first failure and fix forward:
 
 1. `just locked` — clean rebuild from the pins and tracked pairs; the tree
    must equal `manifest.lock.json` exactly.
@@ -98,9 +108,20 @@ Run these in order and stop on the first failure:
    `.build.built_tree` and the pre-provenance tree with `.build.tree` in the
    lock.
 
+## Test suites
+
+Compare the assembled tree with its exact upstream base, not against a clean
+run: on this machine several suites fail on upstream too (missing
+`pkg-config`, no headless Chromium, the Electron binary not downloaded, timing
+flakes). Run every package's `test` script in a worktree of each tree with
+`T3CODE_*` variables unset, and supply Electron with
+`ELECTRON_OVERRIDE_DIST_PATH=$(nix build --no-link --print-out-paths nixpkgs#electron)/libexec/electron`.
+Only failures absent from the upstream run belong to the assembly; fix them
+in the topic branch that owns the code.
+
 ## Landing a rebuild
 
-After the ladder passes:
+As soon as the build and syntax gate pass:
 
 1. Read `.build.commit` from `manifest.lock.json`.
 2. Push that exact commit to `fork/t3code/assembled`.
@@ -115,11 +136,13 @@ After the ladder passes:
    nix build .#nixosConfigurations.ryzen-shine.pkgs.t3code
    ```
 
-6. Activate only with `just switch` from `/srv/dotfiles/nixos`.
-7. Commit the assembly’s manifest, lock, tracked pairs, patches, docs, and
+6. Commit the assembly’s manifest, lock, tracked pairs, patches, docs, and
    submodule pin together using explicit paths.
-8. Commit the dotfiles flake pin and lock with explicit paths, preserving
+7. Commit the dotfiles flake pin and lock with explicit paths, preserving
    unrelated local changes and staged files.
+8. Activate only with `just switch` from `/srv/dotfiles/nixos`. It restarts
+   `t3code-headless.service`, which can end the session running it, so commit
+   first.
 
 The generated commits retain real timestamps, so commit IDs can differ between
 rebuilds. Tree hashes are the reproducibility invariant.
