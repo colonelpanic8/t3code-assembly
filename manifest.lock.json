@@ -4,7 +4,7 @@
     "base": "1451e7cb23034d29774338608368a15d8845df36",
     "entries": {
       "pr-19066": "fce32b652e97edb517687a093a401d08e542a619",
-      "t3code/main/android-intents": "4fb95550b087a56aaedaba57f65dd0b783dde1ec",
+      "t3code/main/android-intents": "da912ba7020a429e63face576eaac9994b6d0b53",
       "t3code/main/blank-slate-assembly": "55d853831edbb31cfbe18176f48ab36e750af31b",
       "t3code/main/claude-subagent-output-tokens": "f633b7edc6e17304869593b3e843cdac2552f524",
       "t3code/main/client-environment-suite": "c0de03ed45fa9964085646899f3bd4e778e3095a",
@@ -15,7 +15,7 @@
       "t3code/main/desktop-clerk-startup": "703d11de9c989cca452492a2ea1cd60eaacaed2d",
       "t3code/main/desktop-client-location": "70d8455fc5b566ebc10261c61045664911c3575c",
       "t3code/main/desktop-window-state": "a6903783f3fe4c1ed5c001d0f55105d6aabc8624",
-      "t3code/main/eva-extension": "39e49924334b8da8b7fe6f6d0395193f4847679d",
+      "t3code/main/eva-extension": "daf3870062246571cd9be4085842989b72d83c7a",
       "t3code/main/favicon-refresh-on-click": "ab3f626b31b444430cbdd21a62bf996c011f663e",
       "t3code/main/fdroid-distribution": "2143cb8672870e3c377246e49f4000038e81b088",
       "t3code/main/live-voice": "cad97ba20c8996ff3cbf23a23a7ca3bfb9da03b3",
@@ -53,13 +53,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T09:49:34.475253227+00:00",
+    "generated": "2026-10-19T10:17:50.855527234+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "833ee22b2e7775960ac891d92d9d410e8ae7ae66",
-    "pre_provenance_commit": "85141cd65938f305de1690c3d214e7073e728db6",
-    "tree": "5baa206e5fbd8c5ed362b9df755d08b479a7575c",
-    "built_tree": "dc5b5f484c801f73afbb3f1664fd1f49da407920",
-    "previous_tree": "f52528db64cf690eb594670d1204e5e1626fd9e0",
+    "commit": "a7b2b7b92bf74df46dd1ff05f4e1f9438ad66277",
+    "pre_provenance_commit": "82e933ddd27d2a43d56f42703663999f48dc9989",
+    "tree": "8ef75fcc4d3377399aab787bf4d815ed50c6082d",
+    "built_tree": "43e0e0c47e7111f4f6763c9fc6055cb65e531db7",
+    "previous_tree": "5baa206e5fbd8c5ed362b9df755d08b479a7575c",
     "tree_changed": true,
     "conflicts": 11,
     "manifest_entries": [
@@ -335,13 +335,13 @@
         "name": "t3code/main/android-intents",
         "kind": "branch",
         "source": "fork:t3code/main/android-intents",
-        "pin": "4fb95550b087a56aaedaba57f65dd0b783dde1ec"
+        "pin": "da912ba7020a429e63face576eaac9994b6d0b53"
       },
       {
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "39e49924334b8da8b7fe6f6d0395193f4847679d"
+        "pin": "daf3870062246571cd9be4085842989b72d83c7a"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -632,13 +632,13 @@
       },
       {
         "name": "t3code/main/android-intents",
-        "oid": "4fb95550b087a56aaedaba57f65dd0b783dde1ec",
+        "oid": "da912ba7020a429e63face576eaac9994b6d0b53",
         "status": "merged",
         "conflicted": false
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "39e49924334b8da8b7fe6f6d0395193f4847679d",
+        "oid": "daf3870062246571cd9be4085842989b72d83c7a",
         "status": "merged",
         "conflicted": false
       },
