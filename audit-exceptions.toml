@@ -79,3 +79,9 @@ entry = "t3code/main/usage-breakdowns"
 missing_count = 6
 missing_sha256 = "351b2cda8b9dc9490fe0432b008a7e8d7203fc69092e01dfc998a90d8816126c"
 reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/account, expands merged entries to retain source attribution, and extends duplicate series-name disambiguation from models to accounts. The saved-view test now round-trips host/account alongside existing dimensions. These replace six original lines while retaining the original dimensions, contribution buckets, label behavior, and preference persistence."
+
+[[exception]]
+entry = "t3code/main/mobile-settings-feed"
+missing_count = 1
+missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
+reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
