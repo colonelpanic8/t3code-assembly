@@ -36,10 +36,10 @@
       "t3code/main/pr-4484": "35d42518fe27a47a9be002f3196ef8425b5749a4",
       "t3code/main/pr-4593": "6c7a2447bd07c796a66ebe02ac1772b911ebfb59",
       "t3code/main/pr-4602": "166b37c56ff8b218d408eb0c77320fc6d7e56282",
-      "t3code/main/pr-4699": "f3d6a8936b8ce1d00422b73fc8e6a54dc1117c15",
+      "t3code/main/pr-4699": "40bf53783852146fd950c3805f4e80e82f138e79",
       "t3code/main/pr-4701": "ab59f97e5cd8326b91bcece9025d274860b06137",
       "t3code/main/pr-6507": "1498c5fdb238153a8ec0578416b21ebc7c5ee6a4",
-      "t3code/main/semver-build-metadata": "6a99d661de5157cff68bf55ed9e8f6c5eeab7109",
+      "t3code/main/semver-build-metadata": "3b429cb9527dfb6eeb6e83421629f175b746280a",
       "t3code/main/server-config-file": "010dfee40596a7a51f26c90501cf0c802737e5e2",
       "t3code/main/server-location-overrides": "c76c184e21d72d6ef84f1d9d1ec10e665aa0dfa2",
       "t3code/main/shared-server-settings": "db0ccc7a2cd84520342c6477889db5989f4ad8da",
@@ -52,13 +52,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T08:38:18.555340045+00:00",
+    "generated": "2026-10-19T09:08:13.141933421+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "e7f79b5b407954ac02985fa1a63fc9aaf8be5dd0",
-    "pre_provenance_commit": "fb3cbfb303e2da81618490f3188ebc53f3257208",
-    "tree": "e760fa6539e8640ae121bfe3fc8a0c29aef07488",
-    "built_tree": "10e9c37e91c3c4e30cab095845200691d4695401",
-    "previous_tree": "ea06af22be45d1f08f55463b3367ce5d4b556cbe",
+    "commit": "58d7c3ca73b92f45937078107a4ddee949926146",
+    "pre_provenance_commit": "40e5d418e607eb70bc88e3edbfc82db7b1618bb1",
+    "tree": "5f24ca02a5cfdc67f606c8e1fda971d264a95bf3",
+    "built_tree": "5cdf7c987689e9c5d510329080e33db4cc5866e1",
+    "previous_tree": "e760fa6539e8640ae121bfe3fc8a0c29aef07488",
     "tree_changed": true,
     "conflicts": 11,
     "manifest_entries": [
@@ -182,7 +182,7 @@
         "name": "t3code/main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4699",
-        "pin": "f3d6a8936b8ce1d00422b73fc8e6a54dc1117c15"
+        "pin": "40bf53783852146fd950c3805f4e80e82f138e79"
       },
       {
         "name": "t3code/main/live-voice",
@@ -328,7 +328,7 @@
         "name": "t3code/main/semver-build-metadata",
         "kind": "branch",
         "source": "fork:t3code/main/semver-build-metadata",
-        "pin": "6a99d661de5157cff68bf55ed9e8f6c5eeab7109"
+        "pin": "3b429cb9527dfb6eeb6e83421629f175b746280a"
       },
       {
         "name": "t3code/main/android-intents",
@@ -467,7 +467,7 @@
       },
       {
         "name": "t3code/main/pr-4699",
-        "oid": "f3d6a8936b8ce1d00422b73fc8e6a54dc1117c15",
+        "oid": "40bf53783852146fd950c3805f4e80e82f138e79",
         "status": "merged",
         "conflicted": false
       },
@@ -619,7 +619,7 @@
       },
       {
         "name": "t3code/main/semver-build-metadata",
-        "oid": "6a99d661de5157cff68bf55ed9e8f6c5eeab7109",
+        "oid": "3b429cb9527dfb6eeb6e83421629f175b746280a",
         "status": "merged",
         "conflicted": false
       },

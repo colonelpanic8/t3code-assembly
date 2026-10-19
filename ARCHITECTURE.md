@@ -85,9 +85,11 @@ provenance; it is not the name of this repository or workflow. No carried
 application code reads it since the move to `main` dropped the
 `local/build-provenance` topic. The Nix packaging reads its upstream `tag` and
 `distance` to version the build as
-`<upstream nightly>+<distance>.g<upstream commit>.assembly.<assembled commit>`;
+`<upstream nightly>+<distance>.g<upstream commit>.assembly.<assembled commit>`
+and gives it upstream's nightly icons and favicons;
 `t3code/main/semver-build-metadata` keeps that metadata out of version
-comparisons.
+comparisons and lets the app's nightly detectors still recognize the version,
+so the build is branded "T3 Code (Nightly)" throughout.
 
 ## Agent skill
 
