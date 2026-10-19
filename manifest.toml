@@ -353,8 +353,6 @@ note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)
 
 [[entry]]
 branch = "fork:t3code/main/scoped-environment-keys-integration"
-summary = "Preserve colon-containing environment IDs when loading chat images"
-note = "Backport of 92be4fd1b309 from current upstream main onto the pinned base. Keeps desktop/web timeline asset requests addressed to fleet:<host> and aligns mobile scoped keys; existing composer drafts remain readable."
 
 [[exclude]]
 pr = 4677
