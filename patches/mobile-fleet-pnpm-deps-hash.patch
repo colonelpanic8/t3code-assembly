@@ -2,12 +2,12 @@ diff --git a/nix/package.nix b/nix/package.nix
 index 4f11dab..16f44c3 100644
 --- a/nix/package.nix
 +++ b/nix/package.nix
-@@ -98,7 +98,7 @@
+@@ -111,7 +111,7 @@
        # Fixed-output hash over the offline dependency closure. When
        # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
        # .#unwrapped, and copy the reported hash here.
 -      hash = "sha256-XRgN5NIC94VsLIhoMsMj8ocLtxiVfLFvG+nlK1spqmI=";
-+      hash = "sha256-/eGBFRnzW2uiisxw5GsvF892S5TsTOgo2JYnZ77VYBI=";
++      hash = "sha256-Xb3OG+69N9Kq/BMZrajxs6AUfPIHlJvEYVHC3ATA/5A=";
      };
  
      env.APP_VERSION = finalAttrs.version;

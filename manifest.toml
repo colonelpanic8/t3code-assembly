@@ -311,13 +311,6 @@ branch = "fork:t3code/main/favicon-refresh-on-click"
 summary = "Refresh a project icon when it is clicked"
 note = "Re-port of the closed #4337 onto main's rewritten ProjectFavicon; upstream declined it as undiscoverable, so it is carried without a PR."
 
-# Answered questions stay visible as their own timeline rows instead of being
-# folded into "Worked for" or merged into tool groups once a turn settles.
-[[entry]]
-branch = "fork:t3code/main/keep-answered-questions-visible"
-pr = 21086
-summary = "Keep answered questions visible after a turn settles"
-
 # Codex image generations append their saved images to the turn's final reply,
 # so generated images show in chat.
 [[entry]]
@@ -331,6 +324,14 @@ note = "External (shivamhwp)."
 [[entry]]
 branch = "fork:t3code/main/semver-build-metadata"
 summary = "Ignore build metadata when comparing versions"
+
+[[entry]]
+branch = "fork:t3code/main/android-intents"
+summary = "Open custom-scheme links, ask T3 Code about selected text, and opt in to sending link prompts"
+
+[[entry]]
+branch = "fork:t3code/main/eva-extension"
+summary = "Let EVA read threads and start work through an Android extension"
 
 [[exclude]]
 pr = 4677
@@ -439,3 +440,7 @@ reason = "codex app-server 0.159 already marks codex-auto-review hidden=true and
 [[exclude]]
 pr = 4259
 reason = "Landed upstream as #17664 (b744bded01): the draft project picker is a searchable combobox. Only the topic's token matching over workspace paths and its No project row are not carried; upstream deliberately dropped that row."
+
+[[exclude]]
+pr = 21086
+reason = "Landed upstream as #21086 (80df91b52b): answered questions stay visible after a turn settles."

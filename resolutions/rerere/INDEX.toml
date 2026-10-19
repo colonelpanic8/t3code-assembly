@@ -560,6 +560,12 @@ paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-16T19:54:44.187985610+00:00"
 
 [[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "d74fa9befed89b8f645907bba6349b7e066ac129"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-19T03:15:37.770137242+00:00"
+
+[[resolution]]
 entry = "t3code/main/pr-4437"
 hash = "0555ea05338b27a97cc2c9dc58e1abfb4c26bf21"
 paths = ["apps/server/src/config.ts"]
