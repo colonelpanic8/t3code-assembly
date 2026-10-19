@@ -15,7 +15,7 @@
       "t3code/main/desktop-clerk-startup": "703d11de9c989cca452492a2ea1cd60eaacaed2d",
       "t3code/main/desktop-client-location": "70d8455fc5b566ebc10261c61045664911c3575c",
       "t3code/main/desktop-window-state": "a6903783f3fe4c1ed5c001d0f55105d6aabc8624",
-      "t3code/main/eva-extension": "daf3870062246571cd9be4085842989b72d83c7a",
+      "t3code/main/eva-extension": "ed614385ca1f2400431bf3870e6e0c5e51fd4518",
       "t3code/main/favicon-refresh-on-click": "ab3f626b31b444430cbdd21a62bf996c011f663e",
       "t3code/main/fdroid-distribution": "2143cb8672870e3c377246e49f4000038e81b088",
       "t3code/main/live-voice": "cad97ba20c8996ff3cbf23a23a7ca3bfb9da03b3",
@@ -53,13 +53,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T10:17:50.855527234+00:00",
+    "generated": "2026-10-19T10:26:19.180518818+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "a7b2b7b92bf74df46dd1ff05f4e1f9438ad66277",
-    "pre_provenance_commit": "82e933ddd27d2a43d56f42703663999f48dc9989",
-    "tree": "8ef75fcc4d3377399aab787bf4d815ed50c6082d",
-    "built_tree": "43e0e0c47e7111f4f6763c9fc6055cb65e531db7",
-    "previous_tree": "5baa206e5fbd8c5ed362b9df755d08b479a7575c",
+    "commit": "1e5d528c7775955262b9f5e357b19d6ac2428bb0",
+    "pre_provenance_commit": "1ef6976efb4f0dad30c5387e7631f4f5a7a90e8c",
+    "tree": "686403b6c5ef3daebc35f1dbf6b0f95a1ac5de8e",
+    "built_tree": "cdc141069d55c19e19c5bf434ba1049f7fd55e16",
+    "previous_tree": "8ef75fcc4d3377399aab787bf4d815ed50c6082d",
     "tree_changed": true,
     "conflicts": 11,
     "manifest_entries": [
@@ -341,7 +341,7 @@
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "daf3870062246571cd9be4085842989b72d83c7a"
+        "pin": "ed614385ca1f2400431bf3870e6e0c5e51fd4518"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -638,7 +638,7 @@
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "daf3870062246571cd9be4085842989b72d83c7a",
+        "oid": "ed614385ca1f2400431bf3870e6e0c5e51fd4518",
         "status": "merged",
         "conflicted": false
       },
