@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-20T19:12:39.386449266+00:00",
+    "generated": "2026-10-20T19:19:54.276662064+00:00",
     "base": "7e289ae1f77b9137580688aaccf00d48906984ad",
-    "commit": "01a4817ca5de8547be9616e133f8b119a20fffb4",
-    "pre_provenance_commit": "216ceb8747a4d0bbc12f95ef57a43be724d3972b",
-    "tree": "70970a37ea0ee5f16dc9d1823d4a66abded047e9",
-    "built_tree": "d771babce99133282852b8a0bc59730595d7e7fe",
-    "previous_tree": "6d62192d067687a4ae1125921ba1e09478564fe8",
+    "commit": "4d9e9a674044b9866a97f30c5aebbe1dbd549b8f",
+    "pre_provenance_commit": "21e794ab0b3aba0d559bf4338ff6ea2ec0868d7f",
+    "tree": "6c52572993f591a6b801b6cf21f48b39b60a4c7f",
+    "built_tree": "6a7356190918062f888db1ae53727fe9c559416c",
+    "previous_tree": "70970a37ea0ee5f16dc9d1823d4a66abded047e9",
     "tree_changed": true,
     "conflicts": 14,
     "manifest_entries": [
@@ -254,7 +254,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "4e76ef1fd08eef6a62d503938bbe3e836f2d7d61",
-        "fixup": "f55b553bfa5250ef06a7136c08412e2d7065af2f"
+        "fixup": "3df74f235e4cbe2b3101242b6688f1f59256da6b"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -458,14 +458,14 @@
         "oid": "5c467debd3cd261f195ebf963cabbd803af47594",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:6575c1de3cf6d247230bd7e937c07b76c67561a5"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/pr-4437",
         "oid": "6f10a2466b57d6edc09a105f3aea76ee8379bba1",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:8ba6e98bf49d2a71af6f187bcf129489e58c0197",
+        "resolution": "rerere",
         "fixup": "a86b898c00100b56a172ff0769e520aafa91ef8d"
       },
       {
@@ -530,7 +530,7 @@
         "oid": "346e2d673e71db632b14810ac6da1f46ec016672",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:1559cdd77660e7f7fab222ac40004a077ea6998e,d1685a87bd85baf8de51969e47ac0a281172ac92"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/pr-4484",
@@ -568,15 +568,15 @@
         "oid": "0f9473ff7d3a0b7e1527b3b7c3fe3d3ab7d7a261",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:b9f79fb22889a2212c91a06cda2a1895d142e16f,c061edc63a8a5029786fa61bf3a2bcfc51f4bfb8"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
         "oid": "4e76ef1fd08eef6a62d503938bbe3e836f2d7d61",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:0d3bbe2e287914fcf5d0aac93124b83d7f9d8318,617663dc1bf664bee2a922ff86f169c5915f7f3b",
-        "fixup": "f55b553bfa5250ef06a7136c08412e2d7065af2f"
+        "resolution": "rerere",
+        "fixup": "3df74f235e4cbe2b3101242b6688f1f59256da6b"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -701,7 +701,7 @@
         "oid": "14d22905c287934d971ae86fdacd235d35947650",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:49d243546e36bab00d0526c7436eb40170ad1fe4,6151d68df2ae6b9a39e3022c98b5e4ab53c07fd3"
+        "resolution": "rerere"
       }
     ]
   }
