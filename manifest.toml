@@ -354,6 +354,9 @@ note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)
 [[entry]]
 branch = "fork:t3code/main/scoped-environment-keys-integration"
 
+[[entry]]
+branch = "fork:t3code/main/agent-verification"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

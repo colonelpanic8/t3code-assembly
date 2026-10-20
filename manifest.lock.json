@@ -4,6 +4,7 @@
     "base": "1451e7cb23034d29774338608368a15d8845df36",
     "entries": {
       "pr-19066": "fce32b652e97edb517687a093a401d08e542a619",
+      "t3code/main/agent-verification": "5b7b45878c95f5e9022ca0724eec3048e31b83b0",
       "t3code/main/android-intents": "da912ba7020a429e63face576eaac9994b6d0b53",
       "t3code/main/blank-slate-assembly": "55d853831edbb31cfbe18176f48ab36e750af31b",
       "t3code/main/claude-subagent-output-tokens": "f633b7edc6e17304869593b3e843cdac2552f524",
@@ -55,13 +56,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-19T19:57:07.141792324+00:00",
+    "generated": "2026-10-20T17:53:44.446435850+00:00",
     "base": "1451e7cb23034d29774338608368a15d8845df36",
-    "commit": "36d5830a0389d65e4f98c678673b445bce28959b",
-    "pre_provenance_commit": "108f30e0ff2edd4a1aac2e91cb82032319dd3ffa",
-    "tree": "e3b8effd842dd88d84d42068aab7a8791a03bd21",
-    "built_tree": "c41c08beaf66fd9c9f60a8bd18937b21c7a38d84",
-    "previous_tree": "b8f20052a7de51211354557ce881b3aee7919338",
+    "commit": "4a8017837ca71be3883ab44a1659470289a8436e",
+    "pre_provenance_commit": "46703201607b8df7acb30cd55f4a9e93bc4be120",
+    "tree": "6d62192d067687a4ae1125921ba1e09478564fe8",
+    "built_tree": "a7e5118bd0551768459d8955d585b69ea4ab68ab",
+    "previous_tree": "e3b8effd842dd88d84d42068aab7a8791a03bd21",
     "tree_changed": true,
     "conflicts": 0,
     "manifest_entries": [
@@ -362,6 +363,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/scoped-environment-keys-integration",
         "pin": "d94ea73eab2ea6d52fe371de66224cabeb997c09"
+      },
+      {
+        "name": "t3code/main/agent-verification",
+        "kind": "branch",
+        "source": "fork:t3code/main/agent-verification",
+        "pin": "5b7b45878c95f5e9022ca0724eec3048e31b83b0"
       }
     ],
     "results": [
@@ -672,6 +679,12 @@
       {
         "name": "t3code/main/scoped-environment-keys-integration",
         "oid": "d94ea73eab2ea6d52fe371de66224cabeb997c09",
+        "status": "merged",
+        "conflicted": false
+      },
+      {
+        "name": "t3code/main/agent-verification",
+        "oid": "5b7b45878c95f5e9022ca0724eec3048e31b83b0",
         "status": "merged",
         "conflicted": false
       }
