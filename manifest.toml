@@ -314,9 +314,10 @@ note = "Re-port of the closed #4337 onto main's rewritten ProjectFavicon; upstre
 # Codex image generations append their saved images to the turn's final reply,
 # so generated images show in chat.
 [[entry]]
+branch = "fork:t3code/main/generated-image-results"
 pr = 19066
-summary = "Codex generated images show in chat"
-note = "External (shivamhwp)."
+summary = "Maintained port of shivamhwp’s #19066: Codex generated images show in chat"
+note = "Based on upstream PR head 4698fbfe3af6482b65a47551b67b09ff222335f3, adapted to current main; the original PR is unchanged."
 
 # Semver comparisons ignore build metadata. The Nix flake versions assembled
 # builds as an upstream nightly plus "+<distance>.g<upstream>.assembly.<commit>",
@@ -356,6 +357,11 @@ branch = "fork:t3code/main/scoped-environment-keys-integration"
 
 [[entry]]
 branch = "fork:t3code/main/agent-verification"
+
+[[entry]]
+branch = "fork:t3code/main/environment-groups"
+summary = "Declarative environment groups with session visibility controls"
+note = "Hidden groups stay connected; reload restores each group’s declared default visibility."
 
 [[exclude]]
 pr = 4677

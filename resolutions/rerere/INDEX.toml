@@ -345,9 +345,21 @@ recorded = "2026-10-10T02:55:19.592971319+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "b9f79fb22889a2212c91a06cda2a1895d142e16f"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-20T19:12:15.555749282+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "bf41351838ecd516cf78ebad6a3768d89dd74ff0"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-15T04:33:57.078324603+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "c061edc63a8a5029786fa61bf3a2bcfc51f4bfb8"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-10-20T19:12:15.555751585+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -384,6 +396,18 @@ entry = "t3code/main/desktop-client-location"
 hash = "c4c594b93519e08cac3da5e49a91fb84195e81b9"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-16T18:02:51.972936503+00:00"
+
+[[resolution]]
+entry = "t3code/main/environment-groups"
+hash = "49d243546e36bab00d0526c7436eb40170ad1fe4"
+paths = ["packages/client-runtime/package.json"]
+recorded = "2026-10-20T19:12:39.154710568+00:00"
+
+[[resolution]]
+entry = "t3code/main/environment-groups"
+hash = "6151d68df2ae6b9a39e3022c98b5e4ab53c07fd3"
+paths = ["docs/user/remote-access.md"]
+recorded = "2026-10-20T19:12:39.154712970+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
@@ -437,7 +461,7 @@ recorded = "2026-10-19T11:05:18.377740670+00:00"
 entry = "t3code/main/mobile-tailscale-fleet"
 hash = "0d3bbe2e287914fcf5d0aac93124b83d7f9d8318"
 paths = ["packages/contracts/src/server.ts"]
-recorded = "2026-10-10T03:20:50.331445048+00:00"
+recorded = "2026-10-20T19:12:25.780409306+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
@@ -474,6 +498,12 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "49e267990a66f994a1399907b7c110203e39030b"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-16T18:09:10.756166906+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
+hash = "617663dc1bf664bee2a922ff86f169c5915f7f3b"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-20T19:12:25.780411706+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
@@ -531,6 +561,12 @@ recorded = "2026-10-16T18:09:10.756168610+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
+hash = "1559cdd77660e7f7fab222ac40004a077ea6998e"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-10-20T19:12:02.354383803+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
 hash = "4c369c7bb4af7e5b6fa6a35c48302b6514ebfb7a"
 paths = ["apps/server/src/serverRuntimeState.ts"]
 recorded = "2026-10-16T19:54:44.187983666+00:00"
@@ -558,6 +594,12 @@ entry = "t3code/main/pr-4420"
 hash = "9c7e1ec72f6188a585e418953af4281cab3c7f83"
 paths = ["apps/server/src/serverRuntimeState.ts"]
 recorded = "2026-10-03T02:04:49.862883572+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "d1685a87bd85baf8de51969e47ac0a281172ac92"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-20T19:12:02.354387688+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -684,6 +726,12 @@ entry = "t3code/main/pr-4437"
 hash = "867f39c67d3958a72ec6b1be05164a6e81d065d8"
 paths = ["apps/server/src/project/AgentSessionScanner.ts"]
 recorded = "2026-10-16T18:06:08.022792589+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "8ba6e98bf49d2a71af6f187bcf129489e58c0197"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-20T19:11:37.265088344+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -918,6 +966,12 @@ entry = "t3code/main/shared-server-settings"
 hash = "3b571cc949410219fb477d2201d38f2d68847896"
 paths = ["apps/server/src/config.ts"]
 recorded = "2026-10-15T04:12:11.648444304+00:00"
+
+[[resolution]]
+entry = "t3code/main/shared-server-settings"
+hash = "6575c1de3cf6d247230bd7e937c07b76c67561a5"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-10-20T19:11:20.003775274+00:00"
 
 [[resolution]]
 entry = "t3code/main/shared-server-settings"
