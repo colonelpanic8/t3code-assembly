@@ -40,9 +40,9 @@ reason = "#4437's storage roots replace the suite's baseDir/variant runtime-stat
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
-missing_count = 9
-missing_sha256 = "22d276758d73f60f958317dad5e42c46613d74b3f3bd29d72d31dcc59e5e2b9a"
-reason = "Eight serverSettings lines are rewritten by t3code/main/declarative-settings, which is stacked on this pin and lacks them in its own tree: SettingsState gains the managed layer (getSettingsFromCache reads state.effective, the path destructuring adds managedSettingsPath) and the test helper layerSharedServerSettings takes an options object. project.ts's `projectLocationFlags,` import is upstream's flag set, renamed by server-location-overrides/server-config-file; the built file imports serverConfigFileFlags and projectSettingsFlags still adds sharedSettingsFile on top."
+missing_count = 10
+missing_sha256 = "1cd83b02071e93581254a817a4fe62a0223026285ffb3003bd39a7c50cf8aedd"
+reason = "Declarative settings rewrites five serverSettings lines to include managedSettingsPath, a managed layer and effective settings in SettingsState, and settingsStateFor when updating the cache; parseFailure is preserved during reads and cleared after successful writes. Four test lines become the managed-aware options form of layerSharedServerSettings. project.ts's projectLocationFlags import becomes serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile."
 
 [[exception]]
 entry = "t3code/main/declarative-settings"

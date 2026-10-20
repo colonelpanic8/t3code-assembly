@@ -199,6 +199,7 @@ branch = "fork:t3code/main/pr-4420"
 pr = 4420
 summary = "Refuse startup when another server owns the state dir"
 note = "Closed without comment. Re-ported; the PR's busy_timeout half already reached the base through upstream main and is not duplicated."
+fixup = "patches/runtime-guard-formatting.patch"
 
 # A bootstrap launch that fails after creating its provisional thread deletes
 # that thread and reports it, and the client then mints a fresh draft thread id,

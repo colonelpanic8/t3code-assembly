@@ -1,0 +1,26 @@
+diff --git a/apps/server/src/cli/config.ts b/apps/server/src/cli/config.ts
+index 4fc73be904..fd84f89ac6 100644
+--- a/apps/server/src/cli/config.ts
++++ b/apps/server/src/cli/config.ts
+@@ -54,7 +54,11 @@ import * as NodeOS from "node:os";
+ import { readBootstrapEnvelope } from "../bootstrap.ts";
+ import * as ServerConfig from "../config.ts";
+ import { expandHomePath } from "../os-jank.ts";
+-import { isProcessAlive, isRespondingServerRuntime, readPersistedServerRuntimeState } from "../serverRuntimeState.ts";
++import {
++  isProcessAlive,
++  isRespondingServerRuntime,
++  readPersistedServerRuntimeState,
++} from "../serverRuntimeState.ts";
+ import { readServerConfigFile } from "./serverConfigFile.ts";
+ 
+ const modeFlag = Flag.Literals("mode", ServerConfig.RuntimeMode.literals).pipe(
+diff --git a/apps/server/src/serverRuntimeState.ts b/apps/server/src/serverRuntimeState.ts
+index cca0fb0bcb..8aa34788b1 100644
+--- a/apps/server/src/serverRuntimeState.ts
++++ b/apps/server/src/serverRuntimeState.ts
+@@ -116,4 +116,3 @@ export const isRespondingServerRuntime = Effect.fn("serverRuntimeState.isRespond
+   Effect.orElseSucceed(() => false),
+   Effect.provide(FetchHttpClient.layer),
+ );
+-
