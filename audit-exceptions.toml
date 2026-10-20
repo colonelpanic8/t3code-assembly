@@ -64,9 +64,9 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
+missing_count = 10
+missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
@@ -82,6 +82,6 @@ reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/a
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union."
+missing_count = 10
+missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
+reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage."
