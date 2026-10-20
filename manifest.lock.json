@@ -22,7 +22,7 @@
       "t3code/main/generated-image-results": "703d8fa0c9bd59d225827ec151442ca449495c22",
       "t3code/main/live-voice": "560af53a3aa1b16d3640da937bba99309bcf172c",
       "t3code/main/managed-fleet": "e845d35bc108254abfdf016f436f6f4481fb2ab8",
-      "t3code/main/migration-schema-repair": "a26ed21c2850df76546b6dabb36aa1abaa026582",
+      "t3code/main/migration-schema-repair": "4b3ec7685119c749efbde63cc2e64951c18bfff2",
       "t3code/main/mobile-settings-feed": "144f7ede24929b08d818f4d95db803b15a3a9bab",
       "t3code/main/mobile-tailscale-fleet": "4e76ef1fd08eef6a62d503938bbe3e836f2d7d61",
       "t3code/main/pr-14101": "ceebebef6789bcc695094b8121849156bf6b0024",
@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-20T22:46:37.957755428+00:00",
+    "generated": "2026-10-20T23:01:07.832000807+00:00",
     "base": "7e289ae1f77b9137580688aaccf00d48906984ad",
-    "commit": "ff0f07ba7dce04cbc56efb8dda8fc7dd28e801bb",
-    "pre_provenance_commit": "fa8b462880fff4993e8dbbe037ae5b9bb4365acf",
-    "tree": "d41c150e2f582051b8faa05754075474b739a4b5",
-    "built_tree": "462bd2cc9900332534ad825b44a7fc481731ef2e",
-    "previous_tree": "77924838f53badf027251a66d666917350e960a4",
+    "commit": "0849d4f978cfca32a445c1c8ab8eb0532170f2c9",
+    "pre_provenance_commit": "10bcc875aabc259c3ac4b06146ed86caf9f95361",
+    "tree": "e0ed5413929f46fad488dd28b79ceff05274802d",
+    "built_tree": "b0541c7c720c2a6641f1841413704e2ae5f8dee0",
+    "previous_tree": "d41c150e2f582051b8faa05754075474b739a4b5",
     "tree_changed": true,
     "conflicts": 14,
     "manifest_entries": [
@@ -181,7 +181,7 @@
         "name": "t3code/main/migration-schema-repair",
         "kind": "branch",
         "source": "fork:t3code/main/migration-schema-repair",
-        "pin": "a26ed21c2850df76546b6dabb36aa1abaa026582"
+        "pin": "4b3ec7685119c749efbde63cc2e64951c18bfff2"
       },
       {
         "name": "t3code/main/pr-4699",
@@ -498,7 +498,7 @@
       },
       {
         "name": "t3code/main/migration-schema-repair",
-        "oid": "a26ed21c2850df76546b6dabb36aa1abaa026582",
+        "oid": "4b3ec7685119c749efbde63cc2e64951c18bfff2",
         "status": "merged",
         "conflicted": false
       },
