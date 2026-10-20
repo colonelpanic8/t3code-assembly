@@ -16,7 +16,7 @@
       "t3code/main/desktop-client-location": "8ee8c7492db041217a43c592ee2b8b025406794b",
       "t3code/main/desktop-window-state": "984a34feea1ccf0d944da46da9309f72b57f52b0",
       "t3code/main/environment-groups": "05debedec5d9e48f1132d6626029cf6b306e7f8f",
-      "t3code/main/eva-extension": "4b537ed03882e3f493d29ca1154b9bc67fb2fc74",
+      "t3code/main/eva-extension": "74ca1b257040401637608973b3837ad195be107e",
       "t3code/main/favicon-refresh-on-click": "bcb8e48b5075ea57e3e60a87a03665ec34c06057",
       "t3code/main/fdroid-distribution": "4704ad20841af47d920ce75945a59b6a06a1e5be",
       "t3code/main/generated-image-results": "703d8fa0c9bd59d225827ec151442ca449495c22",
@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-20T22:35:31.705285217+00:00",
+    "generated": "2026-10-20T22:46:37.957755428+00:00",
     "base": "7e289ae1f77b9137580688aaccf00d48906984ad",
-    "commit": "c6016e1f2dc07b2273e50a5ffe5511bb68514b74",
-    "pre_provenance_commit": "f0e456ae5fa4ce306f4b499dd5d533803b3ab845",
-    "tree": "77924838f53badf027251a66d666917350e960a4",
-    "built_tree": "7bf604b4563e338dede46558a93443ca4e450983",
-    "previous_tree": "37ac98870d93626a9414301b51023592cb618284",
+    "commit": "ff0f07ba7dce04cbc56efb8dda8fc7dd28e801bb",
+    "pre_provenance_commit": "fa8b462880fff4993e8dbbe037ae5b9bb4365acf",
+    "tree": "d41c150e2f582051b8faa05754075474b739a4b5",
+    "built_tree": "462bd2cc9900332534ad825b44a7fc481731ef2e",
+    "previous_tree": "77924838f53badf027251a66d666917350e960a4",
     "tree_changed": true,
     "conflicts": 14,
     "manifest_entries": [
@@ -346,7 +346,7 @@
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "4b537ed03882e3f493d29ca1154b9bc67fb2fc74"
+        "pin": "74ca1b257040401637608973b3837ad195be107e"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -669,7 +669,7 @@
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "4b537ed03882e3f493d29ca1154b9bc67fb2fc74",
+        "oid": "74ca1b257040401637608973b3837ad195be107e",
         "status": "merged",
         "conflicted": false
       },
