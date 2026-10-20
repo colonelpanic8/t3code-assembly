@@ -21,7 +21,7 @@
       "t3code/main/fdroid-distribution": "4704ad20841af47d920ce75945a59b6a06a1e5be",
       "t3code/main/generated-image-results": "703d8fa0c9bd59d225827ec151442ca449495c22",
       "t3code/main/live-voice": "560af53a3aa1b16d3640da937bba99309bcf172c",
-      "t3code/main/managed-fleet": "74f30fa36b9002fe4feb03a9af145c8e02abf53e",
+      "t3code/main/managed-fleet": "e845d35bc108254abfdf016f436f6f4481fb2ab8",
       "t3code/main/migration-schema-repair": "a26ed21c2850df76546b6dabb36aa1abaa026582",
       "t3code/main/mobile-settings-feed": "144f7ede24929b08d818f4d95db803b15a3a9bab",
       "t3code/main/mobile-tailscale-fleet": "4e76ef1fd08eef6a62d503938bbe3e836f2d7d61",
@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-20T19:52:58.393747895+00:00",
+    "generated": "2026-10-20T21:09:22.100166162+00:00",
     "base": "7e289ae1f77b9137580688aaccf00d48906984ad",
-    "commit": "ffcf4f74c11605012844d1b2bc4d559b1d80db26",
-    "pre_provenance_commit": "073d41e292f26ec300f00a7a06d3636af580ac8b",
-    "tree": "afaaa1b8e411e19b28cd5ebee86379cd37e33c69",
-    "built_tree": "f468082da76f75d70be59aaea23ca70b8c0ea155",
-    "previous_tree": "4685956dd63a8626b263d3efb8bf0ddecc305d74",
+    "commit": "882ead5e67009eb91875fb2cebb584b3e3639d3b",
+    "pre_provenance_commit": "4f095ecd660a7438feff3b629e7519556889b0d5",
+    "tree": "37ac98870d93626a9414301b51023592cb618284",
+    "built_tree": "c449feb732224d9d26c6a3746788c419e8fd01c7",
+    "previous_tree": "afaaa1b8e411e19b28cd5ebee86379cd37e33c69",
     "tree_changed": true,
     "conflicts": 14,
     "manifest_entries": [
@@ -169,7 +169,7 @@
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "74f30fa36b9002fe4feb03a9af145c8e02abf53e"
+        "pin": "e845d35bc108254abfdf016f436f6f4481fb2ab8"
       },
       {
         "name": "t3code/main/desktop-clerk-startup",
@@ -485,7 +485,7 @@
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "74f30fa36b9002fe4feb03a9af145c8e02abf53e",
+        "oid": "e845d35bc108254abfdf016f436f6f4481fb2ab8",
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
@@ -684,7 +684,7 @@
         "oid": "144f7ede24929b08d818f4d95db803b15a3a9bab",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere:4fd5e50506e5d7b26ceef2b04363546cc1c05082"
+        "resolution": "rerere"
       },
       {
         "name": "t3code/main/scoped-environment-keys-integration",
