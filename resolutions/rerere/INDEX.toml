@@ -453,6 +453,12 @@ recorded = "2026-10-03T02:04:17.700509322+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-settings-feed"
+hash = "4fd5e50506e5d7b26ceef2b04363546cc1c05082"
+paths = ["apps/mobile/src/features/settings/SettingsServerControlsRouteScreen.test.tsx"]
+recorded = "2026-10-20T19:52:58.037845233+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-settings-feed"
 hash = "c4ccce86e9d8879f20906d75ebb9960e69be3280"
 paths = ["apps/mobile/src/App.tsx"]
 recorded = "2026-10-19T11:05:18.377740670+00:00"

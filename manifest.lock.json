@@ -16,7 +16,7 @@
       "t3code/main/desktop-client-location": "8ee8c7492db041217a43c592ee2b8b025406794b",
       "t3code/main/desktop-window-state": "984a34feea1ccf0d944da46da9309f72b57f52b0",
       "t3code/main/environment-groups": "05debedec5d9e48f1132d6626029cf6b306e7f8f",
-      "t3code/main/eva-extension": "b6e82d823036b914737084b72c19cf3f5a5c6b4c",
+      "t3code/main/eva-extension": "98e66c4056bfcb9b8df7dfc473ba37bf62c96647",
       "t3code/main/favicon-refresh-on-click": "bcb8e48b5075ea57e3e60a87a03665ec34c06057",
       "t3code/main/fdroid-distribution": "4704ad20841af47d920ce75945a59b6a06a1e5be",
       "t3code/main/generated-image-results": "703d8fa0c9bd59d225827ec151442ca449495c22",
@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-20T19:42:48.599035961+00:00",
+    "generated": "2026-10-20T19:52:58.393747895+00:00",
     "base": "7e289ae1f77b9137580688aaccf00d48906984ad",
-    "commit": "2fbc22aeeb9ce5b70a72f96e39fac081264c8109",
-    "pre_provenance_commit": "7976e3c27a2712cc902b4e3780032bdc3911fdcf",
-    "tree": "4685956dd63a8626b263d3efb8bf0ddecc305d74",
-    "built_tree": "031321a50a501622e06dfd6c677f7479989d29ce",
-    "previous_tree": "4959aafd034d7a63b044cd82e56abaacfb071346",
+    "commit": "ffcf4f74c11605012844d1b2bc4d559b1d80db26",
+    "pre_provenance_commit": "073d41e292f26ec300f00a7a06d3636af580ac8b",
+    "tree": "afaaa1b8e411e19b28cd5ebee86379cd37e33c69",
+    "built_tree": "f468082da76f75d70be59aaea23ca70b8c0ea155",
+    "previous_tree": "4685956dd63a8626b263d3efb8bf0ddecc305d74",
     "tree_changed": true,
     "conflicts": 14,
     "manifest_entries": [
@@ -346,7 +346,7 @@
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "b6e82d823036b914737084b72c19cf3f5a5c6b4c"
+        "pin": "98e66c4056bfcb9b8df7dfc473ba37bf62c96647"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -669,7 +669,7 @@
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "b6e82d823036b914737084b72c19cf3f5a5c6b4c",
+        "oid": "98e66c4056bfcb9b8df7dfc473ba37bf62c96647",
         "status": "merged",
         "conflicted": false
       },
@@ -684,7 +684,7 @@
         "oid": "144f7ede24929b08d818f4d95db803b15a3a9bab",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere"
+        "resolution": "rerere:4fd5e50506e5d7b26ceef2b04363546cc1c05082"
       },
       {
         "name": "t3code/main/scoped-environment-keys-integration",
