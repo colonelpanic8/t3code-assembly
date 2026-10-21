@@ -108,6 +108,7 @@ note = "Stacked on server-location-overrides. Discussion pingdotgg/t3code#19592;
 # defaults < shared < settings.json. Writes save only the difference.
 [[entry]]
 branch = "fork:t3code/main/shared-server-settings"
+fixup = "patches/shared-settings-fixture-dedup.patch"
 summary = "Optional read-only shared settings file beneath settings.json"
 note = "Discussion pingdotgg/t3code#19594; fork PR colonelpanic8/t3code#5. declarative-settings is stacked on it."
 
@@ -145,6 +146,7 @@ summary = "Reconcile client state after a settle does not land"
 # managed-connections.json. mobile-tailscale-fleet is stacked on this branch.
 [[entry]]
 branch = "fork:t3code/main/managed-fleet"
+fixup = "patches/server-config-fixture-dedup.patch"
 
 # Despite the name, this now only hardens the desktop smoke test: Electron
 # exiting before the 8s window counts as a failure. The original @clerk/electron
@@ -237,6 +239,7 @@ summary = "Resolve transitive type declarations through workspace-local dependen
 # layout and verifies the copy. This branch contains pr-4437's commits.
 [[entry]]
 branch = "fork:t3code/main/client-storage-separation"
+fixup = "patches/server-config-fixture-dedup.patch"
 summary = "Client storage separate from the server's T3 home, plus `t3 storage migrate`"
 note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots. --client-dir still relocates the desktop's own files in either layout."
 
@@ -350,6 +353,7 @@ summary = "Hide chosen repositories from the pull request list"
 # lock their rows. Dotfiles publishes settings.age next to fleet.age.
 [[entry]]
 branch = "fork:t3code/main/mobile-settings-feed"
+fixup = "patches/server-config-fixture-dedup.patch"
 summary = "Phone settings from an external settings feed"
 note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)."
 
@@ -363,6 +367,9 @@ branch = "fork:t3code/main/agent-verification"
 branch = "fork:t3code/main/environment-groups"
 summary = "Declarative environment groups with session visibility controls"
 note = "Hidden groups stay connected; reload restores each group’s declared default visibility."
+
+[[entry]]
+pr = 22740
 
 [[exclude]]
 pr = 4677

@@ -1,5 +1,5 @@
 diff --git a/apps/desktop/src/app/DesktopRunningLocalServers.test.ts b/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
-index 8e1dc51786..9d721ad14d 100644
+index aef1b33630..cc75a8950d 100644
 --- a/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
 +++ b/apps/desktop/src/app/DesktopRunningLocalServers.test.ts
 @@ -1,6 +1,5 @@
@@ -9,8 +9,8 @@ index 8e1dc51786..9d721ad14d 100644
  import { assert, describe, expect, it } from "@effect/vitest";
  import * as Effect from "effect/Effect";
  import * as FileSystem from "effect/FileSystem";
-@@ -15,6 +14,9 @@ import { make } from "./DesktopRunningLocalServers.ts";
- 
+@@ -13,6 +12,9 @@ import { ChildProcess, ChildProcessSpawner } from "effect/process";
+ import { make } from "./DesktopRunningLocalServers.ts";
  const textEncoder = new TextEncoder();
  const baseDir = "/test/.t3";
 +const legacyStateDir = "/test/.t3/userdata";
@@ -19,26 +19,28 @@ index 8e1dc51786..9d721ad14d 100644
  const environmentId = EnvironmentId.make("environment-local");
  const descriptor = {
    environmentId,
-@@ -24,12 +26,6 @@ const descriptor = {
-   capabilities: { repositoryIdentity: true },
+@@ -26,11 +28,7 @@ const descriptor = {
+     repositoryIdentity: true,
+   },
  } as const;
- 
 -const statePath = deriveServerRuntimeStatePath({
 -  baseDir,
 -  variant: "userdata",
 -  joinPath: (...segments) => segments.join("/"),
 -});
--
++
  const runtimeState = (input: { readonly pid: number; readonly origin: string }) =>
    JSON.stringify({
      version: 1,
-@@ -40,8 +36,19 @@ const runtimeState = (input: { readonly pid: number; readonly origin: string })
+@@ -41,13 +39,18 @@ const runtimeState = (input: { readonly pid: number; readonly origin: string })
    });
- 
  const homeFiles = new Map([
--  [statePath, runtimeState({ pid: 42, origin: "http://127.0.0.1:3773" })],
--  ["/test/.t3/userdata/environment-id", environmentId],
-+  [
+   [
+-    statePath,
+-    runtimeState({
+-      pid: 42,
+-      origin: "http://127.0.0.1:3773",
+-    }),
 +    `${legacyStateDir}/server-runtime.json`,
 +    runtimeState({ pid: 42, origin: "http://127.0.0.1:3773" }),
 +  ],
@@ -49,12 +51,13 @@ index 8e1dc51786..9d721ad14d 100644
 +  [
 +    `${splitRuntimeDir}/server-runtime.json`,
 +    runtimeState({ pid: 42, origin: "http://127.0.0.1:3773" }),
-+  ],
+   ],
+-  ["/test/.t3/userdata/environment-id", environmentId],
 +  [`${splitStateDir}/environment-id`, environmentId],
  ]);
- 
  const fakeFileSystemLayer = (files: ReadonlyMap<string, string>) =>
-@@ -96,9 +103,20 @@ const makeTestService = (input: {
+   FileSystem.layerNoop({
+@@ -98,9 +101,20 @@ const makeTestService = (input: {
    readonly processIsAlive?: (pid: number) => boolean;
    readonly runsOwnBackend?: boolean;
    readonly spawner?: ChildProcessSpawner.ChildProcessSpawner["Service"];
@@ -76,7 +79,7 @@ index 8e1dc51786..9d721ad14d 100644
      backendEntryPath: "/bundle/apps/server/dist/bin.mjs",
      backendCwd: "/home/user",
      executablePath: "/bundle/electron",
-@@ -110,7 +128,7 @@ const makeTestService = (input: {
+@@ -112,7 +126,7 @@ const makeTestService = (input: {
    }).pipe(
      Effect.provide(
        Layer.mergeAll(
@@ -85,10 +88,11 @@ index 8e1dc51786..9d721ad14d 100644
          NodePath.layer,
          Layer.succeed(
            ChildProcessSpawner.ChildProcessSpawner,
-@@ -197,6 +215,31 @@ describe("DesktopRunningLocalServers", () => {
+@@ -208,6 +222,32 @@ describe("DesktopRunningLocalServers", () => {
+       });
      });
    });
- 
++
 +  it.effect("reads split-layout runtime state and pins `t3 pair` to the split layout", () => {
 +    let command: ChildProcess.StandardCommand | null = null;
 +    const spawner = ChildProcessSpawner.make((candidate) => {
@@ -212,11 +216,11 @@ index ec73e8f700..fc0c419df2 100644
        backendCwd: environment.backendCwd,
        executablePath: process.execPath,
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
-index e3e89fa66c..f54dbfff48 100644
+index 5c9da132a3..9bfaf7ac69 100644
 --- a/apps/server/src/cli/pair.ts
 +++ b/apps/server/src/cli/pair.ts
-@@ -20,10 +20,7 @@ import { resolveWorktreeT3Home } from "@t3tools/shared/devHome";
- import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
+@@ -10,10 +10,7 @@ import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
+ import * as HostProcess from "@t3tools/shared/HostProcess";
  import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
  import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
 -import {
@@ -227,15 +231,16 @@ index e3e89fa66c..f54dbfff48 100644
  import {
    buildTailscaleHttpsBaseUrl,
    DEFAULT_TAILSCALE_SERVE_PORT,
-@@ -360,7 +357,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
-     );
-   }
+@@ -289,7 +286,7 @@ const probeEnvironmentDescriptor: (
  
--  const path = yield* Path.Path;
-   const checkedStatePaths: Array<string> = [];
-   for (const candidate of candidates) {
-     const statePath = (yield* candidatePaths(candidate, overrides)).derivedPaths
-@@ -606,7 +602,7 @@ export const pairCommand = Command.make("pair", {
+ interface PairCandidate {
+   readonly storage: ServerStorage;
+-  readonly variant: PairStateVariant;
++  readonly variant: ServerRuntimeStateVariant;
+ }
+ 
+ interface DiscoveredPairTarget extends PairCandidate {
+@@ -595,7 +592,7 @@ export const pairCommand = Command.make("pair", {
            return yield* new JsonTailscaleUnsupportedError();
          }
  
@@ -245,10 +250,10 @@ index e3e89fa66c..f54dbfff48 100644
          const notes: Array<string> = [];
          let pairingBaseUrl: string;
 diff --git a/packages/shared/src/serverRuntimeState.ts b/packages/shared/src/serverRuntimeState.ts
-index 6806e9fa40..c3b3a4570d 100644
+index 767e56b037..8d9fffb680 100644
 --- a/packages/shared/src/serverRuntimeState.ts
 +++ b/packages/shared/src/serverRuntimeState.ts
-@@ -41,14 +41,6 @@ const decodePersistedServerRuntimeState = Schema.decodeUnknownEffect(
+@@ -43,14 +43,6 @@ const decodePersistedServerRuntimeState = Schema.decodeUnknownEffect(
    Schema.fromJsonString(PersistedServerRuntimeState),
  );
  
@@ -266,12 +271,11 @@ index 6806e9fa40..c3b3a4570d 100644
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
 --- a/apps/server/src/cli/pair.ts
 +++ b/apps/server/src/cli/pair.ts
-@@ -268,7 +268,7 @@
+@@ -345,7 +345,6 @@
+     }
+   }
  
- interface PairCandidate {
-   readonly storage: ServerStorage;
--  readonly variant: PairStateVariant;
-+  readonly variant: ServerRuntimeStateVariant;
- }
- 
- interface DiscoveredPairTarget extends PairCandidate {
+-  const path = yield* Path.Path;
+   const checkedStatePaths: Array<string> = [];
+   for (const candidate of candidates) {
+     const statePath = (yield* candidatePaths(candidate, overrides)).derivedPaths

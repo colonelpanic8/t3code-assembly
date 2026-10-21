@@ -4,39 +4,39 @@
 
 [[exception]]
 entry = "t3code/main/desktop-window-state"
-missing_count = 2
-missing_sha256 = "d0be1c84a334eb9ec16421d1eb1326a2e30a482a1102eedcdb849c83fb4b0a3e"
-reason = "desktopWindowStatePath moved out of DesktopEnvironment into DesktopStatePaths' resolveDesktopClientPaths (desktop-client-location, then #4437, both stacked on this pin), where it still joins desktop-window-state.json onto the client state dir. main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))` is combined with the client suite's DesktopRunningLocalServers pipe: DesktopWindowState.layer is provide-merged there ahead of DesktopAppSettings.layer, so the window state service is still exposed and still reads the settings fallback."
+missing_count = 17
+missing_sha256 = "276244971f86e92e34bf064833be73aa2229f24fc0a12b167709cf5672fae047"
+reason = "desktopWindowStatePath moved out of DesktopEnvironment into DesktopStatePaths' resolveDesktopClientPaths (desktop-client-location, then #4437, both stacked on this pin), where it still joins desktop-window-state.json onto the client state dir. main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))` is combined with the client suite's DesktopRunningLocalServers pipe: DesktopWindowState.layer is provide-merged there ahead of DesktopAppSettings.layer, so the window state service is still exposed and still reads the settings fallback. Window-state tests retain their assertions and trace fixture; object literals, calls, and return values are expanded across lines by the formatter."
 
 [[exception]]
 entry = "t3code/main/desktop-client-location"
-missing_count = 36
-missing_sha256 = "1c192aa2d4cff8f66a1fe76dbd9f0b49f7e73c2cb1452af037b075588d205f17"
-reason = "35 lines are rewritten by #4437, which is stacked on a merge containing this pin and lacks them in its own tree: resolveDesktopClientPaths now takes the storage layout's configDir/stateDir and a Pick<StoragePathOperations> instead of t3Home/isDevelopment/joinPath/resolvePath, and expands `~` through the shared resolveT3ConfiguredPath instead of the local normalizeConfiguredDir/expandHomeDir; DesktopEnvironment and DesktopEarlyElectronStartup feed it the selected storage roots. --client-dir and T3CODE_CLIENT_DIR precedence and every client file name are unchanged. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe."
+missing_count = 54
+missing_sha256 = "4899673724839eaca52882af002f524d363e50e389a2d505bae435497ce107a3"
+reason = "Client path lines are rewritten by #4437, which is stacked on a merge containing this pin and lacks them in its own tree: resolveDesktopClientPaths now takes the storage layout's configDir/stateDir and a Pick<StoragePathOperations> instead of t3Home/isDevelopment/joinPath/resolvePath, and expands `~` through the shared resolveT3ConfiguredPath instead of the local normalizeConfiguredDir/expandHomeDir; DesktopEnvironment and DesktopEarlyElectronStartup feed it the selected storage roots. --client-dir and T3CODE_CLIENT_DIR precedence and every client file name are unchanged. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe. Client-directory and inherited window-state test fixtures retain the same values in expanded formatting."
 
 [[exception]]
 entry = "t3code/main/server-location-overrides"
-missing_count = 88
-missing_sha256 = "bf350125e220ecba73c87305b4097dc8c8391f3345f4e05e5d2c6154eaa473ae"
-reason = "24 lines are already rewritten by t3code/main/server-config-file (serverLocationFlags spreads become serverConfigFileFlags; SERVER_LOCATION_ENV becomes SERVER_OVERRIDE_ENV, and the env-name lists and their bootService/SSH tests gain T3CODE_SERVER_CONFIG_FILE). All 88 are absent from #4437's own tree, which contains this pin: resolveServerLocations resolves the storage layout first and derives paths from its roots instead of resolveBaseDir/deriveServerPaths(baseDir, overrides); the ~ expansion moves to shared expandT3HomePath/resolveT3ConfiguredPath; the per-file env-name lists in the SSH launcher, boot service units, dev-runner and the Windows desktop filter become the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES (still unset/blanked/scrubbed); triage, uninstall, pair discovery and the AgentSessionScanner exclusion test move to the layout's state/logs/runtime dirs."
+missing_count = 82
+missing_sha256 = "3c967226e9fba59fcb502aa5ca62a70a73dbccb0e3aaccacbd1997e0b013cfc8"
+reason = "24 lines are already rewritten by t3code/main/server-config-file (serverLocationFlags spreads become serverConfigFileFlags; SERVER_LOCATION_ENV becomes SERVER_OVERRIDE_ENV, and the env-name lists and their bootService/SSH tests gain T3CODE_SERVER_CONFIG_FILE). The missing lines are absent from #4437's own tree, which contains this pin: resolveServerLocations resolves the storage layout first and derives paths from its roots instead of resolveBaseDir/deriveServerPaths(baseDir, overrides); the ~ expansion moves to shared expandT3HomePath/resolveT3ConfiguredPath; the per-file env-name lists in the SSH launcher, boot service units, dev-runner and the Windows desktop filter become the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES (still unset/blanked/scrubbed); triage, uninstall, pair discovery and the AgentSessionScanner exclusion test move to the layout's state/logs/runtime dirs. The SSH test helper now accepts login-shell options and collects stdout alongside stderr; both launch and diagnostic assertions remain."
 
 [[exception]]
 entry = "t3code/main/server-config-file"
-missing_count = 70
-missing_sha256 = "9b048f4a55ab25fc0b457a6aae30fb6e75281258025913f0cc8dd93bfd6feeeb"
-reason = "All 70 are absent from #4437's own tree, which contains this pin, and are the same rewrites as server-location-overrides' set: storage-layout-first resolveServerLocations, shared ~ expansion, and SERVER_OVERRIDE_ENV/CLEAR_SERVER_LOCATION_ENV/dev-runner/Windows env lists replaced by the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES, which still includes T3CODE_SERVER_CONFIG_FILE. serverConfigFileFlags and the server.json reader are carried."
+missing_count = 65
+missing_sha256 = "269d940319fdb1e7bfe55ce25c3710e096e67e2a0e94b7928835909ba41ac599"
+reason = "The missing lines are absent from #4437's own tree, which contains this pin, and are the same rewrites as server-location-overrides' set: storage-layout-first resolveServerLocations, shared ~ expansion, and SERVER_OVERRIDE_ENV/CLEAR_SERVER_LOCATION_ENV/dev-runner/Windows env lists replaced by the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES, which still includes T3CODE_SERVER_CONFIG_FILE. serverConfigFileFlags and the server.json reader are carried. The SSH test helper now accepts login-shell options and collects stdout alongside stderr; both launch and diagnostic assertions remain."
 
 [[exception]]
 entry = "4437"
 missing_count = 49
-missing_sha256 = "fc6ae0b38c5d3ebcf154180fbbd7be31cf504e4aba5366a1dd84ae6549c2e6ae"
-reason = "48 lines are rewritten by t3code/main/client-storage-separation, which is stacked directly on this pin and lacks them in its own tree: the desktop's early settings lookup, client paths, Electron userData, CLI shim storage environment, `t3 app` and triage path resolution, resolveServerStorage's host plumbing, the split-layout detection in storagePaths and the SSH launcher, and dev-runner's T3CODE_CLIENT_DIR scrub now go through the separate t3code-client roots, with matching test changes. The storage selection union and the desktop environment's error union gain a Retired / LegacyStorageMigratedError member, so their ProbeFailed and single-line error-union lines are reshaped, not removed. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe."
+missing_sha256 = "fb2961430d1f54c4dc0d986bc44de4de83a34657d0c9fe9e3d2226cf8738fc58"
+reason = "48 lines are rewritten by t3code/main/client-storage-separation, which is stacked directly on this pin and lacks them in its own tree: the desktop's early settings lookup, client paths, Electron userData, CLI shim storage environment, `t3 app` and triage path resolution, resolveServerStorage's host plumbing, the split-layout detection in storagePaths and the SSH launcher, and dev-runner's T3CODE_CLIENT_DIR scrub now go through the separate t3code-client roots, with matching test changes. The storage selection union and the desktop environment's error union gain a Retired / LegacyStorageMigratedError member, so their ProbeFailed and single-line error-union lines are reshaped, not removed. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe. Client storage separation also updates the early-settings fixture to T3CODE_CLIENT_CONFIG_DIR and the development CLI fixtures to t3code-client-dev."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
-missing_count = 24
-missing_sha256 = "96eeb7cf8cda601764fa8b93e73ceb66046d63a6a0ab97f42046fd9fc2d55ba6"
-reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. 23 lines are removed by the patches/t3code-client-suite-storage-roots.patch fixup: deriveServerRuntimeStatePath is deleted, and DesktopRunningLocalServers reads server-runtime.json from the runtime dir and environment-id from the state dir (the server data dir override or the layout's roots; userdata in the legacy layout, so that path is unchanged), passing `--base-dir` to `t3 pair` in the legacy layout and `--storage-layout xdg` in the split layout, with tests updated for both. pair.ts's per-base statePath line is resolved to #4437's candidate discovery (legacy and split candidates through deriveServerStoragePaths), while `--json`, asJsonCommand and the shared reader are carried."
+missing_count = 26
+missing_sha256 = "6fb3e05e58bd636e879348c902444a2c4ffeb7e3d21589ac5b029f9c292cf31a"
+reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. Storage path lines are removed by the patches/t3code-client-suite-storage-roots.patch fixup: deriveServerRuntimeStatePath is deleted, and DesktopRunningLocalServers reads server-runtime.json from the runtime dir and environment-id from the state dir (the server data dir override or the layout's roots; userdata in the legacy layout, so that path is unchanged), passing `--base-dir` to `t3 pair` in the legacy layout and `--storage-layout xdg` in the split layout, with tests updated for both. pair.ts's per-base statePath line is resolved to #4437's candidate discovery (legacy and split candidates through deriveServerStoragePaths), while `--json`, asJsonCommand and the shared reader are carried. The discovery fixture expands its origin object across lines. Window bounds belong to DesktopWindowState rather than DesktopAppSettings; the combined fixture supplies both services and retains the bounds assertions."
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
@@ -65,8 +65,8 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
 missing_count = 10
-missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
-reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage."
+missing_sha256 = "07242e5f0e0772966596d9492a4d8911295ea7a9a2a7575118f716296a42d033"
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
@@ -83,5 +83,5 @@ reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/a
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
 missing_count = 10
-missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
-reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage."
+missing_sha256 = "07242e5f0e0772966596d9492a4d8911295ea7a9a2a7575118f716296a42d033"
+reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
