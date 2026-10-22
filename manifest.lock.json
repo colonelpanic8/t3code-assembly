@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-22T17:39:24.804568722+00:00",
+    "generated": "2026-10-22T17:56:58.955279461+00:00",
     "base": "f460ddb23a49e459575f6dbcc0101212d8640a2e",
-    "commit": "98cd9d13197f66ddcb80ad191fc6a17345a7969e",
-    "pre_provenance_commit": "de806eae48af831f17fff803a71a2fda24233606",
-    "tree": "69a5a2ba9d97a48e6f3f23ce350f6b7cd481d396",
-    "built_tree": "242c9c4fd97d33e827bbf1b61a6387e169be0f34",
-    "previous_tree": "4970da04574a8ab7c72036a4a9490028a7256e23",
+    "commit": "e3c6c6e3c3b0e2c62f40fb9c3a92fd055f939d9c",
+    "pre_provenance_commit": "3b2a0af883a47d0462798d9e61933c32fc220a77",
+    "tree": "a43fd6bb6a83947a69827c1c53b813ff2b5698e5",
+    "built_tree": "78f5ebc8e4fc067c55ae94838edb98be99a07785",
+    "previous_tree": "69a5a2ba9d97a48e6f3f23ce350f6b7cd481d396",
     "tree_changed": true,
     "conflicts": 24,
     "manifest_entries": [
@@ -248,7 +248,8 @@
         "name": "t3code/main/declarative-settings",
         "kind": "branch",
         "source": "fork:t3code/main/declarative-settings",
-        "pin": "9b9f45fd71efa0713990fe2cc95f4438d1f48385"
+        "pin": "9b9f45fd71efa0713990fe2cc95f4438d1f48385",
+        "fixup": "7999f2d63d1730c59c52af79d0f8e99dd0a23655"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
@@ -575,7 +576,8 @@
         "oid": "9b9f45fd71efa0713990fe2cc95f4438d1f48385",
         "status": "merged",
         "conflicted": true,
-        "resolution": "rerere"
+        "resolution": "rerere",
+        "fixup": "7999f2d63d1730c59c52af79d0f8e99dd0a23655"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",

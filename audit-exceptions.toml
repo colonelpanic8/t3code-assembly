@@ -16,21 +16,21 @@ reason = "Client path lines are rewritten by #4437, which is stacked on a merge 
 
 [[exception]]
 entry = "t3code/main/server-location-overrides"
-missing_count = 82
-missing_sha256 = "3c967226e9fba59fcb502aa5ca62a70a73dbccb0e3aaccacbd1997e0b013cfc8"
-reason = "24 lines are already rewritten by t3code/main/server-config-file (serverLocationFlags spreads become serverConfigFileFlags; SERVER_LOCATION_ENV becomes SERVER_OVERRIDE_ENV, and the env-name lists and their bootService/SSH tests gain T3CODE_SERVER_CONFIG_FILE). The missing lines are absent from #4437's own tree, which contains this pin: resolveServerLocations resolves the storage layout first and derives paths from its roots instead of resolveBaseDir/deriveServerPaths(baseDir, overrides); the ~ expansion moves to shared expandT3HomePath/resolveT3ConfiguredPath; the per-file env-name lists in the SSH launcher, boot service units, dev-runner and the Windows desktop filter become the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES (still unset/blanked/scrubbed); triage, uninstall, pair discovery and the AgentSessionScanner exclusion test move to the layout's state/logs/runtime dirs. The SSH test helper now accepts login-shell options and collects stdout alongside stderr; both launch and diagnostic assertions remain."
+missing_count = 85
+missing_sha256 = "8d0c951517b38e391c30cb8b1b5a3dc4c6554dd48f5a5cc2ce89227ec4745e2f"
+reason = "server-config-file extends the location flag bundles with serverConfigFileFlags and T3CODE_SERVER_CONFIG_FILE. The split-storage and client-storage topics replace resolveBaseDir/fallbackBaseDir with layout selection, then apply the same per-category overrides through deriveServerStoragePaths; legacy stateDir remains dataDir, while split state/runtime roots own the database, IDs, secrets, logs and runtime record. Desktop override expansion uses expandT3HomePath and backendCwd. The Windows filter now has Set<string> and matches upper-cased names from T3_STORAGE_ENVIRONMENT_NAMES and T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters gain storage roots; triage/uninstall/pair discovery use the selected roots, trace summary also reads server.json, and AgentSessionScanner's exclusion test expands to all five roots. Boot-service, SSH and dev-runner lists use the shared override-name constant, still clearing every original override. SSH fixtures retain launch/diagnostic assertions while accepting login-shell options and collecting stdout; the renamed pinning test covers every server override."
 
 [[exception]]
 entry = "t3code/main/server-config-file"
-missing_count = 65
-missing_sha256 = "269d940319fdb1e7bfe55ce25c3710e096e67e2a0e94b7928835909ba41ac599"
-reason = "The missing lines are absent from #4437's own tree, which contains this pin, and are the same rewrites as server-location-overrides' set: storage-layout-first resolveServerLocations, shared ~ expansion, and SERVER_OVERRIDE_ENV/CLEAR_SERVER_LOCATION_ENV/dev-runner/Windows env lists replaced by the shared T3_SERVER_LOCATION_ENVIRONMENT_NAMES, which still includes T3CODE_SERVER_CONFIG_FILE. serverConfigFileFlags and the server.json reader are carried. The SSH test helper now accepts login-shell options and collects stdout alongside stderr; both launch and diagnostic assertions remain."
+missing_count = 68
+missing_sha256 = "6bd2ae9cb4b9e1ea9fb6c63487a4b7d6c5a8902c4e4e46cd8968d9887982ce52"
+reason = "The split-storage and client-storage topics retain serverConfigFileFlags and the server.json reader while replacing base-only location resolution with layout selection plus the same category overrides. State/runtime roots now select database, IDs, secrets, logs and runtime files; legacy paths remain equivalent. ServerLocationOverrides parameters widen to DeriveServerPathsOptions for split roots. Desktop path expansion uses expandT3HomePath; the Windows Set<string> filter matches upper-cased names from the shared storage/override lists. Boot-service, SSH and dev-runner code still clears T3CODE_SERVER_CONFIG_FILE and the original three directory overrides through T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters include storage roots, triage/uninstall/pair discovery follow those roots, and scanner exclusions cover all five categories. The SSH harness retains diagnostics and launch assertions while adding login-shell options and collecting stdout."
 
 [[exception]]
 entry = "4437"
-missing_count = 49
-missing_sha256 = "fb2961430d1f54c4dc0d986bc44de4de83a34657d0c9fe9e3d2226cf8738fc58"
-reason = "48 lines are rewritten by t3code/main/client-storage-separation, which is stacked directly on this pin and lacks them in its own tree: the desktop's early settings lookup, client paths, Electron userData, CLI shim storage environment, `t3 app` and triage path resolution, resolveServerStorage's host plumbing, the split-layout detection in storagePaths and the SSH launcher, and dev-runner's T3CODE_CLIENT_DIR scrub now go through the separate t3code-client roots, with matching test changes. The storage selection union and the desktop environment's error union gain a Retired / LegacyStorageMigratedError member, so their ProbeFailed and single-line error-union lines are reshaped, not removed. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe. Client storage separation also updates the early-settings fixture to T3CODE_CLIENT_CONFIG_DIR and the development CLI fixtures to t3code-client-dev."
+missing_count = 48
+missing_sha256 = "946195a29daf14205319c454d8d17542158eb204a823d95cb3058c525e16f711"
+reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
@@ -40,9 +40,9 @@ reason = "#4437's storage roots replace the suite's baseDir/variant runtime-stat
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
-missing_count = 10
-missing_sha256 = "1cd83b02071e93581254a817a4fe62a0223026285ffb3003bd39a7c50cf8aedd"
-reason = "Declarative settings rewrites five serverSettings lines to include managedSettingsPath, a managed layer and effective settings in SettingsState, and settingsStateFor when updating the cache; parseFailure is preserved during reads and cleared after successful writes. Four test lines become the managed-aware options form of layerSharedServerSettings. project.ts's projectLocationFlags import becomes serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile."
+missing_count = 6
+missing_sha256 = "cbf7140808ba0d132affe03a3c983de2b92b302b3a808c30111fa50f3a910350"
+reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure. Reads pass the existing parseFailure; successful writes call settingsStateFor without that argument, defaulting it to Option.none(), before caching nextState and emitting its effective settings. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The former exception's four shared-test helper lines are now present and need no waiver."
 
 [[exception]]
 entry = "t3code/main/declarative-settings"
