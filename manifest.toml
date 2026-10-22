@@ -475,3 +475,7 @@ reason = "Landed upstream as #17664 (b744bded01): the draft project picker is a 
 [[exclude]]
 pr = 21086
 reason = "Landed upstream as #21086 (80df91b52b): answered questions stay visible after a turn settles."
+
+[[exclude]]
+pr = 22740
+reason = "Absorbed by upstream #23467 (8d3b061121): the new/draft alias now opens Thread with DETAIL_HEADER_OPTIONS, which hides the Android native header before mount."
