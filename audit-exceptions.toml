@@ -40,9 +40,9 @@ reason = "#4437's storage roots replace the suite's baseDir/variant runtime-stat
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
-missing_count = 6
-missing_sha256 = "cbf7140808ba0d132affe03a3c983de2b92b302b3a808c30111fa50f3a910350"
-reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure. Reads pass the existing parseFailure; successful writes call settingsStateFor without that argument, defaulting it to Option.none(), before caching nextState and emitting its effective settings. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The former exception's four shared-test helper lines are now present and need no waiver."
+missing_count = 10
+missing_sha256 = "1cd83b02071e93581254a817a4fe62a0223026285ffb3003bd39a7c50cf8aedd"
+reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure. Reads pass the existing parseFailure; successful writes call settingsStateFor without that argument, defaulting it to Option.none(), before caching nextState and emitting its effective settings. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The declarative-settings shared-test dedup fixup removes four obsolete helper/call lines: the retained helper accepts options with secretStoreLayer, defaults to the same ServerSecretStore.layer, and provides the same supplied layer through options.secretStoreLayer. The store-unavailable and conditional layerSecret call sites pass their original layers under that option. All 26 duplicate shared-test bodies and assertions match the retained suite after only three Layer-to-options call conversions; the six additional managed cases remain. The final test file is byte-identical to the validated proposal with all 141 tests passing."
 
 [[exception]]
 entry = "t3code/main/declarative-settings"
