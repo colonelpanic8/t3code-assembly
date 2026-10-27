@@ -1,0 +1,12 @@
+diff --git a/apps/server/src/auth/SessionStore.test.ts b/apps/server/src/auth/SessionStore.test.ts
+index 8187285059..b192a05e32 100644
+--- a/apps/server/src/auth/SessionStore.test.ts
++++ b/apps/server/src/auth/SessionStore.test.ts
+@@ -17,7 +17,6 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+ import * as AuthSessions from "../persistence/AuthSessions.ts";
+ 
+ import * as SqlitePersistence from "../persistence/Sqlite.ts";
+-import * as AuthSessions from "../persistence/AuthSessions.ts";
+ import * as SessionStore from "./SessionStore.ts";
+ import * as ServerSecretStore from "./ServerSecretStore.ts";
+ import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.ts";

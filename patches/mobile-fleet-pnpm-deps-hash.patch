@@ -1,13 +1,25 @@
+diff --git a/apps/server/src/auth/SessionStore.test.ts b/apps/server/src/auth/SessionStore.test.ts
+index 8187285059..b192a05e32 100644
+--- a/apps/server/src/auth/SessionStore.test.ts
++++ b/apps/server/src/auth/SessionStore.test.ts
+@@ -17,7 +17,6 @@ import * as ServerEnvironment from "../environment/ServerEnvironment.ts";
+ import * as AuthSessions from "../persistence/AuthSessions.ts";
+ 
+ import * as SqlitePersistence from "../persistence/Sqlite.ts";
+-import * as AuthSessions from "../persistence/AuthSessions.ts";
+ import * as SessionStore from "./SessionStore.ts";
+ import * as ServerSecretStore from "./ServerSecretStore.ts";
+ import { base64UrlDecodeUtf8, base64UrlEncode, signPayload } from "./utils.ts";
 diff --git a/nix/package.nix b/nix/package.nix
-index 4f11dab..16f44c3 100644
+index 887ddb81a0..a1c72380ea 100644
 --- a/nix/package.nix
 +++ b/nix/package.nix
-@@ -111,7 +111,7 @@
+@@ -129,7 +129,7 @@
        # Fixed-output hash over the offline dependency closure. When
        # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
        # .#unwrapped, and copy the reported hash here.
 -      hash = "sha256-XRgN5NIC94VsLIhoMsMj8ocLtxiVfLFvG+nlK1spqmI=";
-+      hash = "sha256-xRmOrOZbBljaF1IJr0JFUFzdhkld6+ehLIlpVOg/J3E=";
++      hash = "sha256-t7DWJow4pdsqbFnMA+p3TDjYkr1asdFStnvnDxuxnFw=";
      };
  
      env.APP_VERSION = finalAttrs.version;

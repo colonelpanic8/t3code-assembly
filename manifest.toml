@@ -239,6 +239,7 @@ summary = "Resolve transitive type declarations through workspace-local dependen
 branch = "fork:t3code/main/client-storage-separation"
 summary = "Client storage separate from the server's T3 home, plus `t3 storage migrate`"
 note = "Built on #4437's split layout and must stay after it. In the legacy layout everything stays in ~/.t3/userdata; in split layout the client uses t3code-client XDG roots. --client-dir still relocates the desktop's own files in either layout."
+fixup = "patches/client-storage-separation-unused-dev-url.patch"
 
 # Nix-provided settings, keybindings, and client settings files layer over user
 # values as read-only. A client-only desktop also applies the managed
@@ -353,6 +354,7 @@ summary = "Hide chosen repositories from the pull request list"
 branch = "fork:t3code/main/mobile-settings-feed"
 summary = "Phone settings from an external settings feed"
 note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)."
+fixup = "patches/mobile-settings-feed-auth-sessions-import.patch"
 
 [[entry]]
 branch = "fork:t3code/main/scoped-environment-keys-integration"

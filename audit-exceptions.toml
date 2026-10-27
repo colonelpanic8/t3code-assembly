@@ -4,14 +4,14 @@
 
 [[exception]]
 entry = "t3code/main/desktop-window-state"
-missing_count = 17
-missing_sha256 = "276244971f86e92e34bf064833be73aa2229f24fc0a12b167709cf5672fae047"
-reason = "desktopWindowStatePath moved out of DesktopEnvironment into DesktopStatePaths' resolveDesktopClientPaths (desktop-client-location, then #4437, both stacked on this pin), where it still joins desktop-window-state.json onto the client state dir. main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))` is combined with the client suite's DesktopRunningLocalServers pipe: DesktopWindowState.layer is provide-merged there ahead of DesktopAppSettings.layer, so the window state service is still exposed and still reads the settings fallback. Window-state tests retain their assertions and trace fixture; object literals, calls, and return values are expanded across lines by the formatter."
+missing_count = 2
+missing_sha256 = "d0be1c84a334eb9ec16421d1eb1326a2e30a482a1102eedcdb849c83fb4b0a3e"
+reason = "desktopWindowStatePath moved out of DesktopEnvironment into DesktopStatePaths' resolveDesktopClientPaths (desktop-client-location, then #4437, both stacked on this pin), where it still joins desktop-window-state.json onto the client state dir. main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))` is combined with the client suite's DesktopRunningLocalServers pipe: DesktopWindowState.layer is provide-merged there ahead of DesktopAppSettings.layer, so the window state service is still exposed and still reads the settings fallback."
 
 [[exception]]
 entry = "t3code/main/desktop-client-location"
-missing_count = 54
-missing_sha256 = "4899673724839eaca52882af002f524d363e50e389a2d505bae435497ce107a3"
+missing_count = 41
+missing_sha256 = "18869d0e882d7c348dbea336285fc0a7222119d3f9985856d21543b1a06e0928"
 reason = "Client path lines are rewritten by #4437, which is stacked on a merge containing this pin and lacks them in its own tree: resolveDesktopClientPaths now takes the storage layout's configDir/stateDir and a Pick<StoragePathOperations> instead of t3Home/isDevelopment/joinPath/resolvePath, and expands `~` through the shared resolveT3ConfiguredPath instead of the local normalizeConfiguredDir/expandHomeDir; DesktopEnvironment and DesktopEarlyElectronStartup feed it the selected storage roots. --client-dir and T3CODE_CLIENT_DIR precedence and every client file name are unchanged. The last is desktop-window-state's main.ts DesktopWindowState layer line, inherited and combined into the client suite's DesktopRunningLocalServers pipe. Client-directory and inherited window-state test fixtures retain the same values in expanded formatting."
 
 [[exception]]
@@ -28,14 +28,14 @@ reason = "The split-storage and client-storage topics retain serverConfigFileFla
 
 [[exception]]
 entry = "4437"
-missing_count = 48
-missing_sha256 = "946195a29daf14205319c454d8d17542158eb204a823d95cb3058c525e16f711"
-reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried."
+missing_count = 49
+missing_sha256 = "fb2961430d1f54c4dc0d986bc44de4de83a34657d0c9fe9e3d2226cf8738fc58"
+reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
-missing_count = 26
-missing_sha256 = "6fb3e05e58bd636e879348c902444a2c4ffeb7e3d21589ac5b029f9c292cf31a"
+missing_count = 24
+missing_sha256 = "bfb19e3a6ee795228d25e57637128980042d167d05db580d7165370ecfa5e51f"
 reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. Storage path lines are removed by the patches/t3code-client-suite-storage-roots.patch fixup: deriveServerRuntimeStatePath is deleted, and DesktopRunningLocalServers reads server-runtime.json from the runtime dir and environment-id from the state dir (the server data dir override or the layout's roots; userdata in the legacy layout, so that path is unchanged), passing `--base-dir` to `t3 pair` in the legacy layout and `--storage-layout xdg` in the split layout, with tests updated for both. pair.ts's per-base statePath line is resolved to #4437's candidate discovery (legacy and split candidates through deriveServerStoragePaths), while `--json`, asJsonCommand and the shared reader are carried. The discovery fixture expands its origin object across lines. Window bounds belong to DesktopWindowState rather than DesktopAppSettings; the combined fixture supplies both services and retains the bounds assertions."
 
 [[exception]]
@@ -65,7 +65,7 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
 missing_count = 10
-missing_sha256 = "07242e5f0e0772966596d9492a4d8911295ea7a9a2a7575118f716296a42d033"
+missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
 reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
 
 [[exception]]
@@ -83,5 +83,5 @@ reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/a
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
 missing_count = 10
-missing_sha256 = "07242e5f0e0772966596d9492a4d8911295ea7a9a2a7575118f716296a42d033"
+missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
 reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."

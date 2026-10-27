@@ -216,52 +216,23 @@ index ec73e8f700..fc0c419df2 100644
        backendCwd: environment.backendCwd,
        executablePath: process.execPath,
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
-index 5c9da132a3..4d89c35d37 100644
+index c4c6c17f8e..2074971b25 100644
 --- a/apps/server/src/cli/pair.ts
 +++ b/apps/server/src/cli/pair.ts
-@@ -10,10 +10,7 @@ import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
+@@ -11,7 +11,7 @@ import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
  import * as HostProcess from "@t3tools/shared/HostProcess";
  import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
  import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
--import {
--  deriveServerRuntimeStatePath,
--  type ServerRuntimeStateVariant,
--} from "@t3tools/shared/serverRuntimeState";
+-import { type ServerRuntimeStateVariant } from "@t3tools/shared/serverRuntimeState";
 +import type { ServerRuntimeStateVariant } from "@t3tools/shared/serverRuntimeState";
  import {
    buildTailscaleHttpsBaseUrl,
    DEFAULT_TAILSCALE_SERVE_PORT,
-@@ -289,7 +286,7 @@ const probeEnvironmentDescriptor: (
- 
- interface PairCandidate {
-   readonly storage: ServerStorage;
--  readonly variant: PairStateVariant;
-+  readonly variant: ServerRuntimeStateVariant;
- }
- 
- interface DiscoveredPairTarget extends PairCandidate {
-@@ -348,7 +345,6 @@ const discoverPairTarget = Effect.fn("pair.discoverPairTarget")(function* (
-     }
-   }
- 
--  const path = yield* Path.Path;
-   const checkedStatePaths: Array<string> = [];
-   for (const candidate of candidates) {
-     const statePath = (yield* candidatePaths(candidate, overrides)).derivedPaths
-@@ -595,7 +591,7 @@ export const pairCommand = Command.make("pair", {
-           return yield* new JsonTailscaleUnsupportedError();
-         }
- 
--        const target = yield* discoverPairTarget(Option.getOrUndefined(flags.baseDir));
-+        const target = yield* discoverPairTarget(flags);
- 
-         const notes: Array<string> = [];
-         let pairingBaseUrl: string;
 diff --git a/packages/shared/src/serverRuntimeState.ts b/packages/shared/src/serverRuntimeState.ts
-index 767e56b037..8d9fffb680 100644
+index 3203093f0c..ffa711faef 100644
 --- a/packages/shared/src/serverRuntimeState.ts
 +++ b/packages/shared/src/serverRuntimeState.ts
-@@ -43,14 +43,6 @@ const decodePersistedServerRuntimeState = Schema.decodeUnknownEffect(
+@@ -44,14 +44,6 @@ const decodePersistedServerRuntimeState = Schema.decodeUnknownEffect(
    Schema.fromJsonString(PersistedServerRuntimeState),
  );
  
