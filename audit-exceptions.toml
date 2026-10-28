@@ -17,19 +17,19 @@ reason = "Client path lines are rewritten by #4437, which is stacked on a merge 
 [[exception]]
 entry = "t3code/main/server-location-overrides"
 missing_count = 85
-missing_sha256 = "8d0c951517b38e391c30cb8b1b5a3dc4c6554dd48f5a5cc2ce89227ec4745e2f"
+missing_sha256 = "be5612424776662f792275ffa58b3ba1f1b132c8136d2580223c7dabb8d13668"
 reason = "server-config-file extends the location flag bundles with serverConfigFileFlags and T3CODE_SERVER_CONFIG_FILE. The split-storage and client-storage topics replace resolveBaseDir/fallbackBaseDir with layout selection, then apply the same per-category overrides through deriveServerStoragePaths; legacy stateDir remains dataDir, while split state/runtime roots own the database, IDs, secrets, logs and runtime record. Desktop override expansion uses expandT3HomePath and backendCwd. The Windows filter now has Set<string> and matches upper-cased names from T3_STORAGE_ENVIRONMENT_NAMES and T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters gain storage roots; triage/uninstall/pair discovery use the selected roots, trace summary also reads server.json, and AgentSessionScanner's exclusion test expands to all five roots. Boot-service, SSH and dev-runner lists use the shared override-name constant, still clearing every original override. SSH fixtures retain launch/diagnostic assertions while accepting login-shell options and collecting stdout; the renamed pinning test covers every server override."
 
 [[exception]]
 entry = "t3code/main/server-config-file"
 missing_count = 68
-missing_sha256 = "6bd2ae9cb4b9e1ea9fb6c63487a4b7d6c5a8902c4e4e46cd8968d9887982ce52"
+missing_sha256 = "e0828cf7388359bce13eb51275873ab56d5e204fb8d19e6d03927946e5bfd794"
 reason = "The split-storage and client-storage topics retain serverConfigFileFlags and the server.json reader while replacing base-only location resolution with layout selection plus the same category overrides. State/runtime roots now select database, IDs, secrets, logs and runtime files; legacy paths remain equivalent. ServerLocationOverrides parameters widen to DeriveServerPathsOptions for split roots. Desktop path expansion uses expandT3HomePath; the Windows Set<string> filter matches upper-cased names from the shared storage/override lists. Boot-service, SSH and dev-runner code still clears T3CODE_SERVER_CONFIG_FILE and the original three directory overrides through T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters include storage roots, triage/uninstall/pair discovery follow those roots, and scanner exclusions cover all five categories. The SSH harness retains diagnostics and launch assertions while adding login-shell options and collecting stdout."
 
 [[exception]]
 entry = "4437"
-missing_count = 49
-missing_sha256 = "fb2961430d1f54c4dc0d986bc44de4de83a34657d0c9fe9e3d2226cf8738fc58"
+missing_count = 50
+missing_sha256 = "bc634ead032810a3f79432b47550da6756e8ad3800882a93b1489bfdbc4e9894"
 reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind."
 
 [[exception]]

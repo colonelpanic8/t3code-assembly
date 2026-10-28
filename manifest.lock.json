@@ -57,13 +57,13 @@
     }
   },
   "build": {
-    "generated": "2026-10-28T13:28:28.545633625+00:00",
+    "generated": "2026-10-28T13:31:15.338187122+00:00",
     "base": "5211acfe95a0c6d82a60e2524b5e46b47fe67a3e",
-    "commit": "24d3ba2c8b6f8bb0bfbd2c369853462fd950a33b",
-    "pre_provenance_commit": "c2cdfce2890cf6d2da90e7f690c121e54a55840d",
-    "tree": "8ab8345a75ed0f24e5c7b44ef1fe8abdf9988a8e",
-    "built_tree": "3d72356cfff9c4ab621d4347adc662de69abaef3",
-    "previous_tree": "5763dab9e3d6eb7ed82aaba12615fa972e2bda64",
+    "commit": "5f779291b89e6a7995565415bb3205ede39b7d26",
+    "pre_provenance_commit": "9bbb3723324648d77fedfba6d6b097b85d0709de",
+    "tree": "7557c3fc43469206c43375b9c42c72dbd0b19729",
+    "built_tree": "da82f6a74d3c1e5ee42e34932210d7140cea204b",
+    "previous_tree": "8ab8345a75ed0f24e5c7b44ef1fe8abdf9988a8e",
     "tree_changed": true,
     "conflicts": 15,
     "manifest_entries": [
@@ -251,7 +251,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "09a0547a576662a7603408da10ecd87af61fac7c",
-        "fixup": "615ea057d60522d0d83e5c031f75b16b37e58724"
+        "fixup": "8b65f4aefa35774d8277b3df818cf82e10d0b9e4"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -579,7 +579,7 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
-        "fixup": "615ea057d60522d0d83e5c031f75b16b37e58724"
+        "fixup": "8b65f4aefa35774d8277b3df818cf82e10d0b9e4"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
