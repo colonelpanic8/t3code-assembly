@@ -70,7 +70,10 @@ worktree and files:
 2. Stage only the intended resolution with `git add`.
 3. Run `fork-assembler continue`.
 4. Repeat until the build completes.
-5. Run `fork-assembler build --locked` from scratch.
+5. Run `fork-assembler build --locked` from scratch. Once it verifies, it
+   records in the lock which pairs reproducing the lock replays.
+6. Run `just gc` to remove the pairs a changed conflict superseded
+   (`just gc --dry-run` lists them first).
 
 `continue` harvests Git’s preimage/postimage pair under
 `resolutions/rerere/` and updates the informational `INDEX.toml`. If the

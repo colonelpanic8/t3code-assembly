@@ -18,6 +18,9 @@ continue:
 update *entries:
   fork-assembler update {{entries}}
 
+gc *args:
+  fork-assembler gc {{args}}
+
 audit:
   bin/audit-assembly-content.py "$(jq -r .build.commit manifest.lock.json)"
 
