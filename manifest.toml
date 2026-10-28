@@ -146,12 +146,6 @@ summary = "Reconcile client state after a settle does not land"
 [[entry]]
 branch = "fork:t3code/main/managed-fleet"
 
-# Despite the name, this now only hardens the desktop smoke test: Electron
-# exiting before the 8s window counts as a failure. The original @clerk/electron
-# startup patch was dropped once upstream #13204 fixed the ordering.
-[[entry]]
-branch = "fork:t3code/main/desktop-clerk-startup"
-
 # On first start, re-keys a database written by pre-merge assembly builds (V2
 # migrations under fork-only ids) onto main's migration ids, so main's
 # migrations 50-56 actually run.
