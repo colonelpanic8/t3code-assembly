@@ -57,15 +57,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-28T01:03:38.118494849+00:00",
+    "generated": "2026-10-28T01:10:51.966131325+00:00",
     "base": "f6a9315d19284422e2f2718e487c16acda4ba24e",
-    "commit": "8821dc6255f736ec9383a2e6cde3490787a4490e",
-    "pre_provenance_commit": "a8026840efbc208c11f27a6b87ba69091d57080a",
+    "commit": "23883bcf86b6acc56c59f6ca84ffd2c9fe6713fd",
+    "pre_provenance_commit": "5f3f884d7f40c48dabe68800dc4b72db36359376",
     "tree": "3eaf1dd73aa22a4aa57afb513b96c6720c3fc944",
     "built_tree": "3a05674ddd96631bb883da24e755997e055c68dc",
-    "previous_tree": "3fd6412474be5fa46734483ab070e68d9a181093",
-    "tree_changed": true,
-    "conflicts": 0,
+    "previous_tree": "3eaf1dd73aa22a4aa57afb513b96c6720c3fc944",
+    "tree_changed": false,
+    "conflicts": 17,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -212,7 +212,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-4420",
         "pin": "346e2d673e71db632b14810ac6da1f46ec016672",
-        "fixup": "4aaf33f1c8b4928d78886435f14615e98010b7a7"
+        "fixup": "f15d6761a2dc43b90a4e89d38e00773c8f7756f1"
       },
       {
         "name": "t3code/main/pr-4484",
@@ -537,7 +537,7 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere",
-        "fixup": "4aaf33f1c8b4928d78886435f14615e98010b7a7"
+        "fixup": "f15d6761a2dc43b90a4e89d38e00773c8f7756f1"
       },
       {
         "name": "t3code/main/pr-4484",
