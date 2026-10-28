@@ -5,6 +5,7 @@
     "entries": {
       "t3code/main/agent-verification": "40d8907d9def471a4babf971c9fff617c56c1a56",
       "t3code/main/android-intents": "341747971adc40973caae4a326ccfa9d33b5a3dc",
+      "t3code/main/assembly-update-notice": "25acab729cbad6cb6691bf7bc44676f31cb33b75",
       "t3code/main/blank-slate-assembly": "8bf79ed4d5727565d6b3a313b812f2d69bff92e9",
       "t3code/main/claude-subagent-output-tokens": "7184a48234a7200d99b9a98318bef669e7295614",
       "t3code/main/client-environment-suite": "080382ee909dfcf15b1d3889e347f5b77fa39b06",
@@ -56,15 +57,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-27T06:16:36.921417660+00:00",
+    "generated": "2026-10-28T01:03:38.118494849+00:00",
     "base": "f6a9315d19284422e2f2718e487c16acda4ba24e",
-    "commit": "d27121d94228a2269e63f8ba87dd3d9e16a671a0",
-    "pre_provenance_commit": "4cc4e6cd1d0abbd541d36f9d60c3d13a7b52ad9a",
-    "tree": "3fd6412474be5fa46734483ab070e68d9a181093",
-    "built_tree": "5a1ad7517bfc404d5b094411b40f39f52878b174",
-    "previous_tree": "e4bfafbe803c53f29242b9e24d581d3a2e6f1fbe",
+    "commit": "8821dc6255f736ec9383a2e6cde3490787a4490e",
+    "pre_provenance_commit": "a8026840efbc208c11f27a6b87ba69091d57080a",
+    "tree": "3eaf1dd73aa22a4aa57afb513b96c6720c3fc944",
+    "built_tree": "3a05674ddd96631bb883da24e755997e055c68dc",
+    "previous_tree": "3fd6412474be5fa46734483ab070e68d9a181093",
     "tree_changed": true,
-    "conflicts": 17,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -373,6 +374,13 @@
         "kind": "branch",
         "source": "fork:t3code/main/environment-groups",
         "pin": "0d16803528871eaf7d9fc0b7a57e5236aa22425f"
+      },
+      {
+        "name": "t3code/main/assembly-update-notice",
+        "kind": "branch",
+        "source": "fork:t3code/main/assembly-update-notice",
+        "pin": "25acab729cbad6cb6691bf7bc44676f31cb33b75",
+        "fixup": "71eb57dc3d2516e1f639613cd45d1810f2cbeb25"
       }
     ],
     "results": [
@@ -700,6 +708,13 @@
         "status": "merged",
         "conflicted": true,
         "resolution": "rerere"
+      },
+      {
+        "name": "t3code/main/assembly-update-notice",
+        "oid": "25acab729cbad6cb6691bf7bc44676f31cb33b75",
+        "status": "merged",
+        "conflicted": false,
+        "fixup": "71eb57dc3d2516e1f639613cd45d1810f2cbeb25"
       }
     ]
   }

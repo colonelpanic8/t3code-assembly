@@ -359,6 +359,15 @@ branch = "fork:t3code/main/environment-groups"
 summary = "Declarative environment groups with session visibility controls"
 note = "Hidden groups stay connected; reload restores each group’s declared default visibility."
 
+# Electron's updater cannot run in a Nix install. Instead the desktop app polls
+# the fork's assembled branch and shows a published newer build as an update
+# that links to the diff, with no download or install.
+[[entry]]
+branch = "fork:t3code/main/assembly-update-notice"
+summary = "Notify about newer published assembly builds without installing them"
+note = "Local topic, no PR. Enabled by T3CODE_UPDATE_NOTICE_{REPOSITORY,BRANCH,COMMIT}, which its fixup sets on the Nix desktop wrapper from stack-build-info.json and buildCommit."
+fixup = "patches/assembly-update-notice-nix-wrapper.patch"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."
