@@ -368,6 +368,13 @@ summary = "Notify about newer published assembly builds without installing them"
 note = "Local topic, no PR. Enabled by T3CODE_UPDATE_NOTICE_{REPOSITORY,BRANCH,COMMIT}, which its fixup sets on the Nix desktop wrapper from stack-build-info.json and buildCommit."
 fixup = "patches/assembly-update-notice-nix-wrapper.patch"
 
+# The composer always shows Run on and Workspace as separate controls; upstream
+# splits them only at a width the default chat column never reaches.
+[[entry]]
+branch = "fork:t3code/main/split-run-context-controls"
+summary = "Run on and Workspace stay separate composer controls"
+note = "Local topic, no PR. The thread details panel keeps its combined run-context row."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

@@ -48,6 +48,7 @@
       "t3code/main/server-config-file": "863fccdc07c6195eebea16808f785184c82dd2e3",
       "t3code/main/server-location-overrides": "395c0baaaa41dd3ad88f327280867425e42ec9a8",
       "t3code/main/shared-server-settings": "f7815015364953153c1075712e377499a9c865e6",
+      "t3code/main/split-run-context-controls": "3e109c31f63ed23cc244f0197c68855c3f2e4e71",
       "t3code/main/typecheck-fixes": "bb920bc6e8dfae3f76d6b60555aed10016c656ee",
       "t3code/main/usage-breakdowns": "03d0cefdc998939fef2d6decf4edb76eea0b6236",
       "t3code/main/usage-host-accounts": "9a7b8f955f436b540c54dd36d91cef57e36a0440",
@@ -57,14 +58,14 @@
     }
   },
   "build": {
-    "generated": "2026-10-28T01:10:51.966131325+00:00",
+    "generated": "2026-10-28T13:02:25.662385239+00:00",
     "base": "f6a9315d19284422e2f2718e487c16acda4ba24e",
-    "commit": "23883bcf86b6acc56c59f6ca84ffd2c9fe6713fd",
-    "pre_provenance_commit": "5f3f884d7f40c48dabe68800dc4b72db36359376",
-    "tree": "3eaf1dd73aa22a4aa57afb513b96c6720c3fc944",
-    "built_tree": "3a05674ddd96631bb883da24e755997e055c68dc",
+    "commit": "b52982ea8ad56b968d89b6b952324c035113cc3f",
+    "pre_provenance_commit": "8aa24c5c26916e8d04ea958952b439861aa40e62",
+    "tree": "5763dab9e3d6eb7ed82aaba12615fa972e2bda64",
+    "built_tree": "7c08676ed2b44beb542ea574b63f1edfb6d55c63",
     "previous_tree": "3eaf1dd73aa22a4aa57afb513b96c6720c3fc944",
-    "tree_changed": false,
+    "tree_changed": true,
     "conflicts": 17,
     "manifest_entries": [
       {
@@ -381,6 +382,12 @@
         "source": "fork:t3code/main/assembly-update-notice",
         "pin": "25acab729cbad6cb6691bf7bc44676f31cb33b75",
         "fixup": "71eb57dc3d2516e1f639613cd45d1810f2cbeb25"
+      },
+      {
+        "name": "t3code/main/split-run-context-controls",
+        "kind": "branch",
+        "source": "fork:t3code/main/split-run-context-controls",
+        "pin": "3e109c31f63ed23cc244f0197c68855c3f2e4e71"
       }
     ],
     "results": [
@@ -715,6 +722,12 @@
         "status": "merged",
         "conflicted": false,
         "fixup": "71eb57dc3d2516e1f639613cd45d1810f2cbeb25"
+      },
+      {
+        "name": "t3code/main/split-run-context-controls",
+        "oid": "3e109c31f63ed23cc244f0197c68855c3f2e4e71",
+        "status": "merged",
+        "conflicted": false
       }
     ]
   }
