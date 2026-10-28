@@ -284,10 +284,13 @@ branch = "fork:t3code/main/claude-subagent-output-tokens"
 [[entry]]
 branch = "fork:t3code/main/usage-scan-backoff"
 
+# A thread can name an agent profile (<stateDir>/profiles/<id>) whose
+# instructions, skills, and provider config replace the user's own; profile.json
+# {"t3Context": false} also drops T3's runtime instructions and MCP tools.
 [[entry]]
-branch = "fork:t3code/main/blank-slate-assembly"
-summary = "Optional blank-slate threads without T3 runtime context"
-note = "PR pingdotgg/t3code#19793, adapted to the pinned upstream base. Disables user/project context where supported; Codex global instructions and user MCP remain. The upstream PR stays on t3code/main/blank-slate-threads."
+branch = "fork:t3code/main/agent-profiles"
+summary = "Agent profiles: per-thread instructions, skills, and provider config (replaces blank slate)"
+note = "Local topic, no PR by request. Codex profile threads run in a CODEX_HOME overlay; Claude uses project/local setting sources with profile skills and instructions; other providers refuse profile threads."
 
 [[entry]]
 branch = "fork:t3code/main/usage-host-accounts"
@@ -480,6 +483,10 @@ reason = "Landed upstream as #17664 (b744bded01): the draft project picker is a 
 [[exclude]]
 pr = 21086
 reason = "Landed upstream as #21086 (80df91b52b): answered questions stay visible after a turn settles."
+
+[[exclude]]
+pr = 19793
+reason = "Blank-slate threads (fork:t3code/main/blank-slate-assembly) are replaced by fork:t3code/main/agent-profiles: a profile with profile.json {\"t3Context\": false} drops T3's runtime instructions and MCP tools."
 
 [[exclude]]
 pr = 22740

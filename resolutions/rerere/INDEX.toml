@@ -2,6 +2,12 @@
 # produced which conflict hash. Auditability only, never load-bearing;
 # replay uses the pair directories, verification uses the lock tree.
 [[resolution]]
+entry = "t3code/main/agent-profiles"
+hash = "4092dd2cffb757806be6dcb7bd4a15d2a4dfd3e2"
+paths = ["apps/web/src/components/chat/ChatComposer.tsx"]
+recorded = "2026-10-28T14:09:25.416556397+00:00"
+
+[[resolution]]
 entry = "t3code/main/blank-slate-assembly"
 hash = "21e6f3505ba536f96c467ad3b4ace5ba47ccf8c5"
 paths = ["apps/server/src/orchestration-v2/ThreadLaunchService.test.ts"]

@@ -3,10 +3,10 @@
   "pins": {
     "base": "5211acfe95a0c6d82a60e2524b5e46b47fe67a3e",
     "entries": {
+      "t3code/main/agent-profiles": "5122ecf12860320d3db9e2a2984eeec6a6086dc1",
       "t3code/main/agent-verification": "40d8907d9def471a4babf971c9fff617c56c1a56",
       "t3code/main/android-intents": "c6d4c323d7e47a8462135aedacd74f8dba5dd1aa",
       "t3code/main/assembly-update-notice": "9c919ea57ddbefc5b3d2939f82cb0b2358945a8b",
-      "t3code/main/blank-slate-assembly": "cec32cb24630e7a9d293f5b1f8d03f2ea08ece24",
       "t3code/main/claude-subagent-output-tokens": "2a25ae01e554334f823ae22a057d46080f3b8958",
       "t3code/main/client-environment-suite": "e6473e451df734b8c714626dc1de9abc9a8a55d5",
       "t3code/main/client-storage-separation": "e5aac3fb5b151a1cc89718a78a96a603f6322f98",
@@ -57,15 +57,15 @@
     }
   },
   "build": {
-    "generated": "2026-10-28T13:31:15.338187122+00:00",
+    "generated": "2026-10-28T14:09:26.936877897+00:00",
     "base": "5211acfe95a0c6d82a60e2524b5e46b47fe67a3e",
-    "commit": "5f779291b89e6a7995565415bb3205ede39b7d26",
-    "pre_provenance_commit": "9bbb3723324648d77fedfba6d6b097b85d0709de",
-    "tree": "7557c3fc43469206c43375b9c42c72dbd0b19729",
-    "built_tree": "da82f6a74d3c1e5ee42e34932210d7140cea204b",
-    "previous_tree": "8ab8345a75ed0f24e5c7b44ef1fe8abdf9988a8e",
+    "commit": "8b56add96a3a72a19ce972a2ec8ec992681fb045",
+    "pre_provenance_commit": "9d1ed53877ed4212417ef9871dbe12bb5f3a33d4",
+    "tree": "a54ee47c90121589c25ce67d2b5db22b15161026",
+    "built_tree": "dcc1b68a7ff4fd1972fe87f69a5684476f2ba8bc",
+    "previous_tree": "7557c3fc43469206c43375b9c42c72dbd0b19729",
     "tree_changed": true,
-    "conflicts": 15,
+    "conflicts": 16,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -297,10 +297,10 @@
         "pin": "33b77fdfd62fee04588a380194686c8c27946451"
       },
       {
-        "name": "t3code/main/blank-slate-assembly",
+        "name": "t3code/main/agent-profiles",
         "kind": "branch",
-        "source": "fork:t3code/main/blank-slate-assembly",
-        "pin": "cec32cb24630e7a9d293f5b1f8d03f2ea08ece24"
+        "source": "fork:t3code/main/agent-profiles",
+        "pin": "5122ecf12860320d3db9e2a2984eeec6a6086dc1"
       },
       {
         "name": "t3code/main/usage-host-accounts",
@@ -627,10 +627,11 @@
         "conflicted": false
       },
       {
-        "name": "t3code/main/blank-slate-assembly",
-        "oid": "cec32cb24630e7a9d293f5b1f8d03f2ea08ece24",
+        "name": "t3code/main/agent-profiles",
+        "oid": "5122ecf12860320d3db9e2a2984eeec6a6086dc1",
         "status": "merged",
-        "conflicted": false
+        "conflicted": true,
+        "resolution": "rerere:4092dd2cffb757806be6dcb7bd4a15d2a4dfd3e2"
       },
       {
         "name": "t3code/main/usage-host-accounts",
