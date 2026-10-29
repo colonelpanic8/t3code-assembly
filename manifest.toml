@@ -372,6 +372,13 @@ branch = "fork:t3code/main/split-run-context-controls"
 summary = "Run on and Workspace stay separate composer controls"
 note = "Local topic, no PR. The thread details panel keeps its combined run-context row."
 
+# Clicking a provider's summary row beside the Usage chart hides its usage
+# from the chart and fades the row. Stacked on usage-breakdowns.
+[[entry]]
+branch = "fork:t3code/main/usage-chart-provider-toggle"
+summary = "Toggle providers in and out of the Usage chart"
+note = "Local topic, no PR."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

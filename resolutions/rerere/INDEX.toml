@@ -794,6 +794,12 @@ paths = ["apps/server/src/serverSettings.ts"]
 recorded = "2026-10-16T20:37:36.161454096+00:00"
 
 [[resolution]]
+entry = "t3code/main/usage-chart-provider-toggle"
+hash = "9dbe03220b929377962c50054b66ce1084a97c13"
+paths = ["apps/web/src/components/usage/usageSeries.test.ts"]
+recorded = "2026-10-29T20:30:49.704483654+00:00"
+
+[[resolution]]
 entry = "t3code/main/usage-summary-cache"
 hash = "37837ef8eb588bf27b4dac02b85833f9bb838396"
 paths = ["docs/user/usage.md"]
