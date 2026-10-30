@@ -379,6 +379,23 @@ branch = "fork:t3code/main/usage-chart-provider-toggle"
 summary = "Toggle providers in and out of the Usage chart"
 note = "Local topic, no PR."
 
+# The mobile Usage chart splits by host, environment, provider, account and
+# model with day/week/month grouping, a breakdown list replaces the model
+# list, and tapping a provider hides it from the chart. Stacked on
+# usage-host-accounts.
+[[entry]]
+branch = "fork:t3code/main/mobile-usage-breakdowns"
+summary = "Mobile Usage chart splits, breakdown list, and provider toggle"
+note = "Local topic, no PR."
+
+# The mobile Usage screen keeps last reported usage across restarts, dims it
+# while hosts connect, stops counting disconnected hosts as scanning, and
+# moves the window to the new day. Stacked on usage-summary-cache.
+[[entry]]
+branch = "fork:t3code/main/mobile-usage-summary-cache"
+summary = "Mobile Usage keeps last reported usage across restarts and reconnects"
+note = "Local topic, no PR."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

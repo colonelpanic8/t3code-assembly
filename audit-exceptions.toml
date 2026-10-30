@@ -97,3 +97,15 @@ entry = "t3code/main/usage-host-accounts"
 missing_count = 1
 missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
 reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`."
+
+[[exception]]
+entry = "t3code/main/usage-summary-cache"
+missing_count = 2
+missing_sha256 = "c7aa51f79c673bea1ccd9962fe7bfd95622c064f23bffe85bdb0f981883d9193"
+reason = "mobile-usage-summary-cache hoists the mobile environment's connection phase into locals, so both `isConnecting: presentation.connection.phase === \"connecting\"` fields become `isConnecting` shorthand with the same value."
+
+[[exception]]
+entry = "t3code/main/mobile-usage-breakdowns"
+missing_count = 1
+missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
+reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`."

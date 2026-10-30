@@ -267,6 +267,12 @@ recorded = "2026-10-22T17:24:11.970490395+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "623556aa12c161aaff473129279c96822a0500ed"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-10-30T00:41:47.574369858+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "702bccdd3230dfe604d1fa0fed3983e210e7d1ab"
 paths = ["packages/contracts/src/ipc.ts"]
 recorded = "2026-10-14T22:48:48.567429053+00:00"
@@ -288,12 +294,6 @@ entry = "t3code/main/declarative-settings"
 hash = "c2f578c422d1a7efe8cacade6091a60101b133a3"
 paths = ["docs/user/install.md"]
 recorded = "2026-10-16T18:08:21.177925751+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "c487f5e8f7a44a2964e99a1c59d67682d781db59"
-paths = ["apps/server/src/serverSettings.ts"]
-recorded = "2026-10-27T03:55:15.564434949+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -402,6 +402,18 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "d8d0f10846dc2d67543cc69665e6b2ee38a58b29"
 paths = ["docs/user/remote-access.md"]
 recorded = "2026-10-27T03:56:01.697133556+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-usage-breakdowns"
+hash = "4838b14f4c64cfd55acae020ad3f51ff427e2015"
+paths = ["apps/mobile/src/persistence/mobile-preferences.ts"]
+recorded = "2026-10-30T00:41:58.971770103+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-usage-summary-cache"
+hash = "72536a27ed5adabc90ff82aa659a4d40dfc08157"
+paths = ["docs/user/usage.md"]
+recorded = "2026-10-30T00:42:06.118649904+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
