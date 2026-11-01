@@ -130,12 +130,12 @@ As soon as the build and syntax gate pass:
 2. Push that exact commit to `fork/t3code/assembled`.
 3. Create and push a unique UTC tag
    `t3code-assembled/YYYYMMDDTHHMMSSZ` at the same commit.
-4. Pin that exact revision as `t3code-integration` in
+4. Pin that exact revision as `t3code` in
    `/srv/dotfiles/nixos/flake.nix`; never pin the generated branch.
 5. From `/srv/dotfiles/nixos`, update the input and build the overlaid package:
 
    ```sh
-   nix flake update t3code-integration
+   nix flake update t3code
    nix build .#nixosConfigurations.ryzen-shine.pkgs.t3code
    ```
 
