@@ -48,6 +48,7 @@
       "t3code/main/server-config-file": "dc8a76d4f897f9d1bf3222edb708b70b5937a320",
       "t3code/main/server-location-overrides": "b1e2a3bbe9627292ea874e2b6bef9b98257a7518",
       "t3code/main/shared-server-settings": "ebe7039b4c6a9801b1d8c3c64804aaad7453cdc8",
+      "t3code/main/sidebar-sort-criteria": "21aa9b8aa0078979b91cd1146634fc8faf8850c3",
       "t3code/main/split-run-context-controls": "7f03333ec3272985fa207d4fe567f03d576a1677",
       "t3code/main/typecheck-fixes": "4a979697defe3ae39df83648084f6ad9d264a1b1",
       "t3code/main/usage-breakdowns": "eabd9b2c8b2048f59d855a3887504311fafb93bd",
@@ -60,15 +61,15 @@
     }
   },
   "build": {
-    "generated": "2026-11-01T05:25:17.476553+00:00",
+    "generated": "2026-11-01T18:34:17.155039958+00:00",
     "base": "955e2bfbb5c092c54ad795c8d379fec99702a6b5",
-    "commit": "f5388c425fc3e55ec8d33697fd20e7fe025d6d3a",
-    "pre_provenance_commit": "488a1a3fb8fd6782ccb8d2968ceb738ea9d81a1d",
-    "tree": "d2cb54553b037c462b6fcd591322587ad31ba36c",
-    "built_tree": "2eae741c1528c55f8c6929f4ff09cbff2276f4d0",
-    "previous_tree": "4027a273cf06f6dfc9cf825926088a15c28f5bab",
+    "commit": "aad3805e4299c147d64e988ef8f5240c761c8dc7",
+    "pre_provenance_commit": "e357faea97ac9ff6f4d7fbab67017075e29c70e8",
+    "tree": "3809045c15613c33ea1e0527ea889cefac78ce78",
+    "built_tree": "4bb25fdde560396f3146a06d85a85294ee95429c",
+    "previous_tree": "d2cb54553b037c462b6fcd591322587ad31ba36c",
     "tree_changed": true,
-    "conflicts": 19,
+    "conflicts": 1,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -402,6 +403,12 @@
         "kind": "patch",
         "source": "patches/upstream-20261031-compatibility.patch",
         "pin": "775ee31514b657ae61392671f5de96c39624ce81"
+      },
+      {
+        "name": "t3code/main/sidebar-sort-criteria",
+        "kind": "branch",
+        "source": "fork:t3code/main/sidebar-sort-criteria",
+        "pin": "21aa9b8aa0078979b91cd1146634fc8faf8850c3"
       }
     ],
     "results": [
@@ -948,6 +955,16 @@
         "status": "applied",
         "conflicted": false,
         "resolutions": []
+      },
+      {
+        "name": "t3code/main/sidebar-sort-criteria",
+        "oid": "21aa9b8aa0078979b91cd1146634fc8faf8850c3",
+        "status": "merged",
+        "conflicted": true,
+        "resolutions": [
+          "b1c7d6bf97202a1a49357ffcde6926e7d76fa41b",
+          "fd0ed9bb8e737729c3c6ca55a00f67a3dff06845"
+        ]
       }
     ]
   }
