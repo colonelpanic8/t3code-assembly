@@ -388,6 +388,11 @@ branch = "fork:t3code/main/mobile-usage-summary-cache"
 summary = "Mobile Usage keeps last reported usage across restarts and reconnects"
 note = "Local topic, no PR."
 
+[[entry]]
+patch = "patches/upstream-20261031-compatibility.patch"
+summary = "Adapt carried setup, storage, and composer code to current upstream APIs"
+note = "Cross-topic compatibility after the upstream setup-command and composer refactors; keeps mobile application code unchanged."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

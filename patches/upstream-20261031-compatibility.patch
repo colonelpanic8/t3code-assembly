@@ -1,0 +1,323 @@
+diff --git a/apps/server/src/cli/app.test.ts b/apps/server/src/cli/app.test.ts
+index 9e4300d0f9..0a4fb6e7a1 100644
+--- a/apps/server/src/cli/app.test.ts
++++ b/apps/server/src/cli/app.test.ts
+@@ -243,9 +243,9 @@ describe("t3 app", () => {
+               assert(userId !== undefined);
+               const expectedUserId =
+                 unsafe === "missing owner" ? undefined : unsafe === "owner" ? userId + 1 : userId;
+-              const desktop = yield* fakeDesktop({ baseDir }).pipe(
+-                Effect.provideService(HostProcess.UserId, expectedUserId),
+-              );
++              const desktop = yield* fakeDesktop({
++                stateDir: NodePath.join(baseDir, "userdata"),
++              }).pipe(Effect.provideService(HostProcess.UserId, expectedUserId));
+               const directory = desktop.directory;
+               assert(directory !== null);
+               if (unsafe === "permissions") {
+diff --git a/apps/server/src/cli/config.test.ts b/apps/server/src/cli/config.test.ts
+index da7368c0af..7bcf9f8af1 100644
+--- a/apps/server/src/cli/config.test.ts
++++ b/apps/server/src/cli/config.test.ts
+@@ -119,6 +119,8 @@ const minimalDesktopFlags = (baseDir: string) => ({
+   logWebSocketEvents: Option.none<boolean>(),
+   tailscaleServeEnabled: Option.none<boolean>(),
+   tailscaleServePort: Option.none<number>(),
++  sharedSettingsFile: Option.none(),
++  lan: Option.none(),
+ });
+ it.layer(NodeServices.layer)("cli config resolution", (it) => {
+   const defaultObservabilityConfig = {
+@@ -400,6 +402,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
+         tailscaleServeEnabled: Option.none<boolean>(),
+         tailscaleServePort: Option.none<number>(),
+         sharedSettingsFile: Option.none<string>(),
++        lan: Option.none(),
+       };
+       const layerConfig = ConfigProvider.layer(
+         ConfigProvider.fromEnv({
+@@ -1798,6 +1801,7 @@ const storageFlags = (overrides: Partial<CliServerFlags> = {}): CliServerFlags =
+   tailscaleServeEnabled: Option.none(),
+   tailscaleServePort: Option.none(),
+   sharedSettingsFile: Option.none(),
++  lan: Option.none(),
+   ...overrides,
+ });
+ it.layer(NodeServices.layer)("storage layout", (it) => {
+diff --git a/apps/server/src/cli/connect.test.ts b/apps/server/src/cli/connect.test.ts
+index 0b70a43c8c..de75ab6894 100644
+--- a/apps/server/src/cli/connect.test.ts
++++ b/apps/server/src/cli/connect.test.ts
+@@ -14,7 +14,7 @@ import { Command } from "effect/cli";
+ import { makeCli } from "../binCli.ts";
+ import * as BootService from "../cloud/bootService.ts";
+ import * as ServerConfig from "../config.ts";
+-import { acquireRelayClientForLink, finishConnectLink, finishConnectSetup } from "./connect.ts";
++import { acquireRelayClientForLink, finishConnectLink } from "./connect.ts";
+ 
+ const managedExecutable = {
+   status: "available",
+@@ -59,7 +59,9 @@ it.layer(Layer.mergeAll(NodeServices.layer, NetService.layer))(
+   (it) => {
+     const runHarness = Effect.fn("connectTest.runHarness")(function* <A, E, R>(
+       overrides: ServerConfig.ServerLocationOverrides,
+-      finish: (locations: Parameters<typeof finishConnectSetup>[0]) => Effect.Effect<A, E, R>,
++      finish: (
++        locations: Omit<Parameters<typeof finishConnectLink>[0], "publishOnly">,
++      ) => Effect.Effect<A, E, R>,
+     ) {
+       const logs: Array<string> = [];
+       let statusCalls = 0;
+@@ -97,28 +99,6 @@ it.layer(Layer.mergeAll(NodeServices.layer, NetService.layer))(
+         statusCalls,
+       };
+     });
+-    const setupHarness = (overrides: ServerConfig.ServerLocationOverrides) =>
+-      runHarness(overrides, finishConnectSetup);
+-    it.effect("skips the background service when connect runs with other server locations", () =>
+-      Effect.gen(function* () {
+-        const { logs, statusCalls } = yield* setupHarness({
+-          dataDir: "/srv/t3 data",
+-        });
+-        assert.equal(statusCalls, 0);
+-        assert.deepEqual(logs, [
+-          "\nSkipping background setup: the background service would not use this command's server locations.\n\nNext\n  Start the server with `t3 serve --server-data-dir '/srv/t3 data'` to make this machine reachable.",
+-        ]);
+-      }),
+-    );
+-    it.effect("offers the background service when the locations match the service", () =>
+-      Effect.gen(function* () {
+-        const { logs, statusCalls } = yield* setupHarness({});
+-        assert.equal(statusCalls, 1);
+-        assert.deepEqual(logs, [
+-          "\nNext\n  Start the server with `t3 serve` to make this machine reachable.",
+-        ]);
+-      }),
+-    );
+     it.effect("names this command's server locations in the link next step", () =>
+       Effect.gen(function* () {
+         const { logs } = yield* runHarness(
+diff --git a/apps/server/src/cli/connect.ts b/apps/server/src/cli/connect.ts
+index 351203102d..5c4510b835 100644
+--- a/apps/server/src/cli/connect.ts
++++ b/apps/server/src/cli/connect.ts
+@@ -581,29 +581,6 @@ const resolveServeNextStep = Effect.fn("cloud.cli.resolve_serve_next_step")(func
+   } as const;
+ });
+ 
+-/** Offers the background service after `t3 connect` stores its authorization. */
+-export const finishConnectSetup = Effect.fn("cloud.cli.finish_connect_setup")(function* (
+-  locations: ConnectLocations,
+-) {
+-  const nextStep = yield* resolveServeNextStep(locations);
+-  if (!nextStep.serviceUsesCommandLocations) {
+-    yield* Console.log(
+-      `\nSkipping background setup: the background service would not use this command's server locations.\n${nextStep.message}`,
+-    );
+-    return "skipped" as const;
+-  }
+-
+-  const outcome = yield* CliService.recoverServiceOnboardingOffer(
+-    CliService.offerServiceDuringOnboarding,
+-  );
+-  if (outcome === "skipped") {
+-    yield* Console.log(nextStep.message);
+-  } else {
+-    yield* reportServiceOnboarding(outcome);
+-  }
+-  return outcome;
+-});
+-
+ export const finishConnectLink = Effect.fn("cloud.cli.finish_connect_link")(function* (
+   options: ConnectLocations & { readonly publishOnly: boolean },
+ ) {
+diff --git a/apps/server/src/cli/service.ts b/apps/server/src/cli/service.ts
+index c830e3b6fa..f97e0995d9 100644
+--- a/apps/server/src/cli/service.ts
++++ b/apps/server/src/cli/service.ts
+@@ -5,6 +5,7 @@ import * as Console from "effect/Console";
+ import * as Effect from "effect/Effect";
+ import * as FileSystem from "effect/FileSystem";
+ import * as Layer from "effect/Layer";
++import * as Option from "effect/Option";
+ import * as Path from "effect/Path";
+ import { Command, Flag, GlobalFlag, Prompt } from "effect/cli";
+ import { FetchHttpClient } from "effect/http";
+@@ -202,7 +203,7 @@ const runServiceCommand = Effect.fn("cli.service.run")(function* <A, E, R>(
+   const logLevel = yield* GlobalFlag.LogLevel;
+   const config = yield* resolveCliAuthConfig(
+     {
+-      baseDir: flags.baseDir,
++      ...flags,
+       serverConfigDir: Option.some(locations.configDir),
+       serverDataDir: Option.some(locations.dataDir),
+       serverCacheDir: Option.some(locations.cacheDir),
+@@ -338,7 +339,7 @@ const confirm = (yes: boolean, message: string) =>
+   yes ? Effect.succeed(true) : Prompt.run(Prompt.Confirm({ message, initial: false }));
+ 
+ const serviceProtectCommand = Command.make("protect", {
+-  ...projectLocationFlags,
++  ...installLocationFlags,
+   undo: Flag.Boolean("undo").pipe(
+     Flag.withDescription("Remove the protection this command set up."),
+     Flag.withDefault(false),
+diff --git a/apps/server/src/cli/up.test.ts b/apps/server/src/cli/up.test.ts
+index 9fbe515944..a7c12143df 100644
+--- a/apps/server/src/cli/up.test.ts
++++ b/apps/server/src/cli/up.test.ts
+@@ -2,6 +2,8 @@ import * as NodeServices from "@effect/platform-node/NodeServices";
+ import { expect, it } from "@effect/vitest";
+ import * as HostProcess from "@t3tools/shared/HostProcess";
+ import * as NetService from "@t3tools/shared/Net";
++import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
++import * as Path from "effect/Path";
+ import * as Cause from "effect/Cause";
+ import * as ConfigProvider from "effect/ConfigProvider";
+ import * as Effect from "effect/Effect";
+@@ -273,6 +275,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NetService.layer))("t3 up", (it) =>
+       const fs = yield* FileSystem.FileSystem;
+       const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-up-test-" });
+       yield* fs.writeFileString(`${baseDir}/service.env`, input.env);
++      const path = yield* Path.Path;
+       let installs = 0;
+       let restarts = 0;
+       const status = {
+@@ -304,6 +307,11 @@ it.layer(Layer.mergeAll(NodeServices.layer, NetService.layer))("t3 up", (it) =>
+                     return {
+                       program: ["t3"],
+                       baseDir,
++                      storageRoots: resolveLegacyT3StorageRoots({
++                        baseDir,
++                        stateDirectoryName: "userdata",
++                        path,
++                      }),
+                       unitPath: status.unitPath,
+                       logPath: status.logPath,
+                     };
+diff --git a/apps/server/src/cli/up.ts b/apps/server/src/cli/up.ts
+index 7f307aec4b..f4b9809a85 100644
+--- a/apps/server/src/cli/up.ts
++++ b/apps/server/src/cli/up.ts
+@@ -16,7 +16,7 @@ import { CLOUD_ENDPOINT_RUNTIME_CONFIG, CLOUD_LINK_REVOKED } from "../cloud/conf
+ import { hasCloudPublicConfig } from "../cloud/publicConfig.ts";
+ import { compareExactServiceVersions } from "../cloud/serviceProtocol.ts";
+ import * as ServerConfig from "../config.ts";
+-import { projectLocationFlags, resolveCliAuthConfig } from "./config.ts";
++import { installLocationFlags, resolveCliAuthConfig, resolveInstallLocations } from "./config.ts";
+ import {
+   connectSubcommands,
+   disconnectCloud,
+@@ -403,7 +403,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
+ });
+ 
+ export const upCommand = Command.make("up", {
+-  ...projectLocationFlags,
++  ...installLocationFlags,
+   connect: Flag.Boolean("connect").pipe(
+     Flag.withDescription(
+       "Allow access through T3 Connect with your T3 account. Turn off with --no-connect.",
+@@ -440,7 +440,7 @@ export const upCommand = Command.make("up", {
+ );
+ 
+ export const connectCommand = Command.make("connect", {
+-  ...projectLocationFlags,
++  ...installLocationFlags,
+   headless: headlessFlag,
+ }).pipe(
+   Command.withDescription("Set up T3 Connect for this machine. Same as `t3 up --connect`."),
+@@ -476,7 +476,7 @@ const setupJson = (setup: Setup) =>
+   );
+ 
+ export const statusCommand = Command.make("status", {
+-  ...projectLocationFlags,
++  ...installLocationFlags,
+   json: Flag.Boolean("json").pipe(
+     Flag.withDescription("Print the settings as JSON. Does not test connections."),
+     Flag.withDefault(false),
+@@ -495,9 +495,10 @@ export const statusCommand = Command.make("status", {
+       // Only what readSetup reads: no database, unlike the T3 Connect commands.
+       const setup = yield* readSetup().pipe(
+         Effect.provide(
+-          Layer.merge(CliService.layer(config), ServerSecretStore.layer).pipe(
+-            Layer.provideMerge(ServerConfig.layer(config)),
+-          ),
++          Layer.merge(
++            CliService.layer(yield* resolveInstallLocations(flags)),
++            ServerSecretStore.layer,
++          ).pipe(Layer.provideMerge(ServerConfig.layer(config))),
+         ),
+       );
+       yield* Console.log(
+diff --git a/apps/server/src/cloud/bootService.test.ts b/apps/server/src/cloud/bootService.test.ts
+index 308b842640..84b044b1e2 100644
+--- a/apps/server/src/cloud/bootService.test.ts
++++ b/apps/server/src/cloud/bootService.test.ts
+@@ -130,6 +130,7 @@ it("protects the server unit from agents under CPU and memory pressure", () => {
+   const unit = BootService.renderBootServiceUnit({
+     program: ["/home/theo/.t3/runtime/versions/1.2.3/t3", "__service-launcher"],
+     baseDir: "/home/theo/.t3",
++    storageRoots: legacyRoots("/home/theo/.t3"),
+     logPath: "/home/theo/.t3/userdata/logs/boot-service.log",
+     unitPath: "/home/theo/.config/systemd/user/t3code.service",
+   });
+@@ -1023,6 +1024,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
+         `/usr/bin:${previous}:/bin`,
+         "1.2.4",
+         undefined,
++        undefined,
+         false,
+         runtime.entryPath,
+       );
+diff --git a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx b/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
+index d5774baf55..2ffda7aae1 100644
+--- a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
++++ b/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
+@@ -87,9 +87,7 @@ export const CompactComposerControlsMenu = memo(function CompactComposerControls
+         )}
+         {agentProfile !== undefined && showsAgentProfileControl(agentProfile) ? (
+           <>
+-            {props.traitsMenuContent ||
+-            props.showInteractionModeToggle ||
+-            props.showPermissions !== false ? (
++            {props.showInteractionModeToggle || props.showPermissions !== false ? (
+               <MenuDivider />
+             ) : null}
+             <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">Profile</div>
+diff --git a/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx b/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx
+index 1c2a013050..a1fbba2427 100644
+--- a/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx
++++ b/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx
+@@ -159,7 +159,7 @@ function SideChat(props: { toggles: string[]; stops: string[] }) {
+         toggleModelPicker: () => props.toggles.push("model"),
+       } as Partial<ChatComposerHandle> as ChatComposerHandle,
+     },
+-    branchToolbarRef: { current: null },
++    branchToolbarRefs: [{ current: null }],
+     closeThreadFind: () => {},
+     commands: { "thread.stop": () => void props.stops.push("stop") },
+     fallback: () => undefined,
+diff --git a/apps/web/src/components/chat/useChatShortcuts.ts b/apps/web/src/components/chat/useChatShortcuts.ts
+index c12e55d545..bafda67651 100644
+--- a/apps/web/src/components/chat/useChatShortcuts.ts
++++ b/apps/web/src/components/chat/useChatShortcuts.ts
+@@ -115,7 +115,7 @@ export function useChatShortcuts(input: ChatShortcutsInput) {
+       context: input.getShortcutContext(event.target),
+     });
+     const run = command
+-      ? composerShortcutCommands(input.composerRef, input.branchToolbarRef)[command]
++      ? composerShortcutCommands(input.composerRef, input.branchToolbarRefs)[command]
+       : undefined;
+     if (!run || run({ event, terminalFocusOwner: null }) === false) return;
+     event.preventDefault();
+diff --git a/apps/web/src/environmentGrouping.test.ts b/apps/web/src/environmentGrouping.test.ts
+index 1c21ee3403..941a8f90b6 100644
+--- a/apps/web/src/environmentGrouping.test.ts
++++ b/apps/web/src/environmentGrouping.test.ts
+@@ -341,6 +341,7 @@ describe("environment grouping", () => {
+       projects: [project("other"), project("pinned", "2026-01-01T00:00:00.000Z"), current],
+       settings: defaultGroupingSettings,
+       primaryEnvironmentId,
++      ownsLocalEnvironment: true,
+       resolveEnvironmentLabel: () => null,
+     });
+     const entries = buildSidebarProjectPickerEntries({

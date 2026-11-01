@@ -38,7 +38,7 @@
       "t3code/main/pr-4447": "0452e2e02313cf5736cebace7ff85a68bb965f9f",
       "t3code/main/pr-4484": "de3a0620bae1c5fc4bfb0afd676685724657aaa5",
       "t3code/main/pr-4593": "6cfed4956281337b18e5c20e7b9ad81df4e88d3b",
-      "t3code/main/pr-4602": "88bc422a63d09628b9d3e4a7de259fff445ab039",
+      "t3code/main/pr-4602": "7f9685eb154f3b49b6124d5c92d66c093b9bb0cf",
       "t3code/main/pr-4699": "5628005b9cd0b4b4c23c2b22ada6097ab3fe465e",
       "t3code/main/pr-4701": "155921e8f12119ab3969efe3b2b9b7febbbfcbd0",
       "t3code/main/pr-6507": "c1d5cce2211ef5c875fb154debf0b3c366ab1c4e",
@@ -55,17 +55,18 @@
       "t3code/main/usage-host-accounts": "9932c97554521bae053fae9dd923aa98ecdbd4bc",
       "t3code/main/usage-host-resilience": "cfa26492a3d6d272e2bf78ff912672b8561fd4d1",
       "t3code/main/usage-scan-backoff": "881d8a77a39d79263a6f16474e08ddb1d5f831cb",
-      "t3code/main/usage-summary-cache": "0a564a063f1a9aecb639e2ad6d23301a23883f72"
+      "t3code/main/usage-summary-cache": "0a564a063f1a9aecb639e2ad6d23301a23883f72",
+      "upstream-20261031-compatibility": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb"
     }
   },
   "build": {
-    "generated": "2026-11-01T04:52:53.454012+00:00",
+    "generated": "2026-11-01T05:03:55.223894+00:00",
     "base": "955e2bfbb5c092c54ad795c8d379fec99702a6b5",
-    "commit": "6f99536a4352d8c042e6309212be556b66593f89",
-    "pre_provenance_commit": "9834df4d28fe73b92a54d55a23de58fc61cb50f5",
-    "tree": "f0b606f8f90bc99a93e2d1935953532fd93c27f3",
-    "built_tree": "658def23c33b38ea4011397bffffb3e321074550",
-    "previous_tree": "1e1b72e8693dadcdb7a695b4c037d424d537dd44",
+    "commit": "5612cf7bcb998429592f5e2acb478d8e7729b164",
+    "pre_provenance_commit": "17d79ed14b74cc33101facc3fd85399144305cf2",
+    "tree": "51f9cbd744783e880ff51a6bdc4bed3ab7d1bfe4",
+    "built_tree": "f32399e015cdc948f117c7dcbfdaaae19bc2a256",
+    "previous_tree": "f0b606f8f90bc99a93e2d1935953532fd93c27f3",
     "tree_changed": true,
     "conflicts": 19,
     "manifest_entries": [
@@ -97,7 +98,7 @@
         "name": "t3code/main/pr-4602",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4602",
-        "pin": "88bc422a63d09628b9d3e4a7de259fff445ab039"
+        "pin": "7f9685eb154f3b49b6124d5c92d66c093b9bb0cf"
       },
       {
         "name": "t3code/main/pr-4447",
@@ -395,6 +396,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-summary-cache",
         "pin": "6b4ea0b3590b17b0350e384b85de29782f6d5ca0"
+      },
+      {
+        "name": "upstream-20261031-compatibility",
+        "kind": "patch",
+        "source": "patches/upstream-20261031-compatibility.patch",
+        "pin": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb"
       }
     ],
     "results": [
@@ -428,7 +435,7 @@
       },
       {
         "name": "t3code/main/pr-4602",
-        "oid": "88bc422a63d09628b9d3e4a7de259fff445ab039",
+        "oid": "7f9685eb154f3b49b6124d5c92d66c093b9bb0cf",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -934,6 +941,13 @@
         "resolutions": [
           "72536a27ed5adabc90ff82aa659a4d40dfc08157"
         ]
+      },
+      {
+        "name": "upstream-20261031-compatibility",
+        "oid": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb",
+        "status": "applied",
+        "conflicted": false,
+        "resolutions": []
       }
     ]
   }
