@@ -28,9 +28,9 @@ reason = "The split-storage and client-storage topics retain serverConfigFileFla
 
 [[exception]]
 entry = "4437"
-missing_count = 73
-missing_sha256 = "f36c35c2ed3fff8e7761ad2b942c1f7afb5d1358b03bff36d4bb517fc816704a"
-reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind. The October 31 compatibility patch removes the dead finishConnectSetup helper and its two old service-onboarding tests after upstream moved setup into t3 up. finishConnectLink still covers the server-location next step. runServiceCommand forwards the full install flags, including storageLayout, instead of a singleton baseDir field."
+missing_count = 75
+missing_sha256 = "6f9075e08d368b6d1eb9a2c4d1080128d809088170b5581cce567dd19decad15"
+reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind. The October 31 compatibility patch removes the dead finishConnectSetup helper and its two old service-onboarding tests after upstream moved setup into t3 up. finishConnectLink still covers the server-location next step. runServiceCommand forwards the full install flags, including storageLayout, instead of a singleton baseDir field. The compatibility patch updates the legacy directory permission assertion to upstream's unconditional owner-only state-directory hardening (0700); split runtime-directory ownership and symlink checks remain unchanged."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
@@ -52,9 +52,9 @@ reason = "Inherited from shared-server-settings through this stacked branch: pro
 
 [[exception]]
 entry = "t3code/main/client-storage-separation"
-missing_count = 24
-missing_sha256 = "9ddf7a554575ad2851f28e3c21858b40047276f6fe2a87f1f268ec2005fe8024"
-reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer. The October 31 compatibility patch removes the dead finishConnectSetup helper and its two old service-onboarding tests after upstream moved setup into t3 up. finishConnectLink still covers the server-location next step. runServiceCommand forwards the full install flags, including storageLayout, instead of a singleton baseDir field."
+missing_count = 26
+missing_sha256 = "88774701ab944c5fe5dfdca33a0872bc5b4f57e5b193e964f0252b802a4d1cb3"
+reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer. The October 31 compatibility patch removes the dead finishConnectSetup helper and its two old service-onboarding tests after upstream moved setup into t3 up. finishConnectLink still covers the server-location next step. runServiceCommand forwards the full install flags, including storageLayout, instead of a singleton baseDir field. The compatibility patch updates the inherited legacy state-directory assertion to upstream's owner-only 0700 policy."
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
@@ -115,3 +115,15 @@ entry = "t3code/main/agent-profiles"
 missing_count = 1
 missing_sha256 = "15e6eeffc864b48ff7ed92ca8d987d660f5719feff15269d9a4be96230701345"
 reason = "Upstream moved traits into the model picker and removed CompactComposerControlsMenu.traitsMenuContent. The compatibility patch removes that stale divider condition; the profile menu and the mode/permissions divider conditions remain."
+
+[[exception]]
+entry = "6507"
+missing_count = 4
+missing_sha256 = "474e97028f6689804312be47c0df4ecd9e3b2b18ba4b33bdde61175c8fdb7e4e"
+reason = "Upstream deliberately excludes prompt-injected levels such as Ultrathink from picker choices. The compatibility patch replaces the old automatic-prefix test with an assertion that direct effort selection rejects Ultrathink, preserving the upstream policy and the carried low/medium/high keyboard controls. Typed Ultrathink prompts still work."
+
+[[exception]]
+entry = "t3code/main/environment-groups"
+missing_count = 2
+missing_sha256 = "6d5d3aa955c2f659538fbe7f9875888231265443acccd5d98b89de3552723d26"
+reason = "SidebarDraftBlock still filters every hidden environment. Its compatibility fix subscribes to a derived hidden-environment-ID atom with set equality instead of the whole group state, so readiness or unrelated group metadata changes do not redraw composer previews. The existing unrelated-composer rendering regression test passes."

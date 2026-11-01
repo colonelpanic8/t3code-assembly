@@ -16,7 +16,7 @@ index 9e4300d0f9..0a4fb6e7a1 100644
                assert(directory !== null);
                if (unsafe === "permissions") {
 diff --git a/apps/server/src/cli/config.test.ts b/apps/server/src/cli/config.test.ts
-index da7368c0af..7bcf9f8af1 100644
+index da7368c0af..26977b1fd6 100644
 --- a/apps/server/src/cli/config.test.ts
 +++ b/apps/server/src/cli/config.test.ts
 @@ -119,6 +119,8 @@ const minimalDesktopFlags = (baseDir: string) => ({
@@ -44,6 +44,24 @@ index da7368c0af..7bcf9f8af1 100644
    ...overrides,
  });
  it.layer(NodeServices.layer)("storage layout", (it) => {
+@@ -2081,7 +2085,7 @@ it.layer(NodeServices.layer)("storage layout", (it) => {
+       }).toEqual(resolved);
+     }),
+   );
+-  it.effect("does not chmod the legacy state directory as a runtime directory", () =>
++  it.effect("restricts the legacy state directory to owner-only access", () =>
+     Effect.gen(function* () {
+       const fs = yield* FileSystem.FileSystem;
+       const path = yield* Path.Path;
+@@ -2095,7 +2099,7 @@ it.layer(NodeServices.layer)("storage layout", (it) => {
+         baseDir: Option.some(path.join(root, "t3")),
+       });
+       expect(resolved.layout).toBe("legacy");
+-      expect((yield* fs.stat(userdata)).mode & 0o777).toBe(0o750);
++      expect((yield* fs.stat(userdata)).mode & 0o777).toBe(0o700);
+     }),
+   );
+   it.effect("rejects a split runtime directory symlink without chmodding its target", () =>
 diff --git a/apps/server/src/cli/connect.test.ts b/apps/server/src/cli/connect.test.ts
 index 0b70a43c8c..de75ab6894 100644
 --- a/apps/server/src/cli/connect.test.ts
@@ -268,6 +286,20 @@ index 308b842640..84b044b1e2 100644
          false,
          runtime.entryPath,
        );
+diff --git a/apps/web/src/components/ProjectFavicon.browser.test.tsx b/apps/web/src/components/ProjectFavicon.browser.test.tsx
+index 746302ef5b..f6d43b8450 100644
+--- a/apps/web/src/components/ProjectFavicon.browser.test.tsx
++++ b/apps/web/src/components/ProjectFavicon.browser.test.tsx
+@@ -7,7 +7,8 @@ import { render } from "../../test/render";
+ import { ProjectFavicon, type ProjectFaviconProject } from "./ProjectFavicon";
+ 
+ const state = vi.hoisted(() => ({ favicon: undefined as Atom.Atom<string | null> | undefined }));
+-vi.mock(import("../state/assets"), () => ({
++vi.mock(import("../state/assets"), async (importOriginal) => ({
++  ...(await importOriginal()),
+   projectFaviconUrlAtom: () => {
+     if (!state.favicon) throw new Error("Favicon resource not configured");
+     return state.favicon;
 diff --git a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx b/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
 index d5774baf55..2ffda7aae1 100644
 --- a/apps/web/src/components/chat/CompactComposerControlsMenu.tsx
@@ -283,6 +315,24 @@ index d5774baf55..2ffda7aae1 100644
                <MenuDivider />
              ) : null}
              <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">Profile</div>
+diff --git a/apps/web/src/components/chat/composerProviderState.test.tsx b/apps/web/src/components/chat/composerProviderState.test.tsx
+index c6069c8f9d..d2a56dbdeb 100644
+--- a/apps/web/src/components/chat/composerProviderState.test.tsx
++++ b/apps/web/src/components/chat/composerProviderState.test.tsx
+@@ -480,11 +480,8 @@ describe("selectComposerReasoningEffort", () => {
+   it("rejects effort values the selected model does not support", () => {
+     expect(select("xhigh", "Fix it")).toBeNull();
+   });
+-  it("enables ultrathink through the prompt prefix instead of the options", () => {
+-    expect(select("ultrathink", "Fix it", selections(["effort", "high"]))).toEqual({
+-      prompt: "Ultrathink:\nFix it",
+-      options: null,
+-    });
++  it("does not offer prompt-injected levels as effort choices", () => {
++    expect(select("ultrathink", "Fix it", selections(["effort", "high"]))).toBeNull();
+   });
+   it("strips the ultrathink prefix when switching to another effort", () => {
+     expect(select("low", "Ultrathink:\nFix it")).toEqual({
 diff --git a/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx b/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx
 index 1c2a013050..a1fbba2427 100644
 --- a/apps/web/src/components/chat/useChatShortcuts.browser.test.tsx
@@ -309,6 +359,98 @@ index c12e55d545..bafda67651 100644
        : undefined;
      if (!run || run({ event, terminalFocusOwner: null }) === false) return;
      event.preventDefault();
+diff --git a/apps/web/src/components/chat/useQueuedRunEdit.browser.test.tsx b/apps/web/src/components/chat/useQueuedRunEdit.browser.test.tsx
+index cc6e04885c..13c332a17a 100644
+--- a/apps/web/src/components/chat/useQueuedRunEdit.browser.test.tsx
++++ b/apps/web/src/components/chat/useQueuedRunEdit.browser.test.tsx
+@@ -45,15 +45,19 @@ vi.mock("../../hooks/useSettings", () => ({
+ 
+ const runsKey = (ref: ScopedThreadRef) => `${ref.environmentId}:${ref.threadId}`;
+ 
+-vi.mock("../../state/threads", async () => {
++vi.mock("../../state/threads", async (importOriginal) => {
+   const { Atom } = await import("effect/reactivity");
++  const actual = await importOriginal<typeof import("../../state/threads")>();
+   const key = (ref: ScopedThreadRef) => `${ref.environmentId}:${ref.threadId}`;
+   return {
++    ...actual,
+     threadEnvironment: {
++      ...actual.threadEnvironment,
+       snapshotAtom: () => Atom.make(null),
+       editQueuedRun: {},
+     },
+     environmentThreadDetails: {
++      ...actual.environmentThreadDetails,
+       statusAtom: () => Atom.make("ready"),
+       quietThreadAtom: (ref: ScopedThreadRef) =>
+         Atom.make((get) => {
+@@ -62,6 +66,7 @@ vi.mock("../../state/threads", async () => {
+         }),
+     },
+     environmentThreadShells: {
++      ...actual.environmentThreadShells,
+       threadShellAtom: () => Atom.make(null),
+     },
+   };
+diff --git a/apps/web/src/components/chat/useThreadLifecycle.browser.test.tsx b/apps/web/src/components/chat/useThreadLifecycle.browser.test.tsx
+index a0b10dd4c6..bdc1020a61 100644
+--- a/apps/web/src/components/chat/useThreadLifecycle.browser.test.tsx
++++ b/apps/web/src/components/chat/useThreadLifecycle.browser.test.tsx
+@@ -84,7 +84,7 @@ function RestoreBranchHarness(props: {
+     gitStatusQuery: { refresh: props.refreshGitStatus },
+     nowMinute: "",
+     composerRef: { current: { focusAtEnd: props.focusComposer } } as never,
+-    composerDraftTarget: { kind: "thread", ref: props.thread.activeThreadRef } as never,
++    composerDraftTarget: props.thread.activeThreadRef,
+     sendInFlightRef: { current: false },
+     setOptimisticUserMessages: () => undefined,
+     setThreadError: () => undefined,
+diff --git a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
+index 0b9228ad3d..3d298d0673 100644
+--- a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
++++ b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
+@@ -1,4 +1,6 @@
+ import { useAtomValue } from "@effect/atom-react";
++import { Atom } from "effect/reactivity";
++import type { EnvironmentId } from "@t3tools/contracts";
+ import { environmentCatalog } from "../../connection/catalog";
+ import { discardComposerDraft } from "../../lib/discardComposerDraft";
+ import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
+@@ -24,6 +26,13 @@ import {
+ } from "../../composerDraftStore";
+ import { draftPenClassName, draftSurfaceClassName } from "./SidebarThreadRow";
+ 
++const hiddenDraftEnvironmentIdsAtom = environmentCatalog.groups.stateAtom.pipe(
++  Atom.map((state) => state.hiddenEnvironmentIds),
++  Atom.withEquality<ReadonlySet<EnvironmentId>>(
++    (left, right) => left.size === right.size && [...left].every((id) => right.has(id)),
++  ),
++);
++
+ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+   draftId: DraftId;
+   composer: ComposerThreadDraftState;
+@@ -149,7 +158,7 @@ export const SidebarDraftBlock = memo(function SidebarDraftBlock(props: {
+   onNavigateToDraft: (draftId: DraftId) => void;
+   onDraftContextMenu: (draftId: DraftId, position: { x: number; y: number }) => void;
+ }) {
+-  const groupVisibility = useAtomValue(environmentCatalog.groups.stateAtom);
++  const hiddenEnvironmentIds = useAtomValue(hiddenDraftEnvironmentIdsAtom);
+   const draftThreadsByThreadKey = useComposerDraftStore((store) => store.draftThreadsByThreadKey);
+   const draftsByThreadKey = useComposerDraftStore(
+     useShallow((store) =>
+@@ -180,10 +189,7 @@ export const SidebarDraftBlock = memo(function SidebarDraftBlock(props: {
+   const drafts = (() => {
+     const rows: SidebarDraftRowData[] = [];
+     for (const [draftKey, session] of Object.entries(draftThreadsByThreadKey)) {
+-      if (
+-        session.promotedTo != null ||
+-        groupVisibility.hiddenEnvironmentIds.has(session.environmentId)
+-      ) {
++      if (session.promotedTo != null || hiddenEnvironmentIds.has(session.environmentId)) {
+         continue;
+       }
+       if (
 diff --git a/apps/web/src/environmentGrouping.test.ts b/apps/web/src/environmentGrouping.test.ts
 index 1c21ee3403..941a8f90b6 100644
 --- a/apps/web/src/environmentGrouping.test.ts

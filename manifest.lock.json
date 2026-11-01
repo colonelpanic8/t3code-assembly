@@ -56,17 +56,17 @@
       "t3code/main/usage-host-resilience": "cfa26492a3d6d272e2bf78ff912672b8561fd4d1",
       "t3code/main/usage-scan-backoff": "881d8a77a39d79263a6f16474e08ddb1d5f831cb",
       "t3code/main/usage-summary-cache": "0a564a063f1a9aecb639e2ad6d23301a23883f72",
-      "upstream-20261031-compatibility": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb"
+      "upstream-20261031-compatibility": "775ee31514b657ae61392671f5de96c39624ce81"
     }
   },
   "build": {
-    "generated": "2026-11-01T05:03:55.223894+00:00",
+    "generated": "2026-11-01T05:25:17.476553+00:00",
     "base": "955e2bfbb5c092c54ad795c8d379fec99702a6b5",
-    "commit": "5612cf7bcb998429592f5e2acb478d8e7729b164",
-    "pre_provenance_commit": "17d79ed14b74cc33101facc3fd85399144305cf2",
-    "tree": "51f9cbd744783e880ff51a6bdc4bed3ab7d1bfe4",
-    "built_tree": "f32399e015cdc948f117c7dcbfdaaae19bc2a256",
-    "previous_tree": "f0b606f8f90bc99a93e2d1935953532fd93c27f3",
+    "commit": "f5388c425fc3e55ec8d33697fd20e7fe025d6d3a",
+    "pre_provenance_commit": "488a1a3fb8fd6782ccb8d2968ceb738ea9d81a1d",
+    "tree": "d2cb54553b037c462b6fcd591322587ad31ba36c",
+    "built_tree": "2eae741c1528c55f8c6929f4ff09cbff2276f4d0",
+    "previous_tree": "4027a273cf06f6dfc9cf825926088a15c28f5bab",
     "tree_changed": true,
     "conflicts": 19,
     "manifest_entries": [
@@ -254,7 +254,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "e22a7b26c3cb43be3aa115ab4f7b97060aa68c9f",
-        "fixup": "d0c2809ebea797a60755342ec445646e7b076458"
+        "fixup": "5601e1e9d495d4f84590789ed4e0d3a3ce5c05af"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -401,7 +401,7 @@
         "name": "upstream-20261031-compatibility",
         "kind": "patch",
         "source": "patches/upstream-20261031-compatibility.patch",
-        "pin": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb"
+        "pin": "775ee31514b657ae61392671f5de96c39624ce81"
       }
     ],
     "results": [
@@ -756,7 +756,7 @@
           "cb20e5014146e2d9f309dadcc12fcf9705029648",
           "d8d0f10846dc2d67543cc69665e6b2ee38a58b29"
         ],
-        "fixup": "d0c2809ebea797a60755342ec445646e7b076458"
+        "fixup": "5601e1e9d495d4f84590789ed4e0d3a3ce5c05af"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -944,7 +944,7 @@
       },
       {
         "name": "upstream-20261031-compatibility",
-        "oid": "2691ccdb9f4256fe33eccd5f4c50e04772764ffb",
+        "oid": "775ee31514b657ae61392671f5de96c39624ce81",
         "status": "applied",
         "conflicted": false,
         "resolutions": []
