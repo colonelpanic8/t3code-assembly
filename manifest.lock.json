@@ -15,15 +15,15 @@
       "t3code/main/declarative-settings": "bb3164b96116a68182c51d44a879ede1de7ad63a",
       "t3code/main/desktop-client-location": "1bf1f97e537d22da1486cb1edf821140eb1a58fe",
       "t3code/main/desktop-window-state": "3b38ac35c6115284ffdd601a6e9dfffb94f34ae7",
-      "t3code/main/environment-groups": "aaa10dc8f319dc629396872f4be6a9b715656f86",
+      "t3code/main/environment-groups": "543a016d6e54ddfbc72eb9f1fea157d604d35bf5",
       "t3code/main/eva-extension": "9f57ce22729f9d79515accb4f6cf038ce87387e4",
       "t3code/main/favicon-refresh-on-click": "6471383a6c61122c64e16088a403389ccb2f598a",
       "t3code/main/fdroid-distribution": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
       "t3code/main/live-voice": "1f41b5d84bd34e0fd5c7e4b24e1af8969387414c",
-      "t3code/main/managed-fleet": "96ae58c74c561e9fedba9e799170559ebbd61db9",
+      "t3code/main/managed-fleet": "20f841a413d4aee3bb067b24df29be535fb865bc",
       "t3code/main/migration-schema-repair": "b36b28f6ae37a61e8e3a269eb557e7b2d99b3486",
       "t3code/main/mobile-settings-feed": "0895b53f5d87ca6ea1ed987c71adabc64e5d550d",
-      "t3code/main/mobile-tailscale-fleet": "e22a7b26c3cb43be3aa115ab4f7b97060aa68c9f",
+      "t3code/main/mobile-tailscale-fleet": "f012183ca33e94a72f11989d754e93bb88119491",
       "t3code/main/mobile-usage-breakdowns": "704c910ef40f1b3a40d25a2acbb0fd4de55bd6df",
       "t3code/main/mobile-usage-summary-cache": "6b4ea0b3590b17b0350e384b85de29782f6d5ca0",
       "t3code/main/pr-4257": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
@@ -61,15 +61,15 @@
     }
   },
   "build": {
-    "generated": "2026-11-01T18:34:17.155039958+00:00",
+    "generated": "2026-11-01T20:03:28.461004627+00:00",
     "base": "955e2bfbb5c092c54ad795c8d379fec99702a6b5",
-    "commit": "aad3805e4299c147d64e988ef8f5240c761c8dc7",
-    "pre_provenance_commit": "e357faea97ac9ff6f4d7fbab67017075e29c70e8",
-    "tree": "3809045c15613c33ea1e0527ea889cefac78ce78",
-    "built_tree": "4bb25fdde560396f3146a06d85a85294ee95429c",
-    "previous_tree": "d2cb54553b037c462b6fcd591322587ad31ba36c",
+    "commit": "b51b95ec17e1d2370707b730381aadb89804814a",
+    "pre_provenance_commit": "4aec6e8e7580ceb0da798a6d017153bc798ec519",
+    "tree": "dad1f227aad701e10265f3c1d03bc2ade55918fd",
+    "built_tree": "7ca17ac7d78c6a9b156ad42a61d36f20b2c356cc",
+    "previous_tree": "3809045c15613c33ea1e0527ea889cefac78ce78",
     "tree_changed": true,
-    "conflicts": 1,
+    "conflicts": 20,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -173,7 +173,7 @@
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "96ae58c74c561e9fedba9e799170559ebbd61db9"
+        "pin": "20f841a413d4aee3bb067b24df29be535fb865bc"
       },
       {
         "name": "t3code/main/migration-schema-repair",
@@ -254,7 +254,7 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "e22a7b26c3cb43be3aa115ab4f7b97060aa68c9f",
+        "pin": "f012183ca33e94a72f11989d754e93bb88119491",
         "fixup": "5601e1e9d495d4f84590789ed4e0d3a3ce5c05af"
       },
       {
@@ -365,7 +365,7 @@
         "name": "t3code/main/environment-groups",
         "kind": "branch",
         "source": "fork:t3code/main/environment-groups",
-        "pin": "aaa10dc8f319dc629396872f4be6a9b715656f86"
+        "pin": "543a016d6e54ddfbc72eb9f1fea157d604d35bf5"
       },
       {
         "name": "t3code/main/assembly-update-notice",
@@ -599,7 +599,7 @@
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "96ae58c74c561e9fedba9e799170559ebbd61db9",
+        "oid": "20f841a413d4aee3bb067b24df29be535fb865bc",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -751,7 +751,7 @@
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "e22a7b26c3cb43be3aa115ab4f7b97060aa68c9f",
+        "oid": "f012183ca33e94a72f11989d754e93bb88119491",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -897,7 +897,7 @@
       },
       {
         "name": "t3code/main/environment-groups",
-        "oid": "aaa10dc8f319dc629396872f4be6a9b715656f86",
+        "oid": "543a016d6e54ddfbc72eb9f1fea157d604d35bf5",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
