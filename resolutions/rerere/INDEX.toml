@@ -33,9 +33,21 @@ recorded = "2026-10-27T03:52:50.419606791+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
+hash = "d92798397242d35e3f7a96043a9bb8b564422fe2"
+paths = ["apps/server/src/cli/pair.ts"]
+recorded = "2026-11-01T04:49:20.309601+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-environment-suite"
 hash = "e26c26c01e0f41a433f0576ceb195d9dc918a051"
 paths = ["apps/desktop/src/main.ts"]
 recorded = "2026-10-15T04:21:22.769420706+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-storage-separation"
+hash = "04917fef2664d6b18a5580d9b8cb0e6a8a8b1473"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:50:11.352019+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -59,7 +71,7 @@ recorded = "2026-10-27T03:54:27.867437786+00:00"
 entry = "t3code/main/client-storage-separation"
 hash = "2f8d855e6188757407a6537d14347d01e6257449"
 paths = ["apps/server/src/cli/uninstall.ts"]
-recorded = "2026-10-27T03:54:27.867438109+00:00"
+recorded = "2026-11-01T04:50:11.352024+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -201,6 +213,12 @@ recorded = "2026-10-16T18:07:55.002579618+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
+hash = "d81337663bf4c7b44ab0b37da0b71dc8ff8acbd5"
+paths = ["apps/server/src/cli/pair.ts"]
+recorded = "2026-11-01T04:50:11.352025+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-storage-separation"
 hash = "e458efa4d7dded8c3c4eb23db94103b409d2bcd2"
 paths = ["apps/server/src/cli/update.ts"]
 recorded = "2026-10-27T03:54:27.867440559+00:00"
@@ -291,6 +309,12 @@ recorded = "2026-10-22T17:24:11.970490886+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "a74f405bf92f431efc6b30a93a1758d6be69fca0"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:50:23.188721+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "c2f578c422d1a7efe8cacade6091a60101b133a3"
 paths = ["docs/user/install.md"]
 recorded = "2026-10-16T18:08:21.177925751+00:00"
@@ -362,6 +386,12 @@ paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-15T04:27:34.372863331+00:00"
 
 [[resolution]]
+entry = "t3code/main/managed-fleet"
+hash = "c4b31ee5123eb45ca42b6a12b8324152e8333316"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:49:31.648397+00:00"
+
+[[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
 hash = "3492b06af8a6928e28ebe6cf9eed2e83fdfc89a1"
 paths = ["apps/server/src/cli/config.ts"]
@@ -423,9 +453,21 @@ recorded = "2026-10-20T19:12:02.354383803+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
+hash = "99d2390f3fbb7335e75f8ffc078143ea26293234"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:49:52.454401+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
 hash = "d1685a87bd85baf8de51969e47ac0a281172ac92"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-20T19:12:02.354387688+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "df02b9cb0278cec6b0e0124fa20a4e1ac79fcd3f"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-11-01T04:49:52.454408+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -573,6 +615,12 @@ recorded = "2026-10-27T03:51:49.078714953+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
+hash = "985c5b2c3a0743dba6a3a49dcb572bcc91d3e8df"
+paths = ["apps/server/src/cli/service.ts"]
+recorded = "2026-11-01T04:48:32.198542+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
 hash = "9cb2e225c130422753e0b9a843f4031552daadea"
 paths = ["apps/server/src/cli/uninstall.ts"]
 recorded = "2026-10-16T18:06:08.022794883+00:00"
@@ -606,6 +654,12 @@ entry = "t3code/main/pr-4437"
 hash = "ce352c05c5281bde81d94b30b44c2a576090341a"
 paths = ["apps/server/src/cli/service.ts"]
 recorded = "2026-10-27T03:51:49.078715641+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "daa80d34a6777364e2cf3e8ffce15c0e67263de1"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:48:32.198546+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -723,6 +777,12 @@ recorded = "2026-10-22T17:13:04.877785475+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
+hash = "e255647fdf2b5a2366d44a8e7698c40626fddaed"
+paths = ["apps/server/src/cli/connect.ts"]
+recorded = "2026-11-01T04:47:46.519208+00:00"
+
+[[resolution]]
+entry = "t3code/main/server-config-file"
 hash = "e50cfc9cf9b7ea48cfccb7eebc966240782bbde1"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-16T18:03:30.903635664+00:00"
@@ -804,6 +864,12 @@ entry = "t3code/main/shared-server-settings"
 hash = "c1258d6b9d1579fb2f5c641f7f117fdab2325211"
 paths = ["apps/server/src/serverSettings.ts"]
 recorded = "2026-10-16T20:37:36.161454096+00:00"
+
+[[resolution]]
+entry = "t3code/main/shared-server-settings"
+hash = "c3ea14fd9bbcd3c8dd29761a2d5f6894f108d5fa"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-01T04:48:09.320409+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-chart-provider-toggle"

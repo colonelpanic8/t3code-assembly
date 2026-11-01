@@ -216,18 +216,37 @@ index ec73e8f700..fc0c419df2 100644
        backendCwd: environment.backendCwd,
        executablePath: process.execPath,
 diff --git a/apps/server/src/cli/pair.ts b/apps/server/src/cli/pair.ts
-index c4c6c17f8e..2074971b25 100644
 --- a/apps/server/src/cli/pair.ts
 +++ b/apps/server/src/cli/pair.ts
-@@ -11,7 +11,7 @@ import { resolveLegacyT3StorageRoots } from "@t3tools/shared/storagePaths";
- import * as HostProcess from "@t3tools/shared/HostProcess";
+@@ -12,10 +12,7 @@
  import { DEFAULT_SIGNAL_EXPORT } from "@t3tools/shared/observability";
+ import { buildPairingAppLink } from "@t3tools/shared/remote";
  import * as OtelEnvironment from "@t3tools/shared/otelEnvironment";
--import { type ServerRuntimeStateVariant } from "@t3tools/shared/serverRuntimeState";
+-import {
+-  deriveServerRuntimeStatePath,
+-  type ServerRuntimeStateVariant,
+-} from "@t3tools/shared/serverRuntimeState";
 +import type { ServerRuntimeStateVariant } from "@t3tools/shared/serverRuntimeState";
  import {
    buildTailscaleHttpsBaseUrl,
    DEFAULT_TAILSCALE_SERVE_PORT,
+@@ -359,7 +356,6 @@
+     }
+   }
+ 
+-  const path = yield* Path.Path;
+   const checkedStatePaths: Array<string> = [];
+   for (const candidate of candidates) {
+     const statePath = (yield* candidatePaths(candidate, overrides)).derivedPaths
+@@ -592,7 +588,7 @@
+           return yield* new JsonTailscaleUnsupportedError();
+         }
+ 
+-        const target = yield* discoverPairTarget(Option.getOrUndefined(flags.baseDir));
++        const target = yield* discoverPairTarget(flags);
+         // Each protocol keeps auth in its own database, so a token minted here
+         // for another protocol's server would never be accepted by it. Refuse
+         // before any local layer opens (and migrates) that database.
 diff --git a/packages/shared/src/serverRuntimeState.ts b/packages/shared/src/serverRuntimeState.ts
 index 3203093f0c..ffa711faef 100644
 --- a/packages/shared/src/serverRuntimeState.ts
