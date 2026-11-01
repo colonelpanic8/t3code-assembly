@@ -66,7 +66,7 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 entry = "t3code/main/mobile-tailscale-fleet"
 missing_count = 10
 missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
-reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions. SavedEnvironmentRows' inherited `isManagedEnvironment ? \"Managed by system configuration\" : null,` subtitle entry is replaced by managed-fleet's Managed badge beside the environment name."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
@@ -88,8 +88,8 @@ reason = "Inherited from usage-breakdowns through this stacked branch: the same 
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
-missing_count = 10
-missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
+missing_count = 11
+missing_sha256 = "5de158c95213bed3a339ea485aacb4c3227363aa0b81b7b2b3dcea93955292fd"
 reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
 
 [[exception]]
