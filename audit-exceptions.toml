@@ -82,9 +82,9 @@ reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/a
 
 [[exception]]
 entry = "t3code/main/usage-chart-provider-toggle"
-missing_count = 6
-missing_sha256 = "351b2cda8b9dc9490fe0432b008a7e8d7203fc69092e01dfc998a90d8816126c"
-reason = "Inherited from usage-breakdowns through this stacked branch: the same six lines usage-host-accounts replaces when it adds host/account dimensions and source attribution."
+missing_count = 8
+missing_sha256 = "b76141979dc6c0ec35214a8803cb7729ec47213efad7ae0d5eeb2d3a26634e36"
+reason = "Inherited from usage-breakdowns through this stacked branch: the same six lines usage-host-accounts replaces when it adds host/account dimensions and source attribution. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
@@ -94,9 +94,9 @@ reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which thi
 
 [[exception]]
 entry = "t3code/main/usage-host-accounts"
-missing_count = 1
-missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
-reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`."
+missing_count = 3
+missing_sha256 = "a5047693f86880e003271af311b88fd18429f5b9265ff7552caa1684233b8961"
+reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
 
 [[exception]]
 entry = "t3code/main/usage-summary-cache"
@@ -106,9 +106,9 @@ reason = "mobile-usage-summary-cache hoists the mobile environment's connection 
 
 [[exception]]
 entry = "t3code/main/mobile-usage-breakdowns"
-missing_count = 1
-missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
-reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`."
+missing_count = 3
+missing_sha256 = "a5047693f86880e003271af311b88fd18429f5b9265ff7552caa1684233b8961"
+reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
 
 [[exception]]
 entry = "t3code/main/agent-profiles"
