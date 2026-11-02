@@ -51,7 +51,7 @@
       "t3code/main/sidebar-sort-criteria": "21aa9b8aa0078979b91cd1146634fc8faf8850c3",
       "t3code/main/split-run-context-controls": "7f03333ec3272985fa207d4fe567f03d576a1677",
       "t3code/main/typecheck-fixes": "4a979697defe3ae39df83648084f6ad9d264a1b1",
-      "t3code/main/usage-breakdowns": "eabd9b2c8b2048f59d855a3887504311fafb93bd",
+      "t3code/main/usage-breakdowns": "fe2b4fe3ecc7188aa537b356a41fa27ea778e427",
       "t3code/main/usage-chart-provider-toggle": "ed89f986155a8ee4cc923f695c67a0aa324ea011",
       "t3code/main/usage-host-accounts": "9932c97554521bae053fae9dd923aa98ecdbd4bc",
       "t3code/main/usage-host-resilience": "cfa26492a3d6d272e2bf78ff912672b8561fd4d1",
@@ -61,13 +61,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-01T20:03:28.461004627+00:00",
+    "generated": "2026-11-02T07:23:03.678996960+00:00",
     "base": "955e2bfbb5c092c54ad795c8d379fec99702a6b5",
-    "commit": "b51b95ec17e1d2370707b730381aadb89804814a",
-    "pre_provenance_commit": "4aec6e8e7580ceb0da798a6d017153bc798ec519",
-    "tree": "dad1f227aad701e10265f3c1d03bc2ade55918fd",
-    "built_tree": "7ca17ac7d78c6a9b156ad42a61d36f20b2c356cc",
-    "previous_tree": "3809045c15613c33ea1e0527ea889cefac78ce78",
+    "commit": "e3bf3f3ddbf2bede27948d6e3e9e7ee2b04b3ec1",
+    "pre_provenance_commit": "2e42be4464c16072cc47ee0c99b2edc09a3c09c2",
+    "tree": "5661fbf50db0212421bea81c6bf7c7b153c77f1d",
+    "built_tree": "1a152fb52c0e7ce752867d0636b902de7b5b42aa",
+    "previous_tree": "dad1f227aad701e10265f3c1d03bc2ade55918fd",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -273,7 +273,7 @@
         "name": "t3code/main/usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/usage-breakdowns",
-        "pin": "eabd9b2c8b2048f59d855a3887504311fafb93bd"
+        "pin": "fe2b4fe3ecc7188aa537b356a41fa27ea778e427"
       },
       {
         "name": "t3code/main/usage-summary-cache",
@@ -783,7 +783,7 @@
       },
       {
         "name": "t3code/main/usage-breakdowns",
-        "oid": "eabd9b2c8b2048f59d855a3887504311fafb93bd",
+        "oid": "fe2b4fe3ecc7188aa537b356a41fa27ea778e427",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
