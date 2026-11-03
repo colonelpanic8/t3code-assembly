@@ -334,7 +334,6 @@ summary = "Hide chosen repositories from the pull request list"
 branch = "fork:t3code/main/mobile-settings-feed"
 summary = "Phone settings from an external settings feed"
 note = "Stacked on mobile-tailscale-fleet (reuses its download and age identity)."
-fixup = "patches/mobile-settings-feed-auth-sessions-import.patch"
 
 [[entry]]
 branch = "fork:t3code/main/scoped-environment-keys-integration"
@@ -386,11 +385,6 @@ note = "Local topic, no PR."
 branch = "fork:t3code/main/mobile-usage-summary-cache"
 summary = "Mobile Usage keeps last reported usage across restarts and reconnects"
 note = "Local topic, no PR."
-
-[[entry]]
-patch = "patches/upstream-20261031-compatibility.patch"
-summary = "Adapt carried setup, storage, and composer code to current upstream APIs"
-note = "Cross-topic compatibility after the upstream setup-command and composer refactors; keeps mobile application code unchanged."
 
 # Settings > General > Sidebar > Active thread order stacks reversible criteria
 # (needs input, working, unread, last message, last activity, created, manual).
