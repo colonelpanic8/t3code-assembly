@@ -40,9 +40,9 @@ reason = "#4437's storage roots replace the suite's baseDir/variant runtime-stat
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
-missing_count = 10
-missing_sha256 = "1cd83b02071e93581254a817a4fe62a0223026285ffb3003bd39a7c50cf8aedd"
-reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure. Reads pass the existing parseFailure; successful writes call settingsStateFor without that argument, defaulting it to Option.none(), before caching nextState and emitting its effective settings. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The declarative-settings shared-test dedup fixup removes four obsolete helper/call lines: the retained helper accepts options with secretStoreLayer, defaults to the same ServerSecretStore.layer, and provides the same supplied layer through options.secretStoreLayer. The store-unavailable and conditional layerSecret call sites pass their original layers under that option. All 26 duplicate shared-test bodies and assertions match the retained suite after only three Layer-to-options call conversions; the six additional managed cases remain. The final test file is byte-identical to the validated proposal with all 141 tests passing."
+missing_count = 12
+missing_sha256 = "b7359ea708ebf8fa5fbbec6aac917447a8594d5461cd9cc32ffb1307601c8dfa"
+reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure; cached and emitted values carry policy locks through toEffective. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The remaining six are test-helper lines: declarative-settings carries the single layerSharedServerSettings helper in options form ({ managed, secretStoreLayer, policy }), defaulting secretStoreLayer to ServerSecretStore.layer and supplying ManagedPolicy.layerTest(options.policy); the store-unavailable, conditional layerSecret and policy call sites pass their layers and policy under those options."
 
 [[exception]]
 entry = "t3code/main/declarative-settings"
@@ -109,12 +109,6 @@ entry = "t3code/main/mobile-usage-breakdowns"
 missing_count = 3
 missing_sha256 = "a5047693f86880e003271af311b88fd18429f5b9265ff7552caa1684233b8961"
 reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
-
-[[exception]]
-entry = "t3code/main/agent-profiles"
-missing_count = 1
-missing_sha256 = "15e6eeffc864b48ff7ed92ca8d987d660f5719feff15269d9a4be96230701345"
-reason = "Upstream moved traits into the model picker and removed CompactComposerControlsMenu.traitsMenuContent. The compatibility patch removes that stale divider condition; the profile menu and the mode/permissions divider conditions remain."
 
 [[exception]]
 entry = "6507"

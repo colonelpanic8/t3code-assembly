@@ -27,9 +27,9 @@ recorded = "2026-10-27T03:52:50.419606791+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
-hash = "d92798397242d35e3f7a96043a9bb8b564422fe2"
+hash = "dc79b8370a447a0834653785cd2293d9ee45d112"
 paths = ["apps/server/src/cli/pair.ts"]
-recorded = "2026-11-01T04:49:20.309601+00:00"
+recorded = "2026-11-03T07:30:29.100403163+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
@@ -39,15 +39,15 @@ recorded = "2026-10-15T04:21:22.769420706+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
-hash = "04917fef2664d6b18a5580d9b8cb0e6a8a8b1473"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-01T04:50:11.352019+00:00"
-
-[[resolution]]
-entry = "t3code/main/client-storage-separation"
 hash = "0b0ac2afa026ae1cb86677703bddc1bb59521678"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-10-27T03:54:27.867431737+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-storage-separation"
+hash = "11a1ddb7a32e3257e001dc565d9362b56bda1a86"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-03T07:32:18.238588334+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -195,15 +195,15 @@ recorded = "2026-10-16T18:07:55.002579618+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
-hash = "d81337663bf4c7b44ab0b37da0b71dc8ff8acbd5"
+hash = "d9b8df26c5ecd523eef15cd45a7ba500929619d3"
 paths = ["apps/server/src/cli/pair.ts"]
-recorded = "2026-11-01T04:50:11.352025+00:00"
+recorded = "2026-11-03T07:32:18.238589890+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
 hash = "e458efa4d7dded8c3c4eb23db94103b409d2bcd2"
 paths = ["apps/server/src/cli/update.ts"]
-recorded = "2026-10-27T03:54:27.867440559+00:00"
+recorded = "2026-11-03T07:32:18.238590240+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -249,6 +249,18 @@ recorded = "2026-10-15T04:33:57.078321787+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
+hash = "30de3072d42db483bcb6f1da0e995fb47018dcce"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-11-03T07:32:49.450864856+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "313328255dae7c73e3f606f727288e12d695a4e3"
+paths = ["apps/server/src/serverSettings.test.ts"]
+recorded = "2026-11-03T07:32:49.450867693+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
 hash = "4cdce8665fa98e4c0a86e4e74740290067298898"
 paths = ["apps/server/src/cli/project.ts"]
 recorded = "2026-10-16T18:08:21.177924849+00:00"
@@ -258,12 +270,6 @@ entry = "t3code/main/declarative-settings"
 hash = "51d337eb4b24911126bded323b89761df5b2175c"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-22T17:24:11.970490395+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "623556aa12c161aaff473129279c96822a0500ed"
-paths = ["apps/server/src/serverSettings.ts"]
-recorded = "2026-10-30T00:41:47.574369858+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -357,9 +363,9 @@ recorded = "2026-10-15T04:27:34.372863331+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
-hash = "c4b31ee5123eb45ca42b6a12b8324152e8333316"
+hash = "c749d3a2fe81b458adbf91cb6f01ef5957d6c3b1"
 paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-01T04:49:31.648397+00:00"
+recorded = "2026-11-03T07:31:24.924780237+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
@@ -557,7 +563,7 @@ recorded = "2026-10-16T18:06:08.022792018+00:00"
 entry = "t3code/main/pr-4437"
 hash = "867f39c67d3958a72ec6b1be05164a6e81d065d8"
 paths = ["apps/server/src/project/AgentSessionScanner.ts"]
-recorded = "2026-10-16T18:06:08.022792589+00:00"
+recorded = "2026-11-03T07:29:56.214698897+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -690,12 +696,6 @@ entry = "t3code/main/server-config-file"
 hash = "a1c76aa344fb0b6de2d829ed863d9147fd5abd7a"
 paths = ["packages/ssh/src/tunnel.test.ts"]
 recorded = "2026-10-22T17:13:04.877784863+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "c4d4c26bc324302498dafebe963d4421502b979a"
-paths = ["apps/server/src/triage/triageSession.ts"]
-recorded = "2026-10-28T13:23:31.639980349+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
