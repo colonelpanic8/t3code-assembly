@@ -1,7 +1,7 @@
 {
   "version": 1,
   "pins": {
-    "base": "cefb544af3c98224874419198c0359b652ca3c94",
+    "base": "c3c15f7d3623979e0d93fc1cf0963cc6b9487dcf",
     "entries": {
       "t3code/main/about-assembly-build": "7efc199b445d645a437b37f1c8fa95a5554991c6",
       "t3code/main/agent-profiles": "bb7577876ac214b70dd55ed8403c0971a4fa839a",
@@ -61,15 +61,15 @@
     }
   },
   "build": {
-    "generated": "2026-11-03T20:20:59.571808081+00:00",
-    "base": "cefb544af3c98224874419198c0359b652ca3c94",
-    "commit": "1ae926cf1d251054652f0178da4223f34b2b2016",
-    "pre_provenance_commit": "ced47d1d2eff923f11adc12932c2250a411b0900",
-    "tree": "35f2153f0ab336a494ea019d630b9da37058dbfd",
-    "built_tree": "70ae40292dc8e95b4b9e46b973a7250c48d134f9",
-    "previous_tree": "c46be726bb192c5fa8cd0160670114d9572b1c50",
+    "generated": "2026-11-03T20:47:12.802523277+00:00",
+    "base": "c3c15f7d3623979e0d93fc1cf0963cc6b9487dcf",
+    "commit": "d2ae9dba0b87a22b8313092090225dc7daac2ca4",
+    "pre_provenance_commit": "ca2b9975d8869039e513beaf2deed82777a5ece4",
+    "tree": "e82d6f74c98ef2615244f5bc199a8e9ff309ee1f",
+    "built_tree": "5b300cd517d20c7fb74b323cace13e78806d9e9c",
+    "previous_tree": "35f2153f0ab336a494ea019d630b9da37058dbfd",
     "tree_changed": true,
-    "conflicts": 20,
+    "conflicts": 19,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -730,8 +730,8 @@
       {
         "name": "t3code/main/declarative-settings",
         "oid": "74c55983528e02385df6e3f7749a7f19d76bc355",
-        "status": "merged",
-        "conflicted": true,
+        "status": "empty",
+        "conflicted": false,
         "resolutions": [
           "0f8074a806da5f2cae2b8bf9b6222ddb98764924",
           "30de3072d42db483bcb6f1da0e995fb47018dcce",
