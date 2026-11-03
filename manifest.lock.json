@@ -32,7 +32,7 @@
       "t3code/main/pr-4394": "98be2f30fe0dc06ca098ca0b652ec848ea12f06b",
       "t3code/main/pr-4405": "a6743a7c35ca0b888266ce56e272406bbe3d4bed",
       "t3code/main/pr-4420": "6e423f2764c37a97acf42836d04134651fe41103",
-      "t3code/main/pr-4425": "0aee91ef0653a9e0572dde036bc1f443585fd1e8",
+      "t3code/main/pr-4425": "6c2a59d651ba59281ca94b2a143b391da280d6b6",
       "t3code/main/pr-4437": "58a6f8065bcd8e69a39502b1e5ce084aa558240f",
       "t3code/main/pr-4439": "7ef12b04da51f45737581b81b4ac5df778a89262",
       "t3code/main/pr-4447": "0452e2e02313cf5736cebace7ff85a68bb965f9f",
@@ -60,13 +60,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-03T10:10:55.586690434+00:00",
+    "generated": "2026-11-03T15:56:06.401969+00:00",
     "base": "cefb544af3c98224874419198c0359b652ca3c94",
-    "commit": "e644c04602e264d6d56d477c758cf85cd5bb116c",
-    "pre_provenance_commit": "399a9007ad469e6eb7e7537f80ffefa94ee1e6f2",
-    "tree": "9a9e49addc4f283ab8fadc9b2a6f0bac75369817",
-    "built_tree": "db651cb6e68c2201785eab86128b55497f684925",
-    "previous_tree": "44493b65cd08a2cb691c48113b3a8b5d4d20a27d",
+    "commit": "675de0f84bbf866cdd2fb07202fc7263a05da7ec",
+    "pre_provenance_commit": "41f77b52acc795d3a0615bece9b985b342f2f718",
+    "tree": "b2a7b5ea3c696847f1e51e79b208b9b6a073c488",
+    "built_tree": "95144f25fc81a3cedebfa3f6064472ce6594e85d",
+    "previous_tree": "9a9e49addc4f283ab8fadc9b2a6f0bac75369817",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -265,7 +265,7 @@
         "name": "t3code/main/pr-4425",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4425",
-        "pin": "0aee91ef0653a9e0572dde036bc1f443585fd1e8"
+        "pin": "6c2a59d651ba59281ca94b2a143b391da280d6b6"
       },
       {
         "name": "t3code/main/usage-breakdowns",
@@ -766,7 +766,7 @@
       },
       {
         "name": "t3code/main/pr-4425",
-        "oid": "0aee91ef0653a9e0572dde036bc1f443585fd1e8",
+        "oid": "6c2a59d651ba59281ca94b2a143b391da280d6b6",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
