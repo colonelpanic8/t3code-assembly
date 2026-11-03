@@ -393,6 +393,15 @@ branch = "fork:t3code/main/sidebar-sort-criteria"
 summary = "Order the Active list by a user-ordered stack of sort criteria"
 note = "Local topic, no PR. Web and desktop only; mobile keeps its own list order."
 
+# Settings > About lists the assembled commit, the upstream base, and every
+# carried branch with its PR, each commit linking to GitHub. The web build reads
+# stack-build-info.json; its fixup passes the assembled commit from the flake.
+[[entry]]
+branch = "fork:t3code/main/about-assembly-build"
+summary = "Show the assembly build and its carried branches on the About page"
+note = "Local topic, no PR. The fixup sets T3CODE_ASSEMBLY_COMMIT on the Nix web build from buildCommit."
+fixup = "patches/about-assembly-build-commit.patch"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

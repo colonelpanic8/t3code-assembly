@@ -3,6 +3,7 @@
   "pins": {
     "base": "cefb544af3c98224874419198c0359b652ca3c94",
     "entries": {
+      "t3code/main/about-assembly-build": "7efc199b445d645a437b37f1c8fa95a5554991c6",
       "t3code/main/agent-profiles": "bb7577876ac214b70dd55ed8403c0971a4fa839a",
       "t3code/main/agent-verification": "9fcbcbf62dda460d617533e1a414b30420731c3e",
       "t3code/main/android-intents": "d2eae1bba37572e506716389b7ad1a1210bb9f3e",
@@ -60,13 +61,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-03T15:56:06.401969+00:00",
+    "generated": "2026-11-03T20:20:59.571808081+00:00",
     "base": "cefb544af3c98224874419198c0359b652ca3c94",
-    "commit": "675de0f84bbf866cdd2fb07202fc7263a05da7ec",
-    "pre_provenance_commit": "41f77b52acc795d3a0615bece9b985b342f2f718",
-    "tree": "b2a7b5ea3c696847f1e51e79b208b9b6a073c488",
-    "built_tree": "95144f25fc81a3cedebfa3f6064472ce6594e85d",
-    "previous_tree": "9a9e49addc4f283ab8fadc9b2a6f0bac75369817",
+    "commit": "1ae926cf1d251054652f0178da4223f34b2b2016",
+    "pre_provenance_commit": "ced47d1d2eff923f11adc12932c2250a411b0900",
+    "tree": "35f2153f0ab336a494ea019d630b9da37058dbfd",
+    "built_tree": "70ae40292dc8e95b4b9e46b973a7250c48d134f9",
+    "previous_tree": "c46be726bb192c5fa8cd0160670114d9572b1c50",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -400,6 +401,13 @@
         "kind": "branch",
         "source": "fork:t3code/main/sidebar-sort-criteria",
         "pin": "21aa9b8aa0078979b91cd1146634fc8faf8850c3"
+      },
+      {
+        "name": "t3code/main/about-assembly-build",
+        "kind": "branch",
+        "source": "fork:t3code/main/about-assembly-build",
+        "pin": "7efc199b445d645a437b37f1c8fa95a5554991c6",
+        "fixup": "fb268c0f40a5c5022d76b2a2ca76389142c8e5d6"
       }
     ],
     "results": [
@@ -947,6 +955,14 @@
           "b1c7d6bf97202a1a49357ffcde6926e7d76fa41b",
           "fd0ed9bb8e737729c3c6ca55a00f67a3dff06845"
         ]
+      },
+      {
+        "name": "t3code/main/about-assembly-build",
+        "oid": "7efc199b445d645a437b37f1c8fa95a5554991c6",
+        "status": "merged",
+        "conflicted": false,
+        "resolutions": [],
+        "fixup": "fb268c0f40a5c5022d76b2a2ca76389142c8e5d6"
       }
     ]
   }
