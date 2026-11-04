@@ -41,7 +41,7 @@ recorded = "2026-10-15T04:21:22.769420706+00:00"
 entry = "t3code/main/client-storage-separation"
 hash = "0b0ac2afa026ae1cb86677703bddc1bb59521678"
 paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-10-27T03:54:27.867431737+00:00"
+recorded = "2026-11-04T04:00:35.636692511+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -255,15 +255,15 @@ recorded = "2026-11-03T07:32:49.450864856+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "313328255dae7c73e3f606f727288e12d695a4e3"
-paths = ["apps/server/src/serverSettings.test.ts"]
-recorded = "2026-11-03T07:32:49.450867693+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
 hash = "4cdce8665fa98e4c0a86e4e74740290067298898"
 paths = ["apps/server/src/cli/project.ts"]
 recorded = "2026-10-16T18:08:21.177924849+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "507e0f275ed4a69873a4d29f6881b0c8b17ea8ee"
+paths = ["apps/server/src/serverSettings.test.ts"]
+recorded = "2026-11-04T04:00:54.177460610+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -431,7 +431,7 @@ recorded = "2026-11-01T04:49:52.454401+00:00"
 entry = "t3code/main/pr-4420"
 hash = "d1685a87bd85baf8de51969e47ac0a281172ac92"
 paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-10-20T19:12:02.354387688+00:00"
+recorded = "2026-11-04T04:00:01.828623859+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
