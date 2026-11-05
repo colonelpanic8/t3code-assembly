@@ -45,6 +45,12 @@ recorded = "2026-11-04T04:00:35.636692511+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
+hash = "2a1f585b98c067785f9af66601b2a48077e90071"
+paths = ["packages/ssh/src/tunnel.test.ts"]
+recorded = "2026-11-05T10:10:38.651445107+00:00"
+
+[[resolution]]
+entry = "t3code/main/client-storage-separation"
 hash = "2b45eb10245366eafdf1b0b939cec6ed5c20c6fe"
 paths = ["apps/desktop/src/app/DesktopEarlyElectronStartup.test.ts"]
 recorded = "2026-10-27T03:54:27.867437786+00:00"
@@ -54,12 +60,6 @@ entry = "t3code/main/client-storage-separation"
 hash = "2f8d855e6188757407a6537d14347d01e6257449"
 paths = ["apps/server/src/cli/uninstall.ts"]
 recorded = "2026-11-01T04:50:11.352024+00:00"
-
-[[resolution]]
-entry = "t3code/main/client-storage-separation"
-hash = "3bb18ddf60795b2de79cac7cfa355fad282ee4de"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-10-22T17:23:24.216039383+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-storage-separation"
@@ -315,18 +315,6 @@ recorded = "2026-10-27T03:55:15.564435431+00:00"
 
 [[resolution]]
 entry = "t3code/main/environment-groups"
-hash = "49d243546e36bab00d0526c7436eb40170ad1fe4"
-paths = ["packages/client-runtime/package.json"]
-recorded = "2026-10-28T13:24:55.973238613+00:00"
-
-[[resolution]]
-entry = "t3code/main/environment-groups"
-hash = "51f85f1e7c1f0ef99d8405744eb48425c850c5a5"
-paths = ["apps/web/src/components/settings/ConnectionsSettings.tsx"]
-recorded = "2026-10-22T17:28:14.504405407+00:00"
-
-[[resolution]]
-entry = "t3code/main/environment-groups"
 hash = "9eb01d00fe6b08b5d82188e2e691e65131bb493c"
 paths = ["apps/mobile/src/features/settings/SettingsEnvironmentsRouteScreen.tsx"]
 recorded = "2026-10-27T03:56:55.640196233+00:00"
@@ -336,6 +324,12 @@ entry = "t3code/main/environment-groups"
 hash = "a94c29a5127c27475b21e3e8fbf72d6fc0d4488a"
 paths = ["docs/user/remote-access.md"]
 recorded = "2026-10-27T03:56:55.640198129+00:00"
+
+[[resolution]]
+entry = "t3code/main/environment-groups"
+hash = "dbd21d344721902b7fd7946f9684d9bea856d5b9"
+paths = ["packages/client-runtime/package.json"]
+recorded = "2026-11-05T10:10:48.592648365+00:00"
 
 [[resolution]]
 entry = "t3code/main/eva-extension"
@@ -513,15 +507,9 @@ recorded = "2026-10-16T18:06:08.022789062+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
-hash = "55bf2596edafbb644ae3c8cf9a5833ccb6ebd4f5"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-10-22T17:16:17.576594730+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
 hash = "587a03c4197844ec5ed7b0caa32e0cbb341744a3"
 paths = ["apps/desktop/src/backend/DesktopBackendConfiguration.ts"]
-recorded = "2026-10-27T03:51:49.078706244+00:00"
+recorded = "2026-11-05T10:10:24.712774812+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -588,6 +576,12 @@ entry = "t3code/main/pr-4437"
 hash = "9ee4868bacb6942e79c12e48b0eb57eef4f6264b"
 paths = ["apps/desktop/src/app/DesktopEnvironment.test.ts"]
 recorded = "2026-10-27T03:51:49.078715188+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "a3169731d595710793dd5fd5b9818342af684420"
+paths = ["packages/ssh/src/tunnel.test.ts"]
+recorded = "2026-11-05T10:10:24.712777159+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -693,12 +687,6 @@ recorded = "2026-10-16T18:03:30.903632728+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
-hash = "a1c76aa344fb0b6de2d829ed863d9147fd5abd7a"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-10-22T17:13:04.877784863+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
 hash = "c68b3ba9438ece2d1f0e2d91ffb4f771a0105245"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-16T18:03:30.903633871+00:00"
@@ -744,6 +732,12 @@ entry = "t3code/main/server-config-file"
 hash = "f8e22af3bd6491ef34e16719633e566b401e641e"
 paths = ["apps/desktop/src/backend/DesktopBackendConfiguration.ts"]
 recorded = "2026-10-27T03:50:08.262157954+00:00"
+
+[[resolution]]
+entry = "t3code/main/server-config-file"
+hash = "f934ac38bec297d2cad68dc1ad57ae4fe09f8cd2"
+paths = ["packages/ssh/src/tunnel.test.ts"]
+recorded = "2026-11-05T10:10:03.986774336+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
