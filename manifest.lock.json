@@ -25,7 +25,7 @@
       "t3code/main/migration-schema-repair": "b36b28f6ae37a61e8e3a269eb557e7b2d99b3486",
       "t3code/main/mobile-settings-feed": "2e2b13c2c6a9cd0ba629633dfe5f88cd48538fc5",
       "t3code/main/mobile-tailscale-fleet": "eec2166325a00e4fdb1ec6b3a18c5c70dbd55545",
-      "t3code/main/mobile-usage-breakdowns": "b3ef8b08e0f249cf6d914e438ededf3774c7c94f",
+      "t3code/main/mobile-usage-breakdowns": "9a302ec0288f42caa816ef2f05cd1d54e35c0fce",
       "t3code/main/mobile-usage-summary-cache": "6b4ea0b3590b17b0350e384b85de29782f6d5ca0",
       "t3code/main/pr-4257": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
       "t3code/main/pr-4318": "d79add76b247afe400a10340279ad0c4f0754ba8",
@@ -61,13 +61,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-05T10:19:51.489568922+00:00",
+    "generated": "2026-11-05T11:12:06.956930640+00:00",
     "base": "337c5858c33bc7f8f6dfd391a2c279fa0f7e4d17",
-    "commit": "2643323335bdd1d6b9686ba201e932c7c22df5ef",
-    "pre_provenance_commit": "0fb73a8c977ebf2c9548e75ca2e4f10fb50430db",
-    "tree": "3cb246d1483c23c225603fc435d7cfbda81da1d7",
-    "built_tree": "5c4efc599f61aca9b45fa1c8a8ddd9c57a082eb2",
-    "previous_tree": "ccda66041566a1a95e5f5155e8e1a28af87adf3e",
+    "commit": "3f8206bc8e6759edf8f839ee57956fe6e1724a7c",
+    "pre_provenance_commit": "786a9a4135dde2ce53e3efcf7fbbe817fe524cbe",
+    "tree": "341e9199716c735cbe81b97a408808cc1bd93a45",
+    "built_tree": "094b75f14d1ca24c7f936c0b2e32e5e55d49419a",
+    "previous_tree": "3cb246d1483c23c225603fc435d7cfbda81da1d7",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -388,7 +388,7 @@
         "name": "t3code/main/mobile-usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-breakdowns",
-        "pin": "b3ef8b08e0f249cf6d914e438ededf3774c7c94f"
+        "pin": "9a302ec0288f42caa816ef2f05cd1d54e35c0fce"
       },
       {
         "name": "t3code/main/mobile-usage-summary-cache",
@@ -929,7 +929,7 @@
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
-        "oid": "b3ef8b08e0f249cf6d914e438ededf3774c7c94f",
+        "oid": "9a302ec0288f42caa816ef2f05cd1d54e35c0fce",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
