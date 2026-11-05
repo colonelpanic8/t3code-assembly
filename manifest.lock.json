@@ -17,7 +17,7 @@
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
       "t3code/main/desktop-window-state": "b6b8afcadc6690750d1002fde107ce9c68c7c22c",
       "t3code/main/environment-groups": "7d763caa3966abe1b40bb4050022bf9451c92ff3",
-      "t3code/main/eva-extension": "9f57ce22729f9d79515accb4f6cf038ce87387e4",
+      "t3code/main/eva-extension": "93d180bd47fb062ff96984c0da29b76e7dad6dc9",
       "t3code/main/favicon-refresh-on-click": "e071a426eb62dcd28e280bb5ed21f3c1c7e36c0c",
       "t3code/main/fdroid-distribution": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
       "t3code/main/live-voice": "8fa0c0b36dec74f80ec0bad9fba8b64aee634fbf",
@@ -61,13 +61,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-04T04:13:40.957077182+00:00",
+    "generated": "2026-11-05T09:35:04.400227306+00:00",
     "base": "647bd148b3fbd7c8b57a10fd41ae6d5fc7b35cc1",
-    "commit": "f99d15a3b684fc792aab50c06331f43c2659bb77",
-    "pre_provenance_commit": "9e9ad09fe70ab15419c4867166643808cfd2be33",
-    "tree": "63e67b9d27f7e5c927316ac07f9b7ed1a7b51a07",
-    "built_tree": "eb4ea8cb7ccd988702002dcc694c53d43afdc039",
-    "previous_tree": "db1c99e1eb7f48836215f576eb98ea41d82acd63",
+    "commit": "f0b1eafd4926ebc422589d6e9a50c1f119176127",
+    "pre_provenance_commit": "1e64d149492d6a5fa8d84311adcd970731525462",
+    "tree": "f0b85f95e7f93ab3961f4fb2dc38a07dcbf380f6",
+    "built_tree": "ea4ae0d244c2dd09afee914359c350f4bec6d578",
+    "previous_tree": "63e67b9d27f7e5c927316ac07f9b7ed1a7b51a07",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -333,7 +333,7 @@
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "9f57ce22729f9d79515accb4f6cf038ce87387e4"
+        "pin": "93d180bd47fb062ff96984c0da29b76e7dad6dc9"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -857,7 +857,7 @@
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "9f57ce22729f9d79515accb4f6cf038ce87387e4",
+        "oid": "93d180bd47fb062ff96984c0da29b76e7dad6dc9",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
