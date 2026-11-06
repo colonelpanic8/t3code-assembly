@@ -407,7 +407,6 @@ fixup = "patches/about-assembly-build-commit.patch"
 # from the existing transcript endpoint. Tool work and reasoning are left out.
 [[entry]]
 branch = "fork:t3code/main/copy-thread-markdown"
-pr = 31872
 summary = "Copy a thread as Markdown"
 
 # T3CODE_MANAGED_PEER_LINKS_FILE lists linked environments a server keeps:
