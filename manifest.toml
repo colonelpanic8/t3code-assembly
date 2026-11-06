@@ -410,6 +410,14 @@ branch = "fork:t3code/main/copy-thread-markdown"
 pr = 31872
 summary = "Copy a thread as Markdown"
 
+# T3CODE_MANAGED_PEER_LINKS_FILE lists linked environments a server keeps:
+# it links, renews, and unlinks them from the file every five minutes. A
+# fleet enrollment credential is accepted as the link's pairing code.
+[[entry]]
+branch = "fork:t3code/main/managed-peer-links"
+summary = "Keep linked environments from a managed peer links file"
+note = "Stacked on mobile-tailscale-fleet (enrollment credentials). Dotfiles build the file from t3code-fleet-enrollment.age on hosts with myModules.t3codeServer.peerLinks."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

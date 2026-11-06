@@ -279,12 +279,6 @@ recorded = "2026-10-22T17:24:11.970490395+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "702bccdd3230dfe604d1fa0fed3983e210e7d1ab"
-paths = ["packages/contracts/src/ipc.ts"]
-recorded = "2026-10-14T22:48:48.567429053+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
 hash = "712ef77d4b281514aa7e6168a801add3d2730221"
 paths = ["apps/desktop/src/ipc/DesktopIpcHandlers.ts"]
 recorded = "2026-10-28T13:24:32.357750905+00:00"
@@ -366,6 +360,12 @@ entry = "t3code/main/managed-fleet"
 hash = "9720acd69ada2808f802d2622aa1d9988213090f"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-15T04:27:34.372863331+00:00"
+
+[[resolution]]
+entry = "t3code/main/managed-peer-links"
+hash = "dff9a7bbbb4939bae9a538609713266c658fd798"
+paths = ["apps/server/src/server.ts"]
+recorded = "2026-11-06T09:17:29.789916146+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
