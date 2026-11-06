@@ -17,7 +17,7 @@
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
       "t3code/main/desktop-window-state": "b6b8afcadc6690750d1002fde107ce9c68c7c22c",
       "t3code/main/environment-groups": "5f69dd53579e3382db9320d0badf827624324f0e",
-      "t3code/main/eva-extension": "93d180bd47fb062ff96984c0da29b76e7dad6dc9",
+      "t3code/main/eva-extension": "88a34afba9846b050ee5b60f89796015af6d50be",
       "t3code/main/favicon-refresh-on-click": "e071a426eb62dcd28e280bb5ed21f3c1c7e36c0c",
       "t3code/main/fdroid-distribution": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
       "t3code/main/live-voice": "4dab3a5093607da3baed3c2ea54f931f6d2bc147",
@@ -25,7 +25,7 @@
       "t3code/main/migration-schema-repair": "b36b28f6ae37a61e8e3a269eb557e7b2d99b3486",
       "t3code/main/mobile-settings-feed": "2e2b13c2c6a9cd0ba629633dfe5f88cd48538fc5",
       "t3code/main/mobile-tailscale-fleet": "3f08687e71b040d1a9b0e6b0d9542b9f69cd8569",
-      "t3code/main/mobile-usage-breakdowns": "0076d0bc0bb7ea205aecdfd6795adfd4b58adb51",
+      "t3code/main/mobile-usage-breakdowns": "bfc960875398ba1f4fe7171851c6a7b6d423d680",
       "t3code/main/mobile-usage-summary-cache": "1a2bb1c9012240312fef7653f111c1c753e34834",
       "t3code/main/pr-4257": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
       "t3code/main/pr-4318": "0451e5be3907583b776de409ce53a6c1eb1f37e5",
@@ -36,7 +36,7 @@
       "t3code/main/pr-4425": "6c2a59d651ba59281ca94b2a143b391da280d6b6",
       "t3code/main/pr-4437": "d4cfe84d4a6eb5b19774d4ba39f4ba7df1cb6d94",
       "t3code/main/pr-4439": "7ef12b04da51f45737581b81b4ac5df778a89262",
-      "t3code/main/pr-4447": "a6dee03b03962f46427347ba27061deeb9bd6dca",
+      "t3code/main/pr-4447": "b1b4b24a80c254a838474f7232630a117ace6019",
       "t3code/main/pr-4484": "de3a0620bae1c5fc4bfb0afd676685724657aaa5",
       "t3code/main/pr-4593": "6cfed4956281337b18e5c20e7b9ad81df4e88d3b",
       "t3code/main/pr-4602": "7f9685eb154f3b49b6124d5c92d66c093b9bb0cf",
@@ -61,13 +61,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-06T06:00:58.276961772+00:00",
+    "generated": "2026-11-06T06:27:11.138344642+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "928ec0330efbaafe465a0cf4e9173980fb3bcc23",
-    "pre_provenance_commit": "fec61bc1f40b9fabbd418455c67bb44c25587ec8",
-    "tree": "e97cb0206742d4ddcd6de73267c643708d048b2f",
-    "built_tree": "0b3b01faa9bafd00882d80acb4beb6d59423cc54",
-    "previous_tree": "fc9dfb0a830ab112c8758ab64a22ad1a5e85ec63",
+    "commit": "89899786a4d12f66d0b1797d5a5ff39ef7dd0d88",
+    "pre_provenance_commit": "d39446662dbdfe6008b3bf3534a2636fb9486640",
+    "tree": "e7d4daeea62e8c1e91ad774fc763c770ee845d90",
+    "built_tree": "98189d5f7d5dd81d6ab99b1004ec23bba6ba2a03",
+    "previous_tree": "26f309b454f0e2b226d1cfee46d409d2994823a7",
     "tree_changed": true,
     "conflicts": 20,
     "manifest_entries": [
@@ -105,7 +105,7 @@
         "name": "t3code/main/pr-4447",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4447",
-        "pin": "a6dee03b03962f46427347ba27061deeb9bd6dca"
+        "pin": "b1b4b24a80c254a838474f7232630a117ace6019"
       },
       {
         "name": "t3code/main/pr-4701",
@@ -333,7 +333,7 @@
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "93d180bd47fb062ff96984c0da29b76e7dad6dc9"
+        "pin": "88a34afba9846b050ee5b60f89796015af6d50be"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
@@ -388,7 +388,7 @@
         "name": "t3code/main/mobile-usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-breakdowns",
-        "pin": "0076d0bc0bb7ea205aecdfd6795adfd4b58adb51"
+        "pin": "bfc960875398ba1f4fe7171851c6a7b6d423d680"
       },
       {
         "name": "t3code/main/mobile-usage-summary-cache",
@@ -448,7 +448,7 @@
       },
       {
         "name": "t3code/main/pr-4447",
-        "oid": "a6dee03b03962f46427347ba27061deeb9bd6dca",
+        "oid": "b1b4b24a80c254a838474f7232630a117ace6019",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -857,7 +857,7 @@
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "93d180bd47fb062ff96984c0da29b76e7dad6dc9",
+        "oid": "88a34afba9846b050ee5b60f89796015af6d50be",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -929,7 +929,7 @@
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
-        "oid": "0076d0bc0bb7ea205aecdfd6795adfd4b58adb51",
+        "oid": "bfc960875398ba1f4fe7171851c6a7b6d423d680",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
