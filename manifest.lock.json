@@ -13,7 +13,7 @@
       "t3code/main/client-storage-separation": "45eb6c4c6a53fe9aa9a6ae820ce01eedf09b87a3",
       "t3code/main/codex-archived-sessions": "4c226981f59a8101c5e52a18e2aaf2bbc1846363",
       "t3code/main/composer-control-shortcuts": "51df47907fff4cf2b17e06f796c4f85754962c08",
-      "t3code/main/coordinator": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4",
+      "t3code/main/coordinator": "756cf29d6b1b01f9b852d3402624f9d74dd4d1a6",
       "t3code/main/copy-thread-markdown": "736d2da50b555b8d25880c91c4d42009270a4160",
       "t3code/main/declarative-settings": "c1c674118184202d812712b8c4b774c69cc38241",
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
@@ -64,15 +64,15 @@
     }
   },
   "build": {
-    "generated": "2026-11-06T19:11:49.460871492+00:00",
+    "generated": "2026-11-06T20:06:54.817594573+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "95fc7a72fa11a57180f8abb40d59834da7fb96eb",
-    "pre_provenance_commit": "a87bb5dcc4fbcce99e357f2a9511dc2f3ba805ed",
-    "tree": "c86fc60408aecb05860a855e745050babc0c62df",
-    "built_tree": "66e5bb6f702151b2cac1a3e90a77e30a5c2a9e3b",
-    "previous_tree": "aabbfb72b36394abe62b404b6cae43cf46381c48",
+    "commit": "ba8eaf0b9bf28bbaf0ed1b2655ea0bd8d685c5bd",
+    "pre_provenance_commit": "b9892fe7559836bd54e7841dd8b52ca5120ecfd7",
+    "tree": "10defcc74419e8b605cf2e90617341d06d32a987",
+    "built_tree": "cc4fbe497eb86e7de6639eeb5c0b30d30b474c3b",
+    "previous_tree": "c86fc60408aecb05860a855e745050babc0c62df",
     "tree_changed": true,
-    "conflicts": 1,
+    "conflicts": 22,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -428,7 +428,7 @@
         "name": "t3code/main/coordinator",
         "kind": "branch",
         "source": "fork:t3code/main/coordinator",
-        "pin": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4"
+        "pin": "756cf29d6b1b01f9b852d3402624f9d74dd4d1a6"
       }
     ],
     "results": [
@@ -1002,7 +1002,7 @@
       },
       {
         "name": "t3code/main/coordinator",
-        "oid": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4",
+        "oid": "756cf29d6b1b01f9b852d3402624f9d74dd4d1a6",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
