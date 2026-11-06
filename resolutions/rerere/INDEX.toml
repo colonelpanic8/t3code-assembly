@@ -5,7 +5,7 @@
 entry = "t3code/main/agent-profiles"
 hash = "4092dd2cffb757806be6dcb7bd4a15d2a4dfd3e2"
 paths = ["apps/web/src/components/chat/ChatComposer.tsx"]
-recorded = "2026-10-28T14:09:25.416556397+00:00"
+recorded = "2026-11-06T05:49:22.451125393+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
@@ -264,6 +264,12 @@ entry = "t3code/main/declarative-settings"
 hash = "507e0f275ed4a69873a4d29f6881b0c8b17ea8ee"
 paths = ["apps/server/src/serverSettings.test.ts"]
 recorded = "2026-11-04T04:00:54.177460610+00:00"
+
+[[resolution]]
+entry = "t3code/main/declarative-settings"
+hash = "508ca13a2e2781f3a6942aec3b446cfb13aa09b1"
+paths = ["packages/contracts/src/ipc.ts"]
+recorded = "2026-11-06T05:47:25.933347885+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -599,7 +605,7 @@ recorded = "2026-10-22T17:16:17.576596082+00:00"
 entry = "t3code/main/pr-4437"
 hash = "c4150a789acf6086603764bc174908e53b5f2e79"
 paths = ["apps/server/src/cli/pair.ts"]
-recorded = "2026-10-27T03:51:49.078715480+00:00"
+recorded = "2026-11-06T05:44:27.973733218+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -707,7 +713,7 @@ recorded = "2026-10-22T17:13:04.877785475+00:00"
 entry = "t3code/main/server-config-file"
 hash = "e255647fdf2b5a2366d44a8e7698c40626fddaed"
 paths = ["apps/server/src/cli/connect.ts"]
-recorded = "2026-11-01T04:47:46.519208+00:00"
+recorded = "2026-11-06T05:43:12.258452803+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
