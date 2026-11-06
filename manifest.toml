@@ -402,6 +402,14 @@ summary = "Show the assembly build and its carried branches on the About page"
 note = "Local topic, no PR. The fixup sets T3CODE_ASSEMBLY_COMMIT on the Nix web build from buildCommit."
 fixup = "patches/about-assembly-build-commit.patch"
 
+# Copy -> Thread as Markdown in the thread menu, and "Copy thread as Markdown"
+# in the command palette, copy the user and assistant messages with their times
+# from the existing transcript endpoint. Tool work and reasoning are left out.
+[[entry]]
+branch = "fork:t3code/main/copy-thread-markdown"
+pr = 31872
+summary = "Copy a thread as Markdown"
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

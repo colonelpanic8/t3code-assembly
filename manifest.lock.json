@@ -13,6 +13,7 @@
       "t3code/main/client-storage-separation": "45eb6c4c6a53fe9aa9a6ae820ce01eedf09b87a3",
       "t3code/main/codex-archived-sessions": "4c226981f59a8101c5e52a18e2aaf2bbc1846363",
       "t3code/main/composer-control-shortcuts": "51df47907fff4cf2b17e06f796c4f85754962c08",
+      "t3code/main/copy-thread-markdown": "736d2da50b555b8d25880c91c4d42009270a4160",
       "t3code/main/declarative-settings": "c1c674118184202d812712b8c4b774c69cc38241",
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
       "t3code/main/desktop-window-state": "b6b8afcadc6690750d1002fde107ce9c68c7c22c",
@@ -61,15 +62,15 @@
     }
   },
   "build": {
-    "generated": "2026-11-06T06:27:11.138344642+00:00",
+    "generated": "2026-11-06T07:57:47.632174538+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "89899786a4d12f66d0b1797d5a5ff39ef7dd0d88",
-    "pre_provenance_commit": "d39446662dbdfe6008b3bf3534a2636fb9486640",
-    "tree": "e7d4daeea62e8c1e91ad774fc763c770ee845d90",
-    "built_tree": "98189d5f7d5dd81d6ab99b1004ec23bba6ba2a03",
-    "previous_tree": "26f309b454f0e2b226d1cfee46d409d2994823a7",
+    "commit": "40526e4fdf5cbe99ea1e265824630ee300850260",
+    "pre_provenance_commit": "d7c37d37f6f6340673afb92e49ac36c0245c35b4",
+    "tree": "0c33fdcc837875080b1fd58c19abbef6da86393e",
+    "built_tree": "8d56b9f379156cb4f54105f12c0d32cd041f42f1",
+    "previous_tree": "e7d4daeea62e8c1e91ad774fc763c770ee845d90",
     "tree_changed": true,
-    "conflicts": 20,
+    "conflicts": 0,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -408,6 +409,12 @@
         "source": "fork:t3code/main/about-assembly-build",
         "pin": "aded051eaa8681d3f65faf2577e9b75bee888706",
         "fixup": "a8ad1379b0df9d5f4c0187f723379aa12bfb9bf9"
+      },
+      {
+        "name": "t3code/main/copy-thread-markdown",
+        "kind": "branch",
+        "source": "fork:t3code/main/copy-thread-markdown",
+        "pin": "736d2da50b555b8d25880c91c4d42009270a4160"
       }
     ],
     "results": [
@@ -962,6 +969,13 @@
         "conflicted": false,
         "resolutions": [],
         "fixup": "a8ad1379b0df9d5f4c0187f723379aa12bfb9bf9"
+      },
+      {
+        "name": "t3code/main/copy-thread-markdown",
+        "oid": "736d2da50b555b8d25880c91c4d42009270a4160",
+        "status": "merged",
+        "conflicted": false,
+        "resolutions": []
       }
     ]
   }
