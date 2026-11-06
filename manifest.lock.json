@@ -13,6 +13,7 @@
       "t3code/main/client-storage-separation": "45eb6c4c6a53fe9aa9a6ae820ce01eedf09b87a3",
       "t3code/main/codex-archived-sessions": "4c226981f59a8101c5e52a18e2aaf2bbc1846363",
       "t3code/main/composer-control-shortcuts": "51df47907fff4cf2b17e06f796c4f85754962c08",
+      "t3code/main/coordinator": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4",
       "t3code/main/copy-thread-markdown": "736d2da50b555b8d25880c91c4d42009270a4160",
       "t3code/main/declarative-settings": "c1c674118184202d812712b8c4b774c69cc38241",
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
@@ -63,13 +64,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-06T09:17:30.024019559+00:00",
+    "generated": "2026-11-06T19:11:49.460871492+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "76f793191e161a3326d3a7f94d00514ba87fea16",
-    "pre_provenance_commit": "d41cd5476eca2fbea8fab829d0c2ec85745332f5",
-    "tree": "aabbfb72b36394abe62b404b6cae43cf46381c48",
-    "built_tree": "dfe318675ec55de4eb3e905216b4b835c28c3d3a",
-    "previous_tree": "0c33fdcc837875080b1fd58c19abbef6da86393e",
+    "commit": "95fc7a72fa11a57180f8abb40d59834da7fb96eb",
+    "pre_provenance_commit": "a87bb5dcc4fbcce99e357f2a9511dc2f3ba805ed",
+    "tree": "c86fc60408aecb05860a855e745050babc0c62df",
+    "built_tree": "66e5bb6f702151b2cac1a3e90a77e30a5c2a9e3b",
+    "previous_tree": "aabbfb72b36394abe62b404b6cae43cf46381c48",
     "tree_changed": true,
     "conflicts": 1,
     "manifest_entries": [
@@ -422,6 +423,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/managed-peer-links",
         "pin": "2b5b343fce1d675c2126efb3ec31fca391e636b0"
+      },
+      {
+        "name": "t3code/main/coordinator",
+        "kind": "branch",
+        "source": "fork:t3code/main/coordinator",
+        "pin": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4"
       }
     ],
     "results": [
@@ -991,6 +998,20 @@
         "conflicted": true,
         "resolutions": [
           "dff9a7bbbb4939bae9a538609713266c658fd798"
+        ]
+      },
+      {
+        "name": "t3code/main/coordinator",
+        "oid": "1eb26ff29f30a9e4eff50bbcabb19df311f35dc4",
+        "status": "merged",
+        "conflicted": true,
+        "resolutions": [
+          "04ab0940acffcc0d7febe918e49327f04e67621b",
+          "3a376e4c8296f137335cf5d3e9250f42560ecc2b",
+          "8efea0d879734b3ad94953c2317ad21cda2e2130",
+          "90a011fd63b41c8f59128b3ff3c7c21b1690fce1",
+          "a49f9bca2eba4f27d84dc821ff92e3674fd199cf",
+          "ad752c21201d2b4c3124ab08f177a892f879acb6"
         ]
       }
     ]

@@ -417,6 +417,13 @@ branch = "fork:t3code/main/managed-peer-links"
 summary = "Keep linked environments from a managed peer links file"
 note = "Stacked on mobile-tailscale-fleet (enrollment credentials). Dotfiles build the file from t3code-fleet-enrollment.age on hosts with myModules.t3codeServer.peerLinks."
 
+# Coordinators: a standing thread per `coordinators` entry in settings.json,
+# woken into fresh sessions, with an inbox computed across linked environments.
+[[entry]]
+branch = "fork:t3code/main/coordinator"
+summary = "Coordinators with a fleet inbox (server, web sidebar, mobile Inbox tab)"
+note = "Local topic, no PR. Reaches other hosts through linked environments (managed-peer-links). Notes live in <stateDir>/coordinators.json rather than a migration so fork numbering cannot collide with upstream's. Plan: ~/plans/t3code/2026-11-06-coordinator-feature.md."
+
 [[exclude]]
 pr = 4677
 reason = "Landed upstream as #11800 (3be02ae579): custom snooze dates and durations."

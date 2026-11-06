@@ -242,6 +242,42 @@ paths = ["apps/web/src/keybindings.test.ts"]
 recorded = "2026-10-27T03:56:16.070500422+00:00"
 
 [[resolution]]
+entry = "t3code/main/coordinator"
+hash = "04ab0940acffcc0d7febe918e49327f04e67621b"
+paths = ["apps/mobile/src/persistence/mobile-preferences.ts"]
+recorded = "2026-11-06T19:11:49.285352716+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "3a376e4c8296f137335cf5d3e9250f42560ecc2b"
+paths = ["apps/server/src/server.ts"]
+recorded = "2026-11-06T19:11:49.285355298+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "8efea0d879734b3ad94953c2317ad21cda2e2130"
+paths = ["apps/server/src/provider/agentContextBudget.json"]
+recorded = "2026-11-06T19:11:49.285355611+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "90a011fd63b41c8f59128b3ff3c7c21b1690fce1"
+paths = ["apps/web/src/components/settings/settingsSearch.ts"]
+recorded = "2026-11-06T19:11:49.285356171+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "a49f9bca2eba4f27d84dc821ff92e3674fd199cf"
+paths = ["apps/mobile/src/features/settings/SettingsProjectGroupingRouteScreen.tsx"]
+recorded = "2026-11-06T19:11:49.285356636+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "ad752c21201d2b4c3124ab08f177a892f879acb6"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-11-06T19:11:49.285356977+00:00"
+
+[[resolution]]
 entry = "t3code/main/declarative-settings"
 hash = "0f8074a806da5f2cae2b8bf9b6222ddb98764924"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
