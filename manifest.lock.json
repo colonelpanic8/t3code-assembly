@@ -17,6 +17,7 @@
       "t3code/main/copy-thread-markdown": "736d2da50b555b8d25880c91c4d42009270a4160",
       "t3code/main/declarative-settings": "c1c674118184202d812712b8c4b774c69cc38241",
       "t3code/main/desktop-client-location": "095c1efad610b28051544ba4903f83c486f1384e",
+      "t3code/main/desktop-system-resume": "98d474b63b636298f5ad1c05943fe8a9c8329b26",
       "t3code/main/desktop-window-state": "b6b8afcadc6690750d1002fde107ce9c68c7c22c",
       "t3code/main/environment-groups": "5f69dd53579e3382db9320d0badf827624324f0e",
       "t3code/main/eva-extension": "88a34afba9846b050ee5b60f89796015af6d50be",
@@ -64,13 +65,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-06T20:06:54.817594573+00:00",
+    "generated": "2026-11-07T19:27:00.269527763+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "ba8eaf0b9bf28bbaf0ed1b2655ea0bd8d685c5bd",
-    "pre_provenance_commit": "b9892fe7559836bd54e7841dd8b52ca5120ecfd7",
-    "tree": "10defcc74419e8b605cf2e90617341d06d32a987",
-    "built_tree": "cc4fbe497eb86e7de6639eeb5c0b30d30b474c3b",
-    "previous_tree": "c86fc60408aecb05860a855e745050babc0c62df",
+    "commit": "d1c638972bf64e123c99c8422b96c88113ebac43",
+    "pre_provenance_commit": "0f529657578337e73feeeb1d6ea494812d7bf3e0",
+    "tree": "41737d83d70c9d32eef6cae8b380ea648ca7bb82",
+    "built_tree": "8901438a576673f02fbfb76bc32fd21bae5d54f5",
+    "previous_tree": "10defcc74419e8b605cf2e90617341d06d32a987",
     "tree_changed": true,
     "conflicts": 22,
     "manifest_entries": [
@@ -213,7 +214,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-4420",
         "pin": "5075de3073bd3e08d957d95f383a5a3455cdce32",
-        "fixup": "f15d6761a2dc43b90a4e89d38e00773c8f7756f1"
+        "fixup": "a82b19aae584866e84c21facf2e18151ae81e87b"
       },
       {
         "name": "t3code/main/pr-4484",
@@ -257,7 +258,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "3f08687e71b040d1a9b0e6b0d9542b9f69cd8569",
-        "fixup": "da7c1f46f8477ed114b114e62a0b887a00e8c62e"
+        "fixup": "6ec9fd332427c493015ffd7a97240dca2d08a855"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -429,6 +430,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/coordinator",
         "pin": "756cf29d6b1b01f9b852d3402624f9d74dd4d1a6"
+      },
+      {
+        "name": "t3code/main/desktop-system-resume",
+        "kind": "branch",
+        "source": "fork:t3code/main/desktop-system-resume",
+        "pin": "98d474b63b636298f5ad1c05943fe8a9c8329b26"
       }
     ],
     "results": [
@@ -673,7 +680,7 @@
           "d1685a87bd85baf8de51969e47ac0a281172ac92",
           "df02b9cb0278cec6b0e0124fa20a4e1ac79fcd3f"
         ],
-        "fixup": "f15d6761a2dc43b90a4e89d38e00773c8f7756f1"
+        "fixup": "a82b19aae584866e84c21facf2e18151ae81e87b"
       },
       {
         "name": "t3code/main/pr-4484",
@@ -782,7 +789,7 @@
           "cb20e5014146e2d9f309dadcc12fcf9705029648",
           "d8d0f10846dc2d67543cc69665e6b2ee38a58b29"
         ],
-        "fixup": "da7c1f46f8477ed114b114e62a0b887a00e8c62e"
+        "fixup": "6ec9fd332427c493015ffd7a97240dca2d08a855"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -1013,6 +1020,13 @@
           "a49f9bca2eba4f27d84dc821ff92e3674fd199cf",
           "ad752c21201d2b4c3124ab08f177a892f879acb6"
         ]
+      },
+      {
+        "name": "t3code/main/desktop-system-resume",
+        "oid": "98d474b63b636298f5ad1c05943fe8a9c8329b26",
+        "status": "merged",
+        "conflicted": false,
+        "resolutions": []
       }
     ]
   }

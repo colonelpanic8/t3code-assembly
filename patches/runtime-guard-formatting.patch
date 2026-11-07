@@ -1,25 +1,8 @@
-diff --git a/apps/server/src/cli/config.ts b/apps/server/src/cli/config.ts
-index 878cbc3d84..1785f5da93 100644
---- a/apps/server/src/cli/config.ts
-+++ b/apps/server/src/cli/config.ts
-@@ -51,7 +51,11 @@ import { readBootstrapEnvelope } from "../bootstrap.ts";
- import { resolveServiceLauncherMode } from "../cloud/serviceLauncherClient.ts";
- import * as ServerConfig from "../config.ts";
- import { expandHomePath } from "../os-jank.ts";
--import { isProcessAlive, isRespondingServerRuntime, readPersistedServerRuntimeState } from "../serverRuntimeState.ts";
-+import {
-+  isProcessAlive,
-+  isRespondingServerRuntime,
-+  readPersistedServerRuntimeState,
-+} from "../serverRuntimeState.ts";
- import { readServerConfigFile } from "./serverConfigFile.ts";
- 
- const modeFlag = Flag.Literals("mode", ServerConfig.RuntimeMode.literals).pipe(
 diff --git a/apps/server/src/serverRuntimeState.ts b/apps/server/src/serverRuntimeState.ts
-index 4f083267db..b738ace092 100644
+index 066468a9dc..a2044db959 100644
 --- a/apps/server/src/serverRuntimeState.ts
 +++ b/apps/server/src/serverRuntimeState.ts
-@@ -120,4 +120,3 @@ export const isRespondingServerRuntime = Effect.fn("serverRuntimeState.isRespond
+@@ -123,4 +123,3 @@ export const isRespondingServerRuntime = Effect.fn("serverRuntimeState.isRespond
    Effect.orElseSucceed(() => false),
    Effect.provide(FetchHttpClient.layer),
  );
