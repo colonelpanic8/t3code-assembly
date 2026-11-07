@@ -147,5 +147,9 @@ As soon as the build and syntax gate pass:
    `t3code-headless.service`, which can end the session running it, so commit
    first.
 
-The generated commits retain real timestamps, so commit IDs can differ between
-rebuilds. Tree hashes are the reproducibility invariant.
+Generated commits are deterministic: the same recipe produces the same commit
+OID on any machine, and `just locked` verifies the commit, not just the tree.
+So the assembled branch of any past assembly commit can be regenerated on
+demand: `fork-assembler assembled REV` prints it (rebuilding it if the object
+is gone, `--checkout DIR` to check it out), and `fork-assembler diff FROM TO`
+diffs two revisions' assembled branches.

@@ -7,7 +7,8 @@ ordered set of topic branches and explicit patch entries.
 
 1. `manifest.toml` records intent: remotes, base, topic order, and patches.
 2. `manifest.lock.json` records fact: exact OIDs, build results, the generated
-   commit, and the invariant content-tree hash.
+   commit, and its content-tree hash. Generated commits are deterministic, so
+   the recipe reproduces that exact commit anywhere.
 3. `resolutions/rerere/<hash>/{preimage,postimage}` records Git’s normalized
    conflict-hunk resolutions. `INDEX.toml` maps pairs back to manifest entries
    for auditability; replay does not depend on the index.
