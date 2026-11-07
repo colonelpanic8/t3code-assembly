@@ -17,7 +17,7 @@
       "t3code/main/copy-thread-markdown": "736d2da50b555b8d25880c91c4d42009270a4160",
       "t3code/main/declarative-settings": "c1c674118184202d812712b8c4b774c69cc38241",
       "t3code/main/desktop-client-location": "d97b241394e7258a732f8d23c0fafe15e7168f86",
-      "t3code/main/desktop-system-resume": "98d474b63b636298f5ad1c05943fe8a9c8329b26",
+      "t3code/main/desktop-system-resume": "978d3bef26de034cc8a0731e484f0fce1da1da7c",
       "t3code/main/desktop-window-state": "69632cc7249503063326ca06415cf8aacbde2fca",
       "t3code/main/environment-groups": "5f69dd53579e3382db9320d0badf827624324f0e",
       "t3code/main/eva-extension": "a7929af5520673b3d1e6b402f3560c35699dd8cf",
@@ -65,13 +65,13 @@
     }
   },
   "build": {
-    "generated": "2026-11-07T21:14:29.432710875+00:00",
+    "generated": "2026-11-07T23:07:38.320448630+00:00",
     "base": "25bf84ab07f53f141c20239c63e383823a9d5ea0",
-    "commit": "51bbabeab85fa9d538330354889eb5f8a2550fa8",
-    "pre_provenance_commit": "7daf96527515ca9e5606a951a4b99deb3b00d93b",
-    "tree": "0a6c33ff99e8c58e6dc4ef1d5089c7c6539b6ca9",
-    "built_tree": "0778cd960115bfc5a65f1f7081bd86d6cad064cd",
-    "previous_tree": "b538c1dd63310fe71835e26fbca8d69bcabd42a3",
+    "commit": "4086c765b2ae42676593bf10453e2d7d5cd2bc46",
+    "pre_provenance_commit": "4ab0b555a96cb771b8cfac1b40d0d2677c0aab33",
+    "tree": "fbb0adc7bf5231464d79088cdd9cd973e025e591",
+    "built_tree": "8ba4ee79e78021195b4f5053f507982e1b82ae55",
+    "previous_tree": "0a6c33ff99e8c58e6dc4ef1d5089c7c6539b6ca9",
     "tree_changed": true,
     "conflicts": 23,
     "manifest_entries": [
@@ -435,7 +435,7 @@
         "name": "t3code/main/desktop-system-resume",
         "kind": "branch",
         "source": "fork:t3code/main/desktop-system-resume",
-        "pin": "98d474b63b636298f5ad1c05943fe8a9c8329b26"
+        "pin": "978d3bef26de034cc8a0731e484f0fce1da1da7c"
       }
     ],
     "results": [
@@ -968,7 +968,7 @@
       },
       {
         "name": "t3code/main/desktop-system-resume",
-        "oid": "98d474b63b636298f5ad1c05943fe8a9c8329b26",
+        "oid": "978d3bef26de034cc8a0731e484f0fce1da1da7c",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
