@@ -67,10 +67,10 @@
   "build": {
     "generated": "2026-11-07T19:27:00.269527763+00:00",
     "base": "a7f6c68fe958e7f3afab76c2bfeac647ea44e2af",
-    "commit": "d1c638972bf64e123c99c8422b96c88113ebac43",
-    "pre_provenance_commit": "0f529657578337e73feeeb1d6ea494812d7bf3e0",
+    "commit": "97bed0abd3b60d87c6a7f8cce71dae7041590bc5",
+    "pre_provenance_commit": "933a95f5954a4863884461c7655ede800aa72b8e",
     "tree": "41737d83d70c9d32eef6cae8b380ea648ca7bb82",
-    "built_tree": "8901438a576673f02fbfb76bc32fd21bae5d54f5",
+    "built_tree": "b63fd40efbe12b44cc794ee8d770da35cc2f0aec",
     "previous_tree": "10defcc74419e8b605cf2e90617341d06d32a987",
     "tree_changed": true,
     "conflicts": 22,
