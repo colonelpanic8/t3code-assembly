@@ -64,9 +64,9 @@ reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
-missing_count = 10
-missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
-reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions. SavedEnvironmentRows' inherited `isManagedEnvironment ? \"Managed by system configuration\" : null,` subtitle entry is replaced by managed-fleet's Managed badge beside the environment name."
+missing_count = 14
+missing_sha256 = "0a31cae152269115168ecc7d35127637bf27871b1cbff791d6d74190c07505d6"
+reason = "Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions. SavedEnvironmentRows' inherited `isManagedEnvironment ? \"Managed by system configuration\" : null,` subtitle entry is replaced by managed-fleet's Managed badge beside the environment name. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the inherited EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
@@ -82,21 +82,21 @@ reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/a
 
 [[exception]]
 entry = "t3code/main/usage-chart-provider-toggle"
-missing_count = 8
-missing_sha256 = "b76141979dc6c0ec35214a8803cb7729ec47213efad7ae0d5eeb2d3a26634e36"
-reason = "Inherited from usage-breakdowns through this stacked branch: the same six lines usage-host-accounts replaces when it adds host/account dimensions and source attribution. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
+missing_count = 6
+missing_sha256 = "351b2cda8b9dc9490fe0432b008a7e8d7203fc69092e01dfc998a90d8816126c"
+reason = "Inherited from usage-breakdowns through this stacked branch: the six lines usage-host-accounts replaces when it adds host/account to USAGE_DIMENSIONS and RowFields, source attribution to merged entries, account series-name disambiguation, and host/account to the saved-view test."
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
-missing_count = 11
-missing_sha256 = "5de158c95213bed3a339ea485aacb4c3227363aa0b81b7b2b3dcea93955292fd"
-reason = "Inherited from managed-fleet through mobile-tailscale-fleet, which this branch is stacked on: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions."
+missing_count = 14
+missing_sha256 = "0a31cae152269115168ecc7d35127637bf27871b1cbff791d6d74190c07505d6"
+reason = "Inherited unchanged from mobile-tailscale-fleet, which this branch is stacked on (the same missing-line set): Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions. SavedEnvironmentRows' inherited `isManagedEnvironment ? \"Managed by system configuration\" : null,` subtitle entry is replaced by managed-fleet's Managed badge beside the environment name. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the inherited EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes."
 
 [[exception]]
 entry = "t3code/main/usage-host-accounts"
-missing_count = 3
-missing_sha256 = "a5047693f86880e003271af311b88fd18429f5b9265ff7552caa1684233b8961"
-reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
+missing_count = 1
+missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
+reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries."
 
 [[exception]]
 entry = "t3code/main/usage-summary-cache"
@@ -106,7 +106,12 @@ reason = "mobile-usage-summary-cache hoists the mobile environment's connection 
 
 [[exception]]
 entry = "t3code/main/mobile-usage-breakdowns"
-missing_count = 3
-missing_sha256 = "a5047693f86880e003271af311b88fd18429f5b9265ff7552caa1684233b8961"
-reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`. usage-breakdowns' share fix also replaces the inherited `shareOf = ... modelShare(totals, metric)` and `Share` header lines with the sort-following share metric and its `Cost share`/`Token share` header."
+missing_count = 1
+missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
+reason = "Inherited from usage-breakdowns through usage-host-accounts, which this branch is stacked on: usage-chart-provider-toggle passes the web chart `plottedSeries` in place of `series={chartSeries}`."
 
+[[exception]]
+entry = "t3code/main/managed-peer-links"
+missing_count = 10
+missing_sha256 = "249e6727ae469202169d1f2f141a692fdb1791870f8a76798c844bfecbe6e92b"
+reason = "Inherited unchanged from mobile-tailscale-fleet, which this branch is stacked on (its previously reviewed set): Inherited from managed-fleet through this stacked branch: `Config.ConfigError,` in makeDesktopEnvironment's return type, present in the built tree inside #4437's widened error union. The managed-fleet credential-isolation fix replaces the inherited whole-catalog credential failure, its error union member, and seven assertions with per-connection skipping and recovery coverage. The inherited token-reference fixtures are expanded across lines; the newer per-connection isolation and recovery cases supersede the old catalog-wide failure assertions. SavedEnvironmentRows' inherited `isManagedEnvironment ? \"Managed by system configuration\" : null,` subtitle entry is replaced by managed-fleet's Managed badge beside the environment name."
