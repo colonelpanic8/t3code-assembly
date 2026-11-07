@@ -266,6 +266,12 @@ paths = ["docs/user/usage.md"]
 recorded = "2026-10-30T00:42:06.118649904+00:00"
 
 [[resolution]]
+entry = "t3code/main/mobile-usage-summary-cache"
+hash = "d93f564d5bc8bc86cccc0caf6ae51aeb007b57a8"
+paths = ["apps/web/src/components/usage/UsagePage.tsx"]
+recorded = "2026-11-07T21:14:27.763250330+00:00"
+
+[[resolution]]
 entry = "t3code/main/pr-4420"
 hash = "99d2390f3fbb7335e75f8ffc078143ea26293234"
 paths = ["apps/server/src/cli/config.test.ts"]
@@ -512,10 +518,22 @@ paths = ["apps/web/src/components/usage/usageSeries.test.ts"]
 recorded = "2026-10-29T20:30:49.704483654+00:00"
 
 [[resolution]]
+entry = "t3code/main/usage-scan-backoff"
+hash = "5f9723c52737e0da2d82ef17cb211f9aa0db0c56"
+paths = ["apps/server/src/usage/UsageService.ts"]
+recorded = "2026-11-07T21:14:10.263045395+00:00"
+
+[[resolution]]
 entry = "t3code/main/usage-summary-cache"
 hash = "37837ef8eb588bf27b4dac02b85833f9bb838396"
 paths = ["docs/user/usage.md"]
 recorded = "2026-10-15T06:12:04.052215356+00:00"
+
+[[resolution]]
+entry = "t3code/main/usage-summary-cache"
+hash = "6131df8848bc5dda5de9f8a82165ca254c9ca5fb"
+paths = ["packages/shared/src/usageFormat.test.ts"]
+recorded = "2026-11-07T21:13:53.775873877+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"

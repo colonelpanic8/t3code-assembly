@@ -29,7 +29,7 @@
       "t3code/main/migration-schema-repair": "b36b28f6ae37a61e8e3a269eb557e7b2d99b3486",
       "t3code/main/mobile-settings-feed": "b3c11251cea8c13e716bb4a781c7d5477bd5e774",
       "t3code/main/mobile-tailscale-fleet": "3f08687e71b040d1a9b0e6b0d9542b9f69cd8569",
-      "t3code/main/mobile-usage-breakdowns": "498bc0a9029be38ef1b8628ed28769e35473d20a",
+      "t3code/main/mobile-usage-breakdowns": "3ed7e49e176b74b74d4f5586c1291a9e738747ba",
       "t3code/main/mobile-usage-summary-cache": "1a2bb1c9012240312fef7653f111c1c753e34834",
       "t3code/main/pr-4257": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
       "t3code/main/pr-4318": "0451e5be3907583b776de409ce53a6c1eb1f37e5",
@@ -56,24 +56,24 @@
       "t3code/main/sidebar-sort-criteria": "76866b03b479329adee4a95a3dccc9388e289261",
       "t3code/main/split-run-context-controls": "7f03333ec3272985fa207d4fe567f03d576a1677",
       "t3code/main/typecheck-fixes": "4a979697defe3ae39df83648084f6ad9d264a1b1",
-      "t3code/main/usage-breakdowns": "30a386210044dc84cddeacb96a73cb264b4a1243",
-      "t3code/main/usage-chart-provider-toggle": "5df91decf6faa1cf7bec1dcaa4f14e3a70b2d99d",
-      "t3code/main/usage-host-accounts": "45a8b0ae28145df4df2ae0325f4f90c1b5fb666b",
+      "t3code/main/usage-breakdowns": "9b73560d6b5a5142020e9d5bfae6c7162f7eca69",
+      "t3code/main/usage-chart-provider-toggle": "3af08b8f80359c183166f970dca86c8b3c3718d3",
+      "t3code/main/usage-host-accounts": "45a4134a6de639bc4e036035398fef898862ec01",
       "t3code/main/usage-host-resilience": "8ffe0fe0afd1ab8d592828a98084521e7e07ed89",
       "t3code/main/usage-scan-backoff": "881d8a77a39d79263a6f16474e08ddb1d5f831cb",
       "t3code/main/usage-summary-cache": "80e75d485de11f5f39be3f81bbdee3810ab05d93"
     }
   },
   "build": {
-    "generated": "2026-11-07T20:50:45.143599534+00:00",
+    "generated": "2026-11-07T21:14:29.432710875+00:00",
     "base": "25bf84ab07f53f141c20239c63e383823a9d5ea0",
-    "commit": "af4b570d02f03100f73d8c94dbb89a5f79cc5e33",
-    "pre_provenance_commit": "a052dcd89b6687a3f7ce7b4338a71cb2461a37ce",
-    "tree": "b538c1dd63310fe71835e26fbca8d69bcabd42a3",
-    "built_tree": "6a10e8212b3a2e490b027f727cf175cc05d5979d",
-    "previous_tree": "41737d83d70c9d32eef6cae8b380ea648ca7bb82",
+    "commit": "51bbabeab85fa9d538330354889eb5f8a2550fa8",
+    "pre_provenance_commit": "7daf96527515ca9e5606a951a4b99deb3b00d93b",
+    "tree": "0a6c33ff99e8c58e6dc4ef1d5089c7c6539b6ca9",
+    "built_tree": "0778cd960115bfc5a65f1f7081bd86d6cad064cd",
+    "previous_tree": "b538c1dd63310fe71835e26fbca8d69bcabd42a3",
     "tree_changed": true,
-    "conflicts": 22,
+    "conflicts": 23,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -276,7 +276,7 @@
         "name": "t3code/main/usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/usage-breakdowns",
-        "pin": "30a386210044dc84cddeacb96a73cb264b4a1243"
+        "pin": "9b73560d6b5a5142020e9d5bfae6c7162f7eca69"
       },
       {
         "name": "t3code/main/usage-summary-cache",
@@ -313,7 +313,7 @@
         "name": "t3code/main/usage-host-accounts",
         "kind": "branch",
         "source": "fork:t3code/main/usage-host-accounts",
-        "pin": "45a8b0ae28145df4df2ae0325f4f90c1b5fb666b"
+        "pin": "45a4134a6de639bc4e036035398fef898862ec01"
       },
       {
         "name": "t3code/main/favicon-refresh-on-click",
@@ -386,13 +386,13 @@
         "name": "t3code/main/usage-chart-provider-toggle",
         "kind": "branch",
         "source": "fork:t3code/main/usage-chart-provider-toggle",
-        "pin": "5df91decf6faa1cf7bec1dcaa4f14e3a70b2d99d"
+        "pin": "3af08b8f80359c183166f970dca86c8b3c3718d3"
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-breakdowns",
-        "pin": "498bc0a9029be38ef1b8628ed28769e35473d20a"
+        "pin": "3ed7e49e176b74b74d4f5586c1291a9e738747ba"
       },
       {
         "name": "t3code/main/mobile-usage-summary-cache",
@@ -750,7 +750,7 @@
       },
       {
         "name": "t3code/main/usage-breakdowns",
-        "oid": "30a386210044dc84cddeacb96a73cb264b4a1243",
+        "oid": "9b73560d6b5a5142020e9d5bfae6c7162f7eca69",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -762,6 +762,7 @@
         "conflicted": true,
         "resolutions": [
           "37837ef8eb588bf27b4dac02b85833f9bb838396",
+          "6131df8848bc5dda5de9f8a82165ca254c9ca5fb",
           "8c97e8d6e7b611c203b28764142d30a3828d84f0"
         ],
         "fixup": "10dc59f88610c3406de8839ccb2d2e63056395ef"
@@ -784,8 +785,10 @@
         "name": "t3code/main/usage-scan-backoff",
         "oid": "881d8a77a39d79263a6f16474e08ddb1d5f831cb",
         "status": "merged",
-        "conflicted": false,
-        "resolutions": []
+        "conflicted": true,
+        "resolutions": [
+          "5f9723c52737e0da2d82ef17cb211f9aa0db0c56"
+        ]
       },
       {
         "name": "t3code/main/agent-profiles",
@@ -798,7 +801,7 @@
       },
       {
         "name": "t3code/main/usage-host-accounts",
-        "oid": "45a8b0ae28145df4df2ae0325f4f90c1b5fb666b",
+        "oid": "45a4134a6de639bc4e036035398fef898862ec01",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -889,7 +892,7 @@
       },
       {
         "name": "t3code/main/usage-chart-provider-toggle",
-        "oid": "5df91decf6faa1cf7bec1dcaa4f14e3a70b2d99d",
+        "oid": "3af08b8f80359c183166f970dca86c8b3c3718d3",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -898,7 +901,7 @@
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
-        "oid": "498bc0a9029be38ef1b8628ed28769e35473d20a",
+        "oid": "3ed7e49e176b74b74d4f5586c1291a9e738747ba",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -911,7 +914,8 @@
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "72536a27ed5adabc90ff82aa659a4d40dfc08157"
+          "72536a27ed5adabc90ff82aa659a4d40dfc08157",
+          "d93f564d5bc8bc86cccc0caf6ae51aeb007b57a8"
         ]
       },
       {
