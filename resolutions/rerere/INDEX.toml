@@ -11,7 +11,7 @@ recorded = "2026-11-06T05:49:22.451125393+00:00"
 entry = "t3code/main/client-environment-suite"
 hash = "8100dfeccbff115b3d2c6fd1b70a65d7a92233c0"
 paths = ["apps/web/src/components/sidebar/SidebarThreadRow.tsx"]
-recorded = "2026-10-22T17:18:55.244273480+00:00"
+recorded = "2026-11-09T19:52:56.313650116+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
@@ -51,21 +51,27 @@ recorded = "2026-10-27T03:56:16.070500422+00:00"
 
 [[resolution]]
 entry = "t3code/main/coordinator"
-hash = "04ab0940acffcc0d7febe918e49327f04e67621b"
-paths = ["apps/mobile/src/persistence/mobile-preferences.ts"]
-recorded = "2026-11-06T19:11:49.285352716+00:00"
-
-[[resolution]]
-entry = "t3code/main/coordinator"
 hash = "3a376e4c8296f137335cf5d3e9250f42560ecc2b"
 paths = ["apps/server/src/server.ts"]
 recorded = "2026-11-06T19:11:49.285355298+00:00"
 
 [[resolution]]
 entry = "t3code/main/coordinator"
+hash = "418b6ed116ee16df7d862fd8bb11bd4f58dece08"
+paths = ["apps/mobile/src/persistence/mobile-preferences.ts"]
+recorded = "2026-11-09T19:53:40.406360821+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
 hash = "90a011fd63b41c8f59128b3ff3c7c21b1690fce1"
 paths = ["apps/web/src/components/settings/settingsSearch.ts"]
 recorded = "2026-11-06T19:11:49.285356171+00:00"
+
+[[resolution]]
+entry = "t3code/main/coordinator"
+hash = "9c9513b801599026f8a13d8550ce928c7e7ae475"
+paths = ["apps/server/src/provider/agentContextBudget.json"]
+recorded = "2026-11-09T19:53:40.406362736+00:00"
 
 [[resolution]]
 entry = "t3code/main/coordinator"
@@ -78,12 +84,6 @@ entry = "t3code/main/coordinator"
 hash = "ad752c21201d2b4c3124ab08f177a892f879acb6"
 paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
 recorded = "2026-11-06T19:11:49.285356977+00:00"
-
-[[resolution]]
-entry = "t3code/main/coordinator"
-hash = "c7af6c5b5e26fc5ba25bc7a4c13ed2b2a898f2be"
-paths = ["apps/server/src/provider/agentContextBudget.json"]
-recorded = "2026-11-07T20:50:44.557551975+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -303,9 +303,9 @@ recorded = "2026-11-07T20:49:41.344476963+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
-hash = "6b0f7a54c3c0183bf922655022fb0646f705d565"
+hash = "6ec28cf7a0d863ea385a9d287fa614aa6af83eb4"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
-recorded = "2026-11-07T20:49:41.344477333+00:00"
+recorded = "2026-11-09T19:52:46.695801679+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
