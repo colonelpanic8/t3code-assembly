@@ -385,6 +385,7 @@ note = "Local topic, no PR."
 branch = "fork:t3code/main/mobile-usage-summary-cache"
 summary = "Mobile Usage keeps last reported usage across restarts and reconnects"
 note = "Local topic, no PR."
+fixup = "patches/mobile-usage-summary-cache-dedupe-import.patch"
 
 # Settings > General > Sidebar > Active thread order stacks reversible criteria
 # (needs input, working, unread, last message, last activity, created, manual).
