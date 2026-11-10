@@ -41,8 +41,8 @@ import { deriveServerPaths, layer as ServerConfigLayer } from "../config.ts";
 import * as SqlitePersistence from "../persistence/Sqlite.ts";
 import {
   type CliServerFlags,
-  resolveInstallLocations,
   resolveCliAuthConfig,
+  resolveInstallLocations,
   resolveServerConfig,
   resolveServerStorage,
   RuntimeDirectoryOpenError,

@@ -52,6 +52,7 @@ export interface ServerDerivedPaths {
   readonly environmentThemesDir: string;
   readonly providerStatusCacheDir: string;
   readonly worktreesDir: string;
+  readonly worktreeCheckoutCacheDir: string;
   readonly attachmentsDir: string;
   readonly browserArtifactsDir: string;
   readonly logsDir: string;
@@ -133,10 +134,10 @@ export class ServerConfig extends Context.Service<
     readonly serverConfigFile?:
       | { readonly path: string; readonly unknownKeys: ReadonlyArray<string> }
       | undefined;
-    /** An initialized ~/.t3 state dir the split layout in use leaves unused. */
-    readonly shadowedLegacyStateDir?: string | undefined;
     /** Read-only settings layered beneath `settingsPath`; never written. */
     readonly sharedSettingsPath?: string | undefined;
+    /** An initialized ~/.t3 state dir the split layout in use leaves unused. */
+    readonly shadowedLegacyStateDir?: string | undefined;
   }
 >()("t3/config/ServerConfig") {
   static readonly layerTest = (
@@ -200,6 +201,7 @@ export const deriveServerPaths = Effect.fn(function* (
       options.split === undefined ? cacheDir : join(cacheDir, "provider-status"),
     // Worktrees sit beside userdata by default, so they follow only an explicit data dir.
     worktreesDir: join(options.dataDir ?? baseDir, "worktrees"),
+    worktreeCheckoutCacheDir: join(cacheDir, "worktree-checkouts"),
     attachmentsDir,
     browserArtifactsDir: join(dataDir, "browser-artifacts"),
     logsDir,

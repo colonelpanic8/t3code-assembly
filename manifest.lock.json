@@ -1,7 +1,7 @@
 {
   "version": 1,
   "pins": {
-    "base": "077fd62222a94b2264ad4525aa4e25bdb29d5029",
+    "base": "9110dc2c932cb3bc57dc2845b9f1ea362f248796",
     "entries": {
       "t3code/main/about-assembly-build": "66b2b0c4fbcdb5844c7c62bb7aaf0a07ce5170be",
       "t3code/main/agent-profiles": "660041c05cb475b487bda66881676ab5b25e4e18",
@@ -66,13 +66,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-09T20:54:55.363310914+00:00",
-    "base": "077fd62222a94b2264ad4525aa4e25bdb29d5029",
-    "commit": "579ed01c14c298b51122cd91efba179ff5c2ac60",
-    "pre_provenance_commit": "df8a0412c25db5528ba39f72f04ea0262fb67707",
-    "tree": "6b59b44273746767d99eaf505aaa241944e7d9b6",
-    "built_tree": "94d0ec9da750fe9b480ca9ac820b56cb2dfbd21f",
-    "previous_tree": "fe5534f8a037707733ccb7f30f6185225ee19ac1",
+    "generated": "2026-11-10T00:07:15.150211+00:00",
+    "base": "9110dc2c932cb3bc57dc2845b9f1ea362f248796",
+    "commit": "1c5a3de7c49614ecb058bfa324e46b22737af43b",
+    "pre_provenance_commit": "18e6ccab58e5c7deb75197c6d65dd37743b5f186",
+    "tree": "23b1b7aa621ec51b011addeefb39dc6fee139dcf",
+    "built_tree": "10c334a14b6a826d37489a8a2c7b36bb09c61b93",
+    "previous_tree": "6b59b44273746767d99eaf505aaa241944e7d9b6",
     "tree_changed": true,
     "conflicts": 23,
     "manifest_entries": [
@@ -159,7 +159,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/pr-4437",
         "pin": "1a05352fddeabaa2aaf722a55be14ac70a50785f",
-        "fixup": "b2a152ac07aec10a85643309e5342f98626dd1fe"
+        "fixup": "109378b9b8b6d00779dc6d59c9bd9d095db872a8"
       },
       {
         "name": "t3code/main/client-environment-suite",
@@ -284,7 +284,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/usage-summary-cache",
         "pin": "80e75d485de11f5f39be3f81bbdee3810ab05d93",
-        "fixup": "10dc59f88610c3406de8839ccb2d2e63056395ef"
+        "fixup": "84a92ac7275d7c1b8b7be9c733615f1564665fdd"
       },
       {
         "name": "t3code/main/codex-archived-sessions",
@@ -576,7 +576,7 @@
           "8ba6e98bf49d2a71af6f187bcf129489e58c0197",
           "db84368ac2a158f1046fb2ea99649333b880e6b9"
         ],
-        "fixup": "b2a152ac07aec10a85643309e5342f98626dd1fe"
+        "fixup": "109378b9b8b6d00779dc6d59c9bd9d095db872a8"
       },
       {
         "name": "t3code/main/client-environment-suite",
@@ -652,7 +652,7 @@
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "99d2390f3fbb7335e75f8ffc078143ea26293234",
+          "5b1ee3229fe20174dc49959cdebac45da6ea186d",
           "d1685a87bd85baf8de51969e47ac0a281172ac92",
           "df02b9cb0278cec6b0e0124fa20a4e1ac79fcd3f"
         ],
@@ -709,12 +709,12 @@
           "4cdce8665fa98e4c0a86e4e74740290067298898",
           "507e0f275ed4a69873a4d29f6881b0c8b17ea8ee",
           "508ca13a2e2781f3a6942aec3b446cfb13aa09b1",
-          "51d337eb4b24911126bded323b89761df5b2175c",
           "712ef77d4b281514aa7e6168a801add3d2730221",
           "762d4061c62f14a45509ac08f39bb82cfa878676",
-          "a74f405bf92f431efc6b30a93a1758d6be69fca0",
+          "8485c62cf7dca68c926ad007a21a935408917c3d",
+          "853f1b41e48faa7b6f346164628ab926e363fa18",
+          "ac862295cd0d53af73682cd20b662eaa1e6b1011",
           "c2f578c422d1a7efe8cacade6091a60101b133a3",
-          "d68f0163b6c3e610828932d1a67d8525b5aac91a",
           "fbe23d7bcb5a3a1e4a079674e7d85fed291d919b"
         ]
       },
@@ -729,8 +729,8 @@
           "745a3b20f8cb910565115df0902d697249727e78",
           "763f88b3849eb541dbf260adefc5de3bfdb9df8b",
           "9838a5bd58ce22ba4c7a0d44f7569c00caf851b5",
-          "cb20e5014146e2d9f309dadcc12fcf9705029648",
-          "d8d0f10846dc2d67543cc69665e6b2ee38a58b29"
+          "d8d0f10846dc2d67543cc69665e6b2ee38a58b29",
+          "f2a11435795d14c2e0560af9b868474d0ad5408f"
         ],
         "fixup": "551103bd4084f653332671148b28749e57ab64c3"
       },
@@ -767,7 +767,7 @@
           "6131df8848bc5dda5de9f8a82165ca254c9ca5fb",
           "8c97e8d6e7b611c203b28764142d30a3828d84f0"
         ],
-        "fixup": "10dc59f88610c3406de8839ccb2d2e63056395ef"
+        "fixup": "84a92ac7275d7c1b8b7be9c733615f1564665fdd"
       },
       {
         "name": "t3code/main/codex-archived-sessions",

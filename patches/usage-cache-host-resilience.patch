@@ -1,8 +1,8 @@
 diff --git a/apps/web/src/state/usage.ts b/apps/web/src/state/usage.ts
-index d2b757ae30..64662ce8fa 100644
+index c78118ac4b..8c46fd3d33 100644
 --- a/apps/web/src/state/usage.ts
 +++ b/apps/web/src/state/usage.ts
-@@ -85,13 +85,16 @@ export const usageByWindowAtom = Atom.family((windowKey: string) =>
+@@ -75,13 +75,16 @@ export const usageByWindowAtom = Atom.family((windowKey: string) =>
          canReadDiagnostics: true,
          isConnected,
          isConnecting,
@@ -24,13 +24,13 @@ index d2b757ae30..64662ce8fa 100644
 +                ? "This environment is not connected. Totals include its last reported usage."
 +                : null,
          summary,
-         needsCursorKeychainAccess: needsCursorKeychainAccess(
-           summary,
+       });
+     }
 diff --git a/apps/web/src/state/usageConnection.test.ts b/apps/web/src/state/usageConnection.test.ts
-index efa18e7415..51b7311e42 100644
+index 44897b977f..c290b9f498 100644
 --- a/apps/web/src/state/usageConnection.test.ts
 +++ b/apps/web/src/state/usageConnection.test.ts
-@@ -130,12 +130,11 @@ describe("usage connection state", () => {
+@@ -132,12 +132,11 @@ describe("usage connection state", () => {
      expect(registry.get(atom)[0]).toMatchObject({ isPending: false, error: null, summary });
    });
  
