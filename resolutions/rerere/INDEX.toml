@@ -476,6 +476,18 @@ paths = ["packages/contracts/src/settings.ts"]
 recorded = "2026-11-01T18:34:17.040453691+00:00"
 
 [[resolution]]
+entry = "t3code/main/thread-pop-out"
+hash = "6b8f5510df37982a88e3ea2fda2829fe3020edcd"
+paths = ["apps/server/src/provider/agentContextBudget.json"]
+recorded = "2026-11-11T08:51:26.139659589+00:00"
+
+[[resolution]]
+entry = "t3code/main/thread-pop-out"
+hash = "df867be839bac6c7f3b3042ab7dc66b0179394c8"
+paths = ["apps/web/src/hooks/useThreadActionMenu.ts"]
+recorded = "2026-11-11T08:51:26.139661347+00:00"
+
+[[resolution]]
 entry = "t3code/main/usage-chart-provider-toggle"
 hash = "9dbe03220b929377962c50054b66ce1084a97c13"
 paths = ["apps/web/src/components/usage/usageSeries.test.ts"]

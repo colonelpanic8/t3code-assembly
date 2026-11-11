@@ -433,6 +433,14 @@ pr = 29116
 summary = "Reconnect environments after the computer wakes"
 note = "External (shivamhwp), kept upstream over our #32608. Replaces dotfiles' nix-darwin/patches/t3code-system-resume.patch. Drop once merged into main."
 
+# A finished delegate_task child can be popped out to an ordinary top-level
+# thread in place, from its thread menu, the parent's Lineage panel, or the
+# t3_thread_organize pop_out action.
+[[entry]]
+branch = "fork:t3code/main/thread-pop-out"
+pr = 34236
+summary = "Pop a finished delegated child out to top level"
+
 [[exclude]]
 pr = 32608
 reason = "Closed upstream in favor of #29116, which is carried instead (same desktop wake delivery plus unlock and a post-wake retry)."
