@@ -53,7 +53,7 @@ recorded = "2026-10-27T03:56:16.070500422+00:00"
 entry = "t3code/main/coordinator"
 hash = "b662a12dfd6c3c3e08c09054a5359a445c50596b"
 paths = ["apps/server/src/provider/agentContextBudget.json"]
-recorded = "2026-11-10T09:04:30.391562+00:00"
+recorded = "2026-11-11T04:33:13.652837250+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"

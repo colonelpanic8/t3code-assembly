@@ -19,7 +19,7 @@ index 887ddb81a0..eb5a81276f 100644
        # pnpm-lock.yaml changes, replace this with lib.fakeHash, build
        # .#unwrapped, and copy the reported hash here.
 -      hash = "sha256-XRgN5NIC94VsLIhoMsMj8ocLtxiVfLFvG+nlK1spqmI=";
-+      hash = "sha256-LUD6krr8tfwJZ0jgK89wa69PHtqlx6V581R8m65oBf8=";
++      hash = "sha256-lZv88yvoDuGlcApHktsbR1OiTtffzQ92wu9qYbFxR8s=";
      };
  
      env.APP_VERSION = finalAttrs.version;

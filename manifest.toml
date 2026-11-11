@@ -425,14 +425,17 @@ branch = "fork:t3code/main/coordinator"
 summary = "Coordinators with a fleet inbox (server, web sidebar, mobile Inbox tab)"
 note = "Local topic, no PR. Reaches other hosts through linked environments (managed-peer-links). Notes live in <stateDir>/coordinators.json rather than a migration so fork numbering cannot collide with upstream's. Plan: ~/plans/t3code/2026-11-06-coordinator-feature.md."
 
-# The desktop shell forwards Electron's powerMonitor resume to renderers, which
-# report it as an application-active-long wakeup, so a window left visible
-# across sleep still probes and reconnects its environments.
+# The desktop shell forwards OS wake and unlock to renderers as an
+# application-active-long wakeup, and the supervisor retries a route still
+# unopened three seconds after wake.
 [[entry]]
-branch = "fork:t3code/main/desktop-system-resume"
-pr = 32608
+pr = 29116
 summary = "Reconnect environments after the computer wakes"
-note = "Replaces dotfiles' nix-darwin/patches/t3code-system-resume.patch."
+note = "External (shivamhwp), kept upstream over our #32608. Replaces dotfiles' nix-darwin/patches/t3code-system-resume.patch. Drop once merged into main."
+
+[[exclude]]
+pr = 32608
+reason = "Closed upstream in favor of #29116, which is carried instead (same desktop wake delivery plus unlock and a post-wake retry)."
 
 [[exclude]]
 pr = 4677
