@@ -9,12 +9,6 @@ recorded = "2026-11-06T05:49:22.451125393+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
-hash = "8100dfeccbff115b3d2c6fd1b70a65d7a92233c0"
-paths = ["apps/web/src/components/sidebar/SidebarThreadRow.tsx"]
-recorded = "2026-11-09T22:49:25.897512+00:00"
-
-[[resolution]]
-entry = "t3code/main/client-environment-suite"
 hash = "9a57734afd93939090223a3ac4e28cd6e9244927"
 paths = ["apps/desktop/src/window/DesktopWindow.test.ts"]
 recorded = "2026-10-15T04:21:22.769416247+00:00"
@@ -54,12 +48,6 @@ entry = "t3code/main/coordinator"
 hash = "0d0dcc5661a8aa92695715b06cbae22eac048af1"
 paths = ["apps/server/src/provider/agentContextBudget.json"]
 recorded = "2026-11-11T13:16:29.103143721+00:00"
-
-[[resolution]]
-entry = "t3code/main/coordinator"
-hash = "b662a12dfd6c3c3e08c09054a5359a445c50596b"
-paths = ["apps/server/src/provider/agentContextBudget.json"]
-recorded = "2026-11-11T04:33:13.652837250+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -480,12 +468,6 @@ entry = "t3code/main/sidebar-sort-criteria"
 hash = "fd0ed9bb8e737729c3c6ca55a00f67a3dff06845"
 paths = ["packages/contracts/src/settings.ts"]
 recorded = "2026-11-01T18:34:17.040453691+00:00"
-
-[[resolution]]
-entry = "t3code/main/thread-pop-out"
-hash = "6b8f5510df37982a88e3ea2fda2829fe3020edcd"
-paths = ["apps/server/src/provider/agentContextBudget.json"]
-recorded = "2026-11-11T08:51:26.139659589+00:00"
 
 [[resolution]]
 entry = "t3code/main/thread-pop-out"
