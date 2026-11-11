@@ -278,9 +278,6 @@ fixup = "patches/usage-cache-host-resilience.patch"
 branch = "fork:t3code/main/codex-archived-sessions"
 
 [[entry]]
-branch = "fork:t3code/main/claude-subagent-output-tokens"
-
-[[entry]]
 branch = "fork:t3code/main/usage-scan-backoff"
 
 # A thread can name an agent profile (<stateDir>/profiles/<id>) whose
@@ -568,3 +565,7 @@ reason = "Absorbed by upstream #23467 (8d3b061121): the new/draft alias now open
 [[exclude]]
 pr = 19066
 reason = "Landed upstream as 028ed851d5 (#19066), including generated-image transport and Windows/Android path handling; carried adaptation is redundant."
+
+[[exclude]]
+branch = "fork:t3code/main/claude-subagent-output-tokens"
+reason = "Superseded by upstream #20276 (729f6757d9): Claude subagent output is no longer undercounted; copies of a message keep each token channel's maximum."
