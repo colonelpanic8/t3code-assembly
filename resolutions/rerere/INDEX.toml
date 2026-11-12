@@ -50,6 +50,12 @@ paths = ["apps/server/src/provider/agentContextBudget.json"]
 recorded = "2026-11-11T13:16:29.103143721+00:00"
 
 [[resolution]]
+entry = "t3code/main/coordinator"
+hash = "f766bb002824f1a9913912cd6f7891ae6ecf3396"
+paths = ["apps/server/src/provider/agentContextBudget.json"]
+recorded = "2026-11-12T20:17:01.174256874+00:00"
+
+[[resolution]]
 entry = "t3code/main/declarative-settings"
 hash = "0f8074a806da5f2cae2b8bf9b6222ddb98764924"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
@@ -183,6 +189,12 @@ recorded = "2026-10-16T18:09:10.756166906+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "617663dc1bf664bee2a922ff86f169c5915f7f3b"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-11-12T20:15:40.443842953+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "6fabe5356cf4e9b60a6f4ce57cc60b981eb972e8"
 paths = ["apps/server/src/auth/SessionStore.test.ts"]
 recorded = "2026-11-12T19:12:00.816772498+00:00"
@@ -240,6 +252,12 @@ entry = "t3code/main/mobile-usage-summary-cache"
 hash = "d93f564d5bc8bc86cccc0caf6ae51aeb007b57a8"
 paths = ["apps/web/src/components/usage/UsagePage.tsx"]
 recorded = "2026-11-09T22:51:27.028413+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4420"
+hash = "2fdca6b7350146d003e7d41d20762a0b0f1afe57"
+paths = ["apps/server/src/serverRuntimeState.ts"]
+recorded = "2026-11-12T20:14:41.321618602+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -311,7 +329,7 @@ recorded = "2026-10-27T03:50:08.262153728+00:00"
 entry = "t3code/main/server-config-file"
 hash = "1d42a241a5fa69530a7c6322641240f46429a6ff"
 paths = ["packages/ssh/src/tunnel.ts"]
-recorded = "2026-10-27T03:50:08.262155756+00:00"
+recorded = "2026-11-12T20:14:03.610661909+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
@@ -377,7 +395,7 @@ recorded = "2026-10-22T17:13:04.877785475+00:00"
 entry = "t3code/main/server-config-file"
 hash = "e255647fdf2b5a2366d44a8e7698c40626fddaed"
 paths = ["apps/server/src/cli/connect.ts"]
-recorded = "2026-11-06T05:43:12.258452803+00:00"
+recorded = "2026-11-12T20:14:03.610663773+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"

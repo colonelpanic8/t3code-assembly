@@ -1,9 +1,0 @@
-diff --git a/apps/server/src/serverRuntimeState.ts b/apps/server/src/serverRuntimeState.ts
-index 066468a9dc..a2044db959 100644
---- a/apps/server/src/serverRuntimeState.ts
-+++ b/apps/server/src/serverRuntimeState.ts
-@@ -123,4 +123,3 @@ export const isRespondingServerRuntime = Effect.fn("serverRuntimeState.isRespond
-   Effect.orElseSucceed(() => false),
-   Effect.provide(FetchHttpClient.layer),
- );
--
