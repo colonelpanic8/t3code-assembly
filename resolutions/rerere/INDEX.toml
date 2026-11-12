@@ -183,6 +183,12 @@ recorded = "2026-10-16T18:09:10.756166906+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
+hash = "6fabe5356cf4e9b60a6f4ce57cc60b981eb972e8"
+paths = ["apps/server/src/auth/SessionStore.test.ts"]
+recorded = "2026-11-12T19:12:00.816772498+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
 hash = "745a3b20f8cb910565115df0902d697249727e78"
 paths = ["apps/desktop/src/app/DesktopConnectionCatalogStore.test.ts"]
 recorded = "2026-10-27T03:56:01.697132643+00:00"
@@ -198,6 +204,12 @@ entry = "t3code/main/mobile-tailscale-fleet"
 hash = "9838a5bd58ce22ba4c7a0d44f7569c00caf851b5"
 paths = ["apps/desktop/src/app/DesktopConnectionCatalogStore.ts"]
 recorded = "2026-10-27T03:56:01.697133074+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-tailscale-fleet"
+hash = "c3510f5ad7e5953dacb936cefa1c50e1b9f04b54"
+paths = ["apps/server/src/auth/SessionStore.ts"]
+recorded = "2026-11-12T19:12:00.816774763+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"

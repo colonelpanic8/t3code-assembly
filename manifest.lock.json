@@ -23,7 +23,7 @@
       "t3code/main/favicon-refresh-on-click": "e071a426eb62dcd28e280bb5ed21f3c1c7e36c0c",
       "t3code/main/fdroid-distribution": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
       "t3code/main/live-voice": "01f11f2899b8cbf884a6c066dadf2a7c5a387b83",
-      "t3code/main/managed-fleet": "2e94ad970b793ad97ee79c434f3055360753a264",
+      "t3code/main/managed-fleet": "59b853fc7bca28a54210c2fe8fffc7967dcd52f2",
       "t3code/main/managed-peer-links": "57c12aa064c6616c82e1e3ef7d44db2da7faafda",
       "t3code/main/migration-schema-repair": "b36b28f6ae37a61e8e3a269eb557e7b2d99b3486",
       "t3code/main/mobile-settings-feed": "9881e2ada55cd744c7fdcea50be5a0e17be32c48",
@@ -66,13 +66,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-11T13:16:29.764034645+00:00",
+    "generated": "2026-11-12T19:12:30.380355053+00:00",
     "base": "ad0b2a9d2f0e4ab6384c9ce601e7f2e755ab5117",
-    "commit": "98be23dccd199c290aec0206b8eeaf3d08b800ef",
-    "pre_provenance_commit": "a2b292fd5c3a53bbb4d56e0a3260904c8cc02388",
-    "tree": "a0cfc695bc623d2428a01b6e3ddfb1cfee886eb4",
-    "built_tree": "e6e79000318445c4a79b63459342440155df7830",
-    "previous_tree": "597d4f6b907c3b19a81ddeee98dd34f0ce7438d0",
+    "commit": "bfe814e4f601816eb0caae8043e663f9962b7f49",
+    "pre_provenance_commit": "e0a780da432e0aca20200aa92dbc3408663163dd",
+    "tree": "f120ba4cf27a8c63ddaad0f1e340968080a63f39",
+    "built_tree": "341da0e81ade634e0ca8cf99e21e087a0f094341",
+    "previous_tree": "a0cfc695bc623d2428a01b6e3ddfb1cfee886eb4",
     "tree_changed": true,
     "conflicts": 24,
     "manifest_entries": [
@@ -178,7 +178,7 @@
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "2e94ad970b793ad97ee79c434f3055360753a264"
+        "pin": "59b853fc7bca28a54210c2fe8fffc7967dcd52f2"
       },
       {
         "name": "t3code/main/migration-schema-repair",
@@ -600,7 +600,7 @@
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "2e94ad970b793ad97ee79c434f3055360753a264",
+        "oid": "59b853fc7bca28a54210c2fe8fffc7967dcd52f2",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -725,9 +725,11 @@
         "resolutions": [
           "3492b06af8a6928e28ebe6cf9eed2e83fdfc89a1",
           "49e267990a66f994a1399907b7c110203e39030b",
+          "6fabe5356cf4e9b60a6f4ce57cc60b981eb972e8",
           "745a3b20f8cb910565115df0902d697249727e78",
           "763f88b3849eb541dbf260adefc5de3bfdb9df8b",
           "9838a5bd58ce22ba4c7a0d44f7569c00caf851b5",
+          "c3510f5ad7e5953dacb936cefa1c50e1b9f04b54",
           "d8d0f10846dc2d67543cc69665e6b2ee38a58b29",
           "f2a11435795d14c2e0560af9b868474d0ad5408f"
         ],
