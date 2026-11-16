@@ -47,6 +47,7 @@ To refresh existing pins:
 ```sh
 fork-assembler update                 # base and all live entries
 fork-assembler update ENTRY...        # selected entries
+bin/update-upstream-release.py         # pin the base's actual Nightly release
 fork-assembler build
 ```
 

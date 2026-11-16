@@ -84,8 +84,10 @@ justfile                      common build and verification commands
 The assembled tree contains the legacy-named `stack-build-info.json` as build
 provenance; it is not the name of this repository or workflow. No carried
 application code reads it since the move to `main` dropped the
-`local/build-provenance` topic. The Nix packaging reads its upstream `tag` and
-`distance` to version the build as
+`local/build-provenance` topic. `bin/update-upstream-release.py` pins the base's
+nearest ancestral Nightly tag and distance in the packaging fixup, so mobile
+TestFlight tags cannot change the desktop's version or branding. The Nix
+packaging uses those release facts to version the build as
 `<upstream nightly>+<distance>.g<upstream commit>.assembly.<assembled commit>`
 and gives it upstream's nightly icons and favicons;
 `t3code/main/semver-build-metadata` keeps that metadata out of version

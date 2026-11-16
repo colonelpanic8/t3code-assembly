@@ -2,7 +2,7 @@ diff --git a/nix/package.nix b/nix/package.nix
 index a1c72380ea..8822163953 100644
 --- a/nix/package.nix
 +++ b/nix/package.nix
-@@ -18,10 +18,27 @@
+@@ -18,10 +18,33 @@
    # A fork-assembler build records the upstream release its base descends
    # from, and takes that release's nightly branding.
    buildInfoPath = ../stack-build-info.json;
@@ -12,7 +12,13 @@ index a1c72380ea..8822163953 100644
 -    then (builtins.fromJSON (builtins.readFile buildInfoPath)).upstream
 +    then builtins.fromJSON (builtins.readFile buildInfoPath)
      else {};
-+  upstream = buildInfo.upstream or {};
++  upstream = let
++    recorded = buildInfo.upstream or {};
++    release = builtins.fromJSON (builtins.readFile ./assembly-upstream-release.json);
++  in
++    assert lib.assertMsg (release.commit == recorded.commit)
++    "Refresh the assembly release metadata with bin/update-upstream-release.py";
++      recorded // release;
 +  # Electron's updater cannot replace a store path; the app instead reports
 +  # newer builds published to the fork's assembled branch.
 +  updateNoticeFlags =
@@ -32,7 +38,7 @@ index a1c72380ea..8822163953 100644
    shortCommit = builtins.substring 0 8;
    version =
      if upstream ? tag
-@@ -231,7 +248,7 @@
+@@ -231,7 +254,7 @@
            --add-flags "$out"/libexec/t3code/apps/server/dist/bin.mjs
          makeWrapper ${lib.getExe electron} "$out"/bin/t3code-desktop \
            --add-flags "$out"/libexec/t3code/apps/desktop \
@@ -41,3 +47,13 @@ index a1c72380ea..8822163953 100644
        ''
        + lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
          find "$out"/libexec/t3code \
+diff --git a/nix/assembly-upstream-release.json b/nix/assembly-upstream-release.json
+new file mode 100644
+--- /dev/null
++++ b/nix/assembly-upstream-release.json
+@@ -0,0 +1,5 @@
++{
++  "commit": "e8bfabaa398f98031bf09c0f1496225e38365cbf",
++  "tag": "v0.1.10-nightly.20261116.4761",
++  "distance": 21
++}

@@ -4,6 +4,7 @@ default:
   @just --list
 
 build:
+  bin/update-upstream-release.py
   fork-assembler build
 
 locked:
@@ -17,6 +18,7 @@ continue:
 
 update *entries:
   fork-assembler update {{entries}}
+  bin/update-upstream-release.py
 
 gc *args:
   fork-assembler gc {{args}}

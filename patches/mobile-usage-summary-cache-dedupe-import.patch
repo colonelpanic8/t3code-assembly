@@ -1,12 +1,12 @@
 diff --git a/packages/shared/src/usageFormat.test.ts b/packages/shared/src/usageFormat.test.ts
-index 2a23be5caa..cfdb1b6d00 100644
+index 4b55c4796d..afc27c502b 100644
 --- a/packages/shared/src/usageFormat.test.ts
 +++ b/packages/shared/src/usageFormat.test.ts
-@@ -6,7 +6,6 @@ import {
-   USAGE_ALL_TIME_DAYS,
-   formatHourShort,
-   makeWindow,
--  usageSourceMessages,
+@@ -11,7 +11,6 @@ import {
+   usageWindowDays,
    msUntilNextLocalDay,
    startOfLocalDay,
-   usageSourceMessages,
+-  usageSourceMessages,
+   windowForToday,
+ } from "./usageFormat.ts";
+ 
