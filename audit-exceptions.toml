@@ -16,14 +16,14 @@ reason = "Client path lines are rewritten by #4437, which is stacked on a merge 
 
 [[exception]]
 entry = "t3code/main/server-location-overrides"
-missing_count = 85
-missing_sha256 = "35bce2b1ab410bec390b9f72f52b93139909d7b89414d33818e0f25d21b36f28"
+missing_count = 83
+missing_sha256 = "043af552cad2674cad8e80b2da504f854a841ff828ac779e23962d1ea005720d"
 reason = "server-config-file extends the location flag bundles with serverConfigFileFlags and T3CODE_SERVER_CONFIG_FILE. The split-storage and client-storage topics replace resolveBaseDir/fallbackBaseDir with layout selection, then apply the same per-category overrides through deriveServerStoragePaths; legacy stateDir remains dataDir, while split state/runtime roots own the database, IDs, secrets, logs and runtime record. Desktop override expansion uses expandT3HomePath and backendCwd. The Windows filter now has Set<string> and matches upper-cased names from T3_STORAGE_ENVIRONMENT_NAMES and T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters gain storage roots; triage/uninstall/pair discovery use the selected roots, trace summary also reads server.json, and AgentSessionScanner's exclusion test expands to all five roots. Boot-service, SSH and dev-runner lists use the shared override-name constant, still clearing every original override. SSH fixtures retain launch/diagnostic assertions while accepting login-shell options and collecting stdout; the renamed pinning test covers every server override."
 
 [[exception]]
 entry = "t3code/main/server-config-file"
-missing_count = 69
-missing_sha256 = "a7af30ead42d6ad1c31fe829e0ca879948ccd20a05f25216dca1c3edb88fa6dd"
+missing_count = 67
+missing_sha256 = "72f3786be34eec09f4a5ba6598702b33429a690309a85340f4273b8b5f04a563"
 reason = "The split-storage and client-storage topics retain serverConfigFileFlags and the server.json reader while replacing base-only location resolution with layout selection plus the same category overrides. State/runtime roots now select database, IDs, secrets, logs and runtime files; legacy paths remain equivalent. ServerLocationOverrides parameters widen to DeriveServerPathsOptions for split roots. Desktop path expansion uses expandT3HomePath; the Windows Set<string> filter matches upper-cased names from the shared storage/override lists. Boot-service, SSH and dev-runner code still clears T3CODE_SERVER_CONFIG_FILE and the original three directory overrides through T3_SERVER_LOCATION_ENVIRONMENT_NAMES. Service layer parameters include storage roots, triage/uninstall/pair discovery follow those roots, and scanner exclusions cover all five categories. The SSH harness retains diagnostics and launch assertions while adding login-shell options and collecting stdout."
 
 [[exception]]
@@ -35,8 +35,8 @@ reason = "client-storage-separation replaces the split server roots used for des
 [[exception]]
 entry = "t3code/main/client-environment-suite"
 missing_count = 24
-missing_sha256 = "bfb19e3a6ee795228d25e57637128980042d167d05db580d7165370ecfa5e51f"
-reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. Storage path lines are removed by the patches/t3code-client-suite-storage-roots.patch fixup: deriveServerRuntimeStatePath is deleted, and DesktopRunningLocalServers reads server-runtime.json from the runtime dir and environment-id from the state dir (the server data dir override or the layout's roots; userdata in the legacy layout, so that path is unchanged), passing `--base-dir` to `t3 pair` in the legacy layout and `--storage-layout xdg` in the split layout, with tests updated for both. pair.ts's per-base statePath line is resolved to #4437's candidate discovery (legacy and split candidates through deriveServerStoragePaths), while `--json`, asJsonCommand and the shared reader are carried. The discovery fixture expands its origin object across lines. Window bounds belong to DesktopWindowState rather than DesktopAppSettings; the combined fixture supplies both services and retains the bounds assertions."
+missing_sha256 = "05bb66afb63b324aab90ec73e52c5f44a8d266416389564c24e4025783da9bc3"
+reason = "#4437's storage roots replace the suite's baseDir/variant runtime-state paths. Storage path lines are removed by the patches/t3code-client-suite-storage-roots.patch fixup: deriveServerRuntimeStatePath is deleted, and DesktopRunningLocalServers reads server-runtime.json from the runtime dir and environment-id from the state dir (the server data dir override or the layout's roots; userdata in the legacy layout, so that path is unchanged), passing `--base-dir` to `t3 pair` in the legacy layout and `--storage-layout xdg` in the split layout, with tests updated for both. pair.ts's per-base statePath line is resolved to #4437's candidate discovery (legacy and split candidates through deriveServerStoragePaths), while `--json`, asJsonCommand and the shared reader are carried. The discovery fixture expands its origin object across lines. Window bounds belong to DesktopWindowState rather than DesktopAppSettings; the combined fixture supplies both services and retains the bounds assertions. Pair discovery receives the full location flags so split storage and category overrides are retained; PairCandidate keeps the shared ServerRuntimeStateVariant type."
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
@@ -97,12 +97,6 @@ entry = "t3code/main/usage-host-accounts"
 missing_count = 1
 missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
 reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries."
-
-[[exception]]
-entry = "t3code/main/usage-summary-cache"
-missing_count = 2
-missing_sha256 = "c7aa51f79c673bea1ccd9962fe7bfd95622c064f23bffe85bdb0f981883d9193"
-reason = "mobile-usage-summary-cache hoists the mobile environment's connection phase into locals, so both `isConnecting: presentation.connection.phase === \"connecting\"` fields become `isConnecting` shorthand with the same value."
 
 [[exception]]
 entry = "t3code/main/mobile-usage-breakdowns"

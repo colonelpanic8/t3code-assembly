@@ -4,7 +4,7 @@
     "base": "e8bfabaa398f98031bf09c0f1496225e38365cbf",
     "entries": {
       "pr-29116": "1ba0b149a0a2d4d3de2e6713184ec81a7e1fd0e8",
-      "t3code/main/about-assembly-build": "66b2b0c4fbcdb5844c7c62bb7aaf0a07ce5170be",
+      "t3code/main/about-assembly-build": "22fc34e8255fbe676e29433ea42f7b4d1b609f43",
       "t3code/main/agent-profiles": "15ba52cd4ba02014a8a536fab1b2b54c837db8e7",
       "t3code/main/agent-verification": "9fcbcbf62dda460d617533e1a414b30420731c3e",
       "t3code/main/android-intents": "0ad28f9ea629128218396afa61719c84a2a174bf",
@@ -29,7 +29,7 @@
       "t3code/main/mobile-tailscale-fleet": "6c4ed5d5d65638dbd7905e15927bbca56bdefaf3",
       "t3code/main/mobile-usage-breakdowns": "3c3c4e266687d5af76b35c515f8652dddbd3dbf1",
       "t3code/main/mobile-usage-summary-cache": "e8bd3ca57e6e9d972518b318707b85a49450f2f9",
-      "t3code/main/pr-4257": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
+      "t3code/main/pr-4257": "1da4f0fade76421f60132528ab1f9668a57851f4",
       "t3code/main/pr-4318": "9cb315b289ef6a83cb594a8a2483a461aacea6fe",
       "t3code/main/pr-4324": "ebd56f89d342bc83f8faac1fde8d1ac2941c6bb4",
       "t3code/main/pr-4394": "54c6e2bea774230748f909cdb665fc279bce237f",
@@ -65,13 +65,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-16T07:18:11.725194653+00:00",
+    "generated": "2026-11-16T07:44:04.061674855+00:00",
     "base": "e8bfabaa398f98031bf09c0f1496225e38365cbf",
-    "commit": "682bac9dd21e9c84897d478ab59264704392d1b2",
-    "pre_provenance_commit": "c8e15db0dd1a1aad7131044d529c107f0451297b",
-    "tree": "b5dfa45deb056bb6496c12ed36fdd1447170b21c",
-    "built_tree": "289229e5ac2bf8162ee44123a0b45df329a5fbbe",
-    "previous_tree": "58e01b05d370a6c7c5f401f53a51ef9ccfd26c52",
+    "commit": "e55e125e27209a1e5209e06442ef880a2330fb24",
+    "pre_provenance_commit": "0d75341a6b2234a352b447d7f27a96d1544f0bf2",
+    "tree": "e1bfb1d4d69ec16274e401c5370183d7132f8e0f",
+    "built_tree": "429401ea9187dabc20e54470a9a716f581e24ff3",
+    "previous_tree": "8bd9ef50dd7449d747a224cde3406cbe99ff60ff",
     "tree_changed": true,
     "conflicts": 23,
     "manifest_entries": [
@@ -79,7 +79,7 @@
         "name": "t3code/main/pr-4257",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4257",
-        "pin": "1bdc29f9385e26bab993efcfa8bb4458318afde1"
+        "pin": "1da4f0fade76421f60132528ab1f9668a57851f4"
       },
       {
         "name": "t3code/main/pr-4324",
@@ -404,7 +404,7 @@
         "name": "t3code/main/about-assembly-build",
         "kind": "branch",
         "source": "fork:t3code/main/about-assembly-build",
-        "pin": "66b2b0c4fbcdb5844c7c62bb7aaf0a07ce5170be",
+        "pin": "22fc34e8255fbe676e29433ea42f7b4d1b609f43",
         "fixup": "a8ad1379b0df9d5f4c0187f723379aa12bfb9bf9"
       },
       {
@@ -435,7 +435,7 @@
     "results": [
       {
         "name": "t3code/main/pr-4257",
-        "oid": "1bdc29f9385e26bab993efcfa8bb4458318afde1",
+        "oid": "1da4f0fade76421f60132528ab1f9668a57851f4",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -910,7 +910,7 @@
       },
       {
         "name": "t3code/main/about-assembly-build",
-        "oid": "66b2b0c4fbcdb5844c7c62bb7aaf0a07ce5170be",
+        "oid": "22fc34e8255fbe676e29433ea42f7b4d1b609f43",
         "status": "merged",
         "conflicted": false,
         "resolutions": [],

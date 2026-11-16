@@ -27,12 +27,6 @@ recorded = "2026-10-27T03:52:50.419606791+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
-hash = "dc79b8370a447a0834653785cd2293d9ee45d112"
-paths = ["apps/server/src/cli/pair.ts"]
-recorded = "2026-11-03T07:30:29.100403163+00:00"
-
-[[resolution]]
-entry = "t3code/main/client-environment-suite"
 hash = "e26c26c01e0f41a433f0576ceb195d9dc918a051"
 paths = ["apps/desktop/src/main.ts"]
 recorded = "2026-10-15T04:21:22.769420706+00:00"
@@ -48,12 +42,6 @@ entry = "t3code/main/composer-control-shortcuts"
 hash = "530a46226ebcc459f8d9ee3665d3364ec1f123bd"
 paths = ["apps/web/src/keybindings.test.ts"]
 recorded = "2026-10-27T03:56:16.070500422+00:00"
-
-[[resolution]]
-entry = "t3code/main/coordinator"
-hash = "f766bb002824f1a9913912cd6f7891ae6ecf3396"
-paths = ["apps/server/src/provider/agentContextBudget.json"]
-recorded = "2026-11-12T20:17:01.174256874+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -213,12 +201,6 @@ recorded = "2026-11-16T06:07:52.658341954+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
-hash = "2fdca6b7350146d003e7d41d20762a0b0f1afe57"
-paths = ["apps/server/src/serverRuntimeState.ts"]
-recorded = "2026-11-12T20:14:41.321618602+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4420"
 hash = "57d8e1b07783be9308868316f5989e3d122ef11e"
 paths = ["apps/server/src/cli/config.ts"]
 recorded = "2026-11-16T06:07:52.658345130+00:00"
@@ -228,12 +210,6 @@ entry = "t3code/main/pr-4420"
 hash = "5b1ee3229fe20174dc49959cdebac45da6ea186d"
 paths = ["apps/server/src/cli/config.test.ts"]
 recorded = "2026-11-09T22:49:45.199590+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4420"
-hash = "d1685a87bd85baf8de51969e47ac0a281172ac92"
-paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-11-04T04:00:01.828623859+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -363,12 +339,6 @@ recorded = "2026-10-22T17:13:04.877785475+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
-hash = "e255647fdf2b5a2366d44a8e7698c40626fddaed"
-paths = ["apps/server/src/cli/connect.ts"]
-recorded = "2026-11-12T20:14:03.610663773+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
 hash = "e50cfc9cf9b7ea48cfccb7eebc966240782bbde1"
 paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-16T18:03:30.903635664+00:00"
@@ -390,12 +360,6 @@ entry = "t3code/main/server-config-file"
 hash = "f8e22af3bd6491ef34e16719633e566b401e641e"
 paths = ["apps/desktop/src/backend/DesktopBackendConfiguration.ts"]
 recorded = "2026-10-27T03:50:08.262157954+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "f934ac38bec297d2cad68dc1ad57ae4fe09f8cd2"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-11-05T10:10:03.986774336+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
@@ -470,12 +434,6 @@ paths = ["apps/web/src/hooks/useThreadActionMenu.ts"]
 recorded = "2026-11-16T06:27:22.010757582+00:00"
 
 [[resolution]]
-entry = "t3code/main/thread-pop-out"
-hash = "df867be839bac6c7f3b3042ab7dc66b0179394c8"
-paths = ["apps/web/src/hooks/useThreadActionMenu.ts"]
-recorded = "2026-11-11T08:51:26.139661347+00:00"
-
-[[resolution]]
 entry = "t3code/main/usage-chart-provider-toggle"
 hash = "9dbe03220b929377962c50054b66ce1084a97c13"
 paths = ["apps/web/src/components/usage/usageSeries.test.ts"]
@@ -488,12 +446,6 @@ paths = ["apps/server/src/usage/UsageService.ts"]
 recorded = "2026-11-16T06:13:04.878500068+00:00"
 
 [[resolution]]
-entry = "t3code/main/usage-scan-backoff"
-hash = "5f9723c52737e0da2d82ef17cb211f9aa0db0c56"
-paths = ["apps/server/src/usage/UsageService.ts"]
-recorded = "2026-11-09T22:51:01.706393+00:00"
-
-[[resolution]]
 entry = "t3code/main/usage-summary-cache"
 hash = "37837ef8eb588bf27b4dac02b85833f9bb838396"
 paths = ["docs/user/usage.md"]
@@ -504,12 +456,6 @@ entry = "t3code/main/usage-summary-cache"
 hash = "5594be209d5d473a19dd1dd27197094d40d9dcee"
 paths = ["packages/shared/src/usageFormat.test.ts"]
 recorded = "2026-11-16T06:10:48.399812073+00:00"
-
-[[resolution]]
-entry = "t3code/main/usage-summary-cache"
-hash = "6131df8848bc5dda5de9f8a82165ca254c9ca5fb"
-paths = ["packages/shared/src/usageFormat.test.ts"]
-recorded = "2026-11-09T22:50:47.286895+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"

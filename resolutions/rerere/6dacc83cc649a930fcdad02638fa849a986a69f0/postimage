@@ -329,7 +329,7 @@ const probeEnvironmentDescriptor: (
 
 interface PairCandidate {
   readonly storage: ServerStorage;
-  readonly variant: PairStateVariant;
+  readonly variant: ServerRuntimeStateVariant;
 }
 interface DiscoveredPairTarget extends PairCandidate {
   readonly overrides: ServerConfig.ServerLocationOverrides;
