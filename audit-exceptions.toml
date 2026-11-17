@@ -28,9 +28,9 @@ reason = "The split-storage and client-storage topics retain serverConfigFileFla
 
 [[exception]]
 entry = "4437"
-missing_count = 51
-missing_sha256 = "9f2cd9eb0eb9bc92ab4902c634f58c60d79da470ab16053718f78ca6b80e502b"
-reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind."
+missing_count = 52
+missing_sha256 = "9b31c0ed44cbe7a243878089851e497c6eb5d820a57758422e743f9da2f14769"
+reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind. The SSH launch test's fake t3 `serve` (from #4437 and the server-config-file topic alike) now also writes server-runtime.json once listening, since upstream's launcher waits for that record; server-config-file's version, a superset that also records T3CODE_SERVER_CONFIG_FILE, replaces the bare `listen(port, \"127.0.0.1\")` line."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
@@ -52,9 +52,9 @@ reason = "Inherited from shared-server-settings through this stacked branch: pro
 
 [[exception]]
 entry = "t3code/main/client-storage-separation"
-missing_count = 1
-missing_sha256 = "08bf0b9a35c93608b871d41b676282b61063b827682e6cf01495f31dd758552a"
-reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer."
+missing_count = 2
+missing_sha256 = "9e60ea2f46757fcc496b84bb546c251d3f7fd6ecaf7f90baf3e80ece8a885ffb"
+reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer. Inherited through #4437: The SSH launch test's fake t3 `serve` (from #4437 and the server-config-file topic alike) now also writes server-runtime.json once listening, since upstream's launcher waits for that record; server-config-file's version, a superset that also records T3CODE_SERVER_CONFIG_FILE, replaces the bare `listen(port, \"127.0.0.1\")` line."
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
