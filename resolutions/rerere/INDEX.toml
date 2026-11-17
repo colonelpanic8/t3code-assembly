@@ -5,7 +5,7 @@
 entry = "t3code/main/agent-profiles"
 hash = "4092dd2cffb757806be6dcb7bd4a15d2a4dfd3e2"
 paths = ["apps/web/src/components/chat/ChatComposer.tsx"]
-recorded = "2026-11-06T05:49:22.451125393+00:00"
+recorded = "2026-11-17T01:43:39.882824856+00:00"
 
 [[resolution]]
 entry = "t3code/main/client-environment-suite"
@@ -137,7 +137,7 @@ recorded = "2026-11-05T10:10:48.592648365+00:00"
 entry = "t3code/main/eva-extension"
 hash = "fe3ec5f22778d6f29373f8a3f6095a1d6e0aef8d"
 paths = ["apps/mobile/src/features/settings/SettingsProjectGroupingRouteScreen.tsx"]
-recorded = "2026-10-28T13:24:45.319456001+00:00"
+recorded = "2026-11-17T01:43:52.695623821+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"

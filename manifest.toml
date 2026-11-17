@@ -418,9 +418,10 @@ note = "Stacked on mobile-tailscale-fleet (enrollment credentials). Dotfiles bui
 # application-active-long wakeup, and the supervisor retries a route still
 # unopened three seconds after wake.
 [[entry]]
+branch = "fork:t3code/main/desktop-wake-reconnect"
 pr = 29116
 summary = "Reconnect environments after the computer wakes"
-note = "External (shivamhwp), kept upstream over our #32608. Replaces dotfiles' nix-darwin/patches/t3code-system-resume.patch. Drop once merged into main."
+note = "Carried copy of shivamhwp's #29116 (closed upstream unmerged), kept over our #32608 and merged with main as it moves. Replaces dotfiles' nix-darwin/patches/t3code-system-resume.patch."
 
 # A finished delegate_task child can be popped out to an ordinary top-level
 # thread in place, from its thread menu, the parent's Lineage panel, or the
