@@ -59,7 +59,7 @@ recorded = "2026-11-03T07:32:49.450864856+00:00"
 entry = "t3code/main/declarative-settings"
 hash = "4cdce8665fa98e4c0a86e4e74740290067298898"
 paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-10-16T18:08:21.177924849+00:00"
+recorded = "2026-11-21T01:53:18.924833687+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
@@ -110,12 +110,6 @@ paths = ["docs/user/install.md"]
 recorded = "2026-10-16T18:08:21.177925751+00:00"
 
 [[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "fbe23d7bcb5a3a1e4a079674e7d85fed291d919b"
-paths = ["apps/web/src/keybindings.test.ts"]
-recorded = "2026-10-27T03:55:15.564435431+00:00"
-
-[[resolution]]
 entry = "t3code/main/environment-groups"
 hash = "9eb01d00fe6b08b5d82188e2e691e65131bb493c"
 paths = ["apps/mobile/src/features/settings/SettingsEnvironmentsRouteScreen.tsx"]
@@ -158,6 +152,12 @@ paths = ["apps/desktop/src/app/DesktopConfig.ts"]
 recorded = "2026-10-15T04:27:34.372863331+00:00"
 
 [[resolution]]
+entry = "t3code/main/managed-peer-links"
+hash = "e533cc6b2559634cf53fdc13c31fc62c63ac752f"
+paths = ["apps/server/src/server.ts"]
+recorded = "2026-11-21T02:19:02.008907750+00:00"
+
+[[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
 hash = "3492b06af8a6928e28ebe6cf9eed2e83fdfc89a1"
 paths = ["apps/server/src/cli/config.ts"]
@@ -195,6 +195,12 @@ recorded = "2026-11-17T20:10:48.230920318+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-usage-summary-cache"
+hash = "16e446578b6bd30a7a6e05b41a3297cc2f095832"
+paths = ["apps/web/src/state/usage.ts"]
+recorded = "2026-11-21T01:54:32.727147902+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-usage-summary-cache"
 hash = "34ada25dab18c98df91b97d35113474fb663d722"
 paths = ["packages/shared/src/usageFormat.test.ts"]
 recorded = "2026-11-17T20:11:02.449731358+00:00"
@@ -204,12 +210,6 @@ entry = "t3code/main/mobile-usage-summary-cache"
 hash = "72536a27ed5adabc90ff82aa659a4d40dfc08157"
 paths = ["docs/user/usage.md"]
 recorded = "2026-10-30T00:42:06.118649904+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-usage-summary-cache"
-hash = "d93f564d5bc8bc86cccc0caf6ae51aeb007b57a8"
-paths = ["apps/web/src/components/usage/UsagePage.tsx"]
-recorded = "2026-11-09T22:51:27.028413+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -413,7 +413,7 @@ recorded = "2026-11-17T20:09:53.083777031+00:00"
 entry = "t3code/main/pr-4437"
 hash = "f880f3ffb423151bdab711fca40497275bb57e56"
 paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-11-17T20:09:53.083777444+00:00"
+recorded = "2026-11-21T01:53:02.231339141+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
@@ -435,9 +435,9 @@ recorded = "2026-10-27T03:50:08.262153728+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
-hash = "1c3999a09cd04a564677b69d68f38e2107b50bef"
+hash = "146bbbe1be96baab1c23c2efd8b8b92c2669c4fa"
 paths = ["apps/server/src/cli/connect.ts"]
-recorded = "2026-11-16T05:34:25.613467044+00:00"
+recorded = "2026-11-21T01:52:37.948939456+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
@@ -485,7 +485,7 @@ recorded = "2026-10-28T13:23:31.639978215+00:00"
 entry = "t3code/main/server-config-file"
 hash = "a0a8b789e09c8aaf028fd57eed9700527f4f9d95"
 paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-10-16T18:03:30.903632728+00:00"
+recorded = "2026-11-21T01:52:37.948941923+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-config-file"
@@ -581,7 +581,7 @@ recorded = "2026-10-15T04:12:11.648444625+00:00"
 entry = "t3code/main/shared-server-settings"
 hash = "b7afa263e48b577e6d110a967fcc78097d0661f7"
 paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-10-15T04:12:11.648444925+00:00"
+recorded = "2026-11-21T01:52:48.538060845+00:00"
 
 [[resolution]]
 entry = "t3code/main/shared-server-settings"
@@ -594,6 +594,12 @@ entry = "t3code/main/shared-server-settings"
 hash = "c3ea14fd9bbcd3c8dd29761a2d5f6894f108d5fa"
 paths = ["apps/server/src/cli/config.test.ts"]
 recorded = "2026-11-01T04:48:09.320409+00:00"
+
+[[resolution]]
+entry = "t3code/main/sidebar-sort-criteria"
+hash = "5cadad340d938ccb7eb5d5e48239f85cd71edcf8"
+paths = ["apps/web/src/components/settings/SettingsPanels.tsx"]
+recorded = "2026-11-21T02:18:38.522338374+00:00"
 
 [[resolution]]
 entry = "t3code/main/sidebar-sort-criteria"
@@ -615,6 +621,12 @@ recorded = "2026-10-29T20:30:49.704483654+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"
+hash = "0a59be45e31fe61f4e26d53a1f650859e6b4ee22"
+paths = ["apps/web/src/components/usage/UsagePage.tsx"]
+recorded = "2026-11-21T01:53:38.527470954+00:00"
+
+[[resolution]]
+entry = "t3code/main/usage-summary-cache"
 hash = "37837ef8eb588bf27b4dac02b85833f9bb838396"
 paths = ["docs/user/usage.md"]
 recorded = "2026-10-15T06:12:04.052215356+00:00"
@@ -627,6 +639,6 @@ recorded = "2026-11-17T20:10:30.604136407+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"
-hash = "8c97e8d6e7b611c203b28764142d30a3828d84f0"
+hash = "d1b4c4a035011318a85bbd2090ffadeffa183384"
 paths = ["apps/web/src/state/usage.ts"]
-recorded = "2026-10-15T06:12:04.052217590+00:00"
+recorded = "2026-11-21T01:53:38.527473690+00:00"
