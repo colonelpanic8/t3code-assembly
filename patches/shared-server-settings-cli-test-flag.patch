@@ -1,0 +1,12 @@
+diff --git a/apps/server/src/cli/config.test.ts b/apps/server/src/cli/config.test.ts
+index 25c4c581fdcb536a14b66bfe59bc0645d616e9cb..62efc78e0562c14ee0cce33963d934ea6f9912ac 100644
+--- a/apps/server/src/cli/config.test.ts
++++ b/apps/server/src/cli/config.test.ts
+@@ -87,6 +87,7 @@ const minimalDesktopFlags = (baseDir: string) => ({
+   logWebSocketEvents: Option.none<boolean>(),
+   tailscaleServeEnabled: Option.none<boolean>(),
+   tailscaleServePort: Option.none<number>(),
++  sharedSettingsFile: Option.none<string>(),
+   lan: Option.none<boolean>(),
+ });
+ it.layer(NodeServices.layer)("cli config resolution", (it) => {

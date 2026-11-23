@@ -23,9 +23,36 @@ index 887ddb81a0..eb5a81276f 100644
 +      # each system has its own closure.
 +      hash =
 +        {
-+          x86_64-linux = "sha256-N7vx9B5TUJLQNKt07D17Tf1vqfINmFZ9Mdv8OzVrO0c=";
++          x86_64-linux = "sha256-+bzoOYxlqz5oOKay0wrKfGtq+/T4HxBF/kPIhtPV2lY=";
 +          aarch64-darwin = "sha256-6uligr+EgMZdiCI9R3H8xHSy/RKf0zxI+cozZE3/MtA=";
 +        }.${pkgs.stdenv.hostPlatform.system} or lib.fakeHash;
      };
  
      env.APP_VERSION = finalAttrs.version;
+diff --git a/apps/server/src/cli/config.test.ts b/apps/server/src/cli/config.test.ts
+index 588acd20d835bd044febb675898b5813b3434fd2..e3464cd03d440cb890e61944cd60a0bc519fdfcd 100644
+--- a/apps/server/src/cli/config.test.ts
++++ b/apps/server/src/cli/config.test.ts
+@@ -60,22 +60,6 @@ import {
+ const deriveExplicitServerPaths = (baseDir: string, devUrl: URL | undefined) =>
+   deriveServerPaths(baseDir, devUrl, { baseDirIsExplicit: true });
+ 
+-const minimalDesktopFlags = (baseDir: string) => ({
+-  mode: Option.some("desktop" as const),
+-  port: Option.some(4888),
+-  host: Option.none<string>(),
+-  baseDir: Option.some(baseDir),
+-  cwd: Option.none<string>(),
+-  devUrl: Option.none<URL>(),
+-  noBrowser: Option.none<boolean>(),
+-  bootstrapFd: Option.none<number>(),
+-  autoBootstrapProjectFromCwd: Option.none<boolean>(),
+-  logWebSocketEvents: Option.none<boolean>(),
+-  tailscaleServeEnabled: Option.none<boolean>(),
+-  tailscaleServePort: Option.none<number>(),
+-  lan: Option.none<boolean>(),
+-});
+-
+ const encodeDesktopBootstrap = Schema.encodeEffect(Schema.fromJsonString(DesktopBackendBootstrap));
+ const encodeUnknownJson = Schema.encodeEffect(Schema.fromJsonString(Schema.Unknown));
+ 

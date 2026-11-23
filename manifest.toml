@@ -110,6 +110,7 @@ note = "Stacked on server-location-overrides. Discussion pingdotgg/t3code#19592;
 branch = "fork:t3code/main/shared-server-settings"
 summary = "Optional read-only shared settings file beneath settings.json"
 note = "Discussion pingdotgg/t3code#19594; fork PR colonelpanic8/t3code#5. declarative-settings is stacked on it."
+fixup = "patches/shared-server-settings-cli-test-flag.patch"
 
 # Splits the server's single ~/.t3 tree into XDG config/data/state/cache/runtime
 # roots for new installs, while existing ~/.t3 installs keep the legacy layout.
@@ -258,14 +259,6 @@ fixup = "patches/mobile-fleet-pnpm-deps-hash.patch"
 [[entry]]
 branch = "fork:t3code/main/composer-control-shortcuts"
 
-# Remote thread rows in the sidebar show the environment name beside the machine
-# glyph.
-[[entry]]
-branch = "fork:t3code/main/pr-4425"
-pr = 4425
-summary = "Show the environment name on remote thread rows"
-note = "Closed upstream. Re-ported onto the merged sidebar: the name sits beside the machine glyph, so with a client-only desktop every row names its host."
-
 [[entry]]
 branch = "fork:t3code/main/usage-breakdowns"
 
@@ -381,7 +374,6 @@ note = "Local topic, no PR."
 branch = "fork:t3code/main/mobile-usage-summary-cache"
 summary = "Mobile Usage keeps last reported usage across restarts and reconnects"
 note = "Local topic, no PR."
-fixup = "patches/mobile-usage-summary-cache-dedupe-import.patch"
 
 # Settings > General > Sidebar > Active thread order stacks reversible criteria
 # (needs input, working, unread, last message, last activity, created, manual).
@@ -566,3 +558,7 @@ reason = "Superseded by upstream #20276 (729f6757d9): Claude subagent output is 
 [[exclude]]
 branch = "fork:t3code/main/coordinator"
 reason = "Removed at owner request: chief-of-staff coordinator feature is no longer wanted in the personal assembly."
+
+[[exclude]]
+pr = 4425
+reason = "Upstream #40736 (cd3a57ac72) now shows the environment on thread rows. The rebased topic is an ancestor of upstream main."

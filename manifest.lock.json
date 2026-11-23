@@ -1,511 +1,504 @@
 {
   "version": 1,
   "pins": {
-    "base": "c436409da05e29185f47b5bc83c51b570d93b58a",
+    "base": "1d4d9be3ff925d5d5ecc90859bdcbd20ecb04b15",
     "entries": {
-      "t3code/main/about-assembly-build": "9fd11fadf6b90e9f902b0f8e722a0f134a0410f5",
-      "t3code/main/agent-profiles": "cd7654b01142897e76459986d1b08dd78378fbc2",
-      "t3code/main/agent-verification": "9fcbcbf62dda460d617533e1a414b30420731c3e",
-      "t3code/main/android-intents": "76c924b09952c27d447d775620af43ea3705c5f8",
-      "t3code/main/assembly-update-notice": "d2febfaec0d07d6f39e258e4b2c09c0fde5ac372",
-      "t3code/main/client-environment-suite": "4e9585b914da0825821f09b6d07bdd29340f23e5",
-      "t3code/main/client-storage-separation": "e30af89c8e1c9e7bfb49509a0fe5579d19a1e2dd",
-      "t3code/main/codex-archived-sessions": "76630e02c06ae65da2984752eb1cb0c7287c2bbe",
-      "t3code/main/composer-control-shortcuts": "7d5894425596d5ba00fe840c79806a60050e0eaa",
-      "t3code/main/copy-thread-markdown": "5d9aaf85bbebb8ce8cb0f4da421bb5d2b427eaa3",
-      "t3code/main/declarative-settings": "fd60819370cf8087d851b4f2eb61758eb7ed0274",
-      "t3code/main/desktop-client-location": "9c5bdcc3a29294a55c94509b8136c10e6400b9a2",
-      "t3code/main/desktop-wake-reconnect": "c53b4f77aed4776c7673291b468c456e3d562a02",
-      "t3code/main/desktop-window-state": "ca04e93ba7ffa52ccab44a598777fda8b40c3d9f",
-      "t3code/main/environment-groups": "eedbae8780bfbcd84bc70f6e5341bd49dd9bfe35",
-      "t3code/main/eva-extension": "f17eb35d436b40c653f9d9cc6949a18b68461b97",
-      "t3code/main/favicon-refresh-on-click": "e9571335aee8bafbc885747c7e69e494049810c0",
-      "t3code/main/fdroid-distribution": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
-      "t3code/main/live-voice": "f9ea5f17148318e699baa7bf9221a53b924eb40a",
-      "t3code/main/managed-fleet": "7c0bc114451e9552d6682fe682a35367445bfd81",
-      "t3code/main/managed-peer-links": "9177baca51abe9a7dd7062f51d84be5ff939f777",
-      "t3code/main/migration-schema-repair": "05dc0255be83a317f3fbe90c1952e47f6949d320",
-      "t3code/main/mobile-settings-feed": "507ae7c208c136f20414c487c7d85221c9677772",
-      "t3code/main/mobile-tailscale-fleet": "ec697b64feee2c404c4d3f8c9d4f053f4639f3bd",
-      "t3code/main/mobile-usage-breakdowns": "3a5a0dbabe4baa8b8beb7000e5c25426c337fb9e",
-      "t3code/main/mobile-usage-summary-cache": "884eaa523708c6fdef11d4db43292b5e73274464",
-      "t3code/main/pr-4257": "1da4f0fade76421f60132528ab1f9668a57851f4",
-      "t3code/main/pr-4318": "4b17c5aea87028e926457979823a95faa7e0a6ae",
-      "t3code/main/pr-4324": "8a1d7e2e5e9f12222f7559c28775b4777be6dbad",
-      "t3code/main/pr-4394": "54c6e2bea774230748f909cdb665fc279bce237f",
-      "t3code/main/pr-4405": "7949b503bbd516c0a6420a7ed2c3705523151ae3",
-      "t3code/main/pr-4420": "dc2b353bbdce61b181db1bd4f4d85b4f6ba0cbb6",
-      "t3code/main/pr-4425": "6c2a59d651ba59281ca94b2a143b391da280d6b6",
-      "t3code/main/pr-4437": "4c70d4c496c547651e64c79f7567cedb04f62bec",
-      "t3code/main/pr-4439": "caeee8b3d170c8a4765ce8ad7e2b63c33600144e",
-      "t3code/main/pr-4447": "d4203588bd60c713a0ecbe91bb39f1b4020bbdfa",
-      "t3code/main/pr-4484": "b556bd501a501c8779795300ad302fc03e5cea37",
-      "t3code/main/pr-4593": "6cfed4956281337b18e5c20e7b9ad81df4e88d3b",
-      "t3code/main/pr-4602": "b1639b54b3cc19e88f7ddd3dd218d6fa0a749c84",
-      "t3code/main/pr-4699": "338eddd89f942bda9e09da79bb1803d939d3a44f",
-      "t3code/main/pr-4701": "6650e6161c501776d1364baacd8bb0dc267c1b63",
-      "t3code/main/pr-6507": "8154386372ddc704ee00ca1af87570b654e7dc45",
-      "t3code/main/pr-list-hidden-repositories": "ef23eeaa4d17a4cde49760ad25473c373ac06b23",
-      "t3code/main/scoped-environment-keys-integration": "446271f2ada32b4a9ad6d4f1d302aa49b42bf1b9",
-      "t3code/main/semver-build-metadata": "bd6926fbf778b09059c2b511f2bb2c0c0735adce",
-      "t3code/main/server-config-file": "609879d6208bec2019906117e0c94e6b82c27537",
-      "t3code/main/server-location-overrides": "7fd30704f271019feb13af676571854c6fbdfe1e",
-      "t3code/main/shared-server-settings": "9c6d59007289b341ac5efc37b4a87f0f8fa969e6",
-      "t3code/main/sidebar-sort-criteria": "7ab8d216f59230dc32a36fa9a2fc2c586082f02b",
-      "t3code/main/split-run-context-controls": "7f03333ec3272985fa207d4fe567f03d576a1677",
-      "t3code/main/thread-pop-out": "b783904d0cf2e3de9c34470f9fee9b16004caa1c",
-      "t3code/main/typecheck-fixes": "4a979697defe3ae39df83648084f6ad9d264a1b1",
-      "t3code/main/usage-breakdowns": "9d030ef4901abcbdee437d895ff9ef00f3832111",
-      "t3code/main/usage-chart-provider-toggle": "37a607e904dbfefda3976179ef82af6c90e0d97c",
-      "t3code/main/usage-host-accounts": "a31f975b9cfa3dc63b90e772391819b8f804e2ff",
-      "t3code/main/usage-host-resilience": "4e6cbbe416b0253293a76f3e82c780a61ac1eab3",
-      "t3code/main/usage-scan-backoff": "867ef1610b4f01e5a4ae691dd0064d773b1d1577",
-      "t3code/main/usage-summary-cache": "62823dd084f5190e1a671d50ed6bd102dc8c8dbf"
+      "t3code/main/about-assembly-build": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
+      "t3code/main/agent-profiles": "904bf96b80cc3342daf70c2b12ac5fd3a2900f50",
+      "t3code/main/agent-verification": "cc9295943558c51cf28aef5ea89fd60168f49929",
+      "t3code/main/android-intents": "7da85c5762d3827ef3449e80d52ff9e080945686",
+      "t3code/main/assembly-update-notice": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
+      "t3code/main/client-environment-suite": "b651583db808266d0f87da84ad18b07497f70060",
+      "t3code/main/client-storage-separation": "3071a723b8822afb865a86169204dfee973be1f4",
+      "t3code/main/codex-archived-sessions": "fccb78083aa98930df5049e43aa26664037764e6",
+      "t3code/main/composer-control-shortcuts": "d1de0e573a09d3b7929373c0931052da5a78ada3",
+      "t3code/main/copy-thread-markdown": "7b1d7db2c98d23379081b72cce3c744d2a0b06bd",
+      "t3code/main/declarative-settings": "524c238e97d89c5acea18b517bd3e3caf8a47d41",
+      "t3code/main/desktop-client-location": "e475a7c6903969426f50328d8faf07acb34a07cd",
+      "t3code/main/desktop-wake-reconnect": "a25514327041b309961b2f4582fd4867310d1cd8",
+      "t3code/main/desktop-window-state": "f8b33e59c7b20d46bda271c53511dec3745653dd",
+      "t3code/main/environment-groups": "135abc099cf699c21d0a04cdc623e890dccfb0b1",
+      "t3code/main/eva-extension": "f8d6f4e53cda5b7e2cfd6ceedcc3396a1e887976",
+      "t3code/main/favicon-refresh-on-click": "ae016863025e888038538b6f7495edc8d15bd26e",
+      "t3code/main/fdroid-distribution": "4101dc76ec60b6a157453f81d762a3b6a68be4c6",
+      "t3code/main/live-voice": "95638e4eb96f5e08c90eab521cc4a2fad612cba8",
+      "t3code/main/managed-fleet": "727ee15f17243bc39f1327651dd6c68f85bf2379",
+      "t3code/main/managed-peer-links": "625798501389ebcd084ceaed5d5fa4c609dfd793",
+      "t3code/main/migration-schema-repair": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22",
+      "t3code/main/mobile-settings-feed": "2546019a4240e1f8ccc78f3d7d1c954bf0f41868",
+      "t3code/main/mobile-tailscale-fleet": "77156d5641f237e97ebd349165023cbe04e44896",
+      "t3code/main/mobile-usage-breakdowns": "199ce9f5b97886fb32461905cf6313fbba0995f1",
+      "t3code/main/mobile-usage-summary-cache": "d52f92024fa3a46b788e61e7f58ba1987c7f5bdc",
+      "t3code/main/pr-4257": "dbc84036eadd4b907f4a2a590b4c5a3729304bcd",
+      "t3code/main/pr-4318": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5",
+      "t3code/main/pr-4324": "4466f3221fa9af71b9e37ef37ebd083cf0c16540",
+      "t3code/main/pr-4394": "92eedf6ed325a77f9dc451e36261a6ed6bbe65c1",
+      "t3code/main/pr-4405": "1e1af27bd57572fdab62546a7b3c308a91b137a8",
+      "t3code/main/pr-4420": "71ecab7c971a6dd12ec7f82f9c93863ef6bcba79",
+      "t3code/main/pr-4437": "1b4698653ba2d363cb6ded345bacde31138c828b",
+      "t3code/main/pr-4439": "49bc9629ec9df9112992b1af4d252e8e469efcfe",
+      "t3code/main/pr-4447": "2dd501dd9510c6a33c55883c79374d321b43ab1c",
+      "t3code/main/pr-4484": "a2ed361d6f5cf5b759e20bb0df939dfcaba09f46",
+      "t3code/main/pr-4593": "879a268b0892cf2febc955db69eda3f3368d2573",
+      "t3code/main/pr-4602": "6894772cab7e06b15656ea3ec821d19a43469cd3",
+      "t3code/main/pr-4699": "f3c5d5afb3f53a517043edda2e99c01076e18f3b",
+      "t3code/main/pr-4701": "5bd3419e2bb5c81878da8ed23e69cc83ab0f8753",
+      "t3code/main/pr-6507": "cce2c0f13b9a04b31dfd05d48e493311db6645cf",
+      "t3code/main/pr-list-hidden-repositories": "800c30d39e4320a6d50d2079187f95b2f4e46ca2",
+      "t3code/main/scoped-environment-keys-integration": "ce59020c1f33e49fb1f8628994f856c804f690c5",
+      "t3code/main/semver-build-metadata": "6ef9c485409bddb768dd0151d3d314ba252fd143",
+      "t3code/main/server-config-file": "508086fb25ac119bdfdc5d5bd35749aa80edd361",
+      "t3code/main/server-location-overrides": "ce02c084619fd9761450d8c8de8ec593d7a737e4",
+      "t3code/main/shared-server-settings": "e9ed7ef38f8809efbcd6ae5111bf355ce4c2c362",
+      "t3code/main/sidebar-sort-criteria": "7abc77c91a005046dfc331f70e56a89781de5c89",
+      "t3code/main/split-run-context-controls": "6cc1ee1d2983184ec63a725d8eeb2d49d2b48097",
+      "t3code/main/thread-pop-out": "343e09bde3a6237730ef6c5bbeab347e0e2fe1d1",
+      "t3code/main/typecheck-fixes": "5ccad5440b64c819389070e83273daede0e6ce84",
+      "t3code/main/usage-breakdowns": "62052b461045d731c430a1054396bebae46613dd",
+      "t3code/main/usage-chart-provider-toggle": "d06904acadb05a0d40e9d419987b53a8a8fc7d15",
+      "t3code/main/usage-host-accounts": "03f40181162170bc19e25bf8b829a4d7344c9479",
+      "t3code/main/usage-host-resilience": "5593d81ca6866b8d873848f8407b8492bc9d8d9a",
+      "t3code/main/usage-scan-backoff": "5566f43403f107c9cb3ed64981260bc1bc92b31b",
+      "t3code/main/usage-summary-cache": "557db13c760477a77cd8fc398830340d222a0ac9"
     }
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-21T02:21:43.888363672+00:00",
-    "base": "c436409da05e29185f47b5bc83c51b570d93b58a",
-    "commit": "2562fc376cfc739396fe639452546a784fdf4dc6",
-    "pre_provenance_commit": "1eab44dd4bdabd7a9184c77fe91226bab0137176",
-    "tree": "ba0bbecdfc344b8faf992ba042db5dc9b2ed9c28",
-    "built_tree": "be4c0b638267e0a98e04847e79511ad67e9964a3",
-    "previous_tree": "ba0bbecdfc344b8faf992ba042db5dc9b2ed9c28",
-    "tree_changed": false,
-    "conflicts": 22,
+    "generated": "2026-11-23T03:50:31.102372324+00:00",
+    "base": "1d4d9be3ff925d5d5ecc90859bdcbd20ecb04b15",
+    "commit": "c1ca0b7570673b083e73aa4837b8090c1c39ddbf",
+    "pre_provenance_commit": "f69a3c38a26678996dd0aefce6ad2ec5b516d114",
+    "tree": "5a6b4c951264a5dbedb5512538d66b76121a5682",
+    "built_tree": "1d6697f2eb4039b24057dad486e9141d09cbed3c",
+    "previous_tree": "7a47c2284bf59cfe3d8a63c91527a51fc6355214",
+    "tree_changed": true,
+    "conflicts": 21,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4257",
-        "pin": "1da4f0fade76421f60132528ab1f9668a57851f4"
+        "pin": "dbc84036eadd4b907f4a2a590b4c5a3729304bcd"
       },
       {
         "name": "t3code/main/pr-4324",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4324",
-        "pin": "8a1d7e2e5e9f12222f7559c28775b4777be6dbad"
+        "pin": "4466f3221fa9af71b9e37ef37ebd083cf0c16540"
       },
       {
         "name": "t3code/main/pr-4394",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4394",
-        "pin": "54c6e2bea774230748f909cdb665fc279bce237f"
+        "pin": "92eedf6ed325a77f9dc451e36261a6ed6bbe65c1"
       },
       {
         "name": "t3code/main/pr-4405",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4405",
-        "pin": "7949b503bbd516c0a6420a7ed2c3705523151ae3"
+        "pin": "1e1af27bd57572fdab62546a7b3c308a91b137a8"
       },
       {
         "name": "t3code/main/pr-4602",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4602",
-        "pin": "b1639b54b3cc19e88f7ddd3dd218d6fa0a749c84"
+        "pin": "6894772cab7e06b15656ea3ec821d19a43469cd3"
       },
       {
         "name": "t3code/main/pr-4447",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4447",
-        "pin": "d4203588bd60c713a0ecbe91bb39f1b4020bbdfa"
+        "pin": "2dd501dd9510c6a33c55883c79374d321b43ab1c"
       },
       {
         "name": "t3code/main/pr-4701",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4701",
-        "pin": "6650e6161c501776d1364baacd8bb0dc267c1b63"
+        "pin": "5bd3419e2bb5c81878da8ed23e69cc83ab0f8753"
       },
       {
         "name": "t3code/main/pr-4439",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4439",
-        "pin": "caeee8b3d170c8a4765ce8ad7e2b63c33600144e"
+        "pin": "49bc9629ec9df9112992b1af4d252e8e469efcfe"
       },
       {
         "name": "t3code/main/desktop-window-state",
         "kind": "branch",
         "source": "fork:t3code/main/desktop-window-state",
-        "pin": "ca04e93ba7ffa52ccab44a598777fda8b40c3d9f"
+        "pin": "f8b33e59c7b20d46bda271c53511dec3745653dd"
       },
       {
         "name": "t3code/main/desktop-client-location",
         "kind": "branch",
         "source": "fork:t3code/main/desktop-client-location",
-        "pin": "9c5bdcc3a29294a55c94509b8136c10e6400b9a2"
+        "pin": "e475a7c6903969426f50328d8faf07acb34a07cd"
       },
       {
         "name": "t3code/main/server-location-overrides",
         "kind": "branch",
         "source": "fork:t3code/main/server-location-overrides",
-        "pin": "7fd30704f271019feb13af676571854c6fbdfe1e"
+        "pin": "ce02c084619fd9761450d8c8de8ec593d7a737e4"
       },
       {
         "name": "t3code/main/server-config-file",
         "kind": "branch",
         "source": "fork:t3code/main/server-config-file",
-        "pin": "609879d6208bec2019906117e0c94e6b82c27537"
+        "pin": "508086fb25ac119bdfdc5d5bd35749aa80edd361"
       },
       {
         "name": "t3code/main/shared-server-settings",
         "kind": "branch",
         "source": "fork:t3code/main/shared-server-settings",
-        "pin": "9c6d59007289b341ac5efc37b4a87f0f8fa969e6"
+        "pin": "e9ed7ef38f8809efbcd6ae5111bf355ce4c2c362",
+        "fixup": "886f9fe77c7a370181394a15367940579573f296"
       },
       {
         "name": "t3code/main/pr-4437",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4437",
-        "pin": "4c70d4c496c547651e64c79f7567cedb04f62bec",
+        "pin": "1b4698653ba2d363cb6ded345bacde31138c828b",
         "fixup": "109378b9b8b6d00779dc6d59c9bd9d095db872a8"
       },
       {
         "name": "t3code/main/client-environment-suite",
         "kind": "branch",
         "source": "fork:t3code/main/client-environment-suite",
-        "pin": "4e9585b914da0825821f09b6d07bdd29340f23e5",
+        "pin": "b651583db808266d0f87da84ad18b07497f70060",
         "fixup": "159eddc2d7a54fb7b0beaf8ff4999ce5fcc03c97"
       },
       {
         "name": "t3code/main/pr-4593",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4593",
-        "pin": "6cfed4956281337b18e5c20e7b9ad81df4e88d3b"
+        "pin": "879a268b0892cf2febc955db69eda3f3368d2573"
       },
       {
         "name": "t3code/main/managed-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/managed-fleet",
-        "pin": "7c0bc114451e9552d6682fe682a35367445bfd81"
+        "pin": "727ee15f17243bc39f1327651dd6c68f85bf2379"
       },
       {
         "name": "t3code/main/migration-schema-repair",
         "kind": "branch",
         "source": "fork:t3code/main/migration-schema-repair",
-        "pin": "05dc0255be83a317f3fbe90c1952e47f6949d320"
+        "pin": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22"
       },
       {
         "name": "t3code/main/pr-4699",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4699",
-        "pin": "338eddd89f942bda9e09da79bb1803d939d3a44f"
+        "pin": "f3c5d5afb3f53a517043edda2e99c01076e18f3b"
       },
       {
         "name": "t3code/main/live-voice",
         "kind": "branch",
         "source": "fork:t3code/main/live-voice",
-        "pin": "f9ea5f17148318e699baa7bf9221a53b924eb40a"
+        "pin": "95638e4eb96f5e08c90eab521cc4a2fad612cba8"
       },
       {
         "name": "t3code/main/fdroid-distribution",
         "kind": "branch",
         "source": "fork:t3code/main/fdroid-distribution",
-        "pin": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38"
+        "pin": "4101dc76ec60b6a157453f81d762a3b6a68be4c6"
       },
       {
         "name": "t3code/main/pr-4318",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4318",
-        "pin": "4b17c5aea87028e926457979823a95faa7e0a6ae"
+        "pin": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5"
       },
       {
         "name": "t3code/main/pr-4420",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4420",
-        "pin": "dc2b353bbdce61b181db1bd4f4d85b4f6ba0cbb6"
+        "pin": "71ecab7c971a6dd12ec7f82f9c93863ef6bcba79"
       },
       {
         "name": "t3code/main/pr-4484",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4484",
-        "pin": "b556bd501a501c8779795300ad302fc03e5cea37"
+        "pin": "a2ed361d6f5cf5b759e20bb0df939dfcaba09f46"
       },
       {
         "name": "t3code/main/pr-6507",
         "kind": "branch",
         "source": "fork:t3code/main/pr-6507",
-        "pin": "8154386372ddc704ee00ca1af87570b654e7dc45"
+        "pin": "cce2c0f13b9a04b31dfd05d48e493311db6645cf"
       },
       {
         "name": "t3code/main/usage-host-resilience",
         "kind": "branch",
         "source": "fork:t3code/main/usage-host-resilience",
-        "pin": "4e6cbbe416b0253293a76f3e82c780a61ac1eab3"
+        "pin": "5593d81ca6866b8d873848f8407b8492bc9d8d9a"
       },
       {
         "name": "t3code/main/typecheck-fixes",
         "kind": "branch",
         "source": "fork:t3code/main/typecheck-fixes",
-        "pin": "4a979697defe3ae39df83648084f6ad9d264a1b1"
+        "pin": "5ccad5440b64c819389070e83273daede0e6ce84"
       },
       {
         "name": "t3code/main/client-storage-separation",
         "kind": "branch",
         "source": "fork:t3code/main/client-storage-separation",
-        "pin": "e30af89c8e1c9e7bfb49509a0fe5579d19a1e2dd",
+        "pin": "3071a723b8822afb865a86169204dfee973be1f4",
         "fixup": "b651512f1701bcd9b6b9bb572b8e26e6533bdd66"
       },
       {
         "name": "t3code/main/declarative-settings",
         "kind": "branch",
         "source": "fork:t3code/main/declarative-settings",
-        "pin": "fd60819370cf8087d851b4f2eb61758eb7ed0274"
+        "pin": "524c238e97d89c5acea18b517bd3e3caf8a47d41"
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "ec697b64feee2c404c4d3f8c9d4f053f4639f3bd",
-        "fixup": "c179b49aa7c2dc8c1b02ca7d1360e1bc95d1b646"
+        "pin": "77156d5641f237e97ebd349165023cbe04e44896",
+        "fixup": "49213537763519f23c98b2499e75470255e62f5e"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
         "kind": "branch",
         "source": "fork:t3code/main/composer-control-shortcuts",
-        "pin": "7d5894425596d5ba00fe840c79806a60050e0eaa"
-      },
-      {
-        "name": "t3code/main/pr-4425",
-        "kind": "branch",
-        "source": "fork:t3code/main/pr-4425",
-        "pin": "6c2a59d651ba59281ca94b2a143b391da280d6b6"
+        "pin": "d1de0e573a09d3b7929373c0931052da5a78ada3"
       },
       {
         "name": "t3code/main/usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/usage-breakdowns",
-        "pin": "9d030ef4901abcbdee437d895ff9ef00f3832111"
+        "pin": "62052b461045d731c430a1054396bebae46613dd"
       },
       {
         "name": "t3code/main/usage-summary-cache",
         "kind": "branch",
         "source": "fork:t3code/main/usage-summary-cache",
-        "pin": "62823dd084f5190e1a671d50ed6bd102dc8c8dbf",
+        "pin": "557db13c760477a77cd8fc398830340d222a0ac9",
         "fixup": "7d3b383c05dc0bf0d7a3a72b2e5a8d49e0e8a3f9"
       },
       {
         "name": "t3code/main/codex-archived-sessions",
         "kind": "branch",
         "source": "fork:t3code/main/codex-archived-sessions",
-        "pin": "76630e02c06ae65da2984752eb1cb0c7287c2bbe"
+        "pin": "fccb78083aa98930df5049e43aa26664037764e6"
       },
       {
         "name": "t3code/main/usage-scan-backoff",
         "kind": "branch",
         "source": "fork:t3code/main/usage-scan-backoff",
-        "pin": "867ef1610b4f01e5a4ae691dd0064d773b1d1577"
+        "pin": "5566f43403f107c9cb3ed64981260bc1bc92b31b"
       },
       {
         "name": "t3code/main/agent-profiles",
         "kind": "branch",
         "source": "fork:t3code/main/agent-profiles",
-        "pin": "cd7654b01142897e76459986d1b08dd78378fbc2"
+        "pin": "904bf96b80cc3342daf70c2b12ac5fd3a2900f50"
       },
       {
         "name": "t3code/main/usage-host-accounts",
         "kind": "branch",
         "source": "fork:t3code/main/usage-host-accounts",
-        "pin": "a31f975b9cfa3dc63b90e772391819b8f804e2ff"
+        "pin": "03f40181162170bc19e25bf8b829a4d7344c9479"
       },
       {
         "name": "t3code/main/favicon-refresh-on-click",
         "kind": "branch",
         "source": "fork:t3code/main/favicon-refresh-on-click",
-        "pin": "e9571335aee8bafbc885747c7e69e494049810c0"
+        "pin": "ae016863025e888038538b6f7495edc8d15bd26e"
       },
       {
         "name": "t3code/main/semver-build-metadata",
         "kind": "branch",
         "source": "fork:t3code/main/semver-build-metadata",
-        "pin": "bd6926fbf778b09059c2b511f2bb2c0c0735adce"
+        "pin": "6ef9c485409bddb768dd0151d3d314ba252fd143"
       },
       {
         "name": "t3code/main/android-intents",
         "kind": "branch",
         "source": "fork:t3code/main/android-intents",
-        "pin": "76c924b09952c27d447d775620af43ea3705c5f8"
+        "pin": "7da85c5762d3827ef3449e80d52ff9e080945686"
       },
       {
         "name": "t3code/main/eva-extension",
         "kind": "branch",
         "source": "fork:t3code/main/eva-extension",
-        "pin": "f17eb35d436b40c653f9d9cc6949a18b68461b97"
+        "pin": "f8d6f4e53cda5b7e2cfd6ceedcc3396a1e887976"
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
         "kind": "branch",
         "source": "fork:t3code/main/pr-list-hidden-repositories",
-        "pin": "ef23eeaa4d17a4cde49760ad25473c373ac06b23"
+        "pin": "800c30d39e4320a6d50d2079187f95b2f4e46ca2"
       },
       {
         "name": "t3code/main/mobile-settings-feed",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-settings-feed",
-        "pin": "507ae7c208c136f20414c487c7d85221c9677772"
+        "pin": "2546019a4240e1f8ccc78f3d7d1c954bf0f41868"
       },
       {
         "name": "t3code/main/scoped-environment-keys-integration",
         "kind": "branch",
         "source": "fork:t3code/main/scoped-environment-keys-integration",
-        "pin": "446271f2ada32b4a9ad6d4f1d302aa49b42bf1b9"
+        "pin": "ce59020c1f33e49fb1f8628994f856c804f690c5"
       },
       {
         "name": "t3code/main/agent-verification",
         "kind": "branch",
         "source": "fork:t3code/main/agent-verification",
-        "pin": "9fcbcbf62dda460d617533e1a414b30420731c3e"
+        "pin": "cc9295943558c51cf28aef5ea89fd60168f49929"
       },
       {
         "name": "t3code/main/environment-groups",
         "kind": "branch",
         "source": "fork:t3code/main/environment-groups",
-        "pin": "eedbae8780bfbcd84bc70f6e5341bd49dd9bfe35"
+        "pin": "135abc099cf699c21d0a04cdc623e890dccfb0b1"
       },
       {
         "name": "t3code/main/assembly-update-notice",
         "kind": "branch",
         "source": "fork:t3code/main/assembly-update-notice",
-        "pin": "d2febfaec0d07d6f39e258e4b2c09c0fde5ac372",
-        "fixup": "ee04254543ed20c883110163c25848857691b2aa"
+        "pin": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
+        "fixup": "655c668210e5e57438eff5919740212eea9ee031"
       },
       {
         "name": "t3code/main/split-run-context-controls",
         "kind": "branch",
         "source": "fork:t3code/main/split-run-context-controls",
-        "pin": "7f03333ec3272985fa207d4fe567f03d576a1677"
+        "pin": "6cc1ee1d2983184ec63a725d8eeb2d49d2b48097"
       },
       {
         "name": "t3code/main/usage-chart-provider-toggle",
         "kind": "branch",
         "source": "fork:t3code/main/usage-chart-provider-toggle",
-        "pin": "37a607e904dbfefda3976179ef82af6c90e0d97c"
+        "pin": "d06904acadb05a0d40e9d419987b53a8a8fc7d15"
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-breakdowns",
-        "pin": "3a5a0dbabe4baa8b8beb7000e5c25426c337fb9e"
+        "pin": "199ce9f5b97886fb32461905cf6313fbba0995f1"
       },
       {
         "name": "t3code/main/mobile-usage-summary-cache",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-usage-summary-cache",
-        "pin": "884eaa523708c6fdef11d4db43292b5e73274464",
-        "fixup": "118e4c3b52b43b4400c3b5ecbfcf116a5b1231ac"
+        "pin": "d52f92024fa3a46b788e61e7f58ba1987c7f5bdc"
       },
       {
         "name": "t3code/main/sidebar-sort-criteria",
         "kind": "branch",
         "source": "fork:t3code/main/sidebar-sort-criteria",
-        "pin": "7ab8d216f59230dc32a36fa9a2fc2c586082f02b"
+        "pin": "7abc77c91a005046dfc331f70e56a89781de5c89"
       },
       {
         "name": "t3code/main/about-assembly-build",
         "kind": "branch",
         "source": "fork:t3code/main/about-assembly-build",
-        "pin": "9fd11fadf6b90e9f902b0f8e722a0f134a0410f5",
+        "pin": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
         "fixup": "a8ad1379b0df9d5f4c0187f723379aa12bfb9bf9"
       },
       {
         "name": "t3code/main/copy-thread-markdown",
         "kind": "branch",
         "source": "fork:t3code/main/copy-thread-markdown",
-        "pin": "5d9aaf85bbebb8ce8cb0f4da421bb5d2b427eaa3"
+        "pin": "7b1d7db2c98d23379081b72cce3c744d2a0b06bd"
       },
       {
         "name": "t3code/main/managed-peer-links",
         "kind": "branch",
         "source": "fork:t3code/main/managed-peer-links",
-        "pin": "9177baca51abe9a7dd7062f51d84be5ff939f777"
+        "pin": "625798501389ebcd084ceaed5d5fa4c609dfd793"
       },
       {
         "name": "t3code/main/desktop-wake-reconnect",
         "kind": "branch",
         "source": "fork:t3code/main/desktop-wake-reconnect",
-        "pin": "c53b4f77aed4776c7673291b468c456e3d562a02"
+        "pin": "a25514327041b309961b2f4582fd4867310d1cd8"
       },
       {
         "name": "t3code/main/thread-pop-out",
         "kind": "branch",
         "source": "fork:t3code/main/thread-pop-out",
-        "pin": "b783904d0cf2e3de9c34470f9fee9b16004caa1c"
+        "pin": "343e09bde3a6237730ef6c5bbeab347e0e2fe1d1"
       }
     ],
     "results": [
       {
         "name": "t3code/main/pr-4257",
-        "oid": "1da4f0fade76421f60132528ab1f9668a57851f4",
+        "oid": "dbc84036eadd4b907f4a2a590b4c5a3729304bcd",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4324",
-        "oid": "8a1d7e2e5e9f12222f7559c28775b4777be6dbad",
+        "oid": "4466f3221fa9af71b9e37ef37ebd083cf0c16540",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4394",
-        "oid": "54c6e2bea774230748f909cdb665fc279bce237f",
+        "oid": "92eedf6ed325a77f9dc451e36261a6ed6bbe65c1",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4405",
-        "oid": "7949b503bbd516c0a6420a7ed2c3705523151ae3",
+        "oid": "1e1af27bd57572fdab62546a7b3c308a91b137a8",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4602",
-        "oid": "b1639b54b3cc19e88f7ddd3dd218d6fa0a749c84",
+        "oid": "6894772cab7e06b15656ea3ec821d19a43469cd3",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4447",
-        "oid": "d4203588bd60c713a0ecbe91bb39f1b4020bbdfa",
+        "oid": "2dd501dd9510c6a33c55883c79374d321b43ab1c",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4701",
-        "oid": "6650e6161c501776d1364baacd8bb0dc267c1b63",
+        "oid": "5bd3419e2bb5c81878da8ed23e69cc83ab0f8753",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4439",
-        "oid": "caeee8b3d170c8a4765ce8ad7e2b63c33600144e",
+        "oid": "49bc9629ec9df9112992b1af4d252e8e469efcfe",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/desktop-window-state",
-        "oid": "ca04e93ba7ffa52ccab44a598777fda8b40c3d9f",
+        "oid": "f8b33e59c7b20d46bda271c53511dec3745653dd",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/desktop-client-location",
-        "oid": "9c5bdcc3a29294a55c94509b8136c10e6400b9a2",
+        "oid": "e475a7c6903969426f50328d8faf07acb34a07cd",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/server-location-overrides",
-        "oid": "7fd30704f271019feb13af676571854c6fbdfe1e",
+        "oid": "ce02c084619fd9761450d8c8de8ec593d7a737e4",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -516,34 +509,14 @@
       },
       {
         "name": "t3code/main/server-config-file",
-        "oid": "609879d6208bec2019906117e0c94e6b82c27537",
+        "oid": "508086fb25ac119bdfdc5d5bd35749aa80edd361",
         "status": "merged",
-        "conflicted": true,
-        "resolutions": [
-          "0aa8f53f9e4fc68133a4662db2ae180cdaa9235a",
-          "146bbbe1be96baab1c23c2efd8b8b92c2669c4fa",
-          "1d42a241a5fa69530a7c6322641240f46429a6ff",
-          "2a658fd675117373fb7b0a306a39d6ccf17bab45",
-          "370e2dbc0271938939289699d0bcf6419c8af0f3",
-          "4a860786e2950ac267bda6546b03ea406a9e4a70",
-          "55183eee88a73367cd84671396ed13e59d7c4120",
-          "563224dfc4b12d19fdd0ad5fadf460c08afd0e3c",
-          "6b4ff527164a58bbc683477fe17455826cf31179",
-          "a0a8b789e09c8aaf028fd57eed9700527f4f9d95",
-          "c68b3ba9438ece2d1f0e2d91ffb4f771a0105245",
-          "d596a5e4bf93b12cbf532bfc792f191f86f68b50",
-          "e1512ec0486fb85ae330082114077930762109fd",
-          "e237e91a35eee60252c336c1aa17c3ce0cd4fb24",
-          "e50cfc9cf9b7ea48cfccb7eebc966240782bbde1",
-          "e6d726e62fd745de634310f613eb9e3277fb2220",
-          "f7939d9c84ed767020c735d113fe8075ba3c5e51",
-          "f8e22af3bd6491ef34e16719633e566b401e641e",
-          "f9c8559b896e878267c77c4787b1bc9ebffa087a"
-        ]
+        "conflicted": false,
+        "resolutions": []
       },
       {
         "name": "t3code/main/shared-server-settings",
-        "oid": "9c6d59007289b341ac5efc37b4a87f0f8fa969e6",
+        "oid": "e9ed7ef38f8809efbcd6ae5111bf355ce4c2c362",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -552,53 +525,28 @@
           "b1afe5c2ce767b06942354ee178372453916c9bc",
           "b7afa263e48b577e6d110a967fcc78097d0661f7",
           "c1258d6b9d1579fb2f5c641f7f117fdab2325211",
-          "c3ea14fd9bbcd3c8dd29761a2d5f6894f108d5fa"
-        ]
+          "fa1a9b126c0ad7fb97ddfe128636c7bc92359b0e"
+        ],
+        "fixup": "886f9fe77c7a370181394a15367940579573f296"
       },
       {
         "name": "t3code/main/pr-4437",
-        "oid": "4c70d4c496c547651e64c79f7567cedb04f62bec",
+        "oid": "1b4698653ba2d363cb6ded345bacde31138c828b",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "09bb1b5f14043c980f0b5f61964852cf6075c3c0",
-          "0c071fbc07aa426739973907e044e2ae80e68775",
-          "0cf7c2e92fe5b4f668b42143a3a1b4eee453473b",
-          "1a30fcf40dae85b0a5c5013bd7da9c10ea78bd78",
-          "1baf4ab47a100eae18ba1b8dea391949da3b59d1",
-          "283a5ddbe37b72cd2a91c58a77e1dd1a59c96026",
-          "2a0dbb17b565fabc27285c79605cab660159a89a",
-          "2d966629df95ebff4fabecf243ad457913c15ddd",
-          "35edc6526416b7bf232ca66f30cbfec92e8faa26",
-          "3bc81549c29f85bf8dd4b7e04e22aec5fb1281c6",
-          "424811e00a6b4c33243f2578cbbfc734a6bb5fe4",
-          "44bdb4cdc2dd4fc37734a236b933940c1fad0f39",
-          "45d759dfbcfd1270f9ab635e1f98437b3b16e0c7",
-          "5149758b6aac70b714e681c6cc3a367e6a01f5ab",
-          "587a03c4197844ec5ed7b0caa32e0cbb341744a3",
-          "5ade2489cf1b3e69d54a921d679088d73e2789f3",
-          "6dfeb3a95ed0f017baccc379fa4910c20afd7820",
-          "7158178d5166ce30da8304af3fe36f5609dbefc6",
-          "73ece138732f1461030d708a20bd85c102d5c528",
-          "75f1c07adde064757793e52db46e8f89ab3ac1f8",
-          "8099fa0c69fb4236a8f66d856bf796ef7140b338",
-          "867f39c67d3958a72ec6b1be05164a6e81d065d8",
-          "8bc4c9b5a3ac46e59a65e7fc55d008b5dc57fa9f",
-          "9cb2e225c130422753e0b9a843f4031552daadea",
-          "9ee4868bacb6942e79c12e48b0eb57eef4f6264b",
-          "b5dced566feb7e1c20ae39f2cd6392d8b41bc83c",
-          "b8323bd07b3898b69a904c9394d8b5a1fd92e550",
-          "c4150a789acf6086603764bc174908e53b5f2e79",
-          "c95a18ad220cd62fc53f949230cb3488f2cadaf7",
-          "f4108394050dffc0e2fe2b4d040ecf5e0e0c271e",
-          "f880f3ffb423151bdab711fca40497275bb57e56",
-          "fcefe917ece10b679418a418f38824e9d085f774"
+          "0555ea05338b27a97cc2c9dc58e1abfb4c26bf21",
+          "1497246c5db5d4000d43055caf027e85a3d1c52c",
+          "6ec28cf7a0d863ea385a9d287fa614aa6af83eb4",
+          "73c7a69de95e99c13b3ee12ff2723adc435e5df2",
+          "8ba6e98bf49d2a71af6f187bcf129489e58c0197",
+          "db84368ac2a158f1046fb2ea99649333b880e6b9"
         ],
         "fixup": "109378b9b8b6d00779dc6d59c9bd9d095db872a8"
       },
       {
         "name": "t3code/main/client-environment-suite",
-        "oid": "4e9585b914da0825821f09b6d07bdd29340f23e5",
+        "oid": "b651583db808266d0f87da84ad18b07497f70060",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -611,79 +559,79 @@
       },
       {
         "name": "t3code/main/pr-4593",
-        "oid": "6cfed4956281337b18e5c20e7b9ad81df4e88d3b",
+        "oid": "879a268b0892cf2febc955db69eda3f3368d2573",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/managed-fleet",
-        "oid": "7c0bc114451e9552d6682fe682a35367445bfd81",
+        "oid": "727ee15f17243bc39f1327651dd6c68f85bf2379",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "345b770f5691910388d812e644eec4b6a32ec520",
           "4fbf4a49265fb795ae2449d1f70c7b8675cf3c36",
+          "7f96b1c8e92666541ce76e347db1a653c99d0e32",
           "82ad4fdc4d96c4b4bdf2339edb9ff6c4cc5bf758",
           "9720acd69ada2808f802d2622aa1d9988213090f"
         ]
       },
       {
         "name": "t3code/main/migration-schema-repair",
-        "oid": "05dc0255be83a317f3fbe90c1952e47f6949d320",
+        "oid": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4699",
-        "oid": "338eddd89f942bda9e09da79bb1803d939d3a44f",
+        "oid": "f3c5d5afb3f53a517043edda2e99c01076e18f3b",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/live-voice",
-        "oid": "f9ea5f17148318e699baa7bf9221a53b924eb40a",
+        "oid": "95638e4eb96f5e08c90eab521cc4a2fad612cba8",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/fdroid-distribution",
-        "oid": "cbef68da3abc24c99d238fec3f3540b2dc0c5d38",
+        "oid": "4101dc76ec60b6a157453f81d762a3b6a68be4c6",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4318",
-        "oid": "4b17c5aea87028e926457979823a95faa7e0a6ae",
+        "oid": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-4420",
-        "oid": "dc2b353bbdce61b181db1bd4f4d85b4f6ba0cbb6",
+        "oid": "71ecab7c971a6dd12ec7f82f9c93863ef6bcba79",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
           "156395703f1982acc17f43f8ea54e12298dc33a3",
-          "57d8e1b07783be9308868316f5989e3d122ef11e",
-          "5b1ee3229fe20174dc49959cdebac45da6ea186d"
+          "869985a92931dd7a920a7c595b5c0e3527d5cce9",
+          "a5bfd59be8ad63379dbed016b3dc9282101b9071"
         ]
       },
       {
         "name": "t3code/main/pr-4484",
-        "oid": "b556bd501a501c8779795300ad302fc03e5cea37",
+        "oid": "a2ed361d6f5cf5b759e20bb0df939dfcaba09f46",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/pr-6507",
-        "oid": "8154386372ddc704ee00ca1af87570b654e7dc45",
+        "oid": "cce2c0f13b9a04b31dfd05d48e493311db6645cf",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -692,21 +640,21 @@
       },
       {
         "name": "t3code/main/usage-host-resilience",
-        "oid": "4e6cbbe416b0253293a76f3e82c780a61ac1eab3",
+        "oid": "5593d81ca6866b8d873848f8407b8492bc9d8d9a",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/typecheck-fixes",
-        "oid": "4a979697defe3ae39df83648084f6ad9d264a1b1",
+        "oid": "5ccad5440b64c819389070e83273daede0e6ce84",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/client-storage-separation",
-        "oid": "e30af89c8e1c9e7bfb49509a0fe5579d19a1e2dd",
+        "oid": "3071a723b8822afb865a86169204dfee973be1f4",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -716,40 +664,32 @@
       },
       {
         "name": "t3code/main/declarative-settings",
-        "oid": "fd60819370cf8087d851b4f2eb61758eb7ed0274",
+        "oid": "524c238e97d89c5acea18b517bd3e3caf8a47d41",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
           "0f8074a806da5f2cae2b8bf9b6222ddb98764924",
-          "30de3072d42db483bcb6f1da0e995fb47018dcce",
-          "4cdce8665fa98e4c0a86e4e74740290067298898",
-          "507e0f275ed4a69873a4d29f6881b0c8b17ea8ee",
           "508ca13a2e2781f3a6942aec3b446cfb13aa09b1",
           "712ef77d4b281514aa7e6168a801add3d2730221",
-          "762d4061c62f14a45509ac08f39bb82cfa878676",
-          "8485c62cf7dca68c926ad007a21a935408917c3d",
           "853f1b41e48faa7b6f346164628ab926e363fa18",
-          "ac862295cd0d53af73682cd20b662eaa1e6b1011",
-          "c2f578c422d1a7efe8cacade6091a60101b133a3"
+          "b9f79fb22889a2212c91a06cda2a1895d142e16f",
+          "c061edc63a8a5029786fa61bf3a2bcfc51f4bfb8"
         ]
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "ec697b64feee2c404c4d3f8c9d4f053f4639f3bd",
+        "oid": "77156d5641f237e97ebd349165023cbe04e44896",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "3492b06af8a6928e28ebe6cf9eed2e83fdfc89a1",
-          "49e267990a66f994a1399907b7c110203e39030b",
-          "763f88b3849eb541dbf260adefc5de3bfdb9df8b",
-          "f2a11435795d14c2e0560af9b868474d0ad5408f",
-          "ff04827553321de6ee1cead457bf1272a562af07"
+          "617663dc1bf664bee2a922ff86f169c5915f7f3b",
+          "ba282f61eb6ca137076ff4b6a580e98e7cf918e8"
         ],
-        "fixup": "c179b49aa7c2dc8c1b02ca7d1360e1bc95d1b646"
+        "fixup": "49213537763519f23c98b2499e75470255e62f5e"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
-        "oid": "7d5894425596d5ba00fe840c79806a60050e0eaa",
+        "oid": "d1de0e573a09d3b7929373c0931052da5a78ada3",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -757,22 +697,15 @@
         ]
       },
       {
-        "name": "t3code/main/pr-4425",
-        "oid": "6c2a59d651ba59281ca94b2a143b391da280d6b6",
-        "status": "merged",
-        "conflicted": false,
-        "resolutions": []
-      },
-      {
         "name": "t3code/main/usage-breakdowns",
-        "oid": "9d030ef4901abcbdee437d895ff9ef00f3832111",
+        "oid": "62052b461045d731c430a1054396bebae46613dd",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/usage-summary-cache",
-        "oid": "62823dd084f5190e1a671d50ed6bd102dc8c8dbf",
+        "oid": "557db13c760477a77cd8fc398830340d222a0ac9",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -785,21 +718,21 @@
       },
       {
         "name": "t3code/main/codex-archived-sessions",
-        "oid": "76630e02c06ae65da2984752eb1cb0c7287c2bbe",
+        "oid": "fccb78083aa98930df5049e43aa26664037764e6",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/usage-scan-backoff",
-        "oid": "867ef1610b4f01e5a4ae691dd0064d773b1d1577",
+        "oid": "5566f43403f107c9cb3ed64981260bc1bc92b31b",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/agent-profiles",
-        "oid": "cd7654b01142897e76459986d1b08dd78378fbc2",
+        "oid": "904bf96b80cc3342daf70c2b12ac5fd3a2900f50",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -808,35 +741,35 @@
       },
       {
         "name": "t3code/main/usage-host-accounts",
-        "oid": "a31f975b9cfa3dc63b90e772391819b8f804e2ff",
+        "oid": "03f40181162170bc19e25bf8b829a4d7344c9479",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/favicon-refresh-on-click",
-        "oid": "e9571335aee8bafbc885747c7e69e494049810c0",
+        "oid": "ae016863025e888038538b6f7495edc8d15bd26e",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/semver-build-metadata",
-        "oid": "bd6926fbf778b09059c2b511f2bb2c0c0735adce",
+        "oid": "6ef9c485409bddb768dd0151d3d314ba252fd143",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/android-intents",
-        "oid": "76c924b09952c27d447d775620af43ea3705c5f8",
+        "oid": "7da85c5762d3827ef3449e80d52ff9e080945686",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/eva-extension",
-        "oid": "f17eb35d436b40c653f9d9cc6949a18b68461b97",
+        "oid": "f8d6f4e53cda5b7e2cfd6ceedcc3396a1e887976",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -845,35 +778,35 @@
       },
       {
         "name": "t3code/main/pr-list-hidden-repositories",
-        "oid": "ef23eeaa4d17a4cde49760ad25473c373ac06b23",
+        "oid": "800c30d39e4320a6d50d2079187f95b2f4e46ca2",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/mobile-settings-feed",
-        "oid": "507ae7c208c136f20414c487c7d85221c9677772",
+        "oid": "2546019a4240e1f8ccc78f3d7d1c954bf0f41868",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/scoped-environment-keys-integration",
-        "oid": "446271f2ada32b4a9ad6d4f1d302aa49b42bf1b9",
+        "oid": "ce59020c1f33e49fb1f8628994f856c804f690c5",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/agent-verification",
-        "oid": "9fcbcbf62dda460d617533e1a414b30420731c3e",
+        "oid": "cc9295943558c51cf28aef5ea89fd60168f49929",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/environment-groups",
-        "oid": "eedbae8780bfbcd84bc70f6e5341bd49dd9bfe35",
+        "oid": "135abc099cf699c21d0a04cdc623e890dccfb0b1",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -883,22 +816,22 @@
       },
       {
         "name": "t3code/main/assembly-update-notice",
-        "oid": "d2febfaec0d07d6f39e258e4b2c09c0fde5ac372",
+        "oid": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
         "status": "merged",
         "conflicted": false,
         "resolutions": [],
-        "fixup": "ee04254543ed20c883110163c25848857691b2aa"
+        "fixup": "655c668210e5e57438eff5919740212eea9ee031"
       },
       {
         "name": "t3code/main/split-run-context-controls",
-        "oid": "7f03333ec3272985fa207d4fe567f03d576a1677",
+        "oid": "6cc1ee1d2983184ec63a725d8eeb2d49d2b48097",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/usage-chart-provider-toggle",
-        "oid": "37a607e904dbfefda3976179ef82af6c90e0d97c",
+        "oid": "d06904acadb05a0d40e9d419987b53a8a8fc7d15",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -907,7 +840,7 @@
       },
       {
         "name": "t3code/main/mobile-usage-breakdowns",
-        "oid": "3a5a0dbabe4baa8b8beb7000e5c25426c337fb9e",
+        "oid": "199ce9f5b97886fb32461905cf6313fbba0995f1",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -916,19 +849,17 @@
       },
       {
         "name": "t3code/main/mobile-usage-summary-cache",
-        "oid": "884eaa523708c6fdef11d4db43292b5e73274464",
+        "oid": "d52f92024fa3a46b788e61e7f58ba1987c7f5bdc",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "16e446578b6bd30a7a6e05b41a3297cc2f095832",
-          "34ada25dab18c98df91b97d35113474fb663d722",
-          "72536a27ed5adabc90ff82aa659a4d40dfc08157"
-        ],
-        "fixup": "118e4c3b52b43b4400c3b5ecbfcf116a5b1231ac"
+          "72536a27ed5adabc90ff82aa659a4d40dfc08157",
+          "b9f982b1189fdfbd0189a6ebb53199b588fb05e9"
+        ]
       },
       {
         "name": "t3code/main/sidebar-sort-criteria",
-        "oid": "7ab8d216f59230dc32a36fa9a2fc2c586082f02b",
+        "oid": "7abc77c91a005046dfc331f70e56a89781de5c89",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -938,7 +869,7 @@
       },
       {
         "name": "t3code/main/about-assembly-build",
-        "oid": "9fd11fadf6b90e9f902b0f8e722a0f134a0410f5",
+        "oid": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
         "status": "merged",
         "conflicted": false,
         "resolutions": [],
@@ -946,30 +877,30 @@
       },
       {
         "name": "t3code/main/copy-thread-markdown",
-        "oid": "5d9aaf85bbebb8ce8cb0f4da421bb5d2b427eaa3",
+        "oid": "7b1d7db2c98d23379081b72cce3c744d2a0b06bd",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/managed-peer-links",
-        "oid": "9177baca51abe9a7dd7062f51d84be5ff939f777",
+        "oid": "625798501389ebcd084ceaed5d5fa4c609dfd793",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "e533cc6b2559634cf53fdc13c31fc62c63ac752f"
+          "dff9a7bbbb4939bae9a538609713266c658fd798"
         ]
       },
       {
         "name": "t3code/main/desktop-wake-reconnect",
-        "oid": "c53b4f77aed4776c7673291b468c456e3d562a02",
+        "oid": "a25514327041b309961b2f4582fd4867310d1cd8",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
       },
       {
         "name": "t3code/main/thread-pop-out",
-        "oid": "b783904d0cf2e3de9c34470f9fee9b16004caa1c",
+        "oid": "343e09bde3a6237730ef6c5bbeab347e0e2fe1d1",
         "status": "merged",
         "conflicted": true,
         "resolutions": [

@@ -28,9 +28,9 @@ reason = "The split-storage and client-storage topics retain serverConfigFileFla
 
 [[exception]]
 entry = "4437"
-missing_count = 52
-missing_sha256 = "9b31c0ed44cbe7a243878089851e497c6eb5d820a57758422e743f9da2f14769"
-reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind. The SSH launch test's fake t3 `serve` (from #4437 and the server-config-file topic alike) now also writes server-runtime.json once listening, since upstream's launcher waits for that record; server-config-file's version, a superset that also records T3CODE_SERVER_CONFIG_FILE, replaces the bare `listen(port, \"127.0.0.1\")` line."
+missing_count = 51
+missing_sha256 = "9f2cd9eb0eb9bc92ab4902c634f58c60d79da470ab16053718f78ca6b80e502b"
+reason = "client-storage-separation replaces the split server roots used for desktop files with separate t3code-client roots: early settings lookup, client paths, Electron userData, CLI shim pinning, t3 app discovery and desktop triage logs all use the client roots, with corresponding fixture updates. resolveServerStorage factors host fields into storageHostInput, which preserves every host/path input; resolveDefaultT3StorageRoots delegates to resolvePlatformStorageRoots with the same t3code/t3code-dev names. Storage selection and its error union gain Retired/LegacyStorageMigratedError and migration-marker/journal guards; initialized split storage still wins unless migration is incomplete, and SSH mirrors those guards. dev-runner scrubs T3CODE_CLIENT_DIR together with the client-root selectors. The inherited DesktopWindowState.layer pipe is composed into DesktopRunningLocalServers with DesktopAppSettings still provide-merged, so window-state initialization remains carried. t3 app discovery reads the client roots, so cli/app.ts no longer needs DEV_VARIANT_PLACEHOLDER_URL; the client-storage-separation fixup drops the declaration the merge left behind. The SSH launch fixture now writes server-runtime.json for both storage layouts after the port is listening."
 
 [[exception]]
 entry = "t3code/main/client-environment-suite"
@@ -40,9 +40,9 @@ reason = "#4437's storage roots replace the suite's baseDir/variant runtime-stat
 
 [[exception]]
 entry = "t3code/main/shared-server-settings"
-missing_count = 12
-missing_sha256 = "b7359ea708ebf8fa5fbbec6aac917447a8594d5461cd9cc32ffb1307601c8dfa"
-reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure; cached and emitted values carry policy locks through toEffective. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The remaining six are test-helper lines: declarative-settings carries the single layerSharedServerSettings helper in options form ({ managed, secretStoreLayer, policy }), defaulting secretStoreLayer to ServerSecretStore.layer and supplying ManagedPolicy.layerTest(options.policy); the store-unavailable, conditional layerSecret and policy call sites pass their layers and policy under those options."
+missing_count = 14
+missing_sha256 = "85a87fa07fee9634cc34f95c57f84ea28269f5f51b057559e5cc149706daa91e"
+reason = "Declarative settings replaces five serverSettings lines with managedSettingsPath and settingsStateFor, retaining baseline, local settings, effective managed settings and parseFailure; cached and emitted values carry policy locks through toEffective. The sixth line is project.ts's projectLocationFlags import: server-config-file replaces it with serverConfigFileFlags, which projectSettingsFlags extends with sharedSettingsFile. The remaining six are test-helper lines: declarative-settings carries the single layerSharedServerSettings helper in options form ({ managed, secretStoreLayer, policy }), defaulting secretStoreLayer to ServerSecretStore.layer and supplying ManagedPolicy.layerTest(options.policy); the store-unavailable, conditional layerSecret and policy call sites pass their layers and policy under those options. The disk reader also loads managedSettingsPath and applies policy locks to the effective values after layering the shared, local and managed documents."
 
 [[exception]]
 entry = "t3code/main/declarative-settings"
@@ -52,15 +52,15 @@ reason = "Inherited from shared-server-settings through this stacked branch: pro
 
 [[exception]]
 entry = "t3code/main/client-storage-separation"
-missing_count = 2
-missing_sha256 = "9e60ea2f46757fcc496b84bb546c251d3f7fd6ecaf7f90baf3e80ece8a885ffb"
-reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer. Inherited through #4437: The SSH launch test's fake t3 `serve` (from #4437 and the server-config-file topic alike) now also writes server-runtime.json once listening, since upstream's launcher waits for that record; server-config-file's version, a superset that also records T3CODE_SERVER_CONFIG_FILE, replaces the bare `listen(port, \"127.0.0.1\")` line."
+missing_count = 3
+missing_sha256 = "c7533b3bab739f6b257cc4c36f9ce087648dfab545a92c46b8939e4d3a330590"
+reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopWindowState.layer.pipe(Layer.provideMerge(DesktopAppSettings.layer))`, combined into the client suite's DesktopRunningLocalServers pipe, where DesktopWindowState.layer is provide-merged ahead of DesktopAppSettings.layer. The #4437 SSH fixture writes server-runtime.json once listening in either storage layout. The test shell environment type now explicitly requires HOME so it can supply an isolated XDG_RUNTIME_DIR."
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union."
+missing_count = 5
+missing_sha256 = "6b6b8120ea641f1e3db81725cbadaa51938736ea46569519c5f7e7e3e2174f9b"
+reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union. The two CLI managed-token tests use the equivalent implementations already carried by mobile-tailscale-fleet. The formatting differs while the tests still cover rereads after rotation, ambiguity, missing and empty files, and redaction."
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
@@ -76,15 +76,15 @@ reason = "usage-summary-cache's coherence fixup narrows the disconnected error t
 
 [[exception]]
 entry = "t3code/main/usage-breakdowns"
-missing_count = 7
-missing_sha256 = "0cddbd0ec419e95950709310e34d7b3f934bd31d740b5375b09f5bcca3940027"
-reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/account, expands merged entries to retain source attribution, and extends duplicate series-name disambiguation from models to accounts. The saved-view test now round-trips host/account alongside existing dimensions. These replace six original lines while retaining the original dimensions, contribution buckets, label behavior, and preference persistence. usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries."
+missing_count = 8
+missing_sha256 = "d4a922ad47d3bedc256b68afc200236013c0b510ffcf3a5452b775c9a12a1546"
+reason = "usage-host-accounts extends USAGE_DIMENSIONS and RowFields with host/account, expands merged entries to retain source attribution, and extends duplicate series-name disambiguation from models to accounts. The saved-view test now round-trips host/account alongside existing dimensions. These replace six original lines while retaining the original dimensions, contribution buckets, label behavior, and preference persistence. usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries. mobile-usage-breakdowns adds an optional locale to formatMonthShort and preserves the original month label by default."
 
 [[exception]]
 entry = "t3code/main/usage-chart-provider-toggle"
-missing_count = 6
-missing_sha256 = "351b2cda8b9dc9490fe0432b008a7e8d7203fc69092e01dfc998a90d8816126c"
-reason = "Inherited from usage-breakdowns through this stacked branch: the six lines usage-host-accounts replaces when it adds host/account to USAGE_DIMENSIONS and RowFields, source attribution to merged entries, account series-name disambiguation, and host/account to the saved-view test."
+missing_count = 7
+missing_sha256 = "d06687063be1aa3ca4307a82d9d7dfbbfaf9ff6d740d08d337b6b6f117aa7d12"
+reason = "Inherited from usage-breakdowns through this stacked branch: the six lines usage-host-accounts replaces when it adds host/account to USAGE_DIMENSIONS and RowFields, source attribution to merged entries, account series-name disambiguation, and host/account to the saved-view test. mobile-usage-breakdowns adds an optional locale to formatMonthShort and preserves the original month label by default."
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
@@ -94,9 +94,9 @@ reason = "Inherited unchanged from mobile-tailscale-fleet, which this branch is 
 
 [[exception]]
 entry = "t3code/main/usage-host-accounts"
-missing_count = 1
-missing_sha256 = "ab7d5b30316403699e94353f4d99aa59af38b8b407b79c5972c6ee23e8b6dde1"
-reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries."
+missing_count = 2
+missing_sha256 = "9567bd29519533f9c398ab32d589b19e20f066b2269e6b55faefcfa9bab1ee99"
+reason = "Inherited from usage-breakdowns through this stacked branch: usage-chart-provider-toggle passes the chart `plottedSeries` (the series without toggled-off providers) in place of `series={chartSeries}`; the breakdown table still receives chartSeries. mobile-usage-breakdowns adds an optional locale to formatMonthShort and preserves the original month label by default."
 
 [[exception]]
 entry = "t3code/main/mobile-usage-breakdowns"

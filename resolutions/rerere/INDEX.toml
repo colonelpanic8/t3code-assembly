@@ -51,24 +51,6 @@ recorded = "2026-10-15T04:33:57.078321787+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "30de3072d42db483bcb6f1da0e995fb47018dcce"
-paths = ["apps/server/src/serverSettings.ts"]
-recorded = "2026-11-03T07:32:49.450864856+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "4cdce8665fa98e4c0a86e4e74740290067298898"
-paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-11-21T01:53:18.924833687+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "507e0f275ed4a69873a4d29f6881b0c8b17ea8ee"
-paths = ["apps/server/src/serverSettings.test.ts"]
-recorded = "2026-11-04T04:00:54.177460610+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
 hash = "508ca13a2e2781f3a6942aec3b446cfb13aa09b1"
 paths = ["packages/contracts/src/ipc.ts"]
 recorded = "2026-11-06T05:47:25.933347885+00:00"
@@ -81,33 +63,21 @@ recorded = "2026-10-28T13:24:32.357750905+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "762d4061c62f14a45509ac08f39bb82cfa878676"
-paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-10-22T17:24:11.970490886+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
-hash = "8485c62cf7dca68c926ad007a21a935408917c3d"
-paths = ["apps/server/src/config.ts"]
-recorded = "2026-11-09T22:50:20.259103+00:00"
-
-[[resolution]]
-entry = "t3code/main/declarative-settings"
 hash = "853f1b41e48faa7b6f346164628ab926e363fa18"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-11-09T22:50:20.259124+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "ac862295cd0d53af73682cd20b662eaa1e6b1011"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-09T22:50:20.259125+00:00"
+hash = "b9f79fb22889a2212c91a06cda2a1895d142e16f"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-11-23T03:29:47.304178074+00:00"
 
 [[resolution]]
 entry = "t3code/main/declarative-settings"
-hash = "c2f578c422d1a7efe8cacade6091a60101b133a3"
-paths = ["docs/user/install.md"]
-recorded = "2026-10-16T18:08:21.177925751+00:00"
+hash = "c061edc63a8a5029786fa61bf3a2bcfc51f4bfb8"
+paths = ["apps/server/src/serverSettings.ts"]
+recorded = "2026-11-23T03:29:47.304180163+00:00"
 
 [[resolution]]
 entry = "t3code/main/environment-groups"
@@ -129,15 +99,15 @@ recorded = "2026-11-17T01:43:52.695623821+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
-hash = "345b770f5691910388d812e644eec4b6a32ec520"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-03T10:10:40.701708353+00:00"
-
-[[resolution]]
-entry = "t3code/main/managed-fleet"
 hash = "4fbf4a49265fb795ae2449d1f70c7b8675cf3c36"
 paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
 recorded = "2026-10-15T04:27:34.372859003+00:00"
+
+[[resolution]]
+entry = "t3code/main/managed-fleet"
+hash = "7f96b1c8e92666541ce76e347db1a653c99d0e32"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-23T03:48:29.639524955+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-fleet"
@@ -153,39 +123,21 @@ recorded = "2026-10-15T04:27:34.372863331+00:00"
 
 [[resolution]]
 entry = "t3code/main/managed-peer-links"
-hash = "e533cc6b2559634cf53fdc13c31fc62c63ac752f"
+hash = "dff9a7bbbb4939bae9a538609713266c658fd798"
 paths = ["apps/server/src/server.ts"]
-recorded = "2026-11-21T02:19:02.008907750+00:00"
+recorded = "2026-11-23T03:31:12.127676850+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
-hash = "3492b06af8a6928e28ebe6cf9eed2e83fdfc89a1"
+hash = "617663dc1bf664bee2a922ff86f169c5915f7f3b"
 paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-11-17T20:10:19.365094106+00:00"
+recorded = "2026-11-23T03:30:05.507863078+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-tailscale-fleet"
-hash = "49e267990a66f994a1399907b7c110203e39030b"
-paths = ["apps/desktop/src/app/DesktopConfig.ts"]
-recorded = "2026-11-17T20:10:19.365096514+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-tailscale-fleet"
-hash = "763f88b3849eb541dbf260adefc5de3bfdb9df8b"
-paths = ["apps/server/src/config.ts"]
-recorded = "2026-11-17T20:10:19.365097011+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-tailscale-fleet"
-hash = "f2a11435795d14c2e0560af9b868474d0ad5408f"
-paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
-recorded = "2026-11-17T20:10:19.365097274+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-tailscale-fleet"
-hash = "ff04827553321de6ee1cead457bf1272a562af07"
-paths = ["docs/user/remote-access.md"]
-recorded = "2026-11-17T20:10:19.365097715+00:00"
+hash = "ba282f61eb6ca137076ff4b6a580e98e7cf918e8"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-23T03:30:05.507865192+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-usage-breakdowns"
@@ -195,21 +147,15 @@ recorded = "2026-11-17T20:10:48.230920318+00:00"
 
 [[resolution]]
 entry = "t3code/main/mobile-usage-summary-cache"
-hash = "16e446578b6bd30a7a6e05b41a3297cc2f095832"
-paths = ["apps/web/src/state/usage.ts"]
-recorded = "2026-11-21T01:54:32.727147902+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-usage-summary-cache"
-hash = "34ada25dab18c98df91b97d35113474fb663d722"
-paths = ["packages/shared/src/usageFormat.test.ts"]
-recorded = "2026-11-17T20:11:02.449731358+00:00"
-
-[[resolution]]
-entry = "t3code/main/mobile-usage-summary-cache"
 hash = "72536a27ed5adabc90ff82aa659a4d40dfc08157"
 paths = ["docs/user/usage.md"]
 recorded = "2026-10-30T00:42:06.118649904+00:00"
+
+[[resolution]]
+entry = "t3code/main/mobile-usage-summary-cache"
+hash = "b9f982b1189fdfbd0189a6ebb53199b588fb05e9"
+paths = ["packages/shared/src/usageFormat.test.ts"]
+recorded = "2026-11-23T03:30:38.777322925+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
@@ -219,327 +165,57 @@ recorded = "2026-11-16T06:07:52.658341954+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
-hash = "57d8e1b07783be9308868316f5989e3d122ef11e"
-paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-11-16T06:07:52.658345130+00:00"
+hash = "869985a92931dd7a920a7c595b5c0e3527d5cce9"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-23T03:29:24.775114208+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4420"
-hash = "5b1ee3229fe20174dc49959cdebac45da6ea186d"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-09T22:49:45.199590+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "09bb1b5f14043c980f0b5f61964852cf6075c3c0"
-paths = ["apps/server/src/cloud/bootService.test.ts"]
-recorded = "2026-11-17T20:09:53.083763957+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "0c071fbc07aa426739973907e044e2ae80e68775"
-paths = ["apps/server/src/cli/service.ts"]
-recorded = "2026-11-17T20:09:53.083766346+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "0cf7c2e92fe5b4f668b42143a3a1b4eee453473b"
-paths = ["apps/server/src/config.test.ts"]
-recorded = "2026-11-17T20:09:53.083766764+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "1a30fcf40dae85b0a5c5013bd7da9c10ea78bd78"
-paths = ["apps/server/src/cli/pair.test.ts"]
-recorded = "2026-11-17T20:09:53.083767237+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "1baf4ab47a100eae18ba1b8dea391949da3b59d1"
-paths = ["apps/server/src/cli/triage.test.ts"]
-recorded = "2026-11-17T20:09:53.083767593+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "283a5ddbe37b72cd2a91c58a77e1dd1a59c96026"
-paths = ["docs/user/install.md"]
-recorded = "2026-11-17T20:09:53.083767985+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "2a0dbb17b565fabc27285c79605cab660159a89a"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-11-17T20:09:53.083768440+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "2d966629df95ebff4fabecf243ad457913c15ddd"
-paths = ["apps/server/src/project/AgentSessionScanner.test.ts"]
-recorded = "2026-11-17T20:09:53.083768903+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "35edc6526416b7bf232ca66f30cbfec92e8faa26"
-paths = ["apps/server/src/cli/triage.ts"]
-recorded = "2026-11-17T20:09:53.083769323+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "3bc81549c29f85bf8dd4b7e04e22aec5fb1281c6"
-paths = ["apps/desktop/src/app/DesktopEarlyElectronStartup.ts"]
-recorded = "2026-11-17T20:09:53.083769765+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "424811e00a6b4c33243f2578cbbfc734a6bb5fe4"
-paths = ["packages/ssh/src/tunnel.ts"]
-recorded = "2026-11-17T20:09:53.083770146+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "44bdb4cdc2dd4fc37734a236b933940c1fad0f39"
-paths = ["apps/server/src/config.ts"]
-recorded = "2026-11-17T20:09:53.083770505+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "45d759dfbcfd1270f9ab635e1f98437b3b16e0c7"
-paths = ["apps/server/src/serverRuntimeStartup.ts"]
-recorded = "2026-11-17T20:09:53.083770825+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "5149758b6aac70b714e681c6cc3a367e6a01f5ab"
-paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
-recorded = "2026-11-17T20:09:53.083771118+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "587a03c4197844ec5ed7b0caa32e0cbb341744a3"
-paths = ["apps/desktop/src/backend/DesktopBackendConfiguration.ts"]
-recorded = "2026-11-17T20:09:53.083771388+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "5ade2489cf1b3e69d54a921d679088d73e2789f3"
-paths = ["apps/desktop/src/app/DesktopConfig.ts"]
-recorded = "2026-11-17T20:09:53.083771719+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "6dfeb3a95ed0f017baccc379fa4910c20afd7820"
-paths = ["apps/desktop/src/app/DesktopStatePaths.ts"]
-recorded = "2026-11-17T20:09:53.083772083+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "7158178d5166ce30da8304af3fe36f5609dbefc6"
-paths = ["apps/server/src/cloud/bootService.ts"]
-recorded = "2026-11-17T20:09:53.083772479+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "73ece138732f1461030d708a20bd85c102d5c528"
-paths = ["apps/desktop/src/main.ts"]
-recorded = "2026-11-17T20:09:53.083772817+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "75f1c07adde064757793e52db46e8f89ab3ac1f8"
-paths = ["scripts/dev-runner.ts"]
-recorded = "2026-11-17T20:09:53.083773194+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "8099fa0c69fb4236a8f66d856bf796ef7140b338"
-paths = ["apps/server/src/cli/update.ts"]
-recorded = "2026-11-17T20:09:53.083773542+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "867f39c67d3958a72ec6b1be05164a6e81d065d8"
-paths = ["apps/server/src/project/AgentSessionScanner.ts"]
-recorded = "2026-11-17T20:09:53.083773893+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "8bc4c9b5a3ac46e59a65e7fc55d008b5dc57fa9f"
-paths = ["apps/desktop/src/app/DesktopEarlyElectronStartup.test.ts"]
-recorded = "2026-11-17T20:09:53.083774247+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "9cb2e225c130422753e0b9a843f4031552daadea"
-paths = ["apps/server/src/cli/uninstall.ts"]
-recorded = "2026-11-17T20:09:53.083774742+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "9ee4868bacb6942e79c12e48b0eb57eef4f6264b"
-paths = ["apps/desktop/src/app/DesktopEnvironment.test.ts"]
-recorded = "2026-11-17T20:09:53.083775045+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "b5dced566feb7e1c20ae39f2cd6392d8b41bc83c"
-paths = ["apps/server/src/cli/doctor.ts"]
-recorded = "2026-11-17T20:09:53.083775503+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "b8323bd07b3898b69a904c9394d8b5a1fd92e550"
-paths = ["scripts/dev-runner.test.ts"]
-recorded = "2026-11-17T20:09:53.083775849+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "c4150a789acf6086603764bc174908e53b5f2e79"
-paths = ["apps/server/src/cli/pair.ts"]
-recorded = "2026-11-17T20:09:53.083776276+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "c95a18ad220cd62fc53f949230cb3488f2cadaf7"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-17T20:09:53.083776645+00:00"
-
-[[resolution]]
-entry = "t3code/main/pr-4437"
-hash = "f4108394050dffc0e2fe2b4d040ecf5e0e0c271e"
+hash = "a5bfd59be8ad63379dbed016b3dc9282101b9071"
 paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-11-17T20:09:53.083777031+00:00"
+recorded = "2026-11-23T03:29:24.775116860+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
-hash = "f880f3ffb423151bdab711fca40497275bb57e56"
-paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-11-21T01:53:02.231339141+00:00"
+hash = "0555ea05338b27a97cc2c9dc58e1abfb4c26bf21"
+paths = ["apps/server/src/config.ts"]
+recorded = "2026-11-23T03:28:50.154284702+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-4437"
-hash = "fcefe917ece10b679418a418f38824e9d085f774"
-paths = ["apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts"]
-recorded = "2026-11-17T20:09:53.083777788+00:00"
+hash = "1497246c5db5d4000d43055caf027e85a3d1c52c"
+paths = ["apps/server/src/cli/config.test.ts"]
+recorded = "2026-11-23T03:28:50.154287436+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "6ec28cf7a0d863ea385a9d287fa614aa6af83eb4"
+paths = ["apps/desktop/src/app/DesktopConfig.ts"]
+recorded = "2026-11-23T03:28:50.154288094+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "73c7a69de95e99c13b3ee12ff2723adc435e5df2"
+paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
+recorded = "2026-11-23T03:28:50.154288578+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "8ba6e98bf49d2a71af6f187bcf129489e58c0197"
+paths = ["apps/server/src/cli/config.ts"]
+recorded = "2026-11-23T03:28:50.154289073+00:00"
+
+[[resolution]]
+entry = "t3code/main/pr-4437"
+hash = "db84368ac2a158f1046fb2ea99649333b880e6b9"
+paths = ["apps/desktop/src/app/DesktopEnvironment.test.ts"]
+recorded = "2026-11-23T03:28:50.154289547+00:00"
 
 [[resolution]]
 entry = "t3code/main/pr-6507"
 hash = "79000e8a1923eaff20ef3f41c964caf84c316700"
 paths = ["apps/web/src/keybindings.test.ts"]
 recorded = "2026-10-22T17:21:06.503778741+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "0aa8f53f9e4fc68133a4662db2ae180cdaa9235a"
-paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-10-27T03:50:08.262153728+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "146bbbe1be96baab1c23c2efd8b8b92c2669c4fa"
-paths = ["apps/server/src/cli/connect.ts"]
-recorded = "2026-11-21T01:52:37.948939456+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "1d42a241a5fa69530a7c6322641240f46429a6ff"
-paths = ["packages/ssh/src/tunnel.ts"]
-recorded = "2026-11-12T20:14:03.610661909+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "2a658fd675117373fb7b0a306a39d6ccf17bab45"
-paths = ["apps/server/src/cli/server.ts"]
-recorded = "2026-10-27T03:50:08.262156344+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "370e2dbc0271938939289699d0bcf6419c8af0f3"
-paths = ["apps/server/src/config.ts"]
-recorded = "2026-10-27T03:50:08.262156649+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "4a860786e2950ac267bda6546b03ea406a9e4a70"
-paths = ["docs/user/install.md"]
-recorded = "2026-10-16T18:03:30.903631366+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "55183eee88a73367cd84671396ed13e59d7c4120"
-paths = ["apps/server/src/cli/config.ts"]
-recorded = "2026-10-27T03:50:08.262156937+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "563224dfc4b12d19fdd0ad5fadf460c08afd0e3c"
-paths = ["apps/server/src/cloud/bootService.test.ts"]
-recorded = "2026-10-27T03:50:08.262157221+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "6b4ff527164a58bbc683477fe17455826cf31179"
-paths = ["apps/server/src/cli/triage.ts"]
-recorded = "2026-10-28T13:23:31.639978215+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "a0a8b789e09c8aaf028fd57eed9700527f4f9d95"
-paths = ["apps/server/src/cli/project.ts"]
-recorded = "2026-11-21T01:52:37.948941923+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "c68b3ba9438ece2d1f0e2d91ffb4f771a0105245"
-paths = ["apps/desktop/src/app/DesktopEnvironment.ts"]
-recorded = "2026-10-16T18:03:30.903633871+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "d596a5e4bf93b12cbf532bfc792f191f86f68b50"
-paths = ["packages/ssh/src/tunnel.test.ts"]
-recorded = "2026-11-17T20:08:47.039919302+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "e1512ec0486fb85ae330082114077930762109fd"
-paths = ["apps/server/src/cli/trace.ts"]
-recorded = "2026-10-16T18:03:30.903635414+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "e237e91a35eee60252c336c1aa17c3ce0cd4fb24"
-paths = ["scripts/dev-runner.test.ts"]
-recorded = "2026-10-22T17:13:04.877785475+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "e50cfc9cf9b7ea48cfccb7eebc966240782bbde1"
-paths = ["apps/desktop/src/app/DesktopConfig.ts"]
-recorded = "2026-10-16T18:03:30.903635664+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "e6d726e62fd745de634310f613eb9e3277fb2220"
-paths = ["scripts/dev-runner.ts"]
-recorded = "2026-10-22T17:13:04.877786116+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "f7939d9c84ed767020c735d113fe8075ba3c5e51"
-paths = ["apps/server/src/cloud/bootService.ts"]
-recorded = "2026-11-16T05:34:25.613471121+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "f8e22af3bd6491ef34e16719633e566b401e641e"
-paths = ["apps/desktop/src/backend/DesktopBackendConfiguration.ts"]
-recorded = "2026-10-27T03:50:08.262157954+00:00"
-
-[[resolution]]
-entry = "t3code/main/server-config-file"
-hash = "f9c8559b896e878267c77c4787b1bc9ebffa087a"
-paths = ["apps/desktop/src/app/DesktopEnvironment.test.ts"]
-recorded = "2026-10-27T03:50:08.262158213+00:00"
 
 [[resolution]]
 entry = "t3code/main/server-location-overrides"
@@ -591,9 +267,9 @@ recorded = "2026-10-16T20:37:36.161454096+00:00"
 
 [[resolution]]
 entry = "t3code/main/shared-server-settings"
-hash = "c3ea14fd9bbcd3c8dd29761a2d5f6894f108d5fa"
+hash = "fa1a9b126c0ad7fb97ddfe128636c7bc92359b0e"
 paths = ["apps/server/src/cli/config.test.ts"]
-recorded = "2026-11-01T04:48:09.320409+00:00"
+recorded = "2026-11-23T03:27:43.483953394+00:00"
 
 [[resolution]]
 entry = "t3code/main/sidebar-sort-criteria"
