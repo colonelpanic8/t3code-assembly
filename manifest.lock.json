@@ -1,7 +1,7 @@
 {
   "version": 1,
   "pins": {
-    "base": "1d4d9be3ff925d5d5ecc90859bdcbd20ecb04b15",
+    "base": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
     "entries": {
       "t3code/main/about-assembly-build": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
       "t3code/main/agent-profiles": "904bf96b80cc3342daf70c2b12ac5fd3a2900f50",
@@ -26,7 +26,7 @@
       "t3code/main/managed-peer-links": "625798501389ebcd084ceaed5d5fa4c609dfd793",
       "t3code/main/migration-schema-repair": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22",
       "t3code/main/mobile-settings-feed": "2546019a4240e1f8ccc78f3d7d1c954bf0f41868",
-      "t3code/main/mobile-tailscale-fleet": "77156d5641f237e97ebd349165023cbe04e44896",
+      "t3code/main/mobile-tailscale-fleet": "d62be4f45bb78221efe830f169c04ded42647bad",
       "t3code/main/mobile-usage-breakdowns": "199ce9f5b97886fb32461905cf6313fbba0995f1",
       "t3code/main/mobile-usage-summary-cache": "d52f92024fa3a46b788e61e7f58ba1987c7f5bdc",
       "t3code/main/pr-4257": "dbc84036eadd4b907f4a2a590b4c5a3729304bcd",
@@ -64,13 +64,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-23T03:50:31.102372324+00:00",
-    "base": "1d4d9be3ff925d5d5ecc90859bdcbd20ecb04b15",
-    "commit": "c1ca0b7570673b083e73aa4837b8090c1c39ddbf",
-    "pre_provenance_commit": "f69a3c38a26678996dd0aefce6ad2ec5b516d114",
-    "tree": "5a6b4c951264a5dbedb5512538d66b76121a5682",
-    "built_tree": "1d6697f2eb4039b24057dad486e9141d09cbed3c",
-    "previous_tree": "7a47c2284bf59cfe3d8a63c91527a51fc6355214",
+    "generated": "2026-11-23T03:58:25.075144917+00:00",
+    "base": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
+    "commit": "64d38dc65fb78c1ae557212f4a913556c4002653",
+    "pre_provenance_commit": "4768503fadf8eec6a2a7c71c6ce5b1f0d7466482",
+    "tree": "392ccddebc5c4bc7f162c2ef2fecb6da0e43129a",
+    "built_tree": "93338cafd19450106331ca5c4062021a64d8c6ef",
+    "previous_tree": "5a6b4c951264a5dbedb5512538d66b76121a5682",
     "tree_changed": true,
     "conflicts": 21,
     "manifest_entries": [
@@ -256,7 +256,7 @@
         "name": "t3code/main/mobile-tailscale-fleet",
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
-        "pin": "77156d5641f237e97ebd349165023cbe04e44896",
+        "pin": "d62be4f45bb78221efe830f169c04ded42647bad",
         "fixup": "49213537763519f23c98b2499e75470255e62f5e"
       },
       {
@@ -269,7 +269,8 @@
         "name": "t3code/main/usage-breakdowns",
         "kind": "branch",
         "source": "fork:t3code/main/usage-breakdowns",
-        "pin": "62052b461045d731c430a1054396bebae46613dd"
+        "pin": "62052b461045d731c430a1054396bebae46613dd",
+        "fixup": "41637a5b4ecc78ef857a3b266604e8556d1b4ceb"
       },
       {
         "name": "t3code/main/usage-summary-cache",
@@ -361,7 +362,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/assembly-update-notice",
         "pin": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
-        "fixup": "655c668210e5e57438eff5919740212eea9ee031"
+        "fixup": "a77e2874eadf4b1e5998c2e2b90aaaae2e89a814"
       },
       {
         "name": "t3code/main/split-run-context-controls",
@@ -678,7 +679,7 @@
       },
       {
         "name": "t3code/main/mobile-tailscale-fleet",
-        "oid": "77156d5641f237e97ebd349165023cbe04e44896",
+        "oid": "d62be4f45bb78221efe830f169c04ded42647bad",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -701,7 +702,8 @@
         "oid": "62052b461045d731c430a1054396bebae46613dd",
         "status": "merged",
         "conflicted": false,
-        "resolutions": []
+        "resolutions": [],
+        "fixup": "41637a5b4ecc78ef857a3b266604e8556d1b4ceb"
       },
       {
         "name": "t3code/main/usage-summary-cache",
@@ -820,7 +822,7 @@
         "status": "merged",
         "conflicted": false,
         "resolutions": [],
-        "fixup": "655c668210e5e57438eff5919740212eea9ee031"
+        "fixup": "a77e2874eadf4b1e5998c2e2b90aaaae2e89a814"
       },
       {
         "name": "t3code/main/split-run-context-controls",

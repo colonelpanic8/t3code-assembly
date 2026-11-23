@@ -261,6 +261,7 @@ branch = "fork:t3code/main/composer-control-shortcuts"
 
 [[entry]]
 branch = "fork:t3code/main/usage-breakdowns"
+fixup = "patches/usage-breakdowns-keybinding-limit-test.patch"
 
 [[entry]]
 branch = "fork:t3code/main/usage-summary-cache"
