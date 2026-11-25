@@ -1,0 +1,60 @@
+--- a/apps/desktop/package.json
++++ b/apps/desktop/package.json
+@@ -44,5 +44,5 @@
+     "tailwindcss": "^4.0.0",
+     "vite-plus": "catalog:"
+   },
+-  "productName": "T3 Code (Beta)"
++  "productName": "T3 Code Assembly"
+ }
+--- a/apps/desktop/src/app/DesktopEnvironment.ts
++++ b/apps/desktop/src/app/DesktopEnvironment.ts
+@@ -124,7 +124,7 @@
+   }
+ >()("@t3tools/desktop/app/DesktopEnvironment") {}
+ 
+-const APP_BASE_NAME = "T3 Code";
++const APP_BASE_NAME = "T3 Code Assembly";
+ 
+ function resolveDesktopAppStageLabel(input: {
+   readonly isDevelopment: boolean;
+@@ -336,7 +336,7 @@
+     branding,
+     displayName,
+     appUserModelId: Option.getOrElse(config.appUserModelIdOverride, () =>
+-      isDevelopment ? "com.t3tools.t3code.dev" : "com.t3tools.t3code",
++      isDevelopment ? "com.t3tools.t3code.dev" : "com.t3tools.t3code.assembly",
+     ),
+     linuxDesktopEntryName: resolveLinuxDesktopEntryName(isDevelopment),
+     linuxApplicationsDir,
+--- a/apps/desktop/src/settings/DesktopAppSettings.ts
++++ b/apps/desktop/src/settings/DesktopAppSettings.ts
+@@ -71,7 +71,7 @@
+ } as const;
+ 
+ export const DEFAULT_DESKTOP_SETTINGS: DesktopSettings = {
+-  localEnvironmentEnabled: true,
++  localEnvironmentEnabled: false,
+   linuxPasswordStore: DEFAULT_LINUX_PASSWORD_STORE,
+   mainWindowBounds: null,
+   mainWindowMaximized: false,
+@@ -222,7 +222,7 @@
+     (parsed.wslBackendEnabled === undefined && parsed.wslMode === "wsl");
+ 
+   return {
+-    localEnvironmentEnabled: parsed.localEnvironmentEnabled !== false,
++    localEnvironmentEnabled: parsed.localEnvironmentEnabled ?? defaultSettings.localEnvironmentEnabled,
+     linuxPasswordStore: normalizeLinuxPasswordStorePreference(parsed.linuxPasswordStore),
+     mainWindowBounds,
+     mainWindowMaximized: mainWindowBounds !== null && parsed.mainWindowMaximized === true,
+--- a/scripts/build-desktop-artifact.ts
++++ b/scripts/build-desktop-artifact.ts
+@@ -63,7 +63,7 @@
+ import { ChildProcess, ChildProcessSpawner } from "effect/process";
+ 
+ const LINUX_ICON_SIZES = [16, 22, 24, 32, 48, 64, 128, 256, 512] as const;
+-const DESKTOP_APP_ID = "com.t3tools.t3code";
++const DESKTOP_APP_ID = "com.t3tools.t3code.assembly";
+ const APPLE_TEAM_ID_PATTERN = /^[A-Z0-9]{10}$/u;
+ 
+ const BuildPlatform = Schema.Literals(["mac", "linux", "win"]);

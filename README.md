@@ -23,6 +23,18 @@ to fetch pinned topic objects.
 Read [ARCHITECTURE.md](ARCHITECTURE.md) for the model and
 [BUILDING.md](BUILDING.md) for the authoritative operating procedure.
 
+## Windows desktop client
+
+Download the [latest Windows x64 installer](https://github.com/colonelpanic8/t3code-assembly/releases/latest/download/T3-Code-Assembly-Windows-x64.exe).
+The installer is unsigned. The app opens with **Local environment** off. To use a
+remote server, connect to its network, then open **Settings → Environments → Add
+environment** and paste a fresh pairing link from that server.
+
+The [Windows desktop client workflow](https://github.com/colonelpanic8/t3code-assembly/actions/workflows/windows-client.yml)
+builds the published commit in `manifest.lock.json` with the Windows distribution
+patch. It installs and opens the result in client-only mode before uploading
+the installer to Actions and publishing a release.
+
 ## Build the Railbird iOS beta
 
 Run `bin/build-ios-testflight.py` on a Mac with Xcode installed. The script checks

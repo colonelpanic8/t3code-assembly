@@ -1,0 +1,113 @@
+name: Windows desktop client
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manifest.lock.json
+      - .github/workflows/windows-client.yml
+      - patches/windows-client-distribution.patch
+      - bin/smoke-windows-client.cjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-client-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    env:
+      T3CODE_TELEMETRY_CHANNEL: dev
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      revision: ${{ steps.source.outputs.revision }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Check out the locked assembly
+        id: source
+        run: |
+          set -euo pipefail
+          revision=$(jq -er '.build.commit | select(test("^[0-9a-f]{40}$"))' manifest.lock.json)
+          git init source
+          git -C source remote add origin https://github.com/colonelpanic8/t3code.git
+          git -C source fetch --no-tags --depth=1 origin "$revision"
+          git -C source sparse-checkout set --no-cone '/*' '!/.repos/'
+          git -C source checkout --detach "$revision"
+          git -C source apply ../patches/windows-client-distribution.patch
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+
+      - uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1.15.0
+        with:
+          node-version-file: source/package.json
+          cache: false
+          run-install: false
+
+      - name: Install build dependencies
+        working-directory: source
+        run: vp install --filter=@t3tools/desktop... --filter=t3... --filter=@t3tools/scripts...
+
+      - name: Build the x64 installer
+        working-directory: source
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          # Preview versions suppress electron-builder's upstream update feed.
+          version="${version}-preview.$(date -u +%Y%m%d).${GITHUB_RUN_NUMBER}"
+          rustup target add x86_64-pc-windows-msvc
+          vp run dist:desktop:win:x64 --build-version "$version" --output-dir ../windows-output
+          mkdir ../windows-release
+          mv "../windows-output/T3-Code-${version}-x64.exe" ../windows-release/T3-Code-Assembly-Windows-x64.exe
+
+      - name: Install and open the client
+        shell: pwsh
+        run: |
+          $installer = Resolve-Path 'windows-release/T3-Code-Assembly-Windows-x64.exe'
+          $installDir = Join-Path $env:RUNNER_TEMP 't3code-assembly-install'
+          $result = Start-Process -FilePath $installer -ArgumentList "/S /D=$installDir" -Wait -PassThru
+          if ($result.ExitCode -ne 0) { throw "Installer exited with $($result.ExitCode)" }
+          node bin/smoke-windows-client.cjs (Join-Path $installDir 'T3 Code Assembly.exe')
+
+      - name: Upload the verified installer
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: t3code-assembly-windows-x64
+          path: windows-release/T3-Code-Assembly-Windows-x64.exe
+          if-no-files-found: error
+          compression-level: 0
+
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: t3code-assembly-windows-x64
+
+      - name: Publish a public installer link
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ASSEMBLY_REVISION: ${{ needs.build.outputs.revision }}
+        run: |
+          tag="windows-client-${GITHUB_RUN_NUMBER}"
+          asset=T3-Code-Assembly-Windows-x64.exe
+          sha256sum "$asset" > "$asset.sha256"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$tag" "$asset" "$asset.sha256" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$tag" "$asset" "$asset.sha256" --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" --latest --title "T3 Code Assembly for Windows ($GITHUB_RUN_NUMBER)" \
+              --notes "Unsigned x64 installer from assembly $ASSEMBLY_REVISION. The local environment is off by default. Connect to an existing server in Settings → Environments."
+          fi
