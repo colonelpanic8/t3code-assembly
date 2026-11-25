@@ -1,0 +1,13 @@
+diff --git a/apps/server/src/server.ts b/apps/server/src/server.ts
+index e351e714151..a0ae8cdc392 100644
+--- a/apps/server/src/server.ts
++++ b/apps/server/src/server.ts
+@@ -954,6 +954,8 @@ const layerMakeRoutes = Layer.mergeAll(
+   // Links agents ask for: shown in a thread from /mcp, answered over WebSocket.
+   Layer.provide(PeerLinkRequests.layer),
+   Layer.provide(ManagedPeerLinks.layer),
++  // Layer pipes take at most 20 arguments.
++).pipe(
+   // Share the service so HTTP/WS clients single-flight reads and invalidate each other's cached patches.
+   Layer.provide(layerPullRequestService),
+   Layer.provide(layerThreadIssueService),

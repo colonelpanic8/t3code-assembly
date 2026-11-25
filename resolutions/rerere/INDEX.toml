@@ -279,9 +279,9 @@ recorded = "2026-11-01T18:34:17.040453691+00:00"
 
 [[resolution]]
 entry = "t3code/main/thread-pop-out"
-hash = "d485a7b4f30fbe97b00e030cd0b1839101371db1"
+hash = "bfe6fb460755e697a490303fd60c21a8c4c76b30"
 paths = ["apps/web/src/hooks/useThreadActionMenu.ts"]
-recorded = "2026-11-16T06:27:22.010757582+00:00"
+recorded = "2026-11-25T09:13:28.387947167+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-chart-provider-toggle"
@@ -305,7 +305,7 @@ recorded = "2026-10-15T06:12:04.052215356+00:00"
 entry = "t3code/main/usage-summary-cache"
 hash = "64c5b0906c821489e095addc8e2335fbd696751f"
 paths = ["packages/shared/src/usageFormat.test.ts"]
-recorded = "2026-11-25T01:39:59.914855144+00:00"
+recorded = "2026-11-25T09:13:11.311482146+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"

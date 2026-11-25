@@ -1,16 +1,16 @@
 {
   "version": 1,
   "pins": {
-    "base": "31d95f850bd8f1dfb68676500606d44b923e4883",
+    "base": "feecca53e4dcc82e450ce3fcae687354822f0ef3",
     "entries": {
       "show-connected-server-versions": "5474580ac8da7bad5dd86c1793217ac24ba6d104",
       "t3code/main/about-assembly-build": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
-      "t3code/main/agent-profiles": "743483612f79dc01d5d479820d8f04652acf054e",
+      "t3code/main/agent-profiles": "e7e253f3e7ea6b8e3124f4e9ca428bf54e706ff6",
       "t3code/main/agent-verification": "fce8e406bd6ac25a888d441a17358aef30186e2e",
       "t3code/main/android-intents": "7da85c5762d3827ef3449e80d52ff9e080945686",
       "t3code/main/assembly-update-notice": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
       "t3code/main/client-environment-suite": "b651583db808266d0f87da84ad18b07497f70060",
-      "t3code/main/client-storage-separation": "2f4c4adcdf6e56a185c3c00aa371b380daae438c",
+      "t3code/main/client-storage-separation": "6c5dc2db138ac58363268cab329c1c295b0bfddb",
       "t3code/main/codex-archived-sessions": "fccb78083aa98930df5049e43aa26664037764e6",
       "t3code/main/composer-control-shortcuts": "5b50693a3dff2416a89c0fd7f1473d17cb5bc5c4",
       "t3code/main/copy-thread-markdown": "7b1d7db2c98d23379081b72cce3c744d2a0b06bd",
@@ -25,18 +25,18 @@
       "t3code/main/live-voice": "31ac7c50b4b196cea28fb18adfeb872a59767af6",
       "t3code/main/managed-fleet": "8335871913fa00a27f009d778a19f60d81b071ea",
       "t3code/main/managed-peer-links": "eafaf9db73871c7768bb994c49d840d78175b737",
-      "t3code/main/migration-schema-repair": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22",
+      "t3code/main/migration-schema-repair": "ab667e65597da08498d54d957453cb6884c02042",
       "t3code/main/mobile-settings-feed": "103dfb0b62335db7a1ac93c0827bdd85a3943548",
       "t3code/main/mobile-tailscale-fleet": "40edf045029953db0da569850f3aa7b59a02ef0d",
       "t3code/main/mobile-usage-breakdowns": "eaf0c7326e5d54fb5b2521464709dad76512b417",
       "t3code/main/mobile-usage-summary-cache": "21d4ebe7292fe7f065739209ad9f98a75bf4e92a",
       "t3code/main/pr-4257": "dbc84036eadd4b907f4a2a590b4c5a3729304bcd",
-      "t3code/main/pr-4318": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5",
+      "t3code/main/pr-4318": "5170b5843ab257e68dace42fd5322ce9e18ace64",
       "t3code/main/pr-4324": "4466f3221fa9af71b9e37ef37ebd083cf0c16540",
       "t3code/main/pr-4394": "92eedf6ed325a77f9dc451e36261a6ed6bbe65c1",
       "t3code/main/pr-4405": "1e1af27bd57572fdab62546a7b3c308a91b137a8",
       "t3code/main/pr-4420": "71ecab7c971a6dd12ec7f82f9c93863ef6bcba79",
-      "t3code/main/pr-4437": "2151ceb56c2164dc643eb4d2f28192fda0201f92",
+      "t3code/main/pr-4437": "488efbd45c6480aa1c3e80b040e85df4a0ee254b",
       "t3code/main/pr-4439": "49bc9629ec9df9112992b1af4d252e8e469efcfe",
       "t3code/main/pr-4447": "2dd501dd9510c6a33c55883c79374d321b43ab1c",
       "t3code/main/pr-4484": "50e1cf73e83b9af8e582978621df3cf5ea6b9257",
@@ -48,13 +48,13 @@
       "t3code/main/pr-list-hidden-repositories": "800c30d39e4320a6d50d2079187f95b2f4e46ca2",
       "t3code/main/scoped-environment-keys-integration": "ce59020c1f33e49fb1f8628994f856c804f690c5",
       "t3code/main/semver-build-metadata": "6ef9c485409bddb768dd0151d3d314ba252fd143",
-      "t3code/main/server-config-file": "4319c0fead78c25b298b41135c8a4a62c7b7bd12",
-      "t3code/main/server-location-overrides": "6923e67d628ce947108b24d9cd4b07fe5b97f5ef",
+      "t3code/main/server-config-file": "502caa3b9bb8a620120cf824c5d9b3ac9da735f8",
+      "t3code/main/server-location-overrides": "f963dd8ee81b159de9b17faebe6a3e532dfe71df",
       "t3code/main/shared-server-settings": "e9ed7ef38f8809efbcd6ae5111bf355ce4c2c362",
       "t3code/main/sidebar-one-time-schedules": "dcedd3da6c34a94cc71361008b23da7eb7c9d4d1",
       "t3code/main/sidebar-sort-criteria": "7abc77c91a005046dfc331f70e56a89781de5c89",
       "t3code/main/split-run-context-controls": "9700ed4918849b28820216974921b6a560bd7c78",
-      "t3code/main/thread-pop-out": "1df96b28964989b1064b472140a5f379ec660dad",
+      "t3code/main/thread-pop-out": "4d4060da928b7e9e9574e0da9070466938a418bf",
       "t3code/main/typecheck-fixes": "5ccad5440b64c819389070e83273daede0e6ce84",
       "t3code/main/usage-breakdowns": "6d48cb181eadf823445b29df5ccb9dd83ac1fbcb",
       "t3code/main/usage-chart-provider-toggle": "d9d9368d72a8920a0e83d53572ad80501be86715",
@@ -66,15 +66,15 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-25T01:51:41.031160532+00:00",
-    "base": "31d95f850bd8f1dfb68676500606d44b923e4883",
-    "commit": "25cb4fd735f06a289ba47bbc8c24068b5236137f",
-    "pre_provenance_commit": "4a601d4ca5768bdb45080e18b2802d42bbfd8011",
-    "tree": "3f6786c1189bf2c291c17bacb47cd10beda6bef1",
-    "built_tree": "88e29b0223eb6cef358628fd2b372580f8793985",
-    "previous_tree": "ce354f9731eee5dcbe7c9251e91b3c890b6959e3",
+    "generated": "2026-11-25T09:28:16.942897573+00:00",
+    "base": "feecca53e4dcc82e450ce3fcae687354822f0ef3",
+    "commit": "a2acb988459c722fc239acf93bae54cad19674f5",
+    "pre_provenance_commit": "3356e90d215bab2e79bf9299df2c9026082daded",
+    "tree": "e7f8675e5e5693aee23c9a9ef5158a6a8fb544d3",
+    "built_tree": "eb20feb14cb6706a600d3d57e8bea438fabbf142",
+    "previous_tree": "1d6096b2536422ab06eb9152c99e6dee2119f776",
     "tree_changed": true,
-    "conflicts": 0,
+    "conflicts": 21,
     "manifest_entries": [
       {
         "name": "t3code/main/pr-4257",
@@ -140,13 +140,13 @@
         "name": "t3code/main/server-location-overrides",
         "kind": "branch",
         "source": "fork:t3code/main/server-location-overrides",
-        "pin": "6923e67d628ce947108b24d9cd4b07fe5b97f5ef"
+        "pin": "f963dd8ee81b159de9b17faebe6a3e532dfe71df"
       },
       {
         "name": "t3code/main/server-config-file",
         "kind": "branch",
         "source": "fork:t3code/main/server-config-file",
-        "pin": "4319c0fead78c25b298b41135c8a4a62c7b7bd12"
+        "pin": "502caa3b9bb8a620120cf824c5d9b3ac9da735f8"
       },
       {
         "name": "t3code/main/shared-server-settings",
@@ -159,7 +159,7 @@
         "name": "t3code/main/pr-4437",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4437",
-        "pin": "2151ceb56c2164dc643eb4d2f28192fda0201f92",
+        "pin": "488efbd45c6480aa1c3e80b040e85df4a0ee254b",
         "fixup": "109378b9b8b6d00779dc6d59c9bd9d095db872a8"
       },
       {
@@ -185,7 +185,7 @@
         "name": "t3code/main/migration-schema-repair",
         "kind": "branch",
         "source": "fork:t3code/main/migration-schema-repair",
-        "pin": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22"
+        "pin": "ab667e65597da08498d54d957453cb6884c02042"
       },
       {
         "name": "t3code/main/pr-4699",
@@ -209,7 +209,7 @@
         "name": "t3code/main/pr-4318",
         "kind": "branch",
         "source": "fork:t3code/main/pr-4318",
-        "pin": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5"
+        "pin": "5170b5843ab257e68dace42fd5322ce9e18ace64"
       },
       {
         "name": "t3code/main/pr-4420",
@@ -245,7 +245,7 @@
         "name": "t3code/main/client-storage-separation",
         "kind": "branch",
         "source": "fork:t3code/main/client-storage-separation",
-        "pin": "2f4c4adcdf6e56a185c3c00aa371b380daae438c",
+        "pin": "6c5dc2db138ac58363268cab329c1c295b0bfddb",
         "fixup": "b651512f1701bcd9b6b9bb572b8e26e6533bdd66"
       },
       {
@@ -259,7 +259,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "40edf045029953db0da569850f3aa7b59a02ef0d",
-        "fixup": "59da77a3c145a28b215a7f79af495bcc76bc9f73"
+        "fixup": "523af9e1ba5bdc8ef053f5e76914b11d1eb7f538"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -296,7 +296,7 @@
         "name": "t3code/main/agent-profiles",
         "kind": "branch",
         "source": "fork:t3code/main/agent-profiles",
-        "pin": "743483612f79dc01d5d479820d8f04652acf054e"
+        "pin": "e7e253f3e7ea6b8e3124f4e9ca428bf54e706ff6"
       },
       {
         "name": "t3code/main/usage-host-accounts",
@@ -363,7 +363,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/assembly-update-notice",
         "pin": "9e6ecbc8accc914ace6a96e0058d6a6b9fea6b4c",
-        "fixup": "480a487147a091906923cd91ce8e59ba2b06d09d"
+        "fixup": "d17ad316641866a2641e32231044c92cb7723bc0"
       },
       {
         "name": "t3code/main/split-run-context-controls",
@@ -413,7 +413,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/managed-peer-links",
         "pin": "eafaf9db73871c7768bb994c49d840d78175b737",
-        "fixup": "54b8d763c096e6718095c2c136844aa3f2def082"
+        "fixup": "08dae170f29f4505e203d50f1242a11864cd67a1"
       },
       {
         "name": "t3code/main/desktop-wake-reconnect",
@@ -425,7 +425,7 @@
         "name": "t3code/main/thread-pop-out",
         "kind": "branch",
         "source": "fork:t3code/main/thread-pop-out",
-        "pin": "1df96b28964989b1064b472140a5f379ec660dad"
+        "pin": "4d4060da928b7e9e9574e0da9070466938a418bf"
       },
       {
         "name": "show-connected-server-versions",
@@ -513,7 +513,7 @@
       },
       {
         "name": "t3code/main/server-location-overrides",
-        "oid": "6923e67d628ce947108b24d9cd4b07fe5b97f5ef",
+        "oid": "f963dd8ee81b159de9b17faebe6a3e532dfe71df",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -524,7 +524,7 @@
       },
       {
         "name": "t3code/main/server-config-file",
-        "oid": "4319c0fead78c25b298b41135c8a4a62c7b7bd12",
+        "oid": "502caa3b9bb8a620120cf824c5d9b3ac9da735f8",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -546,7 +546,7 @@
       },
       {
         "name": "t3code/main/pr-4437",
-        "oid": "2151ceb56c2164dc643eb4d2f28192fda0201f92",
+        "oid": "488efbd45c6480aa1c3e80b040e85df4a0ee254b",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -593,7 +593,7 @@
       },
       {
         "name": "t3code/main/migration-schema-repair",
-        "oid": "fdd9212b378eb56248dbb6d790b2d36bc9ff4b22",
+        "oid": "ab667e65597da08498d54d957453cb6884c02042",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -621,7 +621,7 @@
       },
       {
         "name": "t3code/main/pr-4318",
-        "oid": "36de670fed46dd9c13503e1e30ae80ed70c0d8a5",
+        "oid": "5170b5843ab257e68dace42fd5322ce9e18ace64",
         "status": "merged",
         "conflicted": false,
         "resolutions": []
@@ -669,7 +669,7 @@
       },
       {
         "name": "t3code/main/client-storage-separation",
-        "oid": "2f4c4adcdf6e56a185c3c00aa371b380daae438c",
+        "oid": "6c5dc2db138ac58363268cab329c1c295b0bfddb",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -700,7 +700,7 @@
           "617663dc1bf664bee2a922ff86f169c5915f7f3b",
           "ba282f61eb6ca137076ff4b6a580e98e7cf918e8"
         ],
-        "fixup": "59da77a3c145a28b215a7f79af495bcc76bc9f73"
+        "fixup": "523af9e1ba5bdc8ef053f5e76914b11d1eb7f538"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -747,7 +747,7 @@
       },
       {
         "name": "t3code/main/agent-profiles",
-        "oid": "743483612f79dc01d5d479820d8f04652acf054e",
+        "oid": "e7e253f3e7ea6b8e3124f4e9ca428bf54e706ff6",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
@@ -835,7 +835,7 @@
         "status": "merged",
         "conflicted": false,
         "resolutions": [],
-        "fixup": "480a487147a091906923cd91ce8e59ba2b06d09d"
+        "fixup": "d17ad316641866a2641e32231044c92cb7723bc0"
       },
       {
         "name": "t3code/main/split-run-context-controls",
@@ -904,7 +904,7 @@
         "resolutions": [
           "dff9a7bbbb4939bae9a538609713266c658fd798"
         ],
-        "fixup": "54b8d763c096e6718095c2c136844aa3f2def082"
+        "fixup": "08dae170f29f4505e203d50f1242a11864cd67a1"
       },
       {
         "name": "t3code/main/desktop-wake-reconnect",
@@ -915,11 +915,11 @@
       },
       {
         "name": "t3code/main/thread-pop-out",
-        "oid": "1df96b28964989b1064b472140a5f379ec660dad",
+        "oid": "4d4060da928b7e9e9574e0da9070466938a418bf",
         "status": "merged",
         "conflicted": true,
         "resolutions": [
-          "d485a7b4f30fbe97b00e030cd0b1839101371db1"
+          "bfe6fb460755e697a490303fd60c21a8c4c76b30"
         ]
       },
       {

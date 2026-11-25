@@ -109,9 +109,3 @@ entry = "t3code/main/managed-peer-links"
 missing_count = 5
 missing_sha256 = "77a060fa1cb1f975e0533fd226257bfb474c7ad38f90de202298a21ddca218bd"
 reason = "Inherited from managed-fleet through mobile-tailscale-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. The server-version display patch shows the same version text for all connected rows and preserves the previously shown mismatched versions."
-
-[[exception]]
-entry = "t3code/main/live-voice"
-missing_count = 1
-missing_sha256 = "8b52b6d67b8c231b650e1d7b7aafad75c82bb045796bf7114dd28465be3dcdab"
-reason = "The managed-peer-links fixup nests the two live voice Layer.provide calls in the same pipe step, preserving their order while staying within the outer pipe's arity."
