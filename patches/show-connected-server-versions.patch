@@ -1,0 +1,33 @@
+diff --git a/apps/web/src/components/settings/SavedEnvironmentRows.tsx b/apps/web/src/components/settings/SavedEnvironmentRows.tsx
+--- a/apps/web/src/components/settings/SavedEnvironmentRows.tsx
++++ b/apps/web/src/components/settings/SavedEnvironmentRows.tsx
+@@ -317,7 +317,8 @@
+       ? ({ label: gt("Restarting"), variant: "warning", detail: null } as const)
+       : status;
+   const statusDetail = enabled && statusBadge?.detail ? statusBadge.detail : null;
+-  const mismatchedServerVersion = enabled && versionMismatch ? serverVersion : null;
++  const displayedServerVersion =
++    enabled && (isConnected || versionMismatch !== null) ? serverVersion : null;
+ 
+   const showUpdateAction =
+     !isManagedEnvironment &&
+@@ -374,10 +375,15 @@
+               </TooltipPopup>
+             </Tooltip>
+           ) : null}
+-          {mismatchedServerVersion ? (
+-            <code className="min-w-0 truncate text-xs text-muted-foreground">
+-              {mismatchedServerVersion}
+-            </code>
++          {displayedServerVersion ? (
++            <Tooltip>
++              <TooltipTrigger
++                render={<code className="min-w-0 truncate text-xs text-muted-foreground" />}
++              >
++                {displayedServerVersion}
++              </TooltipTrigger>
++              <TooltipPopup side="top">{displayedServerVersion}</TooltipPopup>
++            </Tooltip>
+           ) : null}
+         </>
+       }

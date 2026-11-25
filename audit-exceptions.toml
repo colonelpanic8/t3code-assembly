@@ -58,15 +58,15 @@ reason = "Inherited from desktop-window-state through #4437: main.ts's `DesktopW
 
 [[exception]]
 entry = "t3code/main/managed-fleet"
-missing_count = 5
-missing_sha256 = "6b6b8120ea641f1e3db81725cbadaa51938736ea46569519c5f7e7e3e2174f9b"
-reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union. The two CLI managed-token tests use the equivalent implementations already carried by mobile-tailscale-fleet. The formatting differs while the tests still cover rereads after rotation, ambiguity, missing and empty files, and redaction."
+missing_count = 9
+missing_sha256 = "6ca16a9121b6b074e21be82803846d303f10953ea922192aaceb5f52cdb41b1c"
+reason = "`Config.ConfigError,` in makeDesktopEnvironment's return type is still present inside #4437's widened error union. The two CLI managed-token tests use the equivalent implementations already carried by mobile-tailscale-fleet. The formatting differs while the tests still cover rereads after rotation, ambiguity, missing and empty files, and redaction. The server-version display patch shows the same version text for all connected rows and preserves the previously shown mismatched versions."
 
 [[exception]]
 entry = "t3code/main/mobile-tailscale-fleet"
-missing_count = 5
-missing_sha256 = "4d8de7a17eaa910958407cd08c991d70d1ad5801ca72772d8fd6d925755a78db"
-reason = "Inherited from managed-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes."
+missing_count = 9
+missing_sha256 = "17f5b82d52b8d7a2f96eff23c6ec1d42b554c58a540327f9178c6810a38eef5e"
+reason = "Inherited from managed-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes. The server-version display patch shows the same version text for all connected rows and preserves the previously shown mismatched versions."
 
 [[exception]]
 entry = "t3code/main/usage-host-resilience"
@@ -88,9 +88,9 @@ reason = "Inherited from usage-breakdowns through this stacked branch: the six l
 
 [[exception]]
 entry = "t3code/main/mobile-settings-feed"
-missing_count = 5
-missing_sha256 = "4d8de7a17eaa910958407cd08c991d70d1ad5801ca72772d8fd6d925755a78db"
-reason = "Inherited unchanged from mobile-tailscale-fleet, which this branch is stacked on (the same missing-line set): Inherited from managed-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes."
+missing_count = 9
+missing_sha256 = "17f5b82d52b8d7a2f96eff23c6ec1d42b554c58a540327f9178c6810a38eef5e"
+reason = "Inherited unchanged from mobile-tailscale-fleet, which this branch is stacked on (the same missing-line set): Inherited from managed-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. Since managed-peer-links accepts a fleet enrollment credential as a link's pairing code, it rewrites the EnvironmentAuth assertion that consumeMcpApprovalCode rejects the credential with not_a_pairing_code into two accepted consumeMcpApprovalCode calls. PairingGrantStore's redeemFleetEnrollment call is present, split across lines and also passing upstream's requiredScopes. The server-version display patch shows the same version text for all connected rows and preserves the previously shown mismatched versions."
 
 [[exception]]
 entry = "t3code/main/usage-host-accounts"
@@ -106,6 +106,6 @@ reason = "Inherited from usage-breakdowns through usage-host-accounts, which thi
 
 [[exception]]
 entry = "t3code/main/managed-peer-links"
-missing_count = 1
-missing_sha256 = "8a6fb02a6dad8598fbe7ba8b9dea68142e9a3e9f90bcfd9557a38efbe34c00c8"
-reason = "Inherited from managed-fleet through mobile-tailscale-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union."
+missing_count = 5
+missing_sha256 = "77a060fa1cb1f975e0533fd226257bfb474c7ad38f90de202298a21ddca218bd"
+reason = "Inherited from managed-fleet through mobile-tailscale-fleet: `Config.ConfigError,` in makeDesktopEnvironment's return type is present in the built tree inside #4437's widened error union. The server-version display patch shows the same version text for all connected rows and preserves the previously shown mismatched versions."

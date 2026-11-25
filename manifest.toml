@@ -424,6 +424,9 @@ branch = "fork:t3code/main/thread-pop-out"
 pr = 34236
 summary = "Pop a finished delegated child out to top level"
 
+[[entry]]
+patch = "patches/show-connected-server-versions.patch"
+
 [[exclude]]
 pr = 32608
 reason = "Closed upstream in favor of #29116, which is carried instead (same desktop wake delivery plus unlock and a post-wake retry)."

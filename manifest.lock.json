@@ -3,6 +3,7 @@
   "pins": {
     "base": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
     "entries": {
+      "show-connected-server-versions": "5474580ac8da7bad5dd86c1793217ac24ba6d104",
       "t3code/main/about-assembly-build": "94c6010c2b7c462d24e603b8bf5adf0786d10f30",
       "t3code/main/agent-profiles": "904bf96b80cc3342daf70c2b12ac5fd3a2900f50",
       "t3code/main/agent-verification": "cc9295943558c51cf28aef5ea89fd60168f49929",
@@ -64,13 +65,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-23T03:58:25.075144917+00:00",
+    "generated": "2026-11-25T01:19:11.097711204+00:00",
     "base": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
-    "commit": "64d38dc65fb78c1ae557212f4a913556c4002653",
-    "pre_provenance_commit": "4768503fadf8eec6a2a7c71c6ce5b1f0d7466482",
-    "tree": "392ccddebc5c4bc7f162c2ef2fecb6da0e43129a",
-    "built_tree": "93338cafd19450106331ca5c4062021a64d8c6ef",
-    "previous_tree": "5a6b4c951264a5dbedb5512538d66b76121a5682",
+    "commit": "42bd7db7167d1be316134b667930a8a9072aca57",
+    "pre_provenance_commit": "a6cfee317465856b1d2dae363ce9cb2ef06d60a1",
+    "tree": "221c42a8406357b8cb73d6c656239090a0d32a76",
+    "built_tree": "dea1e138bd8156a115f739b69374156037ebb4eb",
+    "previous_tree": "ac138f9bb27bdff1687bffc7c5a83d8ce4753beb",
     "tree_changed": true,
     "conflicts": 21,
     "manifest_entries": [
@@ -424,6 +425,12 @@
         "kind": "branch",
         "source": "fork:t3code/main/thread-pop-out",
         "pin": "343e09bde3a6237730ef6c5bbeab347e0e2fe1d1"
+      },
+      {
+        "name": "show-connected-server-versions",
+        "kind": "patch",
+        "source": "patches/show-connected-server-versions.patch",
+        "pin": "5474580ac8da7bad5dd86c1793217ac24ba6d104"
       }
     ],
     "results": [
@@ -908,6 +915,13 @@
         "resolutions": [
           "d485a7b4f30fbe97b00e030cd0b1839101371db1"
         ]
+      },
+      {
+        "name": "show-connected-server-versions",
+        "oid": "5474580ac8da7bad5dd86c1793217ac24ba6d104",
+        "status": "applied",
+        "conflicted": false,
+        "resolutions": []
       }
     ]
   }
