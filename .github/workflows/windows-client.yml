@@ -39,11 +39,12 @@ jobs:
           set -euo pipefail
           revision=$(jq -er '.build.commit | select(test("^[0-9a-f]{40}$"))' manifest.lock.json)
           git init source
+          git -C source config core.autocrlf false
           git -C source remote add origin https://github.com/colonelpanic8/t3code.git
           git -C source fetch --no-tags --depth=1 origin "$revision"
           git -C source sparse-checkout set --no-cone '/*' '!/.repos/'
           git -C source checkout --detach "$revision"
-          git -C source apply ../patches/windows-client-distribution.patch
+          git show HEAD:patches/windows-client-distribution.patch | git -C source apply -
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
       - uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1.15.0
