@@ -25,7 +25,8 @@ Read [ARCHITECTURE.md](ARCHITECTURE.md) for the model and
 
 ## Windows desktop client
 
-Download the [latest Windows x64 installer](https://github.com/colonelpanic8/t3code-assembly/releases/latest/download/T3-Code-Assembly-Windows-x64.exe).
+Download `T3-Code-Assembly-Windows-x64.exe` from the
+[latest Windows release](https://github.com/colonelpanic8/t3code-assembly/releases/latest).
 The installer is unsigned. The app opens with **Local environment** off. To use a
 remote server, connect to its network, then open **Settings → Environments → Add
 environment** and paste a fresh pairing link from that server.
