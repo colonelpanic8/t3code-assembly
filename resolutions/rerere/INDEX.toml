@@ -152,12 +152,6 @@ paths = ["docs/user/usage.md"]
 recorded = "2026-10-30T00:42:06.118649904+00:00"
 
 [[resolution]]
-entry = "t3code/main/mobile-usage-summary-cache"
-hash = "b9f982b1189fdfbd0189a6ebb53199b588fb05e9"
-paths = ["packages/shared/src/usageFormat.test.ts"]
-recorded = "2026-11-23T03:30:38.777322925+00:00"
-
-[[resolution]]
 entry = "t3code/main/pr-4420"
 hash = "156395703f1982acc17f43f8ea54e12298dc33a3"
 paths = ["apps/server/src/serverRuntimeState.ts"]
@@ -309,9 +303,9 @@ recorded = "2026-10-15T06:12:04.052215356+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"
-hash = "44b70cbb859ea37f242f1bf8616a39233cc52f81"
+hash = "64c5b0906c821489e095addc8e2335fbd696751f"
 paths = ["packages/shared/src/usageFormat.test.ts"]
-recorded = "2026-11-17T20:10:30.604136407+00:00"
+recorded = "2026-11-25T01:39:59.914855144+00:00"
 
 [[resolution]]
 entry = "t3code/main/usage-summary-cache"

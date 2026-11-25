@@ -53,7 +53,7 @@ new file mode 100644
 +++ b/nix/assembly-upstream-release.json
 @@ -0,0 +1,5 @@
 +{
-+  "commit": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
-+  "tag": "v0.1.12-nightly.20261123.5124",
-+  "distance": 18
++  "commit": "31d95f850bd8f1dfb68676500606d44b923e4883",
++  "tag": "v0.1.12-nightly.20261124.5209",
++  "distance": 76
 +}
