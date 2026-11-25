@@ -51,6 +51,7 @@
       "t3code/main/server-config-file": "508086fb25ac119bdfdc5d5bd35749aa80edd361",
       "t3code/main/server-location-overrides": "ce02c084619fd9761450d8c8de8ec593d7a737e4",
       "t3code/main/shared-server-settings": "e9ed7ef38f8809efbcd6ae5111bf355ce4c2c362",
+      "t3code/main/sidebar-one-time-schedules": "dcedd3da6c34a94cc71361008b23da7eb7c9d4d1",
       "t3code/main/sidebar-sort-criteria": "7abc77c91a005046dfc331f70e56a89781de5c89",
       "t3code/main/split-run-context-controls": "6cc1ee1d2983184ec63a725d8eeb2d49d2b48097",
       "t3code/main/thread-pop-out": "343e09bde3a6237730ef6c5bbeab347e0e2fe1d1",
@@ -65,13 +66,13 @@
   },
   "build": {
     "protocol": 1,
-    "generated": "2026-11-25T01:19:11.097711204+00:00",
+    "generated": "2026-11-25T01:40:27.623122425+00:00",
     "base": "9dc36169b4a2018ac6c2ca3e32263874475437a3",
-    "commit": "42bd7db7167d1be316134b667930a8a9072aca57",
-    "pre_provenance_commit": "a6cfee317465856b1d2dae363ce9cb2ef06d60a1",
-    "tree": "221c42a8406357b8cb73d6c656239090a0d32a76",
-    "built_tree": "dea1e138bd8156a115f739b69374156037ebb4eb",
-    "previous_tree": "ac138f9bb27bdff1687bffc7c5a83d8ce4753beb",
+    "commit": "bfe6d9ed81e9148e7af65a8d9711bfee5f2c82ca",
+    "pre_provenance_commit": "fcac9cd082710ed2d5b33d22deaf720c6b616b93",
+    "tree": "cb83f93926de61c8138ee1ef9b425e91f58b6f16",
+    "built_tree": "b88afcb2a14d8d43c3d70dc10e77febd12b50f5f",
+    "previous_tree": "25319ae2cf4a949c28ef8d004c9381d5fe459edc",
     "tree_changed": true,
     "conflicts": 21,
     "manifest_entries": [
@@ -258,7 +259,7 @@
         "kind": "branch",
         "source": "fork:t3code/main/mobile-tailscale-fleet",
         "pin": "d62be4f45bb78221efe830f169c04ded42647bad",
-        "fixup": "49213537763519f23c98b2499e75470255e62f5e"
+        "fixup": "6e042f84e1bf908bcdc83bba4390a13b899e7184"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -431,6 +432,12 @@
         "kind": "patch",
         "source": "patches/show-connected-server-versions.patch",
         "pin": "5474580ac8da7bad5dd86c1793217ac24ba6d104"
+      },
+      {
+        "name": "t3code/main/sidebar-one-time-schedules",
+        "kind": "branch",
+        "source": "fork:t3code/main/sidebar-one-time-schedules",
+        "pin": "dcedd3da6c34a94cc71361008b23da7eb7c9d4d1"
       }
     ],
     "results": [
@@ -693,7 +700,7 @@
           "617663dc1bf664bee2a922ff86f169c5915f7f3b",
           "ba282f61eb6ca137076ff4b6a580e98e7cf918e8"
         ],
-        "fixup": "49213537763519f23c98b2499e75470255e62f5e"
+        "fixup": "6e042f84e1bf908bcdc83bba4390a13b899e7184"
       },
       {
         "name": "t3code/main/composer-control-shortcuts",
@@ -920,6 +927,13 @@
         "name": "show-connected-server-versions",
         "oid": "5474580ac8da7bad5dd86c1793217ac24ba6d104",
         "status": "applied",
+        "conflicted": false,
+        "resolutions": []
+      },
+      {
+        "name": "t3code/main/sidebar-one-time-schedules",
+        "oid": "dcedd3da6c34a94cc71361008b23da7eb7c9d4d1",
+        "status": "merged",
         "conflicted": false,
         "resolutions": []
       }

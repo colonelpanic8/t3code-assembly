@@ -23,7 +23,7 @@ index 887ddb81a0..eb5a81276f 100644
 +      # each system has its own closure.
 +      hash =
 +        {
-+          x86_64-linux = "sha256-+bzoOYxlqz5oOKay0wrKfGtq+/T4HxBF/kPIhtPV2lY=";
++          x86_64-linux = "sha256-7Cq5/SCTFL8RqO6zyTVLSPw+xyUlqxearyJ7FCl4icg=";
 +          aarch64-darwin = "sha256-6uligr+EgMZdiCI9R3H8xHSy/RKf0zxI+cozZE3/MtA=";
 +        }.${pkgs.stdenv.hostPlatform.system} or lib.fakeHash;
      };
