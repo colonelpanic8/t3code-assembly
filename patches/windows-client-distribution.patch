@@ -58,3 +58,12 @@
  const APPLE_TEAM_ID_PATTERN = /^[A-Z0-9]{10}$/u;
  
  const BuildPlatform = Schema.Literals(["mac", "linux", "win"]);
+@@ -4149,6 +4149,8 @@
+     yield* validateWindowsPackagedPayload({
+       stageDistDir,
+       appExecutableName: `${resolveDesktopProductName(appVersion)}.exe`,
++      // The assembly's payload has more native files than the upstream build.
++      fileLimit: 120,
+       targetArch: options.arch,
+       appVersion,
+       expectWslRuntime: bundlesWslRuntime({
